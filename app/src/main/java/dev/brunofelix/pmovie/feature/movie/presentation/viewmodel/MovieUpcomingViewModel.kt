@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieUpcomingViewModel @Inject constructor(
-    useCase: GetUpcomingMoviesUseCase,
+    useCase: GetUpcomingMoviesUseCase
 ): ViewModel() {
 
     var uiState by mutableStateOf(MovieUpcomingState())

@@ -2,7 +2,7 @@ package dev.brunofelix.pmovie.feature.movie.presentation.viewmodel
 
 import com.google.common.truth.Truth.assertThat
 import dev.brunofelix.MainDispatcherRule
-import dev.brunofelix.pmovie.core.domain.model.fake.FakePagingData
+import dev.brunofelix.pmovie.feature.movie.fake.FakePagingData
 import dev.brunofelix.pmovie.core.util.exception.RemoteException
 import dev.brunofelix.pmovie.feature.movie.domain.use_case.GetUpcomingMoviesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi

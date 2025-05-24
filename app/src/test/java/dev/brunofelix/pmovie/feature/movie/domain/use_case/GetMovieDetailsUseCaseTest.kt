@@ -3,10 +3,10 @@ package dev.brunofelix.pmovie.feature.movie.domain.use_case
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import dev.brunofelix.MainDispatcherRule
-import dev.brunofelix.pmovie.core.data.fake.local.data_source.FakeMovieLocalDataSource
-import dev.brunofelix.pmovie.core.data.fake.remote.data_source.FakeMovieRemoteDataSource
-import dev.brunofelix.pmovie.core.data.fake.repository.FakeMovieRepository
 import dev.brunofelix.pmovie.core.util.exception.RemoteException
+import dev.brunofelix.pmovie.feature.movie.fake.FakeMovieLocalDataSource
+import dev.brunofelix.pmovie.feature.movie.fake.FakeMovieRemoteDataSource
+import dev.brunofelix.pmovie.feature.movie.fake.FakeMovieRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.runBlocking

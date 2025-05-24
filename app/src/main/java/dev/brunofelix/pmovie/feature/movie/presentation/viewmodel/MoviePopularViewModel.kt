@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviePopularViewModel @Inject constructor(
-    useCase: GetPopularMoviesUseCase,
+    useCase: GetPopularMoviesUseCase
 ): ViewModel() {
 
     var uiState by mutableStateOf(MoviePopularState())

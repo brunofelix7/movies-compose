@@ -1,9 +1,7 @@
-package dev.brunofelix.pmovie.core.data.fake.repository
+package dev.brunofelix.pmovie.feature.movie.fake
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import dev.brunofelix.pmovie.core.data.fake.local.data_source.FakeMovieLocalDataSource
-import dev.brunofelix.pmovie.core.data.fake.remote.data_source.FakeMovieRemoteDataSource
 import dev.brunofelix.pmovie.feature.movie.domain.model.Movie
 import dev.brunofelix.pmovie.feature.movie.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow

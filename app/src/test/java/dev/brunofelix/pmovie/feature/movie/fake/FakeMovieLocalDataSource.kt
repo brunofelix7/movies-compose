@@ -1,4 +1,4 @@
-package dev.brunofelix.pmovie.core.data.fake.local.data_source
+package dev.brunofelix.pmovie.feature.movie.fake
 
 import dev.brunofelix.pmovie.core.data.local.entity.MovieEntity
 import dev.brunofelix.pmovie.feature.movie.domain.data_source.MovieLocalDataSource

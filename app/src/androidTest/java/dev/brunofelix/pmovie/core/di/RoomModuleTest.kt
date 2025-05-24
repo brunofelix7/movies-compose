@@ -1,4 +1,4 @@
-package dev.brunofelix.pmovie.di
+package dev.brunofelix.pmovie.core.di
 
 import android.content.Context
 import androidx.room.Room

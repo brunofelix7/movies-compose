@@ -1,8 +1,7 @@
-package dev.brunofelix.pmovie.feature.movie.domain.fake.use_case
+package dev.brunofelix.pmovie.feature.movie.fake
 
 import dev.brunofelix.pmovie.core.util.exception.RemoteException
 import dev.brunofelix.pmovie.feature.movie.domain.model.Movie
-import dev.brunofelix.pmovie.core.data.fake.repository.FakeMovieRepository
 import dev.brunofelix.pmovie.feature.movie.domain.use_case.GetMovieDetailsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

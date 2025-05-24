@@ -1,6 +1,6 @@
-package dev.brunofelix.pmovie.core.domain.model.fake.factory
+package dev.brunofelix.pmovie.feature.movie.factory
 
-import dev.brunofelix.pmovie.core.domain.model.fake.FakeMovie
+import dev.brunofelix.pmovie.feature.movie.fake.FakeMovie
 import dev.brunofelix.pmovie.feature.movie.domain.model.Movie
 
 class MovieFactory {
