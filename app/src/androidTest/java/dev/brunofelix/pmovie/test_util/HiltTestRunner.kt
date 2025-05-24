@@ -1,4 +1,4 @@
-package dev.brunofelix.pmovie
+package dev.brunofelix.pmovie.test_util
 
 import android.app.Application
 import android.content.Context

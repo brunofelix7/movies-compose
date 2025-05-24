@@ -6,7 +6,7 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.brunofelix.pmovie.core.data.local.MovieDatabase
-import dev.brunofelix.pmovie.core.data.local.factory.MovieEntityFactory
+import dev.brunofelix.pmovie.test_util.factory.MovieEntityFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest

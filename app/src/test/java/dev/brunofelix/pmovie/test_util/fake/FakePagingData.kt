@@ -1,7 +1,7 @@
-package dev.brunofelix.pmovie.feature.movie.fake
+package dev.brunofelix.pmovie.test_util.fake
 
 import androidx.paging.PagingData
-import dev.brunofelix.pmovie.feature.movie.factory.MovieFactory
+import dev.brunofelix.pmovie.test_util.factory.MovieFactory
 import dev.brunofelix.pmovie.feature.movie.domain.model.Movie
 
 object FakePagingData {

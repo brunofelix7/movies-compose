@@ -1,4 +1,4 @@
-package dev.brunofelix
+package dev.brunofelix.pmovie.test_util
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

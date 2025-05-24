@@ -1,12 +1,12 @@
-package dev.brunofelix.pmovie.feature.movie.fake
+package dev.brunofelix.pmovie.test_util.fake
 
 import dev.brunofelix.pmovie.core.data.remote.dto.MovieDto
 import dev.brunofelix.pmovie.core.data.remote.dto.ResultDto
 import dev.brunofelix.pmovie.core.data.remote.paging.MoviePopularPagingSource
 import dev.brunofelix.pmovie.core.data.remote.paging.MovieUpcomingPagingSource
-import dev.brunofelix.pmovie.feature.movie.factory.MovieDtoFactory
 import dev.brunofelix.pmovie.core.util.exception.RemoteException
 import dev.brunofelix.pmovie.feature.movie.domain.data_source.MovieRemoteDataSource
+import dev.brunofelix.pmovie.test_util.factory.MovieDtoFactory
 import retrofit2.Response
 
 class FakeMovieRemoteDataSource : MovieRemoteDataSource {
@@ -41,7 +41,7 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
 
     override suspend fun getDetails(id: Long): Response<ResultDto> {
         if (shouldReturnError) {
-            throw RemoteException()
+            throw RemoteException(0, null)
         }
         return Response.success(fakeDataSource.find { it.id == id })
     }

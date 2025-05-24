@@ -3,15 +3,15 @@ package dev.brunofelix.pmovie.feature.movie.presentation.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.google.common.truth.Truth.assertThat
-import dev.brunofelix.MainDispatcherRule
-import dev.brunofelix.pmovie.feature.movie.factory.MovieDtoFactory
-import dev.brunofelix.pmovie.feature.movie.fake.FakeMovie
-import dev.brunofelix.getOrAwaitValueTest
-import dev.brunofelix.pmovie.feature.movie.fake.FakeMovieLocalDataSource
-import dev.brunofelix.pmovie.feature.movie.fake.FakeMovieRemoteDataSource
-import dev.brunofelix.pmovie.feature.movie.fake.FakeMovieRepository
-import dev.brunofelix.pmovie.feature.movie.fake.FakeGetMovieDetailsUseCase
 import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsUiState
+import dev.brunofelix.pmovie.test_util.MainDispatcherRule
+import dev.brunofelix.pmovie.test_util.factory.MovieDtoFactory
+import dev.brunofelix.pmovie.test_util.fake.FakeGetMovieDetailsUseCase
+import dev.brunofelix.pmovie.test_util.fake.FakeMovie
+import dev.brunofelix.pmovie.test_util.fake.FakeMovieLocalDataSource
+import dev.brunofelix.pmovie.test_util.fake.FakeMovieRemoteDataSource
+import dev.brunofelix.pmovie.test_util.fake.FakeMovieRepository
+import dev.brunofelix.pmovie.test_util.getOrAwaitValueTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -37,13 +37,9 @@ class MovieDetailsViewModelTest {
     lateinit var uiStateObserver: Observer<MovieDetailsUiState>
 
     private lateinit var remoteDataSource: FakeMovieRemoteDataSource
-
     private lateinit var localDataSource: FakeMovieLocalDataSource
-
     private lateinit var repository: FakeMovieRepository
-
     private lateinit var useCase: FakeGetMovieDetailsUseCase
-
     private lateinit var viewModel: MovieDetailsViewModel
 
     @Before
@@ -63,31 +59,31 @@ class MovieDetailsViewModelTest {
 
     @Test
     fun `when GetMovieDetailsUseCase get success, then returns 'Success' in uiState`() = runTest {
-        // Given
+        // Arrange
         val movie = MovieDtoFactory().create(FakeMovie.JohnWick).toMovie()
         val uiState = MovieDetailsUiState.Success(movie)
         remoteDataSource.setShouldReturnError(false)
 
-        // When
+        // Act
         viewModel.getDetails(1)
         val result = viewModel.uiState.getOrAwaitValueTest()
 
-        // Then
+        // Assert
         verify(uiStateObserver).onChanged(uiState)
         assertThat(result).isEqualTo(uiState)
     }
 
     @Test
     fun `when GetMovieDetailsUseCase get error, then returns state 'Error' in uiState`() = runTest {
-        // Given
-        val uiState = MovieDetailsUiState.Error()
+        // Arrange
+        val uiState = MovieDetailsUiState.Error(0)
         remoteDataSource.setShouldReturnError(true)
 
-        // When
+        // Act
         viewModel.getDetails(1)
         val result = viewModel.uiState.getOrAwaitValueTest()
 
-        // Then
+        // Assert
         verify(uiStateObserver).onChanged(uiState)
         assertThat(result).isEqualTo(uiState)
     }

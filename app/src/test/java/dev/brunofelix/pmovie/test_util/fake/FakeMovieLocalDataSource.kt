@@ -1,4 +1,4 @@
-package dev.brunofelix.pmovie.feature.movie.fake
+package dev.brunofelix.pmovie.test_util.fake
 
 import dev.brunofelix.pmovie.core.data.local.entity.MovieEntity
 import dev.brunofelix.pmovie.feature.movie.domain.data_source.MovieLocalDataSource

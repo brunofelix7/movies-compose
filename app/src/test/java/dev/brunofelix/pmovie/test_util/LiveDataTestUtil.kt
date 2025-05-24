@@ -1,4 +1,4 @@
-package dev.brunofelix
+package dev.brunofelix.pmovie.test_util
 
 /*
  * Copyright (C) 2019 The Android Open Source Project

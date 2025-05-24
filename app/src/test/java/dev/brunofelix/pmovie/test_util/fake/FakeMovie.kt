@@ -1,4 +1,4 @@
-package dev.brunofelix.pmovie.feature.movie.fake
+package dev.brunofelix.pmovie.test_util.fake
 
 sealed class FakeMovie {
     data object JohnWick : FakeMovie()

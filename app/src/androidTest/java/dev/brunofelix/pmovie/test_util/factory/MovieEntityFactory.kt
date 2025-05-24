@@ -1,4 +1,4 @@
-package dev.brunofelix.pmovie.core.data.local.factory
+package dev.brunofelix.pmovie.test_util.factory
 
 import dev.brunofelix.pmovie.core.data.local.entity.MovieEntity
 

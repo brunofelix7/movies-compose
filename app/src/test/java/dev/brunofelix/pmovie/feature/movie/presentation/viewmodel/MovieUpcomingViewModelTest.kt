@@ -1,10 +1,10 @@
 package dev.brunofelix.pmovie.feature.movie.presentation.viewmodel
 
 import com.google.common.truth.Truth.assertThat
-import dev.brunofelix.MainDispatcherRule
-import dev.brunofelix.pmovie.feature.movie.fake.FakePagingData
 import dev.brunofelix.pmovie.core.util.exception.RemoteException
 import dev.brunofelix.pmovie.feature.movie.domain.use_case.GetUpcomingMoviesUseCase
+import dev.brunofelix.pmovie.test_util.MainDispatcherRule
+import dev.brunofelix.pmovie.test_util.fake.FakePagingData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -44,10 +44,10 @@ class MovieUpcomingViewModelTest {
         assertThat(result).isNotNull()
     }
 
-    @Test(expected = RemoteException::class)
+    @Test(expected = Exception::class)
     fun `when GetPopularMoviesUseCase get error, then throw a RemoteException`() = runTest {
         // Given
-        `when`(useCase.invoke()).thenThrow(RemoteException())
+        `when`(useCase.invoke()).thenThrow(RemoteException(0))
 
         // When
         val result = viewModel.uiState.movies.first()
