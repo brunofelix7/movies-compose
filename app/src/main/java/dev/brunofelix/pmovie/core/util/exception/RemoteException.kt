@@ -1,3 +1,8 @@
 package dev.brunofelix.pmovie.core.util.exception
 
-class RemoteException(message: String? = "") : RuntimeException(message)
+import androidx.annotation.StringRes
+
+class RemoteException(
+    @StringRes val messageRes: Int,
+    cause: Throwable? = null
+) : Exception(null, cause)

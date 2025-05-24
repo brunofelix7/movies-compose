@@ -11,7 +11,7 @@ import dev.brunofelix.pmovie.feature.movie.fake.FakeMovieLocalDataSource
 import dev.brunofelix.pmovie.feature.movie.fake.FakeMovieRemoteDataSource
 import dev.brunofelix.pmovie.feature.movie.fake.FakeMovieRepository
 import dev.brunofelix.pmovie.feature.movie.fake.FakeGetMovieDetailsUseCase
-import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsState
+import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsUiState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -34,7 +34,7 @@ class MovieDetailsViewModelTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    lateinit var uiStateObserver: Observer<MovieDetailsState>
+    lateinit var uiStateObserver: Observer<MovieDetailsUiState>
 
     private lateinit var remoteDataSource: FakeMovieRemoteDataSource
 
@@ -65,7 +65,7 @@ class MovieDetailsViewModelTest {
     fun `when GetMovieDetailsUseCase get success, then returns 'Success' in uiState`() = runTest {
         // Given
         val movie = MovieDtoFactory().create(FakeMovie.JohnWick).toMovie()
-        val uiState = MovieDetailsState.Success(movie)
+        val uiState = MovieDetailsUiState.Success(movie)
         remoteDataSource.setShouldReturnError(false)
 
         // When
@@ -80,7 +80,7 @@ class MovieDetailsViewModelTest {
     @Test
     fun `when GetMovieDetailsUseCase get error, then returns state 'Error' in uiState`() = runTest {
         // Given
-        val uiState = MovieDetailsState.Error()
+        val uiState = MovieDetailsUiState.Error()
         remoteDataSource.setShouldReturnError(true)
 
         // When

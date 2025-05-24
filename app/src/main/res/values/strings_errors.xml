@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_details_error">Movie details not found.</string>
+    <string name="popular_movies_error">Popular movies not found.</string>
+    <string name="upcoming_movies_error">Upcoming movies not found.</string>
+</resources>

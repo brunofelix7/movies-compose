@@ -6,7 +6,7 @@ data class Movie(
     val id: Long = -1L,
     val title: String = "",
     val imageUrl: String = "",
-    val voteAverage: Float = -1F,
+    val voteAverage: Float = -0F,
     val details: MovieDetails? = null
 ) {
     fun toMovieEntity(): MovieEntity {

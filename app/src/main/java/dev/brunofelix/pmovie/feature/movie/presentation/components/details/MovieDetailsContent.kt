@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,12 +20,12 @@ import androidx.compose.ui.unit.sp
 import dev.brunofelix.pmovie.core.presentation.components.EmptyData
 import dev.brunofelix.pmovie.core.presentation.ui.Colors
 import dev.brunofelix.pmovie.feature.movie.presentation.components.MovieRate
-import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsState
+import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsUiState
 
 @Composable
 fun MovieDetailsContent(
     modifier: Modifier = Modifier,
-    uiState: MovieDetailsState?
+    uiState: MovieDetailsUiState?
 ) {
     Column(
         modifier = modifier
@@ -34,10 +35,10 @@ fun MovieDetailsContent(
     ) {
         uiState?.let {
             when (it) {
-                is MovieDetailsState.Loading -> {
+                is MovieDetailsUiState.Loading -> {
 
                 }
-                is MovieDetailsState.Success -> {
+                is MovieDetailsUiState.Success -> {
                     LazyColumn {
                         item {
                             Row {
@@ -111,9 +112,9 @@ fun MovieDetailsContent(
                         }
                     }
                 }
-                is MovieDetailsState.Error -> {
+                is MovieDetailsUiState.Error -> {
                     EmptyData(
-                        message = it.message,
+                        message = stringResource(it.messageRes),
                         modifier = Modifier.padding(top = 64.dp)
                     )
                 }

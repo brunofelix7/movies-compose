@@ -10,14 +10,14 @@ import dev.brunofelix.pmovie.core.presentation.ui.Colors
 import dev.brunofelix.pmovie.feature.movie.presentation.components.details.MovieDetailsBackdropImage
 import dev.brunofelix.pmovie.feature.movie.presentation.components.details.MovieDetailsContent
 import dev.brunofelix.pmovie.feature.movie.presentation.components.details.MovieDetailsTopBar
-import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsState
+import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsUiState
 
 @Composable
 fun MovieDetailsScreen(
     movieId: Long,
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
-    uiState: MovieDetailsState?
+    uiState: MovieDetailsUiState?
 ) {
     Scaffold(
         topBar = {

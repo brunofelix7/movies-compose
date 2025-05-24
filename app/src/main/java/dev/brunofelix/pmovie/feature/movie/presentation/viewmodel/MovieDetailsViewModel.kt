@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.brunofelix.pmovie.R
+import dev.brunofelix.pmovie.core.util.exception.RemoteException
 import dev.brunofelix.pmovie.feature.movie.domain.use_case.GetMovieDetailsUseCase
-import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsState
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onStart
+import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsUiState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,19 +17,19 @@ class MovieDetailsViewModel @Inject constructor(
     private val useCase: GetMovieDetailsUseCase
 ): ViewModel() {
 
-    private val _uiState = MutableLiveData<MovieDetailsState>()
-    val uiState: LiveData<MovieDetailsState> = _uiState
+    private val _uiState = MutableLiveData<MovieDetailsUiState>()
+    val uiState: LiveData<MovieDetailsUiState> = _uiState
 
     fun getDetails(movieId: Long) = viewModelScope.launch {
-        useCase.invoke(movieId)
-            .onStart {
-                _uiState.value = MovieDetailsState.Loading
+        _uiState.value = MovieDetailsUiState.Loading
+        try {
+            useCase(movieId)?.let {
+                _uiState.value = MovieDetailsUiState.Success(it)
+            } ?: run {
+                _uiState.value = MovieDetailsUiState.Error(R.string.movie_details_error)
             }
-            .catch { error ->
-                _uiState.value = MovieDetailsState.Error(error.message)
-            }
-            .collect { movie ->
-                _uiState.value = MovieDetailsState.Success(movie)
-            }
+        } catch (e: RemoteException) {
+            _uiState.value = MovieDetailsUiState.Error(e.messageRes)
+        }
     }
 }

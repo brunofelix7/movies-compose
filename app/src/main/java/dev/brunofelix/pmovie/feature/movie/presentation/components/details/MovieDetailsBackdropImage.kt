@@ -17,12 +17,12 @@ import coil.request.ImageRequest
 import dev.brunofelix.pmovie.core.presentation.components.EmptyImage
 import dev.brunofelix.pmovie.core.presentation.components.LoadingView
 import dev.brunofelix.pmovie.core.presentation.ui.Colors
-import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsState
+import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsUiState
 
 @Composable
 fun MovieDetailsBackdropImage(
     modifier: Modifier = Modifier,
-    uiState: MovieDetailsState?
+    uiState: MovieDetailsUiState?
 ) {
     val backdropPath = remember { mutableStateOf<String?>("") }
 
@@ -44,18 +44,14 @@ fun MovieDetailsBackdropImage(
         )
         uiState?.let {
             when (it) {
-                is MovieDetailsState.Loading -> {
-                    LoadingView()
-                }
-                is MovieDetailsState.Success -> {
+                is MovieDetailsUiState.Loading -> LoadingView()
+                is MovieDetailsUiState.Success -> {
                     backdropPath.value = it.movie?.details?.backdropPath
                     if (backdropPath.value?.isEmpty() == true) {
                         EmptyImage()
                     }
                 }
-                is MovieDetailsState.Error -> {
-                    EmptyImage()
-                }
+                is MovieDetailsUiState.Error -> EmptyImage()
             }
         }
     }

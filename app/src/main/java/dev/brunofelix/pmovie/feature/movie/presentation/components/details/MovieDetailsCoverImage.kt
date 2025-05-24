@@ -22,12 +22,12 @@ import coil.request.ImageRequest
 import dev.brunofelix.pmovie.core.presentation.components.EmptyImage
 import dev.brunofelix.pmovie.core.presentation.components.LoadingView
 import dev.brunofelix.pmovie.core.presentation.ui.Colors
-import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsState
+import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsUiState
 
 @Composable
 fun MovieDetailsCoverImage(
     modifier: Modifier = Modifier,
-    uiState: MovieDetailsState
+    uiState: MovieDetailsUiState
 ) {
     val imageUrl = remember { mutableStateOf<String?>("") }
 
@@ -58,16 +58,16 @@ fun MovieDetailsCoverImage(
                         .clip(RoundedCornerShape(6.dp))
                 )
                 when (uiState) {
-                    is MovieDetailsState.Loading -> {
+                    is MovieDetailsUiState.Loading -> {
                         LoadingView()
                     }
-                    is MovieDetailsState.Success -> {
+                    is MovieDetailsUiState.Success -> {
                         imageUrl.value = uiState.movie?.imageUrl
                         if (imageUrl.value?.isEmpty() == true) {
                             EmptyImage()
                         }
                     }
-                    is MovieDetailsState.Error -> {
+                    is MovieDetailsUiState.Error -> {
                         EmptyImage()
                     }
                 }
@@ -79,5 +79,5 @@ fun MovieDetailsCoverImage(
 @Preview(showBackground = true)
 @Composable
 private fun MovieDetailsCoverImagePreview() {
-    MovieDetailsCoverImage(uiState = MovieDetailsState.Loading)
+    MovieDetailsCoverImage(uiState = MovieDetailsUiState.Loading)
 }
