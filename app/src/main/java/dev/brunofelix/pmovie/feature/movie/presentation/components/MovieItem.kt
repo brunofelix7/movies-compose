@@ -27,7 +27,7 @@ import dev.brunofelix.pmovie.core.presentation.components.EmptyImage
 import dev.brunofelix.pmovie.core.presentation.components.LoadingView
 import dev.brunofelix.pmovie.core.presentation.ui.Colors
 import dev.brunofelix.pmovie.feature.movie.domain.model.Movie
-import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieItemState
+import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieItemUiState
 
 @Composable
 fun MovieItem(
@@ -36,7 +36,7 @@ fun MovieItem(
     onItemClick: (id: Long) -> Unit
 ) {
     val uiState = remember {
-        mutableStateOf<MovieItemState>(MovieItemState.Loading)
+        mutableStateOf<MovieItemUiState>(MovieItemUiState.Loading)
     }
 
     Box(
@@ -72,16 +72,16 @@ fun MovieItem(
                     onState = { state ->
                         when (state) {
                             is AsyncImagePainter.State.Loading -> {
-                                uiState.value = MovieItemState.Loading
+                                uiState.value = MovieItemUiState.Loading
                             }
                             is AsyncImagePainter.State.Success -> {
-                                uiState.value = MovieItemState.Success
+                                uiState.value = MovieItemUiState.Success
                             }
                             is AsyncImagePainter.State.Error -> {
-                                uiState.value = MovieItemState.Error
+                                uiState.value = MovieItemUiState.Error
                             }
                             is AsyncImagePainter.State.Empty -> {
-                                uiState.value = MovieItemState.Error
+                                uiState.value = MovieItemUiState.Error
                             }
                         }
                     },
@@ -94,12 +94,8 @@ fun MovieItem(
                         .clip(RoundedCornerShape(6.dp))
                 )
                 when (uiState.value) {
-                    is MovieItemState.Loading -> {
-                        LoadingView()
-                    }
-                    is MovieItemState.Error -> {
-                        EmptyImage()
-                    }
+                    is MovieItemUiState.Loading -> LoadingView()
+                    is MovieItemUiState.Error -> EmptyImage()
                     else -> Unit
                 }
             }

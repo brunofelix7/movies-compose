@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.brunofelix.pmovie.feature.movie.domain.use_case.GetPopularMoviesUseCase
-import dev.brunofelix.pmovie.feature.movie.presentation.state.MoviePopularState
+import dev.brunofelix.pmovie.feature.movie.presentation.state.MoviePopularUiState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,7 +16,7 @@ class MoviePopularViewModel @Inject constructor(
     useCase: GetPopularMoviesUseCase
 ): ViewModel() {
 
-    var uiState by mutableStateOf(MoviePopularState())
+    var uiState by mutableStateOf(MoviePopularUiState())
         private set
 
     init {

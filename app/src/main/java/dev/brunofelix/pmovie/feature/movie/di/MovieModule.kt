@@ -22,8 +22,6 @@ import dev.brunofelix.pmovie.feature.movie.domain.use_case.IsFavoriteMovieUseCas
 import dev.brunofelix.pmovie.feature.movie.domain.use_case.IsFavoriteMovieUseCaseImpl
 import dev.brunofelix.pmovie.feature.movie.domain.use_case.MarkAsFavoriteUseCase
 import dev.brunofelix.pmovie.feature.movie.domain.use_case.MarkAsFavoriteUseCaseImpl
-import dev.brunofelix.pmovie.feature.movie.domain.use_case.MovieUseCase
-import dev.brunofelix.pmovie.feature.movie.domain.use_case.MovieUseCaseImpl
 import javax.inject.Singleton
 
 @Module
@@ -93,27 +91,5 @@ object MovieModule {
         repository: MovieRepository
     ): GetFavoriteMoviesUseCase {
         return GetFavoriteMoviesUseCaseImpl(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideMovieUseCase(
-        getPopularMovies: GetPopularMoviesUseCaseImpl,
-        getUpcomingMovies: GetUpcomingMoviesUseCaseImpl,
-        getMovieDetails: GetMovieDetailsUseCaseImpl,
-        getFavoriteMovies: GetFavoriteMoviesUseCaseImpl,
-        markAsFavorite: MarkAsFavoriteUseCaseImpl,
-        deleteFromFavorites: DeleteFromFavoritesUseCaseImpl,
-        isFavoriteMovie: IsFavoriteMovieUseCaseImpl,
-    ): MovieUseCase {
-        return MovieUseCaseImpl(
-            getPopularMovies,
-            getUpcomingMovies,
-            getMovieDetails,
-            getFavoriteMovies,
-            markAsFavorite,
-            deleteFromFavorites,
-            isFavoriteMovie
-        )
     }
 }

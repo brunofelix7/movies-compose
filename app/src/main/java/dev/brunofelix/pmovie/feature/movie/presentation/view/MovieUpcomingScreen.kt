@@ -7,11 +7,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import dev.brunofelix.pmovie.R
 import dev.brunofelix.pmovie.feature.movie.presentation.components.MovieContent
 import dev.brunofelix.pmovie.feature.movie.presentation.components.MovieTopBar
-import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieUpcomingState
+import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieUpcomingUiState
 
 @Composable
 fun MovieUpcomingScreen(
-    uiState: MovieUpcomingState,
+    uiState: MovieUpcomingUiState,
     onItemClick: (id: Long) -> Unit
 ) {
     val movies = uiState.movies.collectAsLazyPagingItems()

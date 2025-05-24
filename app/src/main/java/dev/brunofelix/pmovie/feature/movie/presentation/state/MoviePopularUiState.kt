@@ -5,6 +5,6 @@ import dev.brunofelix.pmovie.feature.movie.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
-data class MoviePopularState(
+data class MoviePopularUiState(
     val movies: Flow<PagingData<Movie>> = emptyFlow()
 )

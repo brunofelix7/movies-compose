@@ -9,7 +9,7 @@ import dev.brunofelix.pmovie.feature.movie.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-interface GetPopularMoviesUseCase {
+fun interface GetPopularMoviesUseCase {
     operator fun invoke(): Flow<PagingData<Movie>>
 }
 
