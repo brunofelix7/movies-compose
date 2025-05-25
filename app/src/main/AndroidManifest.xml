@@ -18,7 +18,7 @@
         <activity
             android:name=".core.presentation.view.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.PMovie">
+            android:theme="@style/Theme.SplashScreen.MySplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

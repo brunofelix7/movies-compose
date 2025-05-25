@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.brunofelix.pmovie.R
-import dev.brunofelix.pmovie.core.presentation.ui.Colors
+import dev.brunofelix.pmovie.core.presentation.resources.Colors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.brunofelix.pmovie.core.presentation.ui.Colors
+import dev.brunofelix.pmovie.core.presentation.resources.Colors
 
 @Composable
 fun LoadingView(modifier: Modifier = Modifier) {

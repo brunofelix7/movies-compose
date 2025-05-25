@@ -25,7 +25,7 @@ import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import dev.brunofelix.pmovie.core.presentation.components.EmptyImage
 import dev.brunofelix.pmovie.core.presentation.components.LoadingView
-import dev.brunofelix.pmovie.core.presentation.ui.Colors
+import dev.brunofelix.pmovie.core.presentation.resources.Colors
 import dev.brunofelix.pmovie.feature.movie.domain.model.Movie
 import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieItemUiState
 

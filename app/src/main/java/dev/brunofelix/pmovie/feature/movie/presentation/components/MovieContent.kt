@@ -19,7 +19,7 @@ import androidx.paging.compose.LazyPagingItems
 import dev.brunofelix.pmovie.R
 import dev.brunofelix.pmovie.core.presentation.components.ErrorView
 import dev.brunofelix.pmovie.core.presentation.components.LoadingView
-import dev.brunofelix.pmovie.core.presentation.ui.Colors
+import dev.brunofelix.pmovie.core.presentation.resources.Colors
 import dev.brunofelix.pmovie.feature.movie.domain.model.Movie
 
 @Composable

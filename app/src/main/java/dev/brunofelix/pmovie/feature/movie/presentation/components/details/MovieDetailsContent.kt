@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.brunofelix.pmovie.core.presentation.components.EmptyData
-import dev.brunofelix.pmovie.core.presentation.ui.Colors
+import dev.brunofelix.pmovie.core.presentation.resources.Colors
 import dev.brunofelix.pmovie.feature.movie.presentation.components.MovieRate
 import dev.brunofelix.pmovie.feature.movie.presentation.state.MovieDetailsUiState
 

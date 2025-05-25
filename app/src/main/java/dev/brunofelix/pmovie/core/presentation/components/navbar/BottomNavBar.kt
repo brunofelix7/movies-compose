@@ -14,7 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.brunofelix.pmovie.R
 import dev.brunofelix.pmovie.core.navigation.MovieRoute
-import dev.brunofelix.pmovie.core.presentation.ui.Colors
+import dev.brunofelix.pmovie.core.presentation.resources.Colors
 
 @Composable
 fun BottomNavBar(

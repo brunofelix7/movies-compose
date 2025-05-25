@@ -1,4 +1,4 @@
-package dev.brunofelix.pmovie.core.presentation.ui
+package dev.brunofelix.pmovie.core.presentation.resources
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

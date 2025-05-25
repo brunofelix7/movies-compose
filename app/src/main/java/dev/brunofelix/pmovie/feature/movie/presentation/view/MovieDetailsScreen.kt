@@ -6,7 +6,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.brunofelix.pmovie.core.presentation.ui.Colors
+import dev.brunofelix.pmovie.core.presentation.resources.Colors
 import dev.brunofelix.pmovie.feature.movie.presentation.components.details.MovieDetailsBackdropImage
 import dev.brunofelix.pmovie.feature.movie.presentation.components.details.MovieDetailsContent
 import dev.brunofelix.pmovie.feature.movie.presentation.components.details.MovieDetailsTopBar
