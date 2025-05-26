@@ -73,7 +73,7 @@ fun MovieDetailsContent(
                                         )
                                         Spacer(Modifier.size(8.dp))
                                         Text(
-                                            text = "${it.movie?.details?.releaseDate}",
+                                            text = "${it.movie?.details?.getReleaseDate()?.value}",
                                             fontSize = 14.sp,
                                             fontWeight = FontWeight.Normal,
                                             color = Colors.lightGray,
