@@ -15,16 +15,16 @@ val properties = Properties()
 properties.load(FileInputStream(apiKeyFile))
 
 android {
-    namespace = "dev.brunofelix.pmovie"
+    namespace = "dev.brunofelix.movies"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "dev.brunofelix.pmovie"
+        applicationId = "dev.brunofelix.movies"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
-        testInstrumentationRunner = "dev.brunofelix.pmovie.test_util.HiltTestRunner"
+        testInstrumentationRunner = "dev.brunofelix.movies.test_util.HiltTestRunner"
 
         vectorDrawables {
             useSupportLibrary = true

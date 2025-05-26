@@ -1,6 +1,6 @@
 <resources>
     <!-- App name -->
-    <string name="app_name">PMovie</string>
+    <string name="app_name">Movies</string>
 
     <!-- Screens -->
     <string name="release_date">Release Date</string>
