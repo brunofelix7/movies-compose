@@ -1,7 +1,5 @@
 package dev.brunofelix.movies.feature.movie.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +10,8 @@ import dev.brunofelix.movies.feature.movie.domain.use_case.GetMovieDetailsUseCas
 import dev.brunofelix.movies.feature.movie.domain.use_case.IsFavoriteMovieUseCase
 import dev.brunofelix.movies.feature.movie.domain.use_case.MarkAsFavoriteUseCase
 import dev.brunofelix.movies.feature.movie.presentation.state.MovieDetailsUiState
-import dev.brunofelix.movies.feature.movie.presentation.state.MovieFavoriteUiState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,11 +23,8 @@ class MovieDetailsViewModel @Inject constructor(
     private val deleteFavoriteUseCase: DeleteFromFavoritesUseCase
 ): ViewModel() {
 
-    private val _uiState = MutableLiveData<MovieDetailsUiState>()
-    val uiState: LiveData<MovieDetailsUiState> = _uiState
-
-    private val _isFavoriteUiState = MutableLiveData<MovieFavoriteUiState>()
-    val isFavoriteUiState: LiveData<MovieFavoriteUiState> = _isFavoriteUiState
+    private val _uiState = MutableStateFlow<MovieDetailsUiState>(MovieDetailsUiState.Initial)
+    val uiState: StateFlow<MovieDetailsUiState> = _uiState
 
     fun getDetails(movieId: Long) = viewModelScope.launch {
         _uiState.value = MovieDetailsUiState.Loading
@@ -36,9 +32,6 @@ class MovieDetailsViewModel @Inject constructor(
             getMovieDetailsUseCase.invoke(movieId)?.let {
                 _uiState.value = MovieDetailsUiState.Success(
                     movie = it,
-                    isFavorite = isFavoriteUseCase.invoke(movieId)
-                )
-                _isFavoriteUiState.value = MovieFavoriteUiState(
                     isFavorite = isFavoriteUseCase.invoke(movieId)
                 )
             } ?: run {
@@ -61,9 +54,6 @@ class MovieDetailsViewModel @Inject constructor(
                     }
                     _uiState.value = MovieDetailsUiState.Success(
                         movie = movie,
-                        isFavorite = isFavoriteUseCase.invoke(movie.id)
-                    )
-                    _isFavoriteUiState.value = MovieFavoriteUiState(
                         isFavorite = isFavoriteUseCase.invoke(movie.id)
                     )
                 }

@@ -22,7 +22,7 @@ import dev.brunofelix.movies.feature.movie.presentation.state.MovieDetailsUiStat
 @Composable
 fun MovieDetailsBackdropImage(
     modifier: Modifier = Modifier,
-    uiState: MovieDetailsUiState?
+    uiState: MovieDetailsUiState,
 ) {
     val backdropPath = remember { mutableStateOf<String?>("") }
 
@@ -42,7 +42,7 @@ fun MovieDetailsBackdropImage(
                 .height(300.dp)
                 .align(Alignment.Center)
         )
-        uiState?.let {
+        uiState.let {
             when (it) {
                 is MovieDetailsUiState.Loading -> LoadingView()
                 is MovieDetailsUiState.Success -> {
@@ -52,6 +52,7 @@ fun MovieDetailsBackdropImage(
                     }
                 }
                 is MovieDetailsUiState.Error -> EmptyImage()
+                else -> Unit
             }
         }
     }

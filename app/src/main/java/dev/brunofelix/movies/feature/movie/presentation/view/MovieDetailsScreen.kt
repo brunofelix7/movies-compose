@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.brunofelix.movies.core.presentation.resources.Colors
@@ -12,16 +11,16 @@ import dev.brunofelix.movies.feature.movie.presentation.components.details.Movie
 import dev.brunofelix.movies.feature.movie.presentation.components.details.MovieDetailsContent
 import dev.brunofelix.movies.feature.movie.presentation.components.details.MovieDetailsTopBar
 import dev.brunofelix.movies.feature.movie.presentation.state.MovieDetailsUiState
-import dev.brunofelix.movies.feature.movie.presentation.state.MovieFavoriteUiState
 
 @Composable
 fun MovieDetailsScreen(
     modifier: Modifier = Modifier,
-    uiState: MovieDetailsUiState?,
-    isFavorite: State<MovieFavoriteUiState?>,
+    uiState: MovieDetailsUiState,
     onBackClick: () -> Unit,
     onFavoriteClick: () -> Unit
 ) {
+    val isFavorite = (uiState as? MovieDetailsUiState.Success)?.isFavorite ?: false
+
     Scaffold(
         topBar = {
             Box {
@@ -47,5 +46,9 @@ fun MovieDetailsScreen(
 @Preview
 @Composable
 private fun MovieDetailsScreenPreview() {
-    
+    MovieDetailsScreen(
+        uiState = MovieDetailsUiState.Initial,
+        onBackClick = {  },
+        onFavoriteClick = {  }
+    )
 }

@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import dev.brunofelix.movies.feature.movie.domain.model.Movie
 
 sealed class MovieDetailsUiState {
+    data object Initial : MovieDetailsUiState()
     data object Loading : MovieDetailsUiState()
     data class Success(
         val movie: Movie? = null,

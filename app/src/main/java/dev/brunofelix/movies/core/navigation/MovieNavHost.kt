@@ -1,8 +1,8 @@
 package dev.brunofelix.movies.core.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -63,21 +63,11 @@ fun MovieNavHost(
         /**
          * Details screen
          */
-        composable<MovieRoute.DetailsScreen>(
-            enterTransition = TransitionAnimation.enterTransition,
-            exitTransition = TransitionAnimation.exitTransition,
-            popEnterTransition = TransitionAnimation.popEnterTransition,
-            popExitTransition = TransitionAnimation.popExitTransition
-        ) {
+        composable<MovieRoute.DetailsScreen> {
             MovieDetailsScreen(
-                uiState = movieDetailsViewModel.uiState.value,
-                isFavorite = movieDetailsViewModel.isFavoriteUiState.observeAsState(),
-                onBackClick = {
-                    navController.popBackStack()
-                },
-                onFavoriteClick = {
-                    movieDetailsViewModel.onFavoriteToggle()
-                }
+                uiState = movieDetailsViewModel.uiState.collectAsState().value,
+                onBackClick = { navController.popBackStack() },
+                onFavoriteClick = { movieDetailsViewModel.onFavoriteToggle() }
             )
         }
     }

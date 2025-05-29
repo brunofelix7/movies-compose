@@ -66,6 +66,7 @@ fun MovieDetailsCoverImage(
                         }
                     }
                     is MovieDetailsUiState.Error -> EmptyImage()
+                    else -> Unit
                 }
             }
         }
