@@ -12,12 +12,13 @@ import dev.brunofelix.movies.feature.movie.presentation.components.details.Movie
 import dev.brunofelix.movies.feature.movie.presentation.components.details.MovieDetailsContent
 import dev.brunofelix.movies.feature.movie.presentation.components.details.MovieDetailsTopBar
 import dev.brunofelix.movies.feature.movie.presentation.state.MovieDetailsUiState
+import dev.brunofelix.movies.feature.movie.presentation.state.MovieFavoriteUiState
 
 @Composable
 fun MovieDetailsScreen(
     modifier: Modifier = Modifier,
     uiState: MovieDetailsUiState?,
-    isFavorite: State<Boolean?>,
+    isFavorite: State<MovieFavoriteUiState?>,
     onBackClick: () -> Unit,
     onFavoriteClick: () -> Unit
 ) {

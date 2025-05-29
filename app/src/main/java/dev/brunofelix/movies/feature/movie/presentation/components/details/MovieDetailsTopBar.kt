@@ -24,12 +24,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.resources.Colors
+import dev.brunofelix.movies.feature.movie.presentation.state.MovieFavoriteUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailsTopBar(
     modifier: Modifier = Modifier,
-    isFavorite: State<Boolean?>,
+    isFavorite: State<MovieFavoriteUiState?>,
     onBackClick: () -> Unit,
     onFavoriteClick: () -> Unit
 ) {
@@ -64,12 +65,12 @@ fun MovieDetailsTopBar(
                 )
             ) {
                 Icon(
-                    imageVector = if (isFavorite.value == true) {
+                    imageVector = if (isFavorite.value?.isFavorite == true) {
                         Icons.Filled.Favorite
                     } else {
                         Icons.Outlined.FavoriteBorder
                     },
-                    tint = if (isFavorite.value == true) Colors.redPrimary else Colors.white,
+                    tint = if (isFavorite.value?.isFavorite == true) Colors.redPrimary else Colors.white,
                     contentDescription = stringResource(R.string.top_bar_favorite_icon)
                 )
             }
@@ -82,7 +83,7 @@ fun MovieDetailsTopBar(
 @Composable
 private fun MovieDetailsTopBarPreview() {
     MovieDetailsTopBar(
-        isFavorite = remember { mutableStateOf(true) },
+        isFavorite = remember { mutableStateOf(MovieFavoriteUiState(isFavorite = true)) },
         onBackClick = {},
         onFavoriteClick = {}
     )

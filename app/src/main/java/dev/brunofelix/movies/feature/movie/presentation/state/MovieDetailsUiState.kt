@@ -5,6 +5,9 @@ import dev.brunofelix.movies.feature.movie.domain.model.Movie
 
 sealed class MovieDetailsUiState {
     data object Loading : MovieDetailsUiState()
-    data class Success(val movie: Movie? = null) : MovieDetailsUiState()
+    data class Success(
+        val movie: Movie? = null,
+        val isFavorite: Boolean = false
+    ) : MovieDetailsUiState()
     data class Error(@StringRes val messageRes: Int) : MovieDetailsUiState()
 }

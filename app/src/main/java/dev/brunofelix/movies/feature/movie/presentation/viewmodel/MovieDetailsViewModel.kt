@@ -12,6 +12,7 @@ import dev.brunofelix.movies.feature.movie.domain.use_case.GetMovieDetailsUseCas
 import dev.brunofelix.movies.feature.movie.domain.use_case.IsFavoriteMovieUseCase
 import dev.brunofelix.movies.feature.movie.domain.use_case.MarkAsFavoriteUseCase
 import dev.brunofelix.movies.feature.movie.presentation.state.MovieDetailsUiState
+import dev.brunofelix.movies.feature.movie.presentation.state.MovieFavoriteUiState
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,15 +27,20 @@ class MovieDetailsViewModel @Inject constructor(
     private val _uiState = MutableLiveData<MovieDetailsUiState>()
     val uiState: LiveData<MovieDetailsUiState> = _uiState
 
-    private val _isFavoriteUiState = MutableLiveData<Boolean>()
-    val isFavoriteUiState: LiveData<Boolean> = _isFavoriteUiState
+    private val _isFavoriteUiState = MutableLiveData<MovieFavoriteUiState>()
+    val isFavoriteUiState: LiveData<MovieFavoriteUiState> = _isFavoriteUiState
 
     fun getDetails(movieId: Long) = viewModelScope.launch {
         _uiState.value = MovieDetailsUiState.Loading
         try {
             getMovieDetailsUseCase.invoke(movieId)?.let {
-                _uiState.value = MovieDetailsUiState.Success(it)
-                _isFavoriteUiState.value = isFavoriteUseCase.invoke(movieId)
+                _uiState.value = MovieDetailsUiState.Success(
+                    movie = it,
+                    isFavorite = isFavoriteUseCase.invoke(movieId)
+                )
+                _isFavoriteUiState.value = MovieFavoriteUiState(
+                    isFavorite = isFavoriteUseCase.invoke(movieId)
+                )
             } ?: run {
                 _uiState.value = MovieDetailsUiState.Error(R.string.movie_details_error)
             }
@@ -48,12 +54,18 @@ class MovieDetailsViewModel @Inject constructor(
             val currentState = uiState.value
             if (currentState is MovieDetailsUiState.Success) {
                 currentState.movie?.let { movie ->
-                    if (isFavoriteUiState.value == true) {
+                    if (currentState.isFavorite) {
                         deleteFavoriteUseCase.invoke(movie)
                     } else {
                         markAsFavoriteUseCase.invoke(movie)
                     }
-                    _isFavoriteUiState.value = isFavoriteUseCase.invoke(movie.id)
+                    _uiState.value = MovieDetailsUiState.Success(
+                        movie = movie,
+                        isFavorite = isFavoriteUseCase.invoke(movie.id)
+                    )
+                    _isFavoriteUiState.value = MovieFavoriteUiState(
+                        isFavorite = isFavoriteUseCase.invoke(movie.id)
+                    )
                 }
             }
         } catch (_: RemoteException) {
