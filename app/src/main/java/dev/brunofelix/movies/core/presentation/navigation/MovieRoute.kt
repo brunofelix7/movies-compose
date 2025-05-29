@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.navigation
+package dev.brunofelix.movies.core.presentation.navigation
 
 import kotlinx.serialization.Serializable
 

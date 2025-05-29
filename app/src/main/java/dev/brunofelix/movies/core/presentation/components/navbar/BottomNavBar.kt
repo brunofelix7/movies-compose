@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.brunofelix.movies.R
-import dev.brunofelix.movies.core.navigation.MovieRoute
+import dev.brunofelix.movies.core.presentation.navigation.MovieRoute
 import dev.brunofelix.movies.core.presentation.resources.Colors
 
 @Composable

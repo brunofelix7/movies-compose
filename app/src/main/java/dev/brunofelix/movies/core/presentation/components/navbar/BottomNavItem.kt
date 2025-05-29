@@ -5,7 +5,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.ui.graphics.vector.ImageVector
-import dev.brunofelix.movies.core.navigation.MovieRoute
+import dev.brunofelix.movies.core.presentation.navigation.MovieRoute
 
 sealed class BottomNavItem(
     val title: String,
