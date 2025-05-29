@@ -8,8 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.toRoute
-import dev.brunofelix.movies.feature.movie.presentation.state.MovieDetailsUiState
 import dev.brunofelix.movies.feature.movie.presentation.view.MovieDetailsScreen
 import dev.brunofelix.movies.feature.movie.presentation.view.MoviePopularScreen
 import dev.brunofelix.movies.feature.movie.presentation.view.MovieUpcomingScreen
@@ -37,7 +35,6 @@ fun MovieNavHost(
                 uiState = moviePopularViewModel.uiState,
                 onItemClick = { movieId ->
                     movieDetailsViewModel.getDetails(movieId)
-                    movieDetailsViewModel.checkIsFavorite(movieId)
                     navController.navigate(MovieRoute.DetailsScreen(movieId))
                 }
             )
@@ -51,7 +48,6 @@ fun MovieNavHost(
                 uiState = movieUpcomingViewModel.uiState,
                 onItemClick = { movieId ->
                     movieDetailsViewModel.getDetails(movieId)
-                    movieDetailsViewModel.checkIsFavorite(movieId)
                     navController.navigate(MovieRoute.DetailsScreen(movieId))
                 }
             )
@@ -72,8 +68,7 @@ fun MovieNavHost(
             exitTransition = TransitionAnimation.exitTransition,
             popEnterTransition = TransitionAnimation.popEnterTransition,
             popExitTransition = TransitionAnimation.popExitTransition
-        ) { backStackEntry ->
-            val route = backStackEntry.toRoute<MovieRoute.DetailsScreen>()
+        ) {
             MovieDetailsScreen(
                 uiState = movieDetailsViewModel.uiState.value,
                 isFavorite = movieDetailsViewModel.isFavoriteUiState.observeAsState(),
@@ -81,20 +76,7 @@ fun MovieNavHost(
                     navController.popBackStack()
                 },
                 onFavoriteClick = {
-                    movieDetailsViewModel.uiState.value?.let {
-                        when (it) {
-                            is MovieDetailsUiState.Success -> {
-                                it.movie?.let { movie ->
-                                    if (movieDetailsViewModel.isFavoriteUiState.value == true) {
-                                        movieDetailsViewModel.removeFavorite(movie)
-                                    } else {
-                                        movieDetailsViewModel.markAsFavorite(movie)
-                                    }
-                                }
-                            }
-                            else -> Unit
-                        }
-                    }
+                    movieDetailsViewModel.onFavoriteToggle()
                 }
             )
         }
