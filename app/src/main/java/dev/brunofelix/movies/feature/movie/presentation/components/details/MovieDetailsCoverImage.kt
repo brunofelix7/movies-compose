@@ -58,18 +58,14 @@ fun MovieDetailsCoverImage(
                         .clip(RoundedCornerShape(6.dp))
                 )
                 when (uiState) {
-                    is MovieDetailsUiState.Loading -> {
-                        LoadingView()
-                    }
+                    is MovieDetailsUiState.Loading -> LoadingView()
                     is MovieDetailsUiState.Success -> {
                         imageUrl.value = uiState.movie?.imageUrl
                         if (imageUrl.value?.isEmpty() == true) {
                             EmptyImage()
                         }
                     }
-                    is MovieDetailsUiState.Error -> {
-                        EmptyImage()
-                    }
+                    is MovieDetailsUiState.Error -> EmptyImage()
                 }
             }
         }

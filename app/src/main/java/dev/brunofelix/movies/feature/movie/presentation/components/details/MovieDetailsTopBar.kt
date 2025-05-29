@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -13,6 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -25,7 +29,9 @@ import dev.brunofelix.movies.core.presentation.resources.Colors
 @Composable
 fun MovieDetailsTopBar(
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit
+    isFavorite: State<Boolean?>,
+    onBackClick: () -> Unit,
+    onFavoriteClick: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -51,18 +57,19 @@ fun MovieDetailsTopBar(
         },
         actions = {
             IconButton(
-                onClick = {
-                    // TODO: Save to favorites
-                },
+                onClick = onFavoriteClick,
                 modifier = Modifier.background(
                     color = Colors.blackPrimary.copy(alpha = 0.2f),
                     shape = RoundedCornerShape(24.dp)
                 )
             ) {
-                // TODO: Check if it was already saved
                 Icon(
-                    imageVector = Icons.Outlined.FavoriteBorder,
-                    tint = Colors.white,
+                    imageVector = if (isFavorite.value == true) {
+                        Icons.Filled.Favorite
+                    } else {
+                        Icons.Outlined.FavoriteBorder
+                    },
+                    tint = if (isFavorite.value == true) Colors.redPrimary else Colors.white,
                     contentDescription = stringResource(R.string.top_bar_favorite_icon)
                 )
             }
@@ -74,7 +81,9 @@ fun MovieDetailsTopBar(
 @Preview
 @Composable
 private fun MovieDetailsTopBarPreview() {
-    MovieDetailsTopBar {
-
-    }
+    MovieDetailsTopBar(
+        isFavorite = remember { mutableStateOf(true) },
+        onBackClick = {},
+        onFavoriteClick = {}
+    )
 }

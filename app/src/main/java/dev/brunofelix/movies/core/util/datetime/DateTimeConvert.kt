@@ -22,7 +22,7 @@ object DateTimeConvert {
             val date = fromFormatter.parse(value) ?: Date()
             return DateTimeResult(
                 value = toFormatter.format(date),
-                timeStamp = toFormatter.parse(toFormatter.format(date)).time,
+                timeStamp = toFormatter.parse(toFormatter.format(date))?.time ?: 0L,
                 date = date,
                 localDateTime = date.toInstant()
                     .atZone(TimeZone.getTimeZone(toTimeZone).toZoneId())

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.brunofelix.movies.core.presentation.resources.Colors
@@ -14,17 +15,20 @@ import dev.brunofelix.movies.feature.movie.presentation.state.MovieDetailsUiStat
 
 @Composable
 fun MovieDetailsScreen(
-    movieId: Long,
     modifier: Modifier = Modifier,
+    uiState: MovieDetailsUiState?,
+    isFavorite: State<Boolean?>,
     onBackClick: () -> Unit,
-    uiState: MovieDetailsUiState?
+    onFavoriteClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
             Box {
                 MovieDetailsBackdropImage(uiState = uiState)
                 MovieDetailsTopBar(
-                    onBackClick = onBackClick
+                    isFavorite = isFavorite,
+                    onBackClick = onBackClick,
+                    onFavoriteClick = onFavoriteClick
                 )
             }
         },
