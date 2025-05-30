@@ -5,7 +5,7 @@ import dev.brunofelix.movies.core.data.remote.dto.ResultDto
 import dev.brunofelix.movies.core.data.remote.paging.MoviePopularPagingSource
 import dev.brunofelix.movies.core.data.remote.paging.MovieUpcomingPagingSource
 import dev.brunofelix.movies.core.util.exception.RemoteException
-import dev.brunofelix.movies.feature.movie.domain.data_source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.domain.data_source.MovieRemoteDataSource
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory
 import retrofit2.Response
 

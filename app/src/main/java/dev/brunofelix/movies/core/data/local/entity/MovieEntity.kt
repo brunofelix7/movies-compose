@@ -3,8 +3,8 @@ package dev.brunofelix.movies.core.data.local.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import dev.brunofelix.movies.feature.movie.domain.model.Movie
-import dev.brunofelix.movies.feature.movie.domain.model.MovieDetails
+import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.model.MovieDetails
 
 @Entity(tableName = "movies")
 data class MovieEntity(

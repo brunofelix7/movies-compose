@@ -2,8 +2,8 @@ package dev.brunofelix.movies.test_util.fake
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import dev.brunofelix.movies.feature.movie.domain.model.Movie
-import dev.brunofelix.movies.feature.movie.domain.repository.MovieRepository
+import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 
 class FakeMovieRepository (

@@ -3,8 +3,8 @@ package dev.brunofelix.movies.core.data.remote.dto
 import com.google.gson.annotations.SerializedName
 import dev.brunofelix.movies.core.util.extension.toBackdropUrl
 import dev.brunofelix.movies.core.util.extension.toPostUrl
-import dev.brunofelix.movies.feature.movie.domain.model.Movie
-import dev.brunofelix.movies.feature.movie.domain.model.MovieDetails
+import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.model.MovieDetails
 
 data class ResultDto(
     @SerializedName("id")

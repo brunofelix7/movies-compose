@@ -3,6 +3,7 @@ package dev.brunofelix.movies.feature.movie.presentation.viewmodel
 import com.google.common.truth.Truth.assertThat
 import dev.brunofelix.movies.core.util.exception.RemoteException
 import dev.brunofelix.movies.feature.movie.domain.use_case.GetUpcomingMoviesUseCase
+import dev.brunofelix.movies.feature.upcoming.presentation.viewmodel.MovieUpcomingViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule
 import dev.brunofelix.movies.test_util.fake.FakePagingData
 import kotlinx.coroutines.ExperimentalCoroutinesApi

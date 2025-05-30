@@ -8,7 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.brunofelix.movies.core.data.local.MovieDatabase
 import dev.brunofelix.movies.core.data.local.data_source.MovieLocalDataSourceImpl
-import dev.brunofelix.movies.feature.movie.domain.data_source.MovieLocalDataSource
+import dev.brunofelix.movies.core.domain.data_source.MovieLocalDataSource
 import javax.inject.Singleton
 
 @Module

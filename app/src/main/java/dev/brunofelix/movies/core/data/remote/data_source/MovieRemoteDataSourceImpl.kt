@@ -3,7 +3,7 @@ package dev.brunofelix.movies.core.data.remote.data_source
 import dev.brunofelix.movies.core.data.remote.MovieApi
 import dev.brunofelix.movies.core.data.remote.paging.MoviePopularPagingSource
 import dev.brunofelix.movies.core.data.remote.paging.MovieUpcomingPagingSource
-import dev.brunofelix.movies.feature.movie.domain.data_source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.domain.data_source.MovieRemoteDataSource
 import javax.inject.Inject
 
 class MovieRemoteDataSourceImpl @Inject constructor(

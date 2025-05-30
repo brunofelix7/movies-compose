@@ -2,7 +2,7 @@ package dev.brunofelix.movies.core.data.local.data_source
 
 import dev.brunofelix.movies.core.data.local.MovieDatabase
 import dev.brunofelix.movies.core.data.local.entity.MovieEntity
-import dev.brunofelix.movies.feature.movie.domain.data_source.MovieLocalDataSource
+import dev.brunofelix.movies.core.domain.data_source.MovieLocalDataSource
 import javax.inject.Inject
 
 class MovieLocalDataSourceImpl @Inject constructor(

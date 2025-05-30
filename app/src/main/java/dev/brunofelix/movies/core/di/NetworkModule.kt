@@ -8,7 +8,7 @@ import dev.brunofelix.movies.BuildConfig
 import dev.brunofelix.movies.core.data.remote.MovieApi
 import dev.brunofelix.movies.core.data.remote.MovieInterceptor
 import dev.brunofelix.movies.core.data.remote.data_source.MovieRemoteDataSourceImpl
-import dev.brunofelix.movies.feature.movie.domain.data_source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.domain.data_source.MovieRemoteDataSource
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory
