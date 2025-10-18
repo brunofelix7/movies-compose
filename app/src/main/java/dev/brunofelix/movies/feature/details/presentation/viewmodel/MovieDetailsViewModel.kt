@@ -11,7 +11,7 @@ import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteUseCase
 import dev.brunofelix.movies.feature.details.domain.use_case.SaveMovieUseCase
 import dev.brunofelix.movies.feature.details.presentation.viewmodel.state.MovieDetailsUiState
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class MovieDetailsViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow<MovieDetailsUiState>(MovieDetailsUiState.Initial)
-    val uiState: StateFlow<MovieDetailsUiState> = _uiState
+    val uiState = _uiState.asStateFlow()
 
     fun getDetails(movieId: Long) = viewModelScope.launch {
         _uiState.value = MovieDetailsUiState.Loading

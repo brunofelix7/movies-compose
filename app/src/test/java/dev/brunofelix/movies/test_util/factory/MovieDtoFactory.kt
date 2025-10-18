@@ -1,7 +1,7 @@
 package dev.brunofelix.movies.test_util.factory
 
 import dev.brunofelix.movies.test_util.fake.FakeMovie
-import dev.brunofelix.movies.core.data.remote.dto.ResultDto
+import dev.brunofelix.movies.core.data.api.dto.ResultDto
 
 class MovieDtoFactory {
 

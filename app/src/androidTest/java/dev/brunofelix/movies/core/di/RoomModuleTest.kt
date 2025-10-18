@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.brunofelix.movies.core.data.local.MovieDatabase
+import dev.brunofelix.movies.core.data.db.MovieDatabase
 import javax.inject.Named
 
 @Module

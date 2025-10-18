@@ -1,6 +1,6 @@
 package dev.brunofelix.movies.test_util.factory
 
-import dev.brunofelix.movies.core.data.local.entity.MovieEntity
+import dev.brunofelix.movies.core.data.db.entity.MovieEntity
 
 object MovieEntityFactory {
 

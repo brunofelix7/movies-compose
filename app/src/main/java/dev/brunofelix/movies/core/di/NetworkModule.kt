@@ -5,10 +5,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.brunofelix.movies.BuildConfig
-import dev.brunofelix.movies.core.data.remote.MovieApi
-import dev.brunofelix.movies.core.data.remote.MovieInterceptor
-import dev.brunofelix.movies.core.data.remote.data_source.MovieRemoteDataSourceImpl
-import dev.brunofelix.movies.core.domain.data_source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.data.api.MovieApi
+import dev.brunofelix.movies.core.data.api.interceptor.MovieInterceptor
+import dev.brunofelix.movies.core.data.api.source.impl.MovieRemoteDataSourceImpl
+import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory

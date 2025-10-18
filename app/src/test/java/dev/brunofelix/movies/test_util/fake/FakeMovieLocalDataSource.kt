@@ -1,7 +1,7 @@
 package dev.brunofelix.movies.test_util.fake
 
-import dev.brunofelix.movies.core.data.local.entity.MovieEntity
-import dev.brunofelix.movies.core.domain.data_source.MovieLocalDataSource
+import dev.brunofelix.movies.core.data.db.entity.MovieEntity
+import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
 import kotlinx.coroutines.flow.Flow
 
 class FakeMovieLocalDataSource : MovieLocalDataSource {

@@ -21,6 +21,7 @@ fun MovieNavHost(
     val movieDetailsViewModel: MovieDetailsViewModel = hiltViewModel()
     val moviePopularViewModel: MoviePopularViewModel = hiltViewModel()
     val movieUpcomingViewModel: MovieUpcomingViewModel = hiltViewModel()
+    val favoriteViewModel: MovieDetailsViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,

@@ -25,14 +25,15 @@ import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingView
+import dev.brunofelix.movies.core.presentation.ui.components.MovieRate
 import dev.brunofelix.movies.core.presentation.ui.components.empty.EmptyImage
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
 fun MovieCard(
-    movie: Movie,
     modifier: Modifier = Modifier,
-    onItemClick: (id: Long) -> Unit
+    movie: Movie,
+    onItemClick: (id: Long) -> Unit = {}
 ) {
     val uiState = remember {
         mutableStateOf<MovieCardState>(MovieCardState.Loading)
@@ -41,13 +42,15 @@ fun MovieCard(
     Box(
         modifier = modifier
     ) {
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .zIndex(2F)
-                .padding(start = 8.dp, bottom = 8.dp)
-        ) {
-            MovieCardRate(rate = movie.voteAverage)
+        if (movie.isVoteAverageVisible()) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .zIndex(2F)
+                    .padding(start = 8.dp, bottom = 8.dp)
+            ) {
+                MovieRate(rate = movie.voteAverage)
+            }
         }
         Card(
             shape = RoundedCornerShape(6.dp),

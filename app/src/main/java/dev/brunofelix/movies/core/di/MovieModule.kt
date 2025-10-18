@@ -4,24 +4,24 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.brunofelix.movies.core.data.repository.MovieRepositoryImpl
-import dev.brunofelix.movies.core.domain.data_source.MovieLocalDataSource
-import dev.brunofelix.movies.core.domain.data_source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.data.repository.impl.MovieRepositoryImpl
+import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
+import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
 import dev.brunofelix.movies.feature.details.domain.use_case.DeleteMovieUseCase
 import dev.brunofelix.movies.feature.details.domain.use_case.DeleteMovieUseCaseImpl
 import dev.brunofelix.movies.feature.details.domain.use_case.GetDetailsUseCase
 import dev.brunofelix.movies.feature.details.domain.use_case.GetDetailsUseCaseImpl
+import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteUseCase
+import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteUseCaseImpl
+import dev.brunofelix.movies.feature.details.domain.use_case.SaveMovieUseCase
+import dev.brunofelix.movies.feature.details.domain.use_case.SaveMovieUseCaseImpl
 import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoritesUseCase
 import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoritesUseCaseImpl
 import dev.brunofelix.movies.feature.popular.domain.use_case.GetPopularsUseCase
 import dev.brunofelix.movies.feature.popular.domain.use_case.GetPopularsUseCaseImpl
 import dev.brunofelix.movies.feature.upcoming.domain.use_case.GetUpcomingUseCase
 import dev.brunofelix.movies.feature.upcoming.domain.use_case.GetUpcomingUseCaseImpl
-import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteUseCase
-import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteUseCaseImpl
-import dev.brunofelix.movies.feature.details.domain.use_case.SaveMovieUseCase
-import dev.brunofelix.movies.feature.details.domain.use_case.SaveMovieUseCaseImpl
 import javax.inject.Singleton
 
 @Module
