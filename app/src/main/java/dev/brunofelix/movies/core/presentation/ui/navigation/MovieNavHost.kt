@@ -2,7 +2,7 @@ package dev.brunofelix.movies.core.presentation.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -11,6 +11,7 @@ import dev.brunofelix.movies.core.presentation.ui.navigation.nav_graph.favoriteS
 import dev.brunofelix.movies.core.presentation.ui.navigation.nav_graph.popularScreen
 import dev.brunofelix.movies.core.presentation.ui.navigation.nav_graph.upcomingScreen
 import dev.brunofelix.movies.feature.details.presentation.viewmodel.MovieDetailsViewModel
+import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.FavoriteViewModel
 import dev.brunofelix.movies.feature.popular.presentation.viewmodel.MoviePopularViewModel
 import dev.brunofelix.movies.feature.upcoming.presentation.viewmodel.MovieUpcomingViewModel
 
@@ -21,7 +22,7 @@ fun MovieNavHost(
     val movieDetailsViewModel: MovieDetailsViewModel = hiltViewModel()
     val moviePopularViewModel: MoviePopularViewModel = hiltViewModel()
     val movieUpcomingViewModel: MovieUpcomingViewModel = hiltViewModel()
-    val favoriteViewModel: MovieDetailsViewModel = hiltViewModel()
+    val favoriteViewModel: FavoriteViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
@@ -42,7 +43,9 @@ fun MovieNavHost(
             movieDetailsViewModel = movieDetailsViewModel
         )
         favoriteScreen(
-            navController = navController
+            navController = navController,
+            favoriteViewModel = favoriteViewModel,
+            movieDetailsViewModel = movieDetailsViewModel
         )
     }
 }
