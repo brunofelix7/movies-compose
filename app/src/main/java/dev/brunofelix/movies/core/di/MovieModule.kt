@@ -16,8 +16,8 @@ import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteUseCase
 import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteUseCaseImpl
 import dev.brunofelix.movies.feature.details.domain.use_case.SaveMovieUseCase
 import dev.brunofelix.movies.feature.details.domain.use_case.SaveMovieUseCaseImpl
-import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoritesUseCase
-import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoritesUseCaseImpl
+import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoriteMoviesUseCase
+import dev.brunofelix.movies.feature.favorite.domain.use_case.impl.GetFavoriteMoviesUseCaseImpl
 import dev.brunofelix.movies.feature.popular.domain.use_case.GetPopularsUseCase
 import dev.brunofelix.movies.feature.popular.domain.use_case.GetPopularsUseCaseImpl
 import dev.brunofelix.movies.feature.upcoming.domain.use_case.GetUpcomingUseCase
@@ -87,9 +87,9 @@ object MovieModule {
 
     @Provides
     @Singleton
-    fun provideGetFavoritesUseCase(
+    fun provideGetFavoriteMoviesUseCase(
         repository: MovieRepository
-    ): GetFavoritesUseCase {
-        return GetFavoritesUseCaseImpl(repository)
+    ): GetFavoriteMoviesUseCase {
+        return GetFavoriteMoviesUseCaseImpl(repository)
     }
 }

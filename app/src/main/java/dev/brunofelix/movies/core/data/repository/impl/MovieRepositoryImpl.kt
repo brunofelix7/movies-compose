@@ -32,9 +32,9 @@ class MovieRepositoryImpl @Inject constructor(
         return remoteDataSource.getDetails(id).body()?.toMovie()
     }
 
-    override fun fetchFavorites(): Flow<List<Movie>?> {
+    override fun fetchFavorites(): Flow<List<Movie>> {
         return localDataSource.getAll().map { entityList ->
-            entityList?.map { it.toMovie() }
+            entityList.map { it.toMovie() }
         }
     }
 

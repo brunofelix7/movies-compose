@@ -1,18 +1,20 @@
 package dev.brunofelix.movies.core.presentation.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import dev.brunofelix.movies.core.presentation.ui.navigation.nav_graph.detailsScreen
-import dev.brunofelix.movies.core.presentation.ui.navigation.nav_graph.favoriteScreen
-import dev.brunofelix.movies.core.presentation.ui.navigation.nav_graph.popularScreen
-import dev.brunofelix.movies.core.presentation.ui.navigation.nav_graph.upcomingScreen
+import dev.brunofelix.movies.feature.details.presentation.ui.MovieDetailsScreen
 import dev.brunofelix.movies.feature.details.presentation.viewmodel.MovieDetailsViewModel
+import dev.brunofelix.movies.feature.favorite.presentation.ui.FavoriteScreen
 import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.FavoriteViewModel
+import dev.brunofelix.movies.feature.popular.presentation.ui.MoviePopularScreen
 import dev.brunofelix.movies.feature.popular.presentation.viewmodel.MoviePopularViewModel
+import dev.brunofelix.movies.feature.upcoming.presentation.ui.MovieUpcomingScreen
 import dev.brunofelix.movies.feature.upcoming.presentation.viewmodel.MovieUpcomingViewModel
 
 @Composable
@@ -22,31 +24,46 @@ fun MovieNavHost(
     val movieDetailsViewModel: MovieDetailsViewModel = hiltViewModel()
     val moviePopularViewModel: MoviePopularViewModel = hiltViewModel()
     val movieUpcomingViewModel: MovieUpcomingViewModel = hiltViewModel()
-    val favoriteViewModel: FavoriteViewModel = hiltViewModel()
+    val movieFavoriteViewModel: FavoriteViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
         startDestination = MovieRoute.PopularScreen
     ) {
-        popularScreen(
-            navController = navController,
-            moviePopularViewModel = moviePopularViewModel,
-            movieDetailsViewModel = movieDetailsViewModel
-        )
-        upcomingScreen(
-            navController = navController,
-            movieUpcomingViewModel = movieUpcomingViewModel,
-            movieDetailsViewModel = movieDetailsViewModel
-        )
-        detailsScreen(
-            navController = navController,
-            movieDetailsViewModel = movieDetailsViewModel
-        )
-        favoriteScreen(
-            navController = navController,
-            favoriteViewModel = favoriteViewModel,
-            movieDetailsViewModel = movieDetailsViewModel
-        )
+        composable<MovieRoute.PopularScreen> {
+            MoviePopularScreen(
+                uiState = moviePopularViewModel.uiState,
+                onItemClick = { movieId ->
+                    movieDetailsViewModel.getDetails(movieId)
+                    navController.navigate(MovieRoute.DetailsScreen(movieId))
+                }
+            )
+        }
+        composable<MovieRoute.UpcomingScreen> {
+            MovieUpcomingScreen(
+                uiState = movieUpcomingViewModel.uiState,
+                onItemClick = { movieId ->
+                    movieDetailsViewModel.getDetails(movieId)
+                    navController.navigate(MovieRoute.DetailsScreen(movieId))
+                }
+            )
+        }
+        composable<MovieRoute.DetailsScreen> {
+            MovieDetailsScreen(
+                uiState = movieDetailsViewModel.uiState.collectAsState().value,
+                onBackClick = { navController.popBackStack() },
+                onFavoriteClick = { movieDetailsViewModel.onFavoriteToggle() }
+            )
+        }
+        composable<MovieRoute.FavoritesScreen> {
+            FavoriteScreen(
+                uiState = movieFavoriteViewModel.uiState,
+                onClick = { movieId ->
+                    movieDetailsViewModel.getDetails(movieId)
+                    navController.navigate(MovieRoute.DetailsScreen(movieId))
+                }
+            )
+        }
     }
 }
 

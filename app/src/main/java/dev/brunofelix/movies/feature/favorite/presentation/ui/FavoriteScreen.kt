@@ -2,20 +2,27 @@ package dev.brunofelix.movies.feature.favorite.presentation.ui
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.ui.components.MovieTopBar
+import dev.brunofelix.movies.core.presentation.ui.state.UiState
 import dev.brunofelix.movies.feature.favorite.presentation.ui.components.FavoriteContent
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun FavoriteScreen(
     modifier: Modifier = Modifier,
-    movies: List<Movie>,
-    onItemClick: (id: Long) -> Unit
+    uiState: StateFlow<UiState<List<Movie>>>,
+    onClick: (Long) -> Unit
 ) {
+    val uiState by uiState.collectAsStateWithLifecycle()
+
     Scaffold(
         topBar = {
             MovieTopBar(
@@ -26,15 +33,18 @@ fun FavoriteScreen(
             FavoriteContent(
                 modifier = modifier,
                 paddingValues = innerPadding,
-                movies = movies,
-                onClick = onItemClick
+                uiState = uiState,
+                onClick = onClick
             )
         }
     )
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-private fun FavoritesScreenPreview() {
-
+private fun FavoriteScreenPreview() {
+    FavoriteScreen(
+        uiState = MutableStateFlow(UiState.Empty),
+        onClick = { }
+    )
 }

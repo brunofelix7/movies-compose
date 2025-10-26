@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="error">Something went wrong</string>
+    <string name="empty_state">No data found</string>
+
     <string name="movie_details_error">Movie details not found</string>
     <string name="popular_movies_error">Popular movies not found</string>
     <string name="upcoming_movies_error">Upcoming movies not found</string>
     <string name="delete_movie_error">Failed to delete the movie</string>
-    <string name="favorite_movies_error">Favorite movies not found</string>
     <string name="is_favorite_movie_error">Failed to validate favorite movie</string>
     <string name="mark_favorite_error">Failed to mark movie as favorite</string>
 </resources>

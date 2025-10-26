@@ -86,6 +86,6 @@ private fun FavoriteItemPreview() {
             title = "Title",
             imageUrl = ""
         ),
-        onClick = {}
+        onClick = { }
     )
 }

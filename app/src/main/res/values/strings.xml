@@ -15,7 +15,7 @@
     <string name="search">Search</string>
 
     <!-- Error messages -->
-    <string name="error_title">Oops!!</string>
+    <string name="error_title">Oops!</string>
     <string name="error_message">Please, check or internet connection.</string>
 
     <!-- Content descriptions -->

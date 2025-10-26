@@ -10,5 +10,5 @@ interface MovieLocalDataSource {
 
     suspend fun getById(id: Long): MovieEntity?
 
-    fun getAll(): Flow<List<MovieEntity>?>
+    fun getAll(): Flow<List<MovieEntity>>
 }
