@@ -1,17 +1,14 @@
-package dev.brunofelix.movies.feature.details.domain.use_case
+package dev.brunofelix.movies.feature.details.domain.use_case.impl
 
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
 import dev.brunofelix.movies.core.util.exception.LocalException
+import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteMovieUseCase
 import javax.inject.Inject
 
-fun interface IsFavoriteUseCase {
-    suspend operator fun invoke(id: Long): Boolean
-}
-
-class IsFavoriteUseCaseImpl @Inject constructor(
+class IsFavoriteMovieUseCaseImpl @Inject constructor(
     private val repository: MovieRepository
-) : IsFavoriteUseCase {
+) : IsFavoriteMovieUseCase {
 
     override suspend operator fun invoke(id: Long): Boolean {
         return try {

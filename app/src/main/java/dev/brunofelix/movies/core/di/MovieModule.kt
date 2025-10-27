@@ -9,13 +9,13 @@ import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
 import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
 import dev.brunofelix.movies.feature.details.domain.use_case.DeleteMovieUseCase
-import dev.brunofelix.movies.feature.details.domain.use_case.DeleteMovieUseCaseImpl
 import dev.brunofelix.movies.feature.details.domain.use_case.GetMovieDetailsUseCase
-import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteUseCase
-import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteUseCaseImpl
+import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteMovieUseCase
 import dev.brunofelix.movies.feature.details.domain.use_case.SaveMovieUseCase
-import dev.brunofelix.movies.feature.details.domain.use_case.SaveMovieUseCaseImpl
+import dev.brunofelix.movies.feature.details.domain.use_case.impl.DeleteMovieUseCaseImpl
 import dev.brunofelix.movies.feature.details.domain.use_case.impl.GetMovieDetailsUseCaseImpl
+import dev.brunofelix.movies.feature.details.domain.use_case.impl.IsFavoriteMovieUseCaseImpl
+import dev.brunofelix.movies.feature.details.domain.use_case.impl.SaveMovieUseCaseImpl
 import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoriteMoviesUseCase
 import dev.brunofelix.movies.feature.favorite.domain.use_case.impl.GetFavoriteMoviesUseCaseImpl
 import dev.brunofelix.movies.feature.popular.domain.use_case.GetPopularsUseCase
@@ -79,10 +79,10 @@ object MovieModule {
 
     @Provides
     @Singleton
-    fun provideIsFavoriteUseCase(
+    fun provideIsFavoriteMovieUseCase(
         repository: MovieRepository
-    ): IsFavoriteUseCase {
-        return IsFavoriteUseCaseImpl(repository)
+    ): IsFavoriteMovieUseCase {
+        return IsFavoriteMovieUseCaseImpl(repository)
     }
 
     @Provides

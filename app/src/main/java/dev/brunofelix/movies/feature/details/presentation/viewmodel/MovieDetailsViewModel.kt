@@ -9,7 +9,7 @@ import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.ui.state.UiState
 import dev.brunofelix.movies.feature.details.domain.use_case.DeleteMovieUseCase
 import dev.brunofelix.movies.feature.details.domain.use_case.GetMovieDetailsUseCase
-import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteUseCase
+import dev.brunofelix.movies.feature.details.domain.use_case.IsFavoriteMovieUseCase
 import dev.brunofelix.movies.feature.details.domain.use_case.SaveMovieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,9 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
-    private val saveUseCase: SaveMovieUseCase,
-    private val isFavoriteUseCase: IsFavoriteUseCase,
-    private val deleteUseCase: DeleteMovieUseCase
+    private val saveMovieUseCase: SaveMovieUseCase,
+    private val isFavoriteMovieUseCase: IsFavoriteMovieUseCase,
+    private val deleteMovieUseCase: DeleteMovieUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<Movie>>(UiState.Loading)
@@ -32,10 +32,12 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun getDetails(movieId: Long) = viewModelScope.launch {
         _uiState.value = UiState.Loading
+        _isFavorite.value = false
+
         when (val result = getMovieDetailsUseCase(movieId)) {
             is Resource.Success -> {
                 _uiState.value = UiState.Success(result.data)
-                _isFavorite.value = isFavoriteUseCase(result.data.id)
+                _isFavorite.value = isFavoriteMovieUseCase(result.data.id)
             }
             is Resource.Error -> {
                 _uiState.value = UiState.Error(R.string.movie_details_error)
@@ -45,8 +47,8 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun onFavoriteToggle() = viewModelScope.launch {
         (uiState.value as? UiState.Success)?.data?.let { movie ->
-            if (_isFavorite.value) deleteUseCase(movie) else saveUseCase(movie)
-            _isFavorite.value = isFavoriteUseCase(movie.id)
+            if (_isFavorite.value) deleteMovieUseCase(movie) else saveMovieUseCase(movie)
+            _isFavorite.value = isFavoriteMovieUseCase(movie.id)
         }
     }
 }
