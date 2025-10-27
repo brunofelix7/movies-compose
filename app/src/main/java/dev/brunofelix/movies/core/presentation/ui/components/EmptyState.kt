@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.presentation.ui.components.empty
+package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,7 @@ import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
-fun EmptyData(
+fun EmptyState(
     message: String?,
     modifier: Modifier = Modifier
 ) {
@@ -45,6 +45,6 @@ fun EmptyData(
 
 @Preview
 @Composable
-private fun EmptyDataPreview() {
-    EmptyData("Please, try again!")
+private fun EmptyStatePreview() {
+    EmptyState("Please, try again!")
 }

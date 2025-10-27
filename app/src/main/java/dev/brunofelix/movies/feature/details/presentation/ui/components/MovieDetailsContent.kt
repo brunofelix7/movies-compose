@@ -17,16 +17,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.brunofelix.movies.R
+import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
+import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.components.MovieRate
 import dev.brunofelix.movies.core.presentation.ui.components.card.MovieCard
-import dev.brunofelix.movies.core.presentation.ui.components.empty.EmptyData
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
-import dev.brunofelix.movies.feature.details.presentation.viewmodel.state.MovieDetailsUiState
+import dev.brunofelix.movies.core.presentation.ui.state.UiState
 
 @Composable
 fun MovieDetailsContent(
     modifier: Modifier = Modifier,
-    uiState: MovieDetailsUiState,
+    uiState: UiState<Movie>,
 ) {
     Column(
         modifier = modifier
@@ -35,90 +38,94 @@ fun MovieDetailsContent(
             .padding(16.dp)
     ) {
         when (uiState) {
-            is MovieDetailsUiState.Success -> {
-                uiState.movie?.let { movie ->
-                    movie.setVoteAverageVisibility(isVisible = false)
-                    LazyColumn {
-                        item {
-                            Row {
-                                MovieCard(
-                                    movie = movie,
-                                    modifier = Modifier.weight(0.40F)
-                                )
+            is UiState.Loading -> LoadingState()
+            is UiState.Success -> {
+                uiState.data.setVoteAverageVisibility(isVisible = false)
+                LazyColumn {
+                    item {
+                        Row {
+                            MovieCard(
+                                movie = uiState.data,
+                                modifier = Modifier.weight(0.40F)
+                            )
+                            Column(
+                                modifier = Modifier.weight(0.60F)
+                            ) {
                                 Column(
-                                    modifier = Modifier.weight(0.60F)
+                                    modifier = Modifier.padding(start = 8.dp)
                                 ) {
-                                    Column(
+                                    Text(
+                                        text = uiState.data.title,
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        modifier = Modifier.padding(bottom = 8.dp, start = 8.dp)
+                                    )
+                                    MovieRate(
+                                        rate = uiState.data.voteAverage,
+                                        fontSize = 14.sp,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Spacer(Modifier.size(8.dp))
+                                    Text(
+                                        text = "${uiState.data.details?.duration}min",
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Normal,
+                                        color = Colors.lightGray,
                                         modifier = Modifier.padding(start = 8.dp)
+                                    )
+                                    Spacer(Modifier.size(8.dp))
+                                    Text(
+                                        text = "${uiState.data.details?.getReleaseDate()?.value}",
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Normal,
+                                        color = Colors.lightGray,
+                                        modifier = Modifier.padding(start = 8.dp)
+                                    )
+                                    Spacer(Modifier.size(8.dp))
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth()
                                     ) {
-                                        Text(
-                                            text = movie.title,
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.SemiBold,
-                                            modifier = Modifier.padding(bottom = 8.dp, start = 8.dp)
-                                        )
-                                        MovieRate(
-                                            rate = movie.voteAverage,
-                                            fontSize = 14.sp,
-                                            modifier = Modifier.size(18.dp)
-                                        )
-                                        Spacer(Modifier.size(8.dp))
-                                        Text(
-                                            text = "${movie.details?.duration}min",
-                                            fontSize = 14.sp,
-                                            fontWeight = FontWeight.Normal,
-                                            color = Colors.lightGray,
-                                            modifier = Modifier.padding(start = 8.dp)
-                                        )
-                                        Spacer(Modifier.size(8.dp))
-                                        Text(
-                                            text = "${movie.details?.getReleaseDate()?.value}",
-                                            fontSize = 14.sp,
-                                            fontWeight = FontWeight.Normal,
-                                            color = Colors.lightGray,
-                                            modifier = Modifier.padding(start = 8.dp)
-                                        )
-                                        Spacer(Modifier.size(8.dp))
-                                        Row(
-                                            modifier = Modifier.fillMaxWidth()
-                                        ) {
-                                            movie.details?.genres?.forEach { category ->
-                                                Text(
-                                                    text = category.name,
-                                                    fontSize = 14.sp,
-                                                    color = Colors.lightGray,
-                                                    fontWeight = FontWeight.SemiBold,
-                                                    modifier = Modifier.padding(bottom = 8.dp, start = 8.dp)
-                                                )
-                                            }
+                                        uiState.data.details?.genres?.forEach { category ->
+                                            Text(
+                                                text = category.name,
+                                                fontSize = 14.sp,
+                                                color = Colors.lightGray,
+                                                fontWeight = FontWeight.SemiBold,
+                                                modifier = Modifier.padding(bottom = 8.dp, start = 8.dp)
+                                            )
                                         }
                                     }
                                 }
                             }
-                            Text(
-                                text = "Overview",
-                                color = Colors.lightGray,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 16.sp,
-                                modifier = Modifier.padding(bottom = 4.dp, top = 16.dp)
-                            )
-                            Text(
-                                text = "${movie.details?.overview}",
-                                fontWeight = FontWeight.Light,
-                                fontSize = 16.sp,
-                                modifier = Modifier.padding(bottom = 4.dp)
-                            )
                         }
+                        Text(
+                            text = "Overview",
+                            color = Colors.lightGray,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(bottom = 4.dp, top = 16.dp)
+                        )
+                        Text(
+                            text = "${uiState.data.details?.overview}",
+                            fontWeight = FontWeight.Light,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
                     }
                 }
             }
-            is MovieDetailsUiState.Error -> {
-                EmptyData(
+            is UiState.Empty -> {
+                EmptyState(
+                    message = stringResource(R.string.empty_state),
+                    modifier = Modifier.padding(top = 64.dp)
+                )
+            }
+            is UiState.Error -> {
+                EmptyState(
                     message = stringResource(uiState.messageRes),
                     modifier = Modifier.padding(top = 64.dp)
                 )
             }
-            else -> Unit
         }
     }
 }
@@ -127,6 +134,6 @@ fun MovieDetailsContent(
 @Composable
 private fun MovieDetailsContentPreview() {
     MovieDetailsContent(
-        uiState = MovieDetailsUiState.Success()
+        uiState = UiState.Loading
     )
 }

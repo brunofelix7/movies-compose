@@ -1,7 +1,6 @@
 package dev.brunofelix.movies.core.presentation.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -50,9 +49,14 @@ fun MovieNavHost(
         }
         composable<MovieRoute.DetailsScreen> {
             MovieDetailsScreen(
-                uiState = movieDetailsViewModel.uiState.collectAsState().value,
-                onBackClick = { navController.popBackStack() },
-                onFavoriteClick = { movieDetailsViewModel.onFavoriteToggle() }
+                uiState = movieDetailsViewModel.uiState,
+                isFavorite = movieDetailsViewModel.isFavorite,
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onFavoriteClick = {
+                    movieDetailsViewModel.onFavoriteToggle()
+                }
             )
         }
         composable<MovieRoute.FavoritesScreen> {

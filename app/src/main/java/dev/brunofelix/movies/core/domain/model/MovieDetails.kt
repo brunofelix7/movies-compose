@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.core.domain.model
 
 import dev.brunofelix.movies.core.util.datetime.DateTimeConvert
+import dev.brunofelix.movies.core.util.datetime.DateTimePatterns
 import dev.brunofelix.movies.core.util.datetime.DateTimeResult
 
 data class MovieDetails(
@@ -14,8 +15,8 @@ data class MovieDetails(
     fun getReleaseDate(): DateTimeResult {
         return DateTimeConvert.format(
             value = releaseDate,
-            fromPattern = "yyyy-MM-dd",
-            toPattern = "dd/MM/yyyy"
+            fromPattern = DateTimePatterns.YYYY_MM_DD.pattern,
+            toPattern = DateTimePatterns.DD_MM_YYYY.pattern
         )
     }
 }

@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.presentation.ui.components.empty
+package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon

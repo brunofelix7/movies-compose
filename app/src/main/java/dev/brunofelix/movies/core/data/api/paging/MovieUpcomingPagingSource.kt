@@ -2,9 +2,9 @@ package dev.brunofelix.movies.core.data.api.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.util.logError
-import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -25,12 +25,11 @@ class MovieUpcomingPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val page = params.key ?: 1
-            val response = dataSource.getUpcoming(page).body()
-            val movies = response?.results?.map { it.toMovie() }
+            val response = dataSource.getUpcoming(page).getOrNull()
             LoadResult.Page(
-                data = movies ?: emptyList(),
+                data = response ?: emptyList(),
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (movies.isNullOrEmpty()) null else page + 1
+                nextKey = if (response.isNullOrEmpty()) null else page + 1
             )
         } catch (e: IOException) {
             logError("$e")

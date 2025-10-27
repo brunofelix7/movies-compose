@@ -5,8 +5,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
 import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.data.util.Resource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
+import dev.brunofelix.movies.core.util.extension.toResource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -28,8 +30,8 @@ class MovieRepositoryImpl @Inject constructor(
         return localDataSource.getById(id)?.toMovie() != null
     }
 
-    override suspend fun getDetails(id: Long): Movie? {
-        return remoteDataSource.getDetails(id).body()?.toMovie()
+    override suspend fun getDetails(id: Long): Resource<Movie> {
+        return remoteDataSource.getDetails(id).toResource()
     }
 
     override fun fetchFavorites(): Flow<List<Movie>> {

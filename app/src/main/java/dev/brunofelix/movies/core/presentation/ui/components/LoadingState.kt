@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
-fun LoadingView(
+fun LoadingState(
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -33,6 +33,6 @@ fun LoadingView(
 
 @Preview
 @Composable
-private fun LoadingViewPreview() {
-    LoadingView()
+private fun LoadingStatePreview() {
+    LoadingState()
 }

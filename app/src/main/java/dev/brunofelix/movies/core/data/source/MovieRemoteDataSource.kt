@@ -1,19 +1,17 @@
 package dev.brunofelix.movies.core.data.source
 
-import dev.brunofelix.movies.core.data.api.dto.MovieDto
-import dev.brunofelix.movies.core.data.api.dto.ResultDto
 import dev.brunofelix.movies.core.data.api.paging.MoviePopularPagingSource
 import dev.brunofelix.movies.core.data.api.paging.MovieUpcomingPagingSource
-import retrofit2.Response
+import dev.brunofelix.movies.core.domain.model.Movie
 
 interface MovieRemoteDataSource {
     fun getPopularPagingSource(): MoviePopularPagingSource
 
     fun getUpcomingPagingSource(): MovieUpcomingPagingSource
 
-    suspend fun getPopular(page: Int): Response<MovieDto>
+    suspend fun getPopular(page: Int): Result<List<Movie>>
 
-    suspend fun getUpcoming(page: Int): Response<MovieDto>
+    suspend fun getUpcoming(page: Int): Result<List<Movie>>
 
-    suspend fun getDetails(id: Long): Response<ResultDto>
+    suspend fun getDetails(id: Long): Result<Movie>
 }

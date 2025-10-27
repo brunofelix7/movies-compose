@@ -4,18 +4,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.presentation.ui.components.LoadingView
-import dev.brunofelix.movies.core.presentation.ui.components.empty.EmptyData
+import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
+import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 import dev.brunofelix.movies.core.presentation.ui.state.UiState
 
@@ -33,14 +31,7 @@ fun FavoriteContent(
             .fillMaxSize()
     ) {
         when (uiState) {
-            is UiState.Loading -> LoadingView()
-            is UiState.Empty -> {
-                Text(
-                    text = stringResource(R.string.empty_state),
-                    color = Colors.white,
-                    fontSize = 18.sp
-                )
-            }
+            is UiState.Loading -> LoadingState()
             is UiState.Success -> {
                 FavoriteList(
                     paddingValues = paddingValues,
@@ -48,8 +39,13 @@ fun FavoriteContent(
                     onClick = onClick
                 )
             }
+            is UiState.Empty -> {
+                EmptyState(
+                    message = stringResource(R.string.empty_state),
+                )
+            }
             is UiState.Error -> {
-                EmptyData(
+                EmptyState(
                     message = stringResource(uiState.messageRes),
                 )
             }

@@ -25,12 +25,11 @@ class MoviePopularPagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val page = params.key ?: 1
-            val response = dataSource.getPopular(page).body()
-            val movies = response?.results?.map { it.toMovie() }
+            val response = dataSource.getPopular(page).getOrNull()
             LoadResult.Page(
-                data = movies ?: emptyList(),
+                data = response ?: emptyList(),
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (movies.isNullOrEmpty()) null else page + 1
+                nextKey = if (response.isNullOrEmpty()) null else page + 1
             )
         } catch (e: IOException) {
             logError("$e")

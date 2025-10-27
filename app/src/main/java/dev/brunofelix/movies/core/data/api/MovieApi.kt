@@ -1,7 +1,7 @@
 package dev.brunofelix.movies.core.data.api
 
 import dev.brunofelix.movies.core.data.api.dto.MovieDto
-import dev.brunofelix.movies.core.data.api.dto.ResultDto
+import dev.brunofelix.movies.core.data.api.dto.MovieResultDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -22,7 +22,7 @@ interface MovieApi {
     @GET("movie/{id}")
     suspend fun getDetails(
         @Path("id") id: Long
-    ): Response<ResultDto>
+    ): Response<MovieResultDto>
 
     @GET("search/movie")
     suspend fun search(

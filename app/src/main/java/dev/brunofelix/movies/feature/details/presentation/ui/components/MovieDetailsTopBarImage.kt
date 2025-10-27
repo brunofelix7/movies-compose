@@ -14,15 +14,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.brunofelix.movies.core.presentation.ui.components.LoadingView
-import dev.brunofelix.movies.core.presentation.ui.components.empty.EmptyImage
+import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.presentation.ui.components.EmptyImage
+import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
-import dev.brunofelix.movies.feature.details.presentation.viewmodel.state.MovieDetailsUiState
+import dev.brunofelix.movies.core.presentation.ui.state.UiState
 
 @Composable
 fun MovieDetailsTopBarImage(
     modifier: Modifier = Modifier,
-    uiState: MovieDetailsUiState,
+    uiState: UiState<Movie>,
 ) {
     val backdropPath = remember { mutableStateOf<String?>("") }
 
@@ -42,18 +43,15 @@ fun MovieDetailsTopBarImage(
                 .height(300.dp)
                 .align(Alignment.Center)
         )
-        uiState.let {
-            when (it) {
-                is MovieDetailsUiState.Loading -> LoadingView()
-                is MovieDetailsUiState.Success -> {
-                    backdropPath.value = it.movie?.details?.backdropPath
-                    if (backdropPath.value?.isEmpty() == true) {
-                        EmptyImage()
-                    }
+        when (uiState) {
+            is UiState.Loading -> LoadingState()
+            is UiState.Success -> {
+                backdropPath.value = uiState.data.details?.backdropPath
+                if (backdropPath.value?.isEmpty() == true) {
+                    EmptyImage()
                 }
-                is MovieDetailsUiState.Error -> EmptyImage()
-                else -> Unit
             }
+            else -> EmptyImage()
         }
     }
 }

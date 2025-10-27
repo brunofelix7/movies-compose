@@ -1,82 +1,82 @@
 package dev.brunofelix.movies.core.data.api.dto
 
 import com.google.gson.annotations.SerializedName
-import dev.brunofelix.movies.core.util.extension.toBackdropUrl
-import dev.brunofelix.movies.core.util.extension.toPostUrl
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.model.MovieDetails
+import dev.brunofelix.movies.core.util.extension.toBackdropUrl
+import dev.brunofelix.movies.core.util.extension.toPostUrl
 
-data class ResultDto(
+data class MovieResultDto(
     @SerializedName("id")
-    val id: Long? = null,
+    val id: Long?,
 
     @SerializedName("title")
-    val title: String? = null,
+    val title: String?,
 
     @SerializedName("original_title")
-    val originalTitle: String? = null,
+    val originalTitle: String?,
 
     @SerializedName("original_language")
-    val originalLanguage: String? = null,
+    val originalLanguage: String?,
 
     @SerializedName("overview")
-    val overview: String? = null,
+    val overview: String?,
 
     @SerializedName("poster_path")
-    val posterPath: String? = null,
+    val posterPath: String?,
 
     @SerializedName("backdrop_path")
-    val backdropPath: String? = null,
+    val backdropPath: String?,
 
     @SerializedName("release_date")
-    val releaseDate: String? = null,
+    val releaseDate: String?,
 
     @SerializedName("adult")
-    val adult: Boolean? = null,
+    val adult: Boolean?,
 
     @SerializedName("genre_ids")
-    val genreIds: List<Int>? = null,
+    val genreIds: List<Int>?,
 
     @SerializedName("popularity")
-    val popularity: Double? = null,
+    val popularity: Double?,
 
     @SerializedName("video")
-    val video: Boolean? = null,
+    val video: Boolean?,
 
     @SerializedName("vote_average")
-    val voteAverage: Float? = null,
+    val voteAverage: Float?,
 
     @SerializedName("vote_count")
-    val voteCount: Int? = null,
+    val voteCount: Int?,
 
     @SerializedName("budget")
-    val budget: Int? = null,
+    val budget: Int?,
 
     @SerializedName("genres")
-    val genres: List<GenreDto>? = null,
+    val genres: List<GenreDto>?,
 
     @SerializedName("homepage")
-    val homepage: String? = null,
+    val homepage: String?,
 
     @SerializedName("imdb_id")
-    val imdbId: String? = null,
+    val imdbId: String?,
 
     @SerializedName("origin_country")
-    val originCountry: List<String>? = null,
+    val originCountry: List<String>?,
 
     @SerializedName("revenue")
-    val revenue: Long? = null,
+    val revenue: Long?,
 
     @SerializedName("runtime")
-    val runtime: Int? = null,
+    val runtime: Int?,
 
     @SerializedName("status")
-    val status: String? = null,
+    val status: String?,
 
     @SerializedName("tagline")
-    val tagline: String? = null
+    val tagline: String?
 ) {
-    fun toMovie(): Movie {
+    fun toModel(): Movie {
         return Movie(
             id = id ?: -1L,
             title = title ?: "Undefined",

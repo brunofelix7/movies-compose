@@ -24,9 +24,9 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.presentation.ui.components.LoadingView
+import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.components.MovieRate
-import dev.brunofelix.movies.core.presentation.ui.components.empty.EmptyImage
+import dev.brunofelix.movies.core.presentation.ui.components.EmptyImage
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
@@ -96,7 +96,7 @@ fun MovieCard(
                         .clip(RoundedCornerShape(6.dp))
                 )
                 when (uiState.value) {
-                    is MovieCardState.Loading -> LoadingView()
+                    is MovieCardState.Loading -> LoadingState()
                     is MovieCardState.Error -> EmptyImage()
                     else -> Unit
                 }

@@ -9,8 +9,7 @@ sealed class UiEvent {
         val message: String,
         @get:StringRes val messageRes: Int = 0
     ): UiEvent()
-    data class ShowSnackBar
-        (
+    data class ShowSnackBar(
         val message: String? = null,
         @get:StringRes val messageRes: Int = 0
     ): UiEvent()

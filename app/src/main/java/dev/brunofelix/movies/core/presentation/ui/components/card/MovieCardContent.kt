@@ -19,7 +19,7 @@ import androidx.paging.compose.LazyPagingItems
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorView
-import dev.brunofelix.movies.core.presentation.ui.components.LoadingView
+import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
@@ -57,12 +57,12 @@ fun MovieCardContent(
                     when {
                         loadState.refresh is LoadState.Loading -> {
                             item(span = { GridItemSpan(maxLineSpan) }) {
-                                LoadingView()
+                                LoadingState()
                             }
                         }
                         loadState.append is LoadState.Loading -> {
                             item(span = { GridItemSpan(maxLineSpan) }) {
-                                LoadingView()
+                                LoadingState()
                             }
                         }
                         loadState.refresh is LoadState.Error -> {
