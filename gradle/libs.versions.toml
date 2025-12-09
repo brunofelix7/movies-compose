@@ -1,6 +1,6 @@
 [versions]
 accompanistFlowlayout = "0.36.0"
-agp = "8.13.0"
+agp = "8.13.1"
 coilCompose = "2.7.0"
 converterGson = "3.0.0"
 coreSplashscreen = "1.2.0"
@@ -9,7 +9,7 @@ gson = "2.13.2"
 hilt = "2.57.2"
 hiltCompiler = "1.3.0"
 hiltNavigationCompose = "1.3.0"
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -44,6 +44,7 @@ ksp = "2.2.20-2.0.3"
 runtimeLivedata = "1.10.0"
 rxandroid = "3.0.2"
 rxjava = "3.1.12"
+kotest = "6.0.7"
 
 [libraries]
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanistFlowlayout" }
@@ -96,6 +97,7 @@ hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testi
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesAndroid" }
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+kotest = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
