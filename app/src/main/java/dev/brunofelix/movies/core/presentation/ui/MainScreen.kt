@@ -9,9 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import dev.brunofelix.movies.core.presentation.ui.components.navbar.BottomNavBar
-import dev.brunofelix.movies.core.presentation.ui.navigation.MovieNavHost
-import dev.brunofelix.movies.core.presentation.ui.navigation.currentRoute
+import dev.brunofelix.movies.core.presentation.components.navbar.BottomNavBar
+import dev.brunofelix.movies.core.presentation.navigation.MovieNavHost
+import dev.brunofelix.movies.core.presentation.navigation.currentRoute
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

@@ -3,8 +3,7 @@ package dev.brunofelix.movies.feature.movie.presentation.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.google.common.truth.Truth.assertThat
-import dev.brunofelix.movies.feature.details.presentation.viewmodel.MovieDetailsViewModel
-import dev.brunofelix.movies.feature.details.presentation.viewmodel.state.MovieDetailsUiState
+import dev.brunofelix.movies.feature.detail.presentation.viewmodel.MovieDetailsViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory
 import dev.brunofelix.movies.test_util.fake.FakeGetMovieDetailsUseCase
