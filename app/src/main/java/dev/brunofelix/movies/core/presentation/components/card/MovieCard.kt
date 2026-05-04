@@ -24,9 +24,9 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.presentation.components.EmptyImage
 import dev.brunofelix.movies.core.presentation.components.LoadingState
 import dev.brunofelix.movies.core.presentation.components.MovieRate
-import dev.brunofelix.movies.core.presentation.components.EmptyImage
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
@@ -42,7 +42,7 @@ fun MovieCard(
     Box(
         modifier = modifier
     ) {
-        if (movie.isVoteAverageVisible()) {
+        if (movie.isVoteAverageVisible) {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
@@ -68,7 +68,7 @@ fun MovieCard(
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(movie.imageUrl)
+                        .data(movie.posterPath)
                         .crossfade(true)
                         .build(),
                     onState = { state ->
@@ -109,7 +109,7 @@ fun MovieCard(
 @Composable
 private fun MovieCardPreview() {
     MovieCard(
-        movie = Movie(id = 1L, title = "Movie 1", imageUrl = "", voteAverage = 9.1F),
+        movie = Movie(id = 1L, title = "Movie 1", posterPath = "", voteAverage = 9.1F),
         onItemClick = {}
     )
 }

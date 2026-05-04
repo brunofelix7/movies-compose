@@ -3,8 +3,6 @@ package dev.brunofelix.movies.core.data.db.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.domain.model.MovieDetails
 
 @Entity(tableName = "movies")
 data class MovieEntity(
@@ -14,8 +12,8 @@ data class MovieEntity(
     @ColumnInfo(name = "title")
     val title: String,
 
-    @ColumnInfo(name = "imageUrl")
-    val imageUrl: String,
+    @ColumnInfo(name = "posterPath")
+    val posterPath: String,
 
     @ColumnInfo(name = "voteAverage")
     val voteAverage: Float,
@@ -25,17 +23,4 @@ data class MovieEntity(
 
     @ColumnInfo(name = "releaseDate")
     val releaseDate: String,
-) {
-    fun toMovie(): Movie {
-        return Movie(
-            id = id,
-            title = title,
-            imageUrl = imageUrl,
-            voteAverage = voteAverage,
-            details = MovieDetails(
-                duration = duration,
-                releaseDate = releaseDate
-            )
-        )
-    }
-}
+)

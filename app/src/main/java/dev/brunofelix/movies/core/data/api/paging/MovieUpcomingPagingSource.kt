@@ -32,10 +32,10 @@ class MovieUpcomingPagingSource @Inject constructor(
                 nextKey = if (response.isNullOrEmpty()) null else page + 1
             )
         } catch (e: IOException) {
-            logError("$e")
+            logError(e)
             LoadResult.Error(e)
         } catch (e: HttpException) {
-            logError("$e")
+            logError(e)
             LoadResult.Error(e)
         }
     }

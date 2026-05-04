@@ -1,17 +1,32 @@
 package dev.brunofelix.movies.core.data.source
 
-import dev.brunofelix.movies.core.data.db.MovieDatabase
-import dev.brunofelix.movies.core.data.db.entity.MovieEntity
+import dev.brunofelix.movies.core.data.db.dao.MovieDao
+import dev.brunofelix.movies.core.data.db.mapper.toDomain
+import dev.brunofelix.movies.core.data.db.mapper.toEntity
+import dev.brunofelix.movies.core.domain.model.Movie
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieLocalDataSourceImpl @Inject constructor(
-    private val db: MovieDatabase
+    private val dao: MovieDao
 ): MovieLocalDataSource {
-    override suspend fun insert(entity: MovieEntity) = db.movieDao.insert(entity)
 
-    override suspend fun delete(entity: MovieEntity) = db.movieDao.delete(entity)
+    override suspend fun insert(movie: Movie): Long {
+        return dao.insert(movie.toEntity())
+    }
 
-    override suspend fun getById(id: Long) = db.movieDao.getById(id)
+    override suspend fun delete(movie: Movie): Int {
+        return dao.delete(movie.toEntity())
+    }
 
-    override fun getAll() = db.movieDao.getAll()
+    override suspend fun getById(id: Long): Movie? {
+        return dao.getById(id)?.toDomain()
+    }
+
+    override fun getAll(): Flow<List<Movie>> {
+        return dao.getAll().map { entityList ->
+            entityList.map { it.toDomain() }
+        }
+    }
 }

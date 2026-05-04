@@ -1,7 +1,6 @@
 package dev.brunofelix.movies.test_util.factory
 
 import dev.brunofelix.movies.test_util.fake.FakeMovie
-import dev.brunofelix.movies.core.domain.model.Movie
 
 class MovieFactory {
 

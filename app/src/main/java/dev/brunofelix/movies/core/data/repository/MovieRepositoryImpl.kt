@@ -19,15 +19,15 @@ class MovieRepositoryImpl @Inject constructor(
 ) : MovieRepository {
 
     override suspend fun save(movie: Movie) {
-        localDataSource.insert(movie.toMovieEntity())
+        localDataSource.insert(movie)
     }
 
     override suspend fun delete(movie: Movie) {
-        localDataSource.delete(movie.toMovieEntity())
+        localDataSource.delete(movie)
     }
 
     override suspend fun isFavorite(id: Long): Boolean {
-        return localDataSource.getById(id)?.toMovie() != null
+        return localDataSource.getById(id) != null
     }
 
     override suspend fun getDetails(id: Long): Resource<Movie> {
@@ -36,7 +36,7 @@ class MovieRepositoryImpl @Inject constructor(
 
     override fun fetchFavorites(): Flow<List<Movie>> {
         return localDataSource.getAll().map { entityList ->
-            entityList.map { it.toMovie() }
+            entityList.map { it }
         }
     }
 

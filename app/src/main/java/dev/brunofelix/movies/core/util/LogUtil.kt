@@ -8,6 +8,6 @@ fun logInfo(message: String) {
     Timber.tag(APP_LOG).i("Info -> $message")
 }
 
-fun logError(message: String) {
-    Timber.tag(APP_LOG).e("Error -> $message")
+fun logError(exception: Exception) {
+    Timber.tag(APP_LOG).e(exception, "Error -> ${exception.message}")
 }

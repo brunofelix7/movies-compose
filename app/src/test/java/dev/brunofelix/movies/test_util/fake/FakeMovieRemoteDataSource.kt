@@ -1,6 +1,6 @@
 package dev.brunofelix.movies.test_util.fake
 
-import dev.brunofelix.movies.core.data.api.dto.RootMovieDto
+import dev.brunofelix.movies.core.data.api.dto.MovieRootDto
 import dev.brunofelix.movies.core.data.api.dto.MovieDto
 import dev.brunofelix.movies.core.data.api.paging.MoviePopularPagingSource
 import dev.brunofelix.movies.core.data.api.paging.MovieUpcomingPagingSource
@@ -31,11 +31,11 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPopular(page: Int): Response<RootMovieDto> {
+    override suspend fun getPopular(page: Int): Response<MovieRootDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUpcoming(page: Int): Response<RootMovieDto> {
+    override suspend fun getUpcoming(page: Int): Response<MovieRootDto> {
         TODO("Not yet implemented")
     }
 

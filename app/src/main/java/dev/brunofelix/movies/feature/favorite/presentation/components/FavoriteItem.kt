@@ -54,7 +54,7 @@ fun FavoriteItem(
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(movie.imageUrl)
+                        .data(movie.posterPath)
                         .crossfade(true)
                         .build(),
                     contentScale = ContentScale.FillWidth,
@@ -84,7 +84,7 @@ private fun FavoriteItemPreview() {
         movie = Movie(
             id = 1,
             title = "Title",
-            imageUrl = ""
+            posterPath = ""
         ),
         onClick = { }
     )

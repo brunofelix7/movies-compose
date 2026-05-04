@@ -2,7 +2,7 @@ package dev.brunofelix.movies.core.data.api.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class RootMovieDto(
+data class MovieRootDto(
     @SerializedName("page")
     val page: Int?,
 
@@ -16,5 +16,5 @@ data class RootMovieDto(
     val totalResults: Int?,
 
     @SerializedName("dates")
-    var dates: MovieDateDto? = null,
+    var dates: MovieDateDto?,
 )

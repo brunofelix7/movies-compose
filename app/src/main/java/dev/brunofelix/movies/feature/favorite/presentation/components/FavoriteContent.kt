@@ -14,8 +14,8 @@ import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.components.EmptyState
 import dev.brunofelix.movies.core.presentation.components.LoadingState
-import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
 fun FavoriteContent(
@@ -67,8 +67,8 @@ private fun FavoriteContentPreviewLoading() {
 @Composable
 private fun FavoriteContentPreviewSuccess() {
     val movies = listOf(
-        Movie(id = 1, title = "Movie 1", imageUrl = ""),
-        Movie(id = 2, title = "Movie 2", imageUrl = "")
+        Movie(id = 1, title = "Movie 1", posterPath = ""),
+        Movie(id = 2, title = "Movie 2", posterPath = "")
     )
     FavoriteContent(
         uiState = UiState.Success(movies),

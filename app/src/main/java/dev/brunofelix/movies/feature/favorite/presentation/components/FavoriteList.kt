@@ -42,8 +42,8 @@ fun FavoriteList(
 @Composable
 private fun FavoriteListPreview() {
     val movies = listOf(
-        Movie(id = 1, title = "Movie 1", imageUrl = ""),
-        Movie(id = 2, title = "Movie 2", imageUrl = "")
+        Movie(id = 1, title = "Movie 1", posterPath = ""),
+        Movie(id = 2, title = "Movie 2", posterPath = "")
     )
     FavoriteList(
         movies = movies,

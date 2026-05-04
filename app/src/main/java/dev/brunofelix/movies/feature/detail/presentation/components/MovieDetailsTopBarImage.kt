@@ -17,8 +17,8 @@ import coil.request.ImageRequest
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.components.EmptyImage
 import dev.brunofelix.movies.core.presentation.components.LoadingState
-import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
 fun MovieDetailsTopBarImage(
@@ -46,7 +46,7 @@ fun MovieDetailsTopBarImage(
         when (uiState) {
             is UiState.Loading -> LoadingState()
             is UiState.Success -> {
-                backdropPath.value = uiState.data.details?.backdropPath
+                backdropPath.value = uiState.data.backdropPath
                 if (backdropPath.value?.isEmpty() == true) {
                     EmptyImage()
                 }

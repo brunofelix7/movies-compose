@@ -23,8 +23,8 @@ import dev.brunofelix.movies.core.presentation.components.EmptyState
 import dev.brunofelix.movies.core.presentation.components.LoadingState
 import dev.brunofelix.movies.core.presentation.components.MovieRate
 import dev.brunofelix.movies.core.presentation.components.card.MovieCard
-import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
 fun MovieDetailsContent(
@@ -67,7 +67,7 @@ fun MovieDetailsContent(
                                     )
                                     Spacer(Modifier.size(8.dp))
                                     Text(
-                                        text = "${uiState.data.details?.duration}min",
+                                        text = "${uiState.data.duration}min",
                                         fontSize = 14.sp,
                                         fontWeight = FontWeight.Normal,
                                         color = Colors.lightGray,
@@ -75,7 +75,7 @@ fun MovieDetailsContent(
                                     )
                                     Spacer(Modifier.size(8.dp))
                                     Text(
-                                        text = "${uiState.data.details?.getReleaseDate()?.value}",
+                                        text = uiState.data.getReleaseDate().value,
                                         fontSize = 14.sp,
                                         fontWeight = FontWeight.Normal,
                                         color = Colors.lightGray,
@@ -85,7 +85,7 @@ fun MovieDetailsContent(
                                     Row(
                                         modifier = Modifier.fillMaxWidth()
                                     ) {
-                                        uiState.data.details?.genres?.forEach { category ->
+                                        uiState.data.genres.forEach { category ->
                                             Text(
                                                 text = category.name,
                                                 fontSize = 14.sp,
@@ -106,7 +106,7 @@ fun MovieDetailsContent(
                             modifier = Modifier.padding(bottom = 4.dp, top = 16.dp)
                         )
                         Text(
-                            text = "${uiState.data.details?.overview}",
+                            text = uiState.data.overview,
                             fontWeight = FontWeight.Light,
                             fontSize = 16.sp,
                             modifier = Modifier.padding(bottom = 4.dp)

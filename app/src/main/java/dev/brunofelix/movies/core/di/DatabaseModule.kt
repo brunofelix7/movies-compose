@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.brunofelix.movies.core.data.db.MovieDatabase
+import dev.brunofelix.movies.core.data.db.dao.MovieDao
 import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
 import dev.brunofelix.movies.core.data.source.MovieLocalDataSourceImpl
 import javax.inject.Singleton
@@ -27,7 +28,13 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideMovieLocalDataSource(db: MovieDatabase): MovieLocalDataSource {
-        return MovieLocalDataSourceImpl(db)
+    fun provideMovieDao(db: MovieDatabase): MovieDao {
+        return db.movieDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieLocalDataSource(dao: MovieDao): MovieLocalDataSource {
+        return MovieLocalDataSourceImpl(dao)
     }
 }
