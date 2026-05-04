@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.popular.domain.use_case
+package dev.brunofelix.movies.feature.upcoming.domain.use_case
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -9,24 +9,20 @@ import dev.brunofelix.movies.core.util.exception.RemoteException
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-fun interface GetPopularsUseCase {
-    operator fun invoke(): Flow<PagingData<Movie>>
-}
-
-class GetPopularsUseCaseImpl @Inject constructor(
+class GetUpcomingUseCaseImpl @Inject constructor(
     private val repository: MovieRepository
-) : GetPopularsUseCase {
+) : GetUpcomingUseCase {
 
     override operator fun invoke(): Flow<PagingData<Movie>> {
         return try {
-            repository.fetchPopulars(
+            repository.fetchUpcoming(
                 pagingConfig = PagingConfig(
                     pageSize = 20,
                     initialLoadSize = 20
                 )
             )
         } catch (e: Exception) {
-            throw RemoteException(R.string.popular_movies_error, e)
+            throw RemoteException(R.string.upcoming_movies_error, e)
         }
     }
 }

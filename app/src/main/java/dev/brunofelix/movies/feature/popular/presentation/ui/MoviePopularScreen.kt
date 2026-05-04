@@ -7,7 +7,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.components.card.MovieCardContent
 import dev.brunofelix.movies.core.presentation.components.MovieTopBar
-import dev.brunofelix.movies.feature.popular.presentation.viewmodel.state.MoviePopularUiState
+import dev.brunofelix.movies.feature.popular.presentation.state.MoviePopularUiState
 
 @Composable
 fun MoviePopularScreen(

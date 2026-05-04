@@ -9,19 +9,15 @@ import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
 import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
 import dev.brunofelix.movies.feature.detail.domain.use_case.DeleteMovieUseCase
-import dev.brunofelix.movies.feature.detail.domain.use_case.GetMovieDetailsUseCase
-import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCase
-import dev.brunofelix.movies.feature.detail.domain.use_case.SaveMovieUseCase
 import dev.brunofelix.movies.feature.detail.domain.use_case.DeleteMovieUseCaseImpl
+import dev.brunofelix.movies.feature.detail.domain.use_case.GetMovieDetailsUseCase
 import dev.brunofelix.movies.feature.detail.domain.use_case.GetMovieDetailsUseCaseImpl
+import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCase
 import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCaseImpl
+import dev.brunofelix.movies.feature.detail.domain.use_case.SaveMovieUseCase
 import dev.brunofelix.movies.feature.detail.domain.use_case.SaveMovieUseCaseImpl
 import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoriteMoviesUseCase
 import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoriteMoviesUseCaseImpl
-import dev.brunofelix.movies.feature.popular.domain.use_case.GetPopularsUseCase
-import dev.brunofelix.movies.feature.popular.domain.use_case.GetPopularsUseCaseImpl
-import dev.brunofelix.movies.feature.upcoming.domain.use_case.GetUpcomingUseCase
-import dev.brunofelix.movies.feature.upcoming.domain.use_case.GetUpcomingUseCaseImpl
 import javax.inject.Singleton
 
 @Module
@@ -35,22 +31,6 @@ object MovieModule {
         localDataSource: MovieLocalDataSource
     ): MovieRepository {
         return MovieRepositoryImpl(remoteDataSource, localDataSource)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetPopularsUseCase(
-        repository: MovieRepository
-    ): GetPopularsUseCase {
-        return GetPopularsUseCaseImpl(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetUpcomingUseCase(
-        repository: MovieRepository
-    ): GetUpcomingUseCase {
-        return GetUpcomingUseCaseImpl(repository)
     }
 
     @Provides

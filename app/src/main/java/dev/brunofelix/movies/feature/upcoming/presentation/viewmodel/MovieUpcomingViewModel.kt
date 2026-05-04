@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.brunofelix.movies.feature.upcoming.domain.use_case.GetUpcomingUseCase
-import dev.brunofelix.movies.feature.upcoming.presentation.viewmodel.state.MovieUpcomingUiState
+import dev.brunofelix.movies.feature.upcoming.presentation.state.MovieUpcomingUiState
 import javax.inject.Inject
 
 @HiltViewModel
