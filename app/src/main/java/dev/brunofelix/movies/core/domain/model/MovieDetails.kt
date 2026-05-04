@@ -5,7 +5,7 @@ import dev.brunofelix.movies.core.util.datetime.DateTimePatterns
 import dev.brunofelix.movies.core.util.datetime.DateTimeResult
 
 data class MovieDetails(
-    val genres: List<Genre>? = emptyList(),
+    val genres: List<MovieGenre>? = emptyList(),
     val overview: String = "",
     val backdropPath: String = "",
     val releaseDate: String = "",

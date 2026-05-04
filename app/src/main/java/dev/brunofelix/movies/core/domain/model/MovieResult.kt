@@ -16,7 +16,7 @@ data class MovieResult(
     val voteAverage: Float = 0f,
     val voteCount: Int = 0,
     val budget: Int = 0,
-    val genres: List<Genre> = emptyList(),
+    val genres: List<MovieGenre> = emptyList(),
     val homepage: String = "",
     val imdbId: String = "",
     val originCountry: List<String> = emptyList(),

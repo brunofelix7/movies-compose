@@ -1,7 +1,7 @@
 package dev.brunofelix.movies.test_util.fake
 
+import dev.brunofelix.movies.core.data.api.dto.RootMovieDto
 import dev.brunofelix.movies.core.data.api.dto.MovieDto
-import dev.brunofelix.movies.core.data.api.dto.MovieResultDto
 import dev.brunofelix.movies.core.data.api.paging.MoviePopularPagingSource
 import dev.brunofelix.movies.core.data.api.paging.MovieUpcomingPagingSource
 import dev.brunofelix.movies.core.util.exception.RemoteException
@@ -31,15 +31,15 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPopular(page: Int): Response<MovieDto> {
+    override suspend fun getPopular(page: Int): Response<RootMovieDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUpcoming(page: Int): Response<MovieDto> {
+    override suspend fun getUpcoming(page: Int): Response<RootMovieDto> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getDetails(id: Long): Response<MovieResultDto> {
+    override suspend fun getDetails(id: Long): Response<MovieDto> {
         if (shouldReturnError) {
             throw RemoteException(0, null)
         }

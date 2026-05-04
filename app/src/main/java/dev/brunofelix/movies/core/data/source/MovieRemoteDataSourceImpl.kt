@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.core.data.source
 
 import dev.brunofelix.movies.core.data.api.MovieApi
+import dev.brunofelix.movies.core.data.api.mapper.toDomain
 import dev.brunofelix.movies.core.data.api.paging.MoviePopularPagingSource
 import dev.brunofelix.movies.core.data.api.paging.MovieUpcomingPagingSource
 import dev.brunofelix.movies.core.data.source.base.RemoteDataSource
@@ -18,21 +19,21 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     override suspend fun getPopular(page: Int): Result<List<Movie>> {
         return safeApiCall(
             call = { getPopulars(page) },
-            transform = { it.results?.map { result -> result.toModel() } ?: emptyList() }
+            transform = { it.results?.map { result -> result.toDomain() } ?: emptyList() }
         )
     }
 
     override suspend fun getUpcoming(page: Int): Result<List<Movie>> {
         return safeApiCall(
             call = { getUpcoming(page) },
-            transform = { it.results?.map { result -> result.toModel() } ?: emptyList() }
+            transform = { it.results?.map { result -> result.toDomain() } ?: emptyList() }
         )
     }
 
     override suspend fun getDetails(id: Long): Result<Movie> {
         return safeApiCall(
             call = { getDetails(id) },
-            transform = { it.toModel() }
+            transform = { it.toDomain() }
         )
     }
 }
