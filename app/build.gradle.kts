@@ -3,14 +3,13 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     kotlin("plugin.serialization") version(libs.versions.kotlin)
 }
 
-val apiKeyFile = rootProject.file("apiKey.properties")
+val apiKeyFile: File? = rootProject.file("apiKey.properties")
 val properties = Properties()
 properties.load(FileInputStream(apiKeyFile))
 
@@ -51,14 +50,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlin {
-        jvmToolchain(17)
-    }
-
     buildFeatures {
         compose = true
         buildConfig = true
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
