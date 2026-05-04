@@ -1,12 +1,9 @@
-package dev.brunofelix.movies.core.di
+package dev.brunofelix.movies.feature.detail.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.brunofelix.movies.core.data.repository.MovieRepositoryImpl
-import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
-import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
 import dev.brunofelix.movies.feature.detail.domain.use_case.DeleteMovieUseCase
 import dev.brunofelix.movies.feature.detail.domain.use_case.DeleteMovieUseCaseImpl
@@ -16,22 +13,11 @@ import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCa
 import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCaseImpl
 import dev.brunofelix.movies.feature.detail.domain.use_case.SaveMovieUseCase
 import dev.brunofelix.movies.feature.detail.domain.use_case.SaveMovieUseCaseImpl
-import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoriteMoviesUseCase
-import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoriteMoviesUseCaseImpl
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object MovieModule {
-
-    @Provides
-    @Singleton
-    fun provideMovieRepository(
-        remoteDataSource: MovieRemoteDataSource,
-        localDataSource: MovieLocalDataSource
-    ): MovieRepository {
-        return MovieRepositoryImpl(remoteDataSource, localDataSource)
-    }
+object DetailModule {
 
     @Provides
     @Singleton
@@ -63,13 +49,5 @@ object MovieModule {
         repository: MovieRepository
     ): IsFavoriteMovieUseCase {
         return IsFavoriteMovieUseCaseImpl(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideGetFavoriteMoviesUseCase(
-        repository: MovieRepository
-    ): GetFavoriteMoviesUseCase {
-        return GetFavoriteMoviesUseCaseImpl(repository)
     }
 }
