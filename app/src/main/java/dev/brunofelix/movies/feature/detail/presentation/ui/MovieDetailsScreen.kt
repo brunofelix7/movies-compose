@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 import dev.brunofelix.movies.feature.detail.presentation.components.MovieDetailsContent
@@ -19,10 +19,11 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun MovieDetailsScreen(
     modifier: Modifier = Modifier,
-    uiState: StateFlow<UiState<Movie>>,
+    uiState: StateFlow<UiState<MovieUiState>>,
     isFavorite: StateFlow<Boolean>,
     onBackClick: () -> Unit,
-    onFavoriteClick: () -> Unit
+    onFavoriteClick: () -> Unit,
+    onHideVoteAverage: () -> Unit
 ) {
     val uiState by uiState.collectAsStateWithLifecycle()
     val isFavorite by isFavorite.collectAsStateWithLifecycle()
@@ -41,7 +42,8 @@ fun MovieDetailsScreen(
         content = { innerPadding ->
             MovieDetailsContent(
                 modifier = modifier.padding(innerPadding),
-                uiState = uiState
+                uiState = uiState,
+                onHideVoteAverage = onHideVoteAverage
             )
         },
         containerColor = Colors.blackPrimary,

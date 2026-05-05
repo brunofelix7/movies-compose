@@ -6,6 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.data.util.Resource
 import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.presentation.mapper.toUiState
+import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.feature.detail.domain.use_case.DeleteMovieUseCase
 import dev.brunofelix.movies.feature.detail.domain.use_case.GetMovieDetailsUseCase
@@ -13,6 +15,7 @@ import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCa
 import dev.brunofelix.movies.feature.detail.domain.use_case.SaveMovieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,11 +27,13 @@ class MovieDetailsViewModel @Inject constructor(
     private val deleteMovieUseCase: DeleteMovieUseCase
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState<Movie>>(UiState.Loading)
+    private val _uiState = MutableStateFlow<UiState<MovieUiState>>(UiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     private val _isFavorite = MutableStateFlow(false)
     val isFavorite = _isFavorite.asStateFlow()
+
+    private var movieDomain: Movie? = null
 
     fun getDetails(movieId: Long) = viewModelScope.launch {
         _uiState.value = UiState.Loading
@@ -36,7 +41,8 @@ class MovieDetailsViewModel @Inject constructor(
 
         when (val result = getMovieDetailsUseCase(movieId)) {
             is Resource.Success -> {
-                _uiState.value = UiState.Success(result.data)
+                movieDomain = result.data
+                _uiState.value = UiState.Success(result.data.toUiState())
                 _isFavorite.value = isFavoriteMovieUseCase(result.data.id)
             }
             is Resource.Error -> {
@@ -46,9 +52,20 @@ class MovieDetailsViewModel @Inject constructor(
     }
 
     fun onFavoriteToggle() = viewModelScope.launch {
-        (uiState.value as? UiState.Success)?.data?.let { movie ->
-            if (_isFavorite.value) deleteMovieUseCase(movie) else saveMovieUseCase(movie)
+        movieDomain?.let { movie ->
+            if (_isFavorite.value) {
+                deleteMovieUseCase(movie)
+            } else {
+                saveMovieUseCase(movie)
+            }
             _isFavorite.value = isFavoriteMovieUseCase(movie.id)
+        }
+    }
+    fun hideVoteAverage() {
+        _uiState.update { state ->
+            if (state is UiState.Success) {
+                state.copy(data = state.data.copy(isVoteAverageVisible = false))
+            } else state
         }
     }
 }

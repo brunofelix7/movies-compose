@@ -18,18 +18,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.brunofelix.movies.R
-import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.components.EmptyState
 import dev.brunofelix.movies.core.presentation.components.LoadingState
 import dev.brunofelix.movies.core.presentation.components.MovieRate
 import dev.brunofelix.movies.core.presentation.components.card.MovieCard
+import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
 fun MovieDetailsContent(
     modifier: Modifier = Modifier,
-    uiState: UiState<Movie>,
+    uiState: UiState<MovieUiState>,
+    onHideVoteAverage: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -40,12 +41,12 @@ fun MovieDetailsContent(
         when (uiState) {
             is UiState.Loading -> LoadingState()
             is UiState.Success -> {
-                uiState.data.setVoteAverageVisibility(isVisible = false)
+                onHideVoteAverage()
                 LazyColumn {
                     item {
                         Row {
                             MovieCard(
-                                movie = uiState.data,
+                                uiState = uiState.data,
                                 modifier = Modifier.weight(0.40F)
                             )
                             Column(
@@ -75,7 +76,7 @@ fun MovieDetailsContent(
                                     )
                                     Spacer(Modifier.size(8.dp))
                                     Text(
-                                        text = uiState.data.getReleaseDate().value,
+                                        text = uiState.data.releaseDate,
                                         fontSize = 14.sp,
                                         fontWeight = FontWeight.Normal,
                                         color = Colors.lightGray,
@@ -134,6 +135,7 @@ fun MovieDetailsContent(
 @Composable
 private fun MovieDetailsContentPreview() {
     MovieDetailsContent(
-        uiState = UiState.Loading
+        uiState = UiState.Loading,
+        onHideVoteAverage = {}
     )
 }

@@ -14,16 +14,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.components.EmptyImage
 import dev.brunofelix.movies.core.presentation.components.LoadingState
+import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
 fun MovieDetailsTopBarImage(
     modifier: Modifier = Modifier,
-    uiState: UiState<Movie>,
+    uiState: UiState<MovieUiState>,
 ) {
     val backdropPath = remember { mutableStateOf<String?>("") }
 

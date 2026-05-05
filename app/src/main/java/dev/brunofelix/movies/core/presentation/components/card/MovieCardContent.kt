@@ -20,6 +20,7 @@ import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.components.ErrorView
 import dev.brunofelix.movies.core.presentation.components.LoadingState
+import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
@@ -46,8 +47,8 @@ fun MovieCardContent(
                     val movie = paging[index]
                     movie?.let {
                         MovieCard(
-                            movie = movie,
-                            onItemClick = { id ->
+                            uiState = movie.toUiState(),
+                            onClick = { id ->
                                 onClick(id)
                             }
                         )

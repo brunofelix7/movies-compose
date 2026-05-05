@@ -23,33 +23,33 @@ import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
-import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.components.EmptyImage
 import dev.brunofelix.movies.core.presentation.components.LoadingState
 import dev.brunofelix.movies.core.presentation.components.MovieRate
+import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
 fun MovieCard(
     modifier: Modifier = Modifier,
-    movie: Movie,
-    onItemClick: (id: Long) -> Unit = {}
+    uiState: MovieUiState,
+    onClick: (id: Long) -> Unit = {}
 ) {
-    val uiState = remember {
+    val cardState = remember {
         mutableStateOf<MovieCardState>(MovieCardState.Loading)
     }
 
     Box(
         modifier = modifier
     ) {
-        if (movie.isVoteAverageVisible) {
+        if (uiState.isVoteAverageVisible) {
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .zIndex(2F)
                     .padding(start = 8.dp, bottom = 8.dp)
             ) {
-                MovieRate(rate = movie.voteAverage)
+                MovieRate(rate = uiState.voteAverage)
             }
         }
         Card(
@@ -60,7 +60,7 @@ fun MovieCard(
                 .fillMaxWidth()
                 .padding(4.dp)
                 .clickable {
-                    onItemClick(movie.id)
+                    onClick(uiState.id)
                 }
         ) {
             Box(
@@ -68,22 +68,22 @@ fun MovieCard(
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(movie.posterPath)
+                        .data(uiState.posterPath)
                         .crossfade(true)
                         .build(),
                     onState = { state ->
                         when (state) {
                             is AsyncImagePainter.State.Loading -> {
-                                uiState.value = MovieCardState.Loading
+                                cardState.value = MovieCardState.Loading
                             }
                             is AsyncImagePainter.State.Success -> {
-                                uiState.value = MovieCardState.Success
+                                cardState.value = MovieCardState.Success
                             }
                             is AsyncImagePainter.State.Error -> {
-                                uiState.value = MovieCardState.Error
+                                cardState.value = MovieCardState.Error
                             }
                             is AsyncImagePainter.State.Empty -> {
-                                uiState.value = MovieCardState.Error
+                                cardState.value = MovieCardState.Error
                             }
                         }
                     },
@@ -95,7 +95,7 @@ fun MovieCard(
                         .background(Colors.blackPrimary)
                         .clip(RoundedCornerShape(6.dp))
                 )
-                when (uiState.value) {
+                when (cardState.value) {
                     is MovieCardState.Loading -> LoadingState()
                     is MovieCardState.Error -> EmptyImage()
                     else -> Unit
@@ -109,7 +109,11 @@ fun MovieCard(
 @Composable
 private fun MovieCardPreview() {
     MovieCard(
-        movie = Movie(id = 1L, title = "Movie 1", posterPath = "", voteAverage = 9.1F),
-        onItemClick = {}
+        uiState = MovieUiState(
+            id = 1L,
+            title = "Movie 1",
+            voteAverage = 9.1F
+        ),
+        onClick = {}
     )
 }

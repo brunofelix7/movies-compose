@@ -61,6 +61,9 @@ fun MovieNavHost(
                 },
                 onFavoriteClick = {
                     movieDetailsViewModel.onFavoriteToggle()
+                },
+                onHideVoteAverage = {
+                    movieDetailsViewModel.hideVoteAverage()
                 }
             )
         }
