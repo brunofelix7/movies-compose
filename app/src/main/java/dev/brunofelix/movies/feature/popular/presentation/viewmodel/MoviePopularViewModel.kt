@@ -13,15 +13,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviePopularViewModel @Inject constructor(
-    useCase: GetPopularUseCase
+    private val getPopularUseCase: GetPopularUseCase
 ): ViewModel() {
 
     var uiState by mutableStateOf(MoviePopularUiState())
         private set
 
     init {
+        fetchPopularMovies()
+    }
+
+    private fun fetchPopularMovies() {
         uiState = uiState.copy(
-            movies = useCase.invoke().cachedIn(viewModelScope)
+            movies = getPopularUseCase().cachedIn(viewModelScope)
         )
     }
 }
