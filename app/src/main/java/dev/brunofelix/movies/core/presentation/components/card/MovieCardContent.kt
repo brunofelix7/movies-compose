@@ -36,7 +36,7 @@ fun MovieCardContent(
             .fillMaxSize()
     ) {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
+            columns = GridCells.Fixed(2),
             contentPadding = paddingValues,
             horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.Center,
