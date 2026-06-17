@@ -53,10 +53,10 @@ fun MovieCard(
             }
         }
         Card(
-            shape = RoundedCornerShape(6.dp),
+            shape = RoundedCornerShape(12.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
             modifier = Modifier
-                .height(200.dp)
+                .height(250.dp)
                 .fillMaxWidth()
                 .padding(4.dp)
                 .clickable {
@@ -87,7 +87,7 @@ fun MovieCard(
                             }
                         }
                     },
-                    contentScale = ContentScale.FillHeight,
+                    contentScale = ContentScale.FillBounds,
                     contentDescription = "",
                     modifier = Modifier
                         .fillMaxWidth()
