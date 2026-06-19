@@ -1,15 +1,16 @@
 package dev.brunofelix.movies.core.presentation.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,7 +19,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
@@ -26,36 +26,42 @@ import dev.brunofelix.movies.core.util.extension.formatDecimal
 
 @Composable
 fun MovieRate(
-    modifier: Modifier = Modifier,
-    fontSize: TextUnit = 10.sp,
-    rate: Float
+    rate: Float,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(color = Colors.blackPrimary)
-            .padding(horizontal = 8.dp)
+            .size(width = 68.dp, height = 35.dp)
+            .clip(RoundedCornerShape(32.dp))
+            .border(
+                border = BorderStroke(
+                    width = 1.dp,
+                    color = Colors.white.copy(alpha = 0.2F)
+                ),
+                shape = RoundedCornerShape(32.dp)
+            )
+            .background(color = Colors.blackPrimary.copy(alpha = 0.6F))
     ) {
         Icon(
             imageVector = Icons.Default.Star,
             tint = Color.Yellow,
-            contentDescription = "",
-            modifier = modifier.size(12.dp)
+            contentDescription = null,
+            modifier = modifier.size(20.dp)
         )
+        Spacer(Modifier.size(4.dp))
         Text(
             text = if (rate <= 0) "--" else rate.formatDecimal(),
-            style = MaterialTheme.typography.bodyMedium,
             color = Color.White,
-            fontWeight = FontWeight.Normal,
-            fontSize = fontSize
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp
         )
     }
 }
 
 @Preview
 @Composable
-private fun MovieRatePreview() {
-    MovieRate(rate = 7.5F)
+private fun Preview() {
+    MovieRate(7.5F)
 }
