@@ -22,7 +22,7 @@ import dev.brunofelix.movies.core.presentation.components.card.MovieCard
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 
 @Composable
-fun MovieContent(
+fun MainContent(
     modifier: Modifier = Modifier,
     paging: LazyPagingItems<Movie>?,
     paddingValues: PaddingValues,
@@ -92,7 +92,7 @@ fun MovieContent(
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
-    MovieContent(
+    MainContent(
         paging = null,
         paddingValues = PaddingValues(),
         onClick = {}

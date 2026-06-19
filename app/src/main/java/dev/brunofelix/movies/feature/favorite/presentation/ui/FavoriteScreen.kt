@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.presentation.components.MovieTopBar
+import dev.brunofelix.movies.core.presentation.components.MainTopBar
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.feature.favorite.presentation.components.FavoriteContent
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +25,7 @@ fun FavoriteScreen(
 
     Scaffold(
         topBar = {
-            MovieTopBar(
+            MainTopBar(
                 title = stringResource(R.string.favorites)
             )
         },
