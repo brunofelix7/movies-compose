@@ -2,6 +2,7 @@ package dev.brunofelix.movies.feature.detail.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -24,7 +25,7 @@ import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieDetailsTopBar(
+fun DetailTopBar(
     modifier: Modifier = Modifier,
     isFavorite: Boolean,
     onBackClick: () -> Unit,
@@ -71,14 +72,16 @@ fun MovieDetailsTopBar(
                 )
             }
         },
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp)
     )
 }
 
 @Preview
 @Composable
-private fun MovieDetailsTopBarPreview() {
-    MovieDetailsTopBar(
+private fun Preview() {
+    DetailTopBar(
         isFavorite = true,
         onBackClick = {},
         onFavoriteClick = {}

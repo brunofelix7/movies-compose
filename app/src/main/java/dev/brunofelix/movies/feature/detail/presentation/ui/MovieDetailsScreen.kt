@@ -2,10 +2,8 @@ package dev.brunofelix.movies.feature.detail.presentation.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,7 +17,7 @@ import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 import dev.brunofelix.movies.feature.detail.presentation.components.MovieDetailsContent
-import dev.brunofelix.movies.feature.detail.presentation.components.MovieDetailsTopBar
+import dev.brunofelix.movies.feature.detail.presentation.components.DetailTopBar
 import dev.brunofelix.movies.feature.detail.presentation.components.MovieDetailsTopBarImage
 import kotlinx.coroutines.flow.StateFlow
 
@@ -39,7 +37,7 @@ fun MovieDetailsScreen(
         topBar = {
             Box {
                 MovieDetailsTopBarImage(uiState = uiState)
-                MovieDetailsTopBar(
+                DetailTopBar(
                     isFavorite = isFavorite,
                     onBackClick = onBackClick,
                     onFavoriteClick = onFavoriteClick
