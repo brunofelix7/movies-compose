@@ -24,6 +24,7 @@ import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.components.EmptyState
 import dev.brunofelix.movies.core.presentation.components.LoadingState
 import dev.brunofelix.movies.core.presentation.components.MovieRate
+import dev.brunofelix.movies.core.presentation.components.CustomButton
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
@@ -112,7 +113,7 @@ fun MovieDetailsContent(
                             }
                         }
                         Spacer(Modifier.size(16.dp))
-                        MovieTrailerButton(
+                        CustomButton(
                             onClick = {
                                 // TODO: Handle click on trailer button
                             }

@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.detail.presentation.components
+package dev.brunofelix.movies.core.presentation.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
-fun MovieTrailerButton(
+fun CustomButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -57,7 +57,7 @@ fun MovieTrailerButton(
 @Preview
 @Composable
 private fun Preview() {
-    MovieTrailerButton {
+    CustomButton {
 
     }
 }
