@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,10 +23,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.brunofelix.movies.R
+import dev.brunofelix.movies.core.presentation.components.CustomButton
 import dev.brunofelix.movies.core.presentation.components.EmptyState
 import dev.brunofelix.movies.core.presentation.components.LoadingState
 import dev.brunofelix.movies.core.presentation.components.MovieRate
-import dev.brunofelix.movies.core.presentation.components.CustomButton
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
@@ -114,10 +116,12 @@ fun MovieDetailsContent(
                         }
                         Spacer(Modifier.size(16.dp))
                         CustomButton(
-                            onClick = {
-                                // TODO: Handle click on trailer button
-                            }
-                        )
+                            text = "Watch Trailer",
+                            icon = Icons.Filled.Movie,
+                            isOutlined = true
+                        ) {
+                            // TODO: Handle click on trailer button
+                        }
                         Text(
                             text = "Overview",
                             color = Colors.lightGray,
