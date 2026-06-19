@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.brunofelix.movies.R
-import dev.brunofelix.movies.core.presentation.components.card.MovieCardContent
+import dev.brunofelix.movies.core.presentation.components.MovieContent
 import dev.brunofelix.movies.core.presentation.components.MovieTopBar
 import dev.brunofelix.movies.feature.upcoming.presentation.state.MovieUpcomingUiState
 
@@ -23,7 +23,7 @@ fun MovieUpcomingScreen(
             )
         },
         content = { innerPadding ->
-            MovieCardContent(
+            MovieContent(
                 paging = movies,
                 paddingValues = innerPadding,
                 onClick = { id ->
