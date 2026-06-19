@@ -21,7 +21,7 @@
     <!-- Content descriptions -->
     <string name="navbar_icon">Navbar icon</string>
     <string name="top_bar_search_icon">Search icon</string>
-    <string name="top_bar_settings_icon">Settings icon</string>
+    <string name="top_bar_language_icon">Language icon</string>
     <string name="top_bar_favorite_icon">Favorite icon</string>
     <string name="empty_icon">Empty icon</string>
 </resources>
