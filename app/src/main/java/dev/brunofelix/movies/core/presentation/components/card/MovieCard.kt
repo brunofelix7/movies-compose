@@ -1,6 +1,8 @@
 package dev.brunofelix.movies.core.presentation.components.card
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,7 +20,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
@@ -40,21 +40,10 @@ fun MovieCard(
     }
 
     Box(
-        modifier = modifier
+        modifier = modifier.clip(RoundedCornerShape(16.dp))
     ) {
-        if (uiState.isVoteAverageVisible) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .zIndex(2F)
-                    .padding(start = 8.dp, bottom = 8.dp)
-            ) {
-                MovieRate(rate = uiState.voteAverage)
-            }
-        }
         Card(
-            shape = RoundedCornerShape(12.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            shape = RoundedCornerShape(16.dp),
             modifier = Modifier
                 .height(250.dp)
                 .fillMaxWidth()
@@ -62,6 +51,13 @@ fun MovieCard(
                 .clickable {
                     onClick(uiState.id)
                 }
+                .border(
+                    border = BorderStroke(
+                        width = 2.dp,
+                        color = Colors.white.copy(alpha = 0.2F)
+                    ),
+                    shape = RoundedCornerShape(16.dp)
+                )
         ) {
             Box(
                 contentAlignment = Alignment.Center
@@ -101,6 +97,13 @@ fun MovieCard(
                     else -> Unit
                 }
             }
+        }
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = 16.dp, bottom = 16.dp)
+        ) {
+            MovieRate(uiState.voteAverage)
         }
     }
 }
