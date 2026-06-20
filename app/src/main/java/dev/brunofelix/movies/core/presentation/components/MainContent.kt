@@ -30,15 +30,13 @@ fun MainContent(
 ) {
     GradientBackground {
         Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(top = 8.dp)
+            modifier = modifier.fillMaxSize().padding(horizontal = 16.dp)
         ) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = paddingValues,
-                horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
-                verticalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
                 modifier = Modifier.fillMaxSize()
             ) {
                 if (paging != null) {

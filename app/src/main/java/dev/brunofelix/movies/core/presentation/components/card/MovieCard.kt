@@ -45,9 +45,8 @@ fun MovieCard(
         Card(
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
-                .height(250.dp)
+                .height(230.dp)
                 .fillMaxWidth()
-                .padding(4.dp)
                 .clickable {
                     onClick(uiState.id)
                 }
