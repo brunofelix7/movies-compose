@@ -32,23 +32,23 @@ fun MovieRate(
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .size(width = 68.dp, height = 35.dp)
             .clip(RoundedCornerShape(32.dp))
             .border(
                 border = BorderStroke(
                     width = 1.dp,
-                    color = Colors.white.copy(alpha = 0.2F)
+                    color = Colors.white.copy(alpha = 0.2f)
                 ),
                 shape = RoundedCornerShape(32.dp)
             )
-            .background(color = Colors.blackPrimary.copy(alpha = 0.6F))
+            .background(color = Colors.blackPrimary.copy(alpha = 0.6f))
     ) {
         Icon(
             imageVector = Icons.Default.Star,
             tint = Color.Yellow,
             contentDescription = null,
-            modifier = modifier.size(20.dp)
+            modifier = Modifier.size(20.dp)
         )
         Spacer(Modifier.size(4.dp))
         Text(
