@@ -3,6 +3,7 @@ package dev.brunofelix.movies.core.presentation.components.navbar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.brunofelix.movies.R
@@ -31,22 +33,29 @@ fun BottomNavBar(
     }
 
     NavigationBar(
-        containerColor = Colors.blackPrimary,
+        containerColor = Colors.blackPrimary.copy(alpha = 0.85F),
+        tonalElevation = 0.dp,
         modifier = modifier
     ) {
         items.forEach { currentItem ->
             val selectedItemColor = if (selectedItem.value == currentItem.route) {
                 Colors.redPrimary
             } else {
-                Colors.lightGray
+                Colors.white
             }
 
             NavigationBarItem(
                 selected = selectedItem.value == currentItem.route,
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Colors.redPrimary,
+                    unselectedIconColor = Colors.white,
+                    selectedTextColor = Colors.redPrimary,
+                    unselectedTextColor = Colors.white,
+                    indicatorColor = Colors.redPrimary.copy(alpha = 0.2F)
+                ),
                 icon = {
                     Icon(
                         imageVector = currentItem.icon,
-                        tint = selectedItemColor,
                         contentDescription = stringResource(R.string.navbar_icon)
                     )
                 },
