@@ -18,7 +18,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.presentation.components.card.MovieCard
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 
 @Composable

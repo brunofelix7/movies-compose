@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.presentation.components.card
+package dev.brunofelix.movies.core.presentation.components.state
 
 sealed class MovieCardState {
     data object Loading : MovieCardState()
