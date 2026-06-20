@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.brunofelix.movies.feature.detail.presentation.ui.MovieDetailsScreen
-import dev.brunofelix.movies.feature.detail.presentation.viewmodel.MovieDetailsViewModel
+import dev.brunofelix.movies.feature.detail.presentation.viewmodel.DetailViewModel
 import dev.brunofelix.movies.feature.favorite.presentation.ui.FavoriteScreen
 import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.FavoriteViewModel
 import dev.brunofelix.movies.feature.popular.presentation.ui.MoviePopularScreen
@@ -20,7 +20,7 @@ import dev.brunofelix.movies.feature.upcoming.presentation.viewmodel.MovieUpcomi
 fun MovieNavHost(
     navController: NavHostController
 ) {
-    val movieDetailsViewModel: MovieDetailsViewModel = hiltViewModel()
+    val detailViewModel: DetailViewModel = hiltViewModel()
     val moviePopularViewModel: MoviePopularViewModel = hiltViewModel()
     val movieUpcomingViewModel: MovieUpcomingViewModel = hiltViewModel()
     val movieFavoriteViewModel: FavoriteViewModel = hiltViewModel()
@@ -33,7 +33,7 @@ fun MovieNavHost(
             MoviePopularScreen(
                 uiState = moviePopularViewModel.uiState,
                 onItemClick = { movieId ->
-                    movieDetailsViewModel.getDetails(movieId)
+                    detailViewModel.getDetails(movieId)
                     navController.navigate(MovieRoute.DetailsScreen(movieId))
                 }
             )
@@ -42,7 +42,7 @@ fun MovieNavHost(
             MovieUpcomingScreen(
                 uiState = movieUpcomingViewModel.uiState,
                 onItemClick = { movieId ->
-                    movieDetailsViewModel.getDetails(movieId)
+                    detailViewModel.getDetails(movieId)
                     navController.navigate(MovieRoute.DetailsScreen(movieId))
                 }
             )
@@ -54,16 +54,13 @@ fun MovieNavHost(
             popExitTransition = popExitTransition
         ) {
             MovieDetailsScreen(
-                uiState = movieDetailsViewModel.uiState,
-                isFavorite = movieDetailsViewModel.isFavorite,
+                uiState = detailViewModel.uiState,
+                isFavorite = detailViewModel.isFavorite,
                 onBackClick = {
                     navController.popBackStack()
                 },
                 onFavoriteClick = {
-                    movieDetailsViewModel.onFavoriteToggle()
-                },
-                onHideVoteAverage = {
-                    movieDetailsViewModel.hideVoteAverage()
+                    detailViewModel.onFavoriteToggle()
                 }
             )
         }
@@ -71,7 +68,7 @@ fun MovieNavHost(
             FavoriteScreen(
                 uiState = movieFavoriteViewModel.uiState,
                 onClick = { movieId ->
-                    movieDetailsViewModel.getDetails(movieId)
+                    detailViewModel.getDetails(movieId)
                     navController.navigate(MovieRoute.DetailsScreen(movieId))
                 }
             )

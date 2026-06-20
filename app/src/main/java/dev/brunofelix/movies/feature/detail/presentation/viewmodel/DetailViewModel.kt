@@ -15,12 +15,11 @@ import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCa
 import dev.brunofelix.movies.feature.detail.domain.use_case.SaveMovieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieDetailsViewModel @Inject constructor(
+class DetailViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val saveMovieUseCase: SaveMovieUseCase,
     private val isFavoriteMovieUseCase: IsFavoriteMovieUseCase,
@@ -59,13 +58,6 @@ class MovieDetailsViewModel @Inject constructor(
                 saveMovieUseCase(movie)
             }
             _isFavorite.value = isFavoriteMovieUseCase(movie.id)
-        }
-    }
-    fun hideVoteAverage() {
-        _uiState.update { state ->
-            if (state is UiState.Success) {
-                state.copy(data = state.data.copy(isVoteAverageVisible = false))
-            } else state
         }
     }
 }
