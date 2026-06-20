@@ -2,7 +2,7 @@ package dev.brunofelix.movies.feature.movie.presentation.viewmodel
 
 import com.google.common.truth.Truth.assertThat
 import dev.brunofelix.movies.core.util.exception.RemoteException
-import dev.brunofelix.movies.feature.movie.domain.use_case.GetUpcomingMoviesUseCase
+import dev.brunofelix.movies.feature.upcoming.domain.use_case.GetUpcomingUseCase
 import dev.brunofelix.movies.feature.upcoming.presentation.viewmodel.MovieUpcomingViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule
 import dev.brunofelix.movies.test_util.fake.FakePagingData
@@ -19,13 +19,13 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class MovieUpcomingViewModelTest {
+class UpcomingViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     @Mock
-    lateinit var useCase: GetUpcomingMoviesUseCase
+    lateinit var useCase: GetUpcomingUseCase
 
     private val viewModel by lazy {
         MovieUpcomingViewModel(useCase)

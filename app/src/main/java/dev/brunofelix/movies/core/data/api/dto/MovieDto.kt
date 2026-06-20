@@ -4,71 +4,71 @@ import com.google.gson.annotations.SerializedName
 
 data class MovieDto(
     @SerializedName("id")
-    val id: Long?,
+    val id: Long? = null,
 
     @SerializedName("title")
-    val title: String?,
+    val title: String? = null,
 
     @SerializedName("original_title")
-    val originalTitle: String?,
+    val originalTitle: String? = null,
 
     @SerializedName("original_language")
-    val originalLanguage: String?,
+    val originalLanguage: String? = null,
 
     @SerializedName("overview")
-    val overview: String?,
+    val overview: String? = null,
 
     @SerializedName("poster_path")
-    val posterPath: String?,
+    val posterPath: String? = null,
 
     @SerializedName("backdrop_path")
-    val backdropPath: String?,
+    val backdropPath: String? = null,
 
     @SerializedName("release_date")
-    val releaseDate: String?,
+    val releaseDate: String? = null,
 
     @SerializedName("adult")
-    val adult: Boolean?,
+    val adult: Boolean? = null,
 
     @SerializedName("genre_ids")
-    val genreIds: List<Int>?,
+    val genreIds: List<Int>? = null,
 
     @SerializedName("popularity")
-    val popularity: Double?,
+    val popularity: Double? = null,
 
     @SerializedName("video")
-    val video: Boolean?,
+    val video: Boolean? = null,
 
     @SerializedName("vote_average")
-    val voteAverage: Float?,
+    val voteAverage: Float? = null,
 
     @SerializedName("vote_count")
-    val voteCount: Int?,
+    val voteCount: Int? = null,
 
     @SerializedName("budget")
-    val budget: Int?,
+    val budget: Int? = null,
 
     @SerializedName("genres")
-    val genres: List<MovieGenreDto>?,
+    val genres: List<MovieGenreDto>? = null,
 
     @SerializedName("homepage")
-    val homepage: String?,
+    val homepage: String? = null,
 
     @SerializedName("imdb_id")
-    val imdbId: String?,
+    val imdbId: String? = null,
 
     @SerializedName("origin_country")
-    val originCountry: List<String>?,
+    val originCountry: List<String>? = null,
 
     @SerializedName("revenue")
-    val revenue: Long?,
+    val revenue: Long? = null,
 
     @SerializedName("runtime")
-    val runtime: Int?,
+    val runtime: Int? = null,
 
     @SerializedName("status")
-    val status: String?,
+    val status: String? = null,
 
     @SerializedName("tagline")
-    val tagline: String?
+    val tagline: String? = null
 )

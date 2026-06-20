@@ -1,13 +1,11 @@
 package dev.brunofelix.movies.test_util.fake
 
-import dev.brunofelix.movies.core.data.api.dto.MovieRootDto
-import dev.brunofelix.movies.core.data.api.dto.MovieDto
 import dev.brunofelix.movies.core.data.api.paging.MoviePopularPagingSource
 import dev.brunofelix.movies.core.data.api.paging.MovieUpcomingPagingSource
-import dev.brunofelix.movies.core.util.exception.RemoteException
 import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.util.exception.RemoteException
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory
-import retrofit2.Response
 
 class FakeMovieRemoteDataSource : MovieRemoteDataSource {
 
@@ -31,18 +29,18 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPopular(page: Int): Response<MovieRootDto> {
+    override suspend fun getPopular(page: Int): Result<List<Movie>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUpcoming(page: Int): Response<MovieRootDto> {
+    override suspend fun getUpcoming(page: Int): Result<List<Movie>> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getDetails(id: Long): Response<MovieDto> {
+    override suspend fun getDetails(id: Long): Result<Movie> {
         if (shouldReturnError) {
             throw RemoteException(0, null)
         }
-        return Response.success(fakeDataSource.find { it.id == id })
+        return Result.success(Movie())
     }
 }
