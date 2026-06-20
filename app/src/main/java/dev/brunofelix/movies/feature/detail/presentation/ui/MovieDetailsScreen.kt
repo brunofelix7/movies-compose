@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.brunofelix.movies.core.presentation.components.card.MovieCard
+import dev.brunofelix.movies.core.presentation.components.MovieCard
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
-import dev.brunofelix.movies.feature.detail.presentation.components.MovieDetailsContent
 import dev.brunofelix.movies.feature.detail.presentation.components.DetailTopBar
+import dev.brunofelix.movies.feature.detail.presentation.components.MovieDetailsContent
 import dev.brunofelix.movies.feature.detail.presentation.components.MovieDetailsTopBarImage
 import kotlinx.coroutines.flow.StateFlow
 
@@ -27,8 +27,7 @@ fun MovieDetailsScreen(
     uiState: StateFlow<UiState<MovieUiState>>,
     isFavorite: StateFlow<Boolean>,
     onBackClick: () -> Unit,
-    onFavoriteClick: () -> Unit,
-    onHideVoteAverage: () -> Unit
+    onFavoriteClick: () -> Unit
 ) {
     val uiState by uiState.collectAsStateWithLifecycle()
     val isFavorite by isFavorite.collectAsStateWithLifecycle()
@@ -57,8 +56,7 @@ fun MovieDetailsScreen(
         content = { innerPadding ->
             MovieDetailsContent(
                 modifier = modifier.padding(innerPadding),
-                uiState = uiState,
-                onHideVoteAverage = onHideVoteAverage
+                uiState = uiState
             )
         },
         containerColor = Colors.blackPrimary,

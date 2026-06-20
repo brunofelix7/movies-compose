@@ -5,9 +5,7 @@ import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.util.datetime.DateTimeConvert
 import dev.brunofelix.movies.core.util.datetime.DateTimePatterns
 
-fun Movie.toUiState(
-    isVoteVisible: Boolean = true
-): MovieUiState {
+fun Movie.toUiState(): MovieUiState {
     return MovieUiState(
         id = id,
         title = title,
@@ -21,7 +19,6 @@ fun Movie.toUiState(
         ).value,
         voteAverage = voteAverage,
         duration = duration,
-        genres = genres,
-        isVoteAverageVisible = isVoteVisible
+        genres = genres
     )
 }

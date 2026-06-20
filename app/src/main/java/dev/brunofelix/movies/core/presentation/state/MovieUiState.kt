@@ -11,6 +11,5 @@ data class MovieUiState(
     val releaseDate: String = "",
     val voteAverage: Float = 0F,
     val duration: Int = 0,
-    val genres: List<MovieGenre> = emptyList(),
-    val isVoteAverageVisible: Boolean = true
+    val genres: List<MovieGenre> = emptyList()
 )
