@@ -1,6 +1,5 @@
 package dev.brunofelix.movies.feature.favorite.presentation.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +14,6 @@ import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.components.EmptyState
 import dev.brunofelix.movies.core.presentation.components.LoadingState
 import dev.brunofelix.movies.core.presentation.state.UiState
-import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
 @Composable
 fun FavoriteContent(
@@ -26,9 +24,7 @@ fun FavoriteContent(
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier
-            .background(Colors.blackPrimary)
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         when (uiState) {
             is UiState.Loading -> LoadingState()

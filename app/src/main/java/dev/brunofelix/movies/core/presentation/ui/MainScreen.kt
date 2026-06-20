@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import dev.brunofelix.movies.core.presentation.components.navbar.BottomNavBar
+import dev.brunofelix.movies.core.presentation.components.CustomNavBar
 import dev.brunofelix.movies.core.presentation.navigation.MovieNavHost
 import dev.brunofelix.movies.core.presentation.navigation.currentRoute
 
@@ -20,7 +20,7 @@ fun MainScreen(navController: NavHostController) {
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             if (currentRoute(navController)?.contains("DetailsScreen") == false) {
-                BottomNavBar(navController)
+                CustomNavBar(navController)
             }
         },
         content = {
