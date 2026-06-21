@@ -1,10 +1,12 @@
 package dev.brunofelix.movies.feature.detail.presentation.navigation
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import dev.brunofelix.movies.core.presentation.navigation.MovieRoute
 import dev.brunofelix.movies.core.presentation.navigation.enterTransition
 import dev.brunofelix.movies.core.presentation.navigation.exitTransition
@@ -15,7 +17,7 @@ import dev.brunofelix.movies.feature.detail.presentation.ui.MovieDetailsScreen
 import dev.brunofelix.movies.feature.detail.presentation.viewmodel.DetailViewModel
 
 fun NavGraphBuilder.detailNavGraph(
-    navController: NavHostController
+    navController: NavController
 ) {
     composable<MovieRoute.DetailsScreen>(
         enterTransition = enterTransition,
@@ -23,9 +25,14 @@ fun NavGraphBuilder.detailNavGraph(
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition
     ) { backStackEntry ->
+        val detailsScreen = backStackEntry.toRoute<MovieRoute.DetailsScreen>()
         val detailViewModel: DetailViewModel = backStackEntry.sharedViewModel(navController)
         val uiState by detailViewModel.uiState.collectAsStateWithLifecycle()
         val isFavorite by detailViewModel.isFavorite.collectAsStateWithLifecycle()
+
+        LaunchedEffect(detailsScreen.movieId) {
+            detailViewModel.getDetails(detailsScreen.movieId)
+        }
 
         MovieDetailsScreen(
             uiState = uiState,

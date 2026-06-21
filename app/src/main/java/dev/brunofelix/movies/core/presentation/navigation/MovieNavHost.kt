@@ -2,61 +2,26 @@ package dev.brunofelix.movies.core.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.brunofelix.movies.feature.detail.presentation.navigation.detailNavGraph
-import dev.brunofelix.movies.feature.detail.presentation.viewmodel.DetailViewModel
-import dev.brunofelix.movies.feature.favorite.presentation.ui.FavoriteScreen
-import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.FavoriteViewModel
-import dev.brunofelix.movies.feature.popular.presentation.ui.MoviePopularScreen
-import dev.brunofelix.movies.feature.popular.presentation.viewmodel.MoviePopularViewModel
-import dev.brunofelix.movies.feature.upcoming.presentation.ui.MovieUpcomingScreen
-import dev.brunofelix.movies.feature.upcoming.presentation.viewmodel.MovieUpcomingViewModel
+import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteNavGraph
+import dev.brunofelix.movies.feature.popular.presentation.navigation.popularNavGraph
+import dev.brunofelix.movies.feature.upcoming.presentation.navigation.upcomingNavGraph
 
 @Composable
 fun MovieNavHost(
     navController: NavHostController
 ) {
-    val detailViewModel: DetailViewModel = hiltViewModel()
-    val moviePopularViewModel: MoviePopularViewModel = hiltViewModel()
-    val movieUpcomingViewModel: MovieUpcomingViewModel = hiltViewModel()
-    val movieFavoriteViewModel: FavoriteViewModel = hiltViewModel()
-
     NavHost(
         navController = navController,
         startDestination = MovieRoute.PopularScreen
     ) {
-        composable<MovieRoute.PopularScreen> {
-            MoviePopularScreen(
-                uiState = moviePopularViewModel.uiState,
-                onItemClick = { movieId ->
-                    detailViewModel.getDetails(movieId)
-                    navController.navigate(MovieRoute.DetailsScreen(movieId))
-                }
-            )
-        }
-        composable<MovieRoute.UpcomingScreen> {
-            MovieUpcomingScreen(
-                uiState = movieUpcomingViewModel.uiState,
-                onItemClick = { movieId ->
-                    detailViewModel.getDetails(movieId)
-                    navController.navigate(MovieRoute.DetailsScreen(movieId))
-                }
-            )
-        }
+        popularNavGraph(navController)
+        upcomingNavGraph(navController)
         detailNavGraph(navController)
-        composable<MovieRoute.FavoritesScreen> {
-            FavoriteScreen(
-                uiState = movieFavoriteViewModel.uiState,
-                onClick = { movieId ->
-                    detailViewModel.getDetails(movieId)
-                    navController.navigate(MovieRoute.DetailsScreen(movieId))
-                }
-            )
-        }
+        favoriteNavGraph(navController)
     }
 }
 
