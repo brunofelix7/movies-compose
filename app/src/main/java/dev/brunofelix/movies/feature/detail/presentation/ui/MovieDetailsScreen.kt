@@ -6,12 +6,10 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.brunofelix.movies.core.presentation.components.MovieCard
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
@@ -19,19 +17,15 @@ import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 import dev.brunofelix.movies.feature.detail.presentation.components.DetailTopBar
 import dev.brunofelix.movies.feature.detail.presentation.components.MovieDetailsContent
 import dev.brunofelix.movies.feature.detail.presentation.components.MovieDetailsTopBarImage
-import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun MovieDetailsScreen(
     modifier: Modifier = Modifier,
-    uiState: StateFlow<UiState<MovieUiState>>,
-    isFavorite: StateFlow<Boolean>,
+    uiState: UiState<MovieUiState>,
+    isFavorite: Boolean,
     onBackClick: () -> Unit,
     onFavoriteClick: () -> Unit
 ) {
-    val uiState by uiState.collectAsStateWithLifecycle()
-    val isFavorite by isFavorite.collectAsStateWithLifecycle()
-
     Scaffold(
         topBar = {
             Box {
@@ -66,6 +60,11 @@ fun MovieDetailsScreen(
 
 @Preview
 @Composable
-private fun MovieDetailsScreenPreview() {
-
+private fun Preview() {
+    MovieDetailsScreen(
+        uiState = UiState.Success(MovieUiState()),
+        isFavorite = false,
+        onBackClick = {},
+        onFavoriteClick = {}
+    )
 }

@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import dev.brunofelix.movies.feature.detail.presentation.ui.MovieDetailsScreen
+import dev.brunofelix.movies.feature.detail.presentation.navigation.detailNavGraph
 import dev.brunofelix.movies.feature.detail.presentation.viewmodel.DetailViewModel
 import dev.brunofelix.movies.feature.favorite.presentation.ui.FavoriteScreen
 import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.FavoriteViewModel
@@ -47,23 +47,7 @@ fun MovieNavHost(
                 }
             )
         }
-        composable<MovieRoute.DetailsScreen>(
-            enterTransition = enterTransition,
-            exitTransition = exitTransition,
-            popEnterTransition = popEnterTransition,
-            popExitTransition = popExitTransition
-        ) {
-            MovieDetailsScreen(
-                uiState = detailViewModel.uiState,
-                isFavorite = detailViewModel.isFavorite,
-                onBackClick = {
-                    navController.popBackStack()
-                },
-                onFavoriteClick = {
-                    detailViewModel.onFavoriteToggle()
-                }
-            )
-        }
+        detailNavGraph(navController)
         composable<MovieRoute.FavoritesScreen> {
             FavoriteScreen(
                 uiState = movieFavoriteViewModel.uiState,
