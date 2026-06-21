@@ -32,12 +32,12 @@ class FavoriteViewModel @Inject constructor(
             .onStart {
                 _uiState.value = UiState.Loading
             }
-            .catch { e ->
+            .catch { _ ->
                 _uiState.value = UiState.Error(R.string.error)
             }
             .collectLatest { data ->
                 _uiState.value = if (data.isEmpty()) {
-                    UiState.Empty
+                    UiState.Error(R.string.empty_state)
                 } else {
                     UiState.Success(data)
                 }

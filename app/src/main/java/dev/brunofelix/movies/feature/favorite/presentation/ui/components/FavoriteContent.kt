@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.favorite.presentation.components
+package dev.brunofelix.movies.feature.favorite.presentation.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,37 +14,32 @@ import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.components.EmptyState
 import dev.brunofelix.movies.core.presentation.components.LoadingState
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.feature.favorite.presentation.state.FavoriteUiState
 
 @Composable
 fun FavoriteContent(
-    modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
-    uiState: UiState<List<Movie>>,
-    onClick: (id: Long) -> Unit
+    uiState: FavoriteUiState,
+    modifier: Modifier = Modifier
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize()
     ) {
-        when (uiState) {
-            is UiState.Loading -> LoadingState()
+        when (uiState.state) {
             is UiState.Success -> {
                 FavoriteList(
                     paddingValues = paddingValues,
-                    movies = uiState.data,
-                    onClick = onClick
-                )
-            }
-            is UiState.Empty -> {
-                EmptyState(
-                    message = stringResource(R.string.empty_state),
+                    movies = uiState.state.data,
+                    onClick = uiState.onCardClick
                 )
             }
             is UiState.Error -> {
                 EmptyState(
-                    message = stringResource(uiState.messageRes),
+                    message = stringResource(uiState.state.messageRes),
                 )
             }
+            else -> LoadingState()
         }
     }
 }
@@ -53,9 +48,8 @@ fun FavoriteContent(
 @Composable
 private fun FavoriteContentPreviewLoading() {
     FavoriteContent(
-        uiState = UiState.Loading,
-        paddingValues = PaddingValues(0.dp),
-        onClick = { }
+        uiState = FavoriteUiState(),
+        paddingValues = PaddingValues(0.dp)
     )
 }
 
@@ -67,19 +61,10 @@ private fun FavoriteContentPreviewSuccess() {
         Movie(id = 2, title = "Movie 2", posterPath = "")
     )
     FavoriteContent(
-        uiState = UiState.Success(movies),
-        paddingValues = PaddingValues(0.dp),
-        onClick = {}
-    )
-}
-
-@Preview(showBackground = true, name = "Empty State")
-@Composable
-private fun FavoriteContentPreviewEmpty() {
-    FavoriteContent(
-        uiState = UiState.Empty,
-        paddingValues = PaddingValues(0.dp),
-        onClick = {}
+        uiState = FavoriteUiState(
+            state = UiState.Success(movies)
+        ),
+        paddingValues = PaddingValues(0.dp)
     )
 }
 
@@ -87,8 +72,9 @@ private fun FavoriteContentPreviewEmpty() {
 @Composable
 private fun FavoriteContentPreviewError() {
     FavoriteContent(
-        uiState = UiState.Error(R.string.error),
-        paddingValues = PaddingValues(0.dp),
-        onClick = {}
+        uiState = FavoriteUiState(
+            state = UiState.Error(R.string.error)
+        ),
+        paddingValues = PaddingValues(0.dp)
     )
 }

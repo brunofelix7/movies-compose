@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.favorite.presentation.components
+package dev.brunofelix.movies.feature.favorite.presentation.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
