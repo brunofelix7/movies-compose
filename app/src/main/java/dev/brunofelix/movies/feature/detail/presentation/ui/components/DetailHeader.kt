@@ -1,0 +1,68 @@
+package dev.brunofelix.movies.feature.detail.presentation.ui.components
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import dev.brunofelix.movies.core.presentation.components.GradientBackground
+import dev.brunofelix.movies.core.presentation.components.MovieCard
+import dev.brunofelix.movies.core.presentation.state.MovieUiState
+import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
+
+@Composable
+fun DetailHeader(
+    uiState: DetailUiState,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+    ) {
+        DetailTopBarImage(uiState = uiState)
+        DetailTopBar(
+            isFavorite = uiState.isFavorite,
+            onBackClick = uiState.onBack,
+            onFavoriteClick = uiState.onFavorite
+        )
+        (uiState.state as? UiState.Success)?.let {
+            MovieCard(
+                uiState = it.data,
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .fillMaxWidth(0.45F)
+                    .height(220.dp)
+                    .align(Alignment.BottomStart)
+                    .offset(y = 80.dp)
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    Scaffold(
+        topBar = {
+            DetailHeader(
+                uiState = DetailUiState(
+                    state = UiState.Success(MovieUiState()),
+                    isFavorite = false
+                )
+            )
+        },
+        content = { innerPadding ->
+            GradientBackground {
+                Box(
+                    modifier = Modifier.padding(innerPadding)
+                )
+            }
+        }
+    )
+}

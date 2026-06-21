@@ -1,5 +1,6 @@
-package dev.brunofelix.movies.feature.detail.presentation.components
+package dev.brunofelix.movies.feature.detail.presentation.ui.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,12 +33,12 @@ import dev.brunofelix.movies.core.presentation.components.LoadingState
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
+import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
 
 @Composable
-fun MovieDetailsContent(
+fun DetailContent(
     modifier: Modifier = Modifier,
-    uiState: UiState<MovieUiState>,
-    onHideVoteAverage: () -> Unit
+    uiState: DetailUiState
 ) {
     GradientBackground {
         Column(
@@ -42,13 +46,19 @@ fun MovieDetailsContent(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            when (uiState) {
-                is UiState.Loading -> LoadingState()
+            when (uiState.state) {
+                is UiState.Loading -> {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        LoadingState()
+                    }
+                }
                 is UiState.Success -> {
-                    onHideVoteAverage()
                     LazyColumn {
                         item {
-                            Spacer(modifier = Modifier.height(100.dp))
+                            Spacer(modifier = Modifier.height(80.dp))
                         }
                         item {
                             Row {
@@ -57,43 +67,51 @@ fun MovieDetailsContent(
                                 ) {
                                     Column {
                                         Text(
-                                            text = uiState.data.title,
-                                            fontSize = 18.sp,
+                                            text = uiState.state.data.title,
+                                            color = Colors.white,
+                                            fontSize = 22.sp,
                                             fontWeight = FontWeight.SemiBold,
                                             maxLines = 1,
                                             overflow = TextOverflow.Ellipsis,
                                             modifier = Modifier.padding(bottom = 8.dp)
                                         )
                                         Row(
-                                            verticalAlignment = Alignment.CenterVertically
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            modifier = Modifier.fillMaxWidth()
                                         ) {
-                                            Text(
-                                                text = uiState.data.releaseDate,
-                                                fontSize = 14.sp,
-                                                fontWeight = FontWeight.Normal,
-                                                color = Colors.lightGray,
-                                                modifier = Modifier.padding()
+                                            Icon(
+                                                imageVector = Icons.Outlined.CalendarMonth,
+                                                tint = Colors.redPrimary,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(20.dp)
                                             )
                                             Text(
-                                                text = "|",
+                                                text = uiState.state.data.releaseDate,
                                                 fontSize = 14.sp,
                                                 fontWeight = FontWeight.Normal,
                                                 color = Colors.lightGray,
-                                                modifier = Modifier.padding(horizontal = 8.dp)
+                                                modifier = Modifier.padding(start = 4.dp)
+                                            )
+                                            Spacer(Modifier.size(12.dp))
+                                            Icon(
+                                                imageVector = Icons.Outlined.Timer,
+                                                tint = Colors.redPrimary,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(20.dp)
                                             )
                                             Text(
-                                                text = "${uiState.data.duration}min",
+                                                text = "${if (uiState.state.data.duration <= 0) "--" else uiState.state.data.duration}min",
                                                 fontSize = 14.sp,
                                                 fontWeight = FontWeight.Normal,
                                                 color = Colors.lightGray,
-                                                modifier = Modifier.padding()
+                                                modifier = Modifier.padding(start = 4.dp)
                                             )
                                         }
                                         Spacer(Modifier.size(8.dp))
                                         Row(
                                             modifier = Modifier.fillMaxWidth()
                                         ) {
-                                            uiState.data.genres.forEach { category ->
+                                            uiState.state.data.genres.forEach { category ->
                                                 Text(
                                                     text = category.name,
                                                     fontSize = 14.sp,
@@ -108,7 +126,6 @@ fun MovieDetailsContent(
                                     }
                                 }
                             }
-                            Spacer(Modifier.size(16.dp))
                             CustomButton(
                                 text = "Watch Trailer",
                                 icon = Icons.Filled.Movie,
@@ -124,7 +141,8 @@ fun MovieDetailsContent(
                                 modifier = Modifier.padding(bottom = 4.dp, top = 16.dp)
                             )
                             Text(
-                                text = uiState.data.overview,
+                                text = uiState.state.data.overview,
+                                color = Colors.white,
                                 fontWeight = FontWeight.Light,
                                 fontSize = 16.sp,
                                 modifier = Modifier.padding(bottom = 4.dp)
@@ -132,15 +150,9 @@ fun MovieDetailsContent(
                         }
                     }
                 }
-                is UiState.Empty -> {
+                else -> {
                     EmptyState(
                         message = stringResource(R.string.empty_state),
-                        modifier = Modifier.padding(top = 64.dp)
-                    )
-                }
-                is UiState.Error -> {
-                    EmptyState(
-                        message = stringResource(uiState.messageRes),
                         modifier = Modifier.padding(top = 64.dp)
                     )
                 }
@@ -151,9 +163,35 @@ fun MovieDetailsContent(
 
 @Preview
 @Composable
-private fun MovieDetailsContentPreview() {
-    MovieDetailsContent(
-        uiState = UiState.Loading,
-        onHideVoteAverage = {}
+private fun LoadingPreview() {
+    DetailContent(
+        uiState = DetailUiState()
+    )
+}
+
+@Preview
+@Composable
+private fun ErrorPreview() {
+    DetailContent(
+        uiState = DetailUiState(
+            state = UiState.Error(0)
+        )
+    )
+}
+
+@Preview
+@Composable
+private fun SuccessPreview() {
+    DetailContent(
+        uiState = DetailUiState(
+            state = UiState.Success(
+                data = MovieUiState(
+                    title = "Super Mario Galaxy",
+                    releaseDate = "01/04/2026",
+                    duration = 120,
+                    overview = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                )
+            )
+        )
     )
 }

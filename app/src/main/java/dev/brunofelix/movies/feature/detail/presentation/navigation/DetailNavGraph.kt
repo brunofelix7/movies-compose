@@ -13,7 +13,8 @@ import dev.brunofelix.movies.core.presentation.navigation.exitTransition
 import dev.brunofelix.movies.core.presentation.navigation.popEnterTransition
 import dev.brunofelix.movies.core.presentation.navigation.popExitTransition
 import dev.brunofelix.movies.core.presentation.util.extension.sharedViewModel
-import dev.brunofelix.movies.feature.detail.presentation.ui.MovieDetailsScreen
+import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
+import dev.brunofelix.movies.feature.detail.presentation.ui.DetailScreen
 import dev.brunofelix.movies.feature.detail.presentation.viewmodel.DetailViewModel
 
 fun NavGraphBuilder.detailNavGraph(
@@ -24,9 +25,9 @@ fun NavGraphBuilder.detailNavGraph(
         exitTransition = exitTransition,
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition
-    ) { backStackEntry ->
-        val detailsScreen = backStackEntry.toRoute<MovieRoute.DetailsScreen>()
-        val detailViewModel: DetailViewModel = backStackEntry.sharedViewModel(navController)
+    ) {
+        val detailsScreen = it.toRoute<MovieRoute.DetailsScreen>()
+        val detailViewModel: DetailViewModel = it.sharedViewModel(navController)
         val uiState by detailViewModel.uiState.collectAsStateWithLifecycle()
         val isFavorite by detailViewModel.isFavorite.collectAsStateWithLifecycle()
 
@@ -34,15 +35,17 @@ fun NavGraphBuilder.detailNavGraph(
             detailViewModel.getDetails(detailsScreen.movieId)
         }
 
-        MovieDetailsScreen(
-            uiState = uiState,
-            isFavorite = isFavorite,
-            onBackClick = {
-                navController.popBackStack()
-            },
-            onFavoriteClick = {
-                detailViewModel.onFavoriteToggle()
-            }
+        DetailScreen(
+            uiState = DetailUiState(
+                state = uiState,
+                isFavorite = isFavorite,
+                onBack = {
+                    navController.popBackStack()
+                },
+                onFavorite = {
+                    detailViewModel.onFavoriteToggle()
+                }
+            )
         )
     }
 }

@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.detail.presentation.components
+package dev.brunofelix.movies.feature.detail.presentation.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
