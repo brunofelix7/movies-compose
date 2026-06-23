@@ -17,7 +17,7 @@
 
     <!-- Error messages -->
     <string name="error_title">Oops!</string>
-    <string name="error_message">Please, check or internet connection.</string>
+    <string name="error_message">Unable to load the data. Please try again.</string>
 
     <!-- Content descriptions -->
     <string name="navbar_icon">Navbar icon</string>
@@ -25,4 +25,5 @@
     <string name="top_bar_language_icon">Language icon</string>
     <string name="top_bar_favorite_icon">Favorite icon</string>
     <string name="empty_icon">Empty icon</string>
+    <string name="error_icon">Error icon</string>
 </resources>
