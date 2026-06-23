@@ -70,7 +70,7 @@ fun ErrorLayout(
             isOutlined = false,
             modifier = Modifier.fillMaxWidth(0.35F)
         ) {
-            // TODO: Handle click on trailer button
+
         }
     }
 }

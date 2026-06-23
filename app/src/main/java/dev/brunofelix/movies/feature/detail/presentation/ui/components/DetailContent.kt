@@ -129,7 +129,7 @@ fun DetailContent(
                                 icon = Icons.Filled.Movie,
                                 isOutlined = false
                             ) {
-                                // TODO: Handle click on trailer button
+
                             }
                             Text(
                                 text = "Overview",
