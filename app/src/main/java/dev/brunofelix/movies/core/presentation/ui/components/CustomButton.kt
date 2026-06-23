@@ -28,7 +28,7 @@ import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 fun CustomButton(
     modifier: Modifier = Modifier,
     text: String,
-    icon: ImageVector,
+    icon: ImageVector? = null,
     isOutlined: Boolean = true,
     onClick: () -> Unit
 ) {
@@ -44,7 +44,10 @@ fun CustomButton(
                 contentColor = Colors.redPrimary
             )
         ) {
-            ButtonContent(icon = icon, text = text)
+            ButtonContent(
+                icon = icon,
+                text = text
+            )
         }
     } else {
         Button(
@@ -58,26 +61,31 @@ fun CustomButton(
                 contentColor = Colors.white
             )
         ) {
-            ButtonContent(icon = icon, text = text)
+            ButtonContent(
+                icon = icon,
+                text = text
+            )
         }
     }
 }
 
 @Composable
 private fun ButtonContent(
-    icon: ImageVector,
+    icon: ImageVector?,
     text: String
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier.size(20.dp),
-            tint = Colors.white
-        )
+        icon?.let {
+            Icon(
+                imageVector = it,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                tint = Colors.white
+            )
+        }
         Text(
             text = text,
             fontSize = 14.sp,
