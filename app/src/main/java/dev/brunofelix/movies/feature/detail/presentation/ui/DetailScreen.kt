@@ -6,10 +6,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
-import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
+import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
+import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
 import dev.brunofelix.movies.feature.detail.presentation.ui.components.DetailContent
 import dev.brunofelix.movies.feature.detail.presentation.ui.components.DetailHeader
@@ -34,9 +35,7 @@ fun DetailScreen(
                             modifier = modifier.padding(innerPadding)
                         )
                     }
-                    is UiState.Error -> {
-                        // TODO: Add error layout
-                    }
+                    is UiState.Error -> ErrorLayout()
                 }
             }
         )
@@ -60,6 +59,17 @@ private fun SuccessPreview() {
     DetailScreen(
         uiState = DetailUiState(
             state = UiState.Success(MovieUiState()),
+            isFavorite = false
+        )
+    )
+}
+
+@Preview
+@Composable
+private fun ErrorPreview() {
+    DetailScreen(
+        uiState = DetailUiState(
+            state = UiState.Error(0),
             isFavorite = false
         )
     )

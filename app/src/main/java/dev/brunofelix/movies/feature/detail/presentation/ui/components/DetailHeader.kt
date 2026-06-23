@@ -11,10 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
-import dev.brunofelix.movies.core.presentation.ui.components.MovieCard
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
+import dev.brunofelix.movies.core.presentation.ui.components.MovieCard
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
 
 @Composable
@@ -30,6 +30,7 @@ fun DetailHeader(
         }
         DetailTopBar(
             isFavorite = uiState.isFavorite,
+            shouldShowFavorite = uiState.state is UiState.Success,
             onBackClick = uiState.onBack,
             onFavoriteClick = uiState.onFavorite
         )

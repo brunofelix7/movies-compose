@@ -28,6 +28,7 @@ import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 fun DetailTopBar(
     modifier: Modifier = Modifier,
     isFavorite: Boolean,
+    shouldShowFavorite: Boolean = true,
     onBackClick: () -> Unit,
     onFavoriteClick: () -> Unit
 ) {
@@ -54,22 +55,24 @@ fun DetailTopBar(
             }
         },
         actions = {
-            IconButton(
-                onClick = onFavoriteClick,
-                modifier = Modifier.background(
-                    color = Colors.blackPrimary.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(24.dp)
-                )
-            ) {
-                Icon(
-                    imageVector = if (isFavorite) {
-                        Icons.Filled.Favorite
-                    } else {
-                        Icons.Outlined.FavoriteBorder
-                    },
-                    tint = if (isFavorite) Colors.redPrimary else Colors.white,
-                    contentDescription = stringResource(R.string.top_bar_favorite_icon)
-                )
+            if (shouldShowFavorite) {
+                IconButton(
+                    onClick = onFavoriteClick,
+                    modifier = Modifier.background(
+                        color = Colors.blackPrimary.copy(alpha = 0.2f),
+                        shape = RoundedCornerShape(24.dp)
+                    )
+                ) {
+                    Icon(
+                        imageVector = if (isFavorite) {
+                            Icons.Filled.Favorite
+                        } else {
+                            Icons.Outlined.FavoriteBorder
+                        },
+                        tint = if (isFavorite) Colors.redPrimary else Colors.white,
+                        contentDescription = stringResource(R.string.top_bar_favorite_icon)
+                    )
+                }
             }
         },
         modifier = modifier
