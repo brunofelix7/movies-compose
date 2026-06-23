@@ -55,6 +55,6 @@ fun PagingRetry(
 
 @Preview
 @Composable
-fun Preview() {
+private fun Preview() {
     PagingRetry()
 }

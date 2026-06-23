@@ -84,7 +84,7 @@ fun MainContent(
 
 @Preview(showBackground = true)
 @Composable
-private fun MainContentPreview() {
+private fun Preview() {
     MainContent(
         paging = null,
         paddingValues = PaddingValues(),
