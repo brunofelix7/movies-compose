@@ -2,7 +2,7 @@
     <!-- App name -->
     <string name="app_name">Movies</string>
 
-    <!-- Screens -->
+    <!-- General -->
     <string name="release_date">Release Date</string>
     <string name="vote_average">"Average"</string>
     <string name="duration">Duration</string>
@@ -13,6 +13,7 @@
     <string name="favorites">Favorites</string>
     <string name="details">Details</string>
     <string name="search">Search</string>
+    <string name="retry">Retry</string>
 
     <!-- Error messages -->
     <string name="error_title">Oops!</string>
