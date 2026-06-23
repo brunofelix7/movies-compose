@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.presentation.components
+package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar

@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.brunofelix.movies.core.presentation.components.EmptyImage
-import dev.brunofelix.movies.core.presentation.components.LoadingState
+import dev.brunofelix.movies.core.presentation.ui.components.EmptyImage
+import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState

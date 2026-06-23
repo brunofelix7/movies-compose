@@ -11,8 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.presentation.components.EmptyState
-import dev.brunofelix.movies.core.presentation.components.LoadingState
+import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
+import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.feature.favorite.presentation.state.FavoriteUiState
 

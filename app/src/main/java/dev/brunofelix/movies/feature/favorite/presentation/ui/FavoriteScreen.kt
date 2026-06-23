@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
-import dev.brunofelix.movies.core.presentation.components.GradientBackground
+import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.feature.favorite.presentation.state.FavoriteUiState
 import dev.brunofelix.movies.feature.favorite.presentation.ui.components.FavoriteContent
 import dev.brunofelix.movies.feature.favorite.presentation.ui.components.FavoriteHeader

@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.presentation.components
+package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
-import dev.brunofelix.movies.core.presentation.components.state.MovieCardState
+import dev.brunofelix.movies.core.presentation.state.MovieCardUiState
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
 
@@ -34,7 +34,7 @@ fun MovieCard(
     uiState: MovieUiState,
     onClick: (id: Long) -> Unit = {}
 ) {
-    var cardState by remember { mutableStateOf<MovieCardState>(MovieCardState.Loading) }
+    var cardState by remember { mutableStateOf<MovieCardUiState>(MovieCardUiState.Loading) }
     val shape = RoundedCornerShape(16.dp)
 
     Card(
@@ -58,9 +58,9 @@ fun MovieCard(
                     .build(),
                 onState = { state ->
                     cardState = when (state) {
-                        is AsyncImagePainter.State.Success -> MovieCardState.Success
-                        is AsyncImagePainter.State.Loading -> MovieCardState.Loading
-                        else -> MovieCardState.Error
+                        is AsyncImagePainter.State.Success -> MovieCardUiState.Success
+                        is AsyncImagePainter.State.Loading -> MovieCardUiState.Loading
+                        else -> MovieCardUiState.Error
                     }
                 },
                 contentScale = ContentScale.FillBounds,
@@ -76,8 +76,8 @@ fun MovieCard(
                     .padding(12.dp)
             )
             when (cardState) {
-                is MovieCardState.Loading -> LoadingState()
-                is MovieCardState.Error -> EmptyImage()
+                is MovieCardUiState.Loading -> LoadingState()
+                is MovieCardUiState.Error -> EmptyImage()
                 else -> Unit
             }
         }

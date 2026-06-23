@@ -26,10 +26,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.brunofelix.movies.R
-import dev.brunofelix.movies.core.presentation.components.CustomButton
-import dev.brunofelix.movies.core.presentation.components.EmptyState
-import dev.brunofelix.movies.core.presentation.components.GradientBackground
-import dev.brunofelix.movies.core.presentation.components.LoadingState
+import dev.brunofelix.movies.core.presentation.ui.components.CustomButton
+import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
+import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
+import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors

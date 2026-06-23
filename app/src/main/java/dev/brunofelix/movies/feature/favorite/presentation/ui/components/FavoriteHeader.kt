@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.brunofelix.movies.R
-import dev.brunofelix.movies.core.presentation.components.MainTopBar
+import dev.brunofelix.movies.core.presentation.ui.components.MainTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

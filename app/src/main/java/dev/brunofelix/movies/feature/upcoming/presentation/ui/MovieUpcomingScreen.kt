@@ -10,9 +10,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.brunofelix.movies.R
-import dev.brunofelix.movies.core.presentation.components.GradientBackground
-import dev.brunofelix.movies.core.presentation.components.MainContent
-import dev.brunofelix.movies.core.presentation.components.MainTopBar
+import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
+import dev.brunofelix.movies.core.presentation.ui.components.MainContent
+import dev.brunofelix.movies.core.presentation.ui.components.MainTopBar
 import dev.brunofelix.movies.feature.upcoming.presentation.state.MovieUpcomingUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
