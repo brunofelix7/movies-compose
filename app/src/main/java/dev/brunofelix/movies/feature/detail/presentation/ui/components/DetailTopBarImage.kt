@@ -29,7 +29,7 @@ fun DetailTopBarImage(
     modifier: Modifier = Modifier
 ) {
     val backdropPath = remember { mutableStateOf<String?>("") }
-    val shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+    val shape = RoundedCornerShape(bottomStart = 0.dp, bottomEnd = 0.dp)
 
     Box(
         modifier = modifier

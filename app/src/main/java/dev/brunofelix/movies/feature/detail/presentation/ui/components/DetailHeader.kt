@@ -25,7 +25,9 @@ fun DetailHeader(
     Box(
         modifier = modifier
     ) {
-        DetailTopBarImage(uiState = uiState)
+        if (uiState.state is UiState.Success) {
+            DetailTopBarImage(uiState = uiState)
+        }
         DetailTopBar(
             isFavorite = uiState.isFavorite,
             onBackClick = uiState.onBack,
