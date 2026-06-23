@@ -11,12 +11,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 
@@ -64,16 +62,14 @@ fun MainContent(
                             }
                             loadState.refresh is LoadState.Error -> {
                                 item(span = { GridItemSpan(maxLineSpan) }) {
-                                    ErrorView(
-                                        message = stringResource(R.string.error_message),
+                                    PagingRetry(
                                         onRetry = { retry() }
                                     )
                                 }
                             }
                             loadState.append is LoadState.Error -> {
                                 item(span = { GridItemSpan(maxLineSpan) }) {
-                                    ErrorView(
-                                        message = stringResource(R.string.error_title),
+                                    PagingRetry(
                                         onRetry = { retry() }
                                     )
                                 }
@@ -88,7 +84,7 @@ fun MainContent(
 
 @Preview(showBackground = true)
 @Composable
-private fun Preview() {
+private fun MainContentPreview() {
     MainContent(
         paging = null,
         paddingValues = PaddingValues(),
