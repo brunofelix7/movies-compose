@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.feature.detail.presentation.ui.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -55,7 +56,9 @@ fun DetailTopBar(
             }
         },
         actions = {
-            if (shouldShowFavorite) {
+            AnimatedVisibility(
+                visible = shouldShowFavorite
+            ) {
                 IconButton(
                     onClick = onFavoriteClick,
                     modifier = Modifier.background(
