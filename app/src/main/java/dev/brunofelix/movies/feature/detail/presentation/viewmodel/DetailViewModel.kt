@@ -34,18 +34,24 @@ class DetailViewModel @Inject constructor(
 
     private var movieDomain: Movie? = null
 
-    fun getDetails(movieId: Long) = viewModelScope.launch {
-        _uiState.value = UiState.Loading
-        _isFavorite.value = false
+    fun getDetails(movieId: Long) {
+        val currentState = _uiState.value
+        if (currentState is UiState.Success && movieDomain?.id == movieId) {
+            return
+        }
+        viewModelScope.launch {
+            _uiState.value = UiState.Loading
+            _isFavorite.value = false
 
-        when (val result = getMovieDetailsUseCase(movieId)) {
-            is Resource.Success -> {
-                movieDomain = result.data
-                _uiState.value = UiState.Success(result.data.toUiState())
-                _isFavorite.value = isFavoriteMovieUseCase(result.data.id)
-            }
-            is Resource.Error -> {
-                _uiState.value = UiState.Error(R.string.movie_details_error)
+            when (val result = getMovieDetailsUseCase(movieId)) {
+                is Resource.Success -> {
+                    movieDomain = result.data
+                    _uiState.value = UiState.Success(result.data.toUiState())
+                    _isFavorite.value = isFavoriteMovieUseCase(result.data.id)
+                }
+                is Resource.Error -> {
+                    _uiState.value = UiState.Error(R.string.movie_details_error)
+                }
             }
         }
     }
