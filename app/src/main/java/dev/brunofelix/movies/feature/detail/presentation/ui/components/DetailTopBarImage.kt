@@ -49,10 +49,10 @@ fun DetailTopBarImage(
                 .fillMaxHeight(0.35F)
                 .align(Alignment.Center)
         )
-        when (uiState.state) {
+        when (uiState.uiState) {
             is UiState.Loading -> LoadingState()
             is UiState.Success -> {
-                backdropPath.value = uiState.state.data.backdropPath
+                backdropPath.value = uiState.uiState.data.backdropPath
                 if (backdropPath.value?.isEmpty() == true) {
                     EmptyImage()
                 }

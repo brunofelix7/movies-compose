@@ -31,12 +31,14 @@ import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
+import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiActions
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
 
 @Composable
 fun DetailContent(
-    modifier: Modifier = Modifier,
-    uiState: DetailUiState
+    state: DetailUiState,
+    actions: DetailUiActions,
+    modifier: Modifier = Modifier
 ) {
     GradientBackground {
         Column(
@@ -44,7 +46,7 @@ fun DetailContent(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            when (uiState.state) {
+            when (state.uiState) {
                 is UiState.Loading -> {
                     Box(
                         contentAlignment = Alignment.Center,
@@ -65,7 +67,7 @@ fun DetailContent(
                                 ) {
                                     Column {
                                         Text(
-                                            text = uiState.state.data.title,
+                                            text = state.uiState.data.title,
                                             color = Colors.white,
                                             fontSize = 22.sp,
                                             fontWeight = FontWeight.SemiBold,
@@ -84,7 +86,7 @@ fun DetailContent(
                                                 modifier = Modifier.size(20.dp)
                                             )
                                             Text(
-                                                text = uiState.state.data.releaseDate,
+                                                text = state.uiState.data.releaseDate,
                                                 fontSize = 14.sp,
                                                 fontWeight = FontWeight.Normal,
                                                 color = Colors.lightGray,
@@ -98,7 +100,7 @@ fun DetailContent(
                                                 modifier = Modifier.size(20.dp)
                                             )
                                             Text(
-                                                text = "${if (uiState.state.data.duration <= 0) "--" else uiState.state.data.duration}min",
+                                                text = "${if (state.uiState.data.duration <= 0) "--" else state.uiState.data.duration}min",
                                                 fontSize = 14.sp,
                                                 fontWeight = FontWeight.Normal,
                                                 color = Colors.lightGray,
@@ -109,7 +111,7 @@ fun DetailContent(
                                         Row(
                                             modifier = Modifier.fillMaxWidth()
                                         ) {
-                                            uiState.state.data.genres.forEach { category ->
+                                            state.uiState.data.genres.forEach { category ->
                                                 Text(
                                                     text = category.name,
                                                     fontSize = 14.sp,
@@ -127,10 +129,9 @@ fun DetailContent(
                             CustomButton(
                                 text = "Watch Trailer",
                                 icon = Icons.Filled.Movie,
-                                isOutlined = false
-                            ) {
-
-                            }
+                                isOutlined = false,
+                                onClick = actions.onWatchTrailer
+                            )
                             Text(
                                 text = "Overview",
                                 color = Colors.lightGray,
@@ -139,7 +140,7 @@ fun DetailContent(
                                 modifier = Modifier.padding(bottom = 4.dp, top = 16.dp)
                             )
                             Text(
-                                text = uiState.state.data.overview,
+                                text = state.uiState.data.overview,
                                 color = Colors.white,
                                 fontWeight = FontWeight.Light,
                                 fontSize = 16.sp,
@@ -162,7 +163,8 @@ fun DetailContent(
 @Composable
 private fun LoadingPreview() {
     DetailContent(
-        uiState = DetailUiState()
+        state = DetailUiState(),
+        actions = DetailUiActions()
     )
 }
 
@@ -170,9 +172,10 @@ private fun LoadingPreview() {
 @Composable
 private fun ErrorPreview() {
     DetailContent(
-        uiState = DetailUiState(
-            state = UiState.Error(0)
-        )
+        state = DetailUiState(
+            uiState = UiState.Error(0)
+        ),
+        actions = DetailUiActions()
     )
 }
 
@@ -180,8 +183,8 @@ private fun ErrorPreview() {
 @Composable
 private fun SuccessPreview() {
     DetailContent(
-        uiState = DetailUiState(
-            state = UiState.Success(
+        state = DetailUiState(
+            uiState = UiState.Success(
                 data = MovieUiState(
                     title = "Super Mario Galaxy",
                     releaseDate = "01/04/2026",
@@ -189,6 +192,7 @@ private fun SuccessPreview() {
                     overview = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                 )
             )
-        )
+        ),
+        actions = DetailUiActions()
     )
 }

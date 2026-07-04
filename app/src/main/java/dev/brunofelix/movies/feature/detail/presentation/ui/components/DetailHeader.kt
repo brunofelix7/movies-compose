@@ -15,26 +15,28 @@ import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.MovieCard
+import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiActions
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
 
 @Composable
 fun DetailHeader(
-    uiState: DetailUiState,
+    state: DetailUiState,
+    actions: DetailUiActions,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
     ) {
-        if (uiState.state is UiState.Success) {
-            DetailTopBarImage(uiState = uiState)
+        if (state.uiState is UiState.Success) {
+            DetailTopBarImage(uiState = state)
         }
         DetailTopBar(
-            isFavorite = uiState.isFavorite,
-            shouldShowFavorite = uiState.state is UiState.Success,
-            onBackClick = uiState.onBack,
-            onFavoriteClick = uiState.onFavorite
+            isFavorite = state.isFavorite,
+            shouldShowFavorite = state.uiState is UiState.Success,
+            onBackClick = actions.onBack,
+            onFavoriteClick = actions.onFavorite
         )
-        (uiState.state as? UiState.Success)?.let {
+        (state.uiState as? UiState.Success)?.let {
             MovieCard(
                 uiState = it.data,
                 modifier = Modifier
@@ -54,10 +56,11 @@ private fun Preview() {
     Scaffold(
         topBar = {
             DetailHeader(
-                uiState = DetailUiState(
-                    state = UiState.Success(MovieUiState()),
+                state = DetailUiState(
+                    uiState = UiState.Success(MovieUiState()),
                     isFavorite = false
-                )
+                ),
+                actions = DetailUiActions()
             )
         },
         content = { innerPadding ->

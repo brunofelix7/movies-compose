@@ -6,8 +6,12 @@ import dev.brunofelix.movies.core.presentation.state.UiState
 
 @Immutable
 data class DetailUiState(
-    val state: UiState<MovieUiState> = UiState.Loading,
-    val isFavorite: Boolean = false,
+    val uiState: UiState<MovieUiState> = UiState.Loading,
+    val isFavorite: Boolean = false
+)
+
+data class DetailUiActions(
     val onBack: () -> Unit = {},
-    val onFavorite: () -> Unit = {}
+    val onFavorite: () -> Unit = {},
+    val onWatchTrailer: () -> Unit = {}
 )
