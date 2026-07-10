@@ -9,13 +9,13 @@ plugins {
     kotlin("plugin.serialization") version(libs.versions.kotlin)
 }
 
-val apiKeyFile: File? = rootProject.file("apiKey.properties")
+val apiKeyFile: File = rootProject.file("apiKey.properties")
 val properties = Properties()
 properties.load(FileInputStream(apiKeyFile))
 
 android {
     namespace = "dev.brunofelix.movies"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "dev.brunofelix.movies"
@@ -126,6 +126,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
     ksp(libs.androidx.hilt.compiler)
+    ksp(libs.jetbrains.kotlin.metadata.jvm)
 
     // Room
     implementation(libs.androidx.room.ktx)
@@ -143,6 +144,7 @@ dependencies {
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.kotest)
     kspTest(libs.hilt.compiler)
+    kspTest(libs.jetbrains.kotlin.metadata.jvm)
 
     // Android Tests
     androidTestImplementation(libs.androidx.junit)
@@ -156,6 +158,7 @@ dependencies {
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.arch.core.testing)
     kspAndroidTest(libs.hilt.compiler)
+    kspAndroidTest(libs.jetbrains.kotlin.metadata.jvm)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
