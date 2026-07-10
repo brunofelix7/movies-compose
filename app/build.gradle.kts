@@ -60,105 +60,87 @@ kotlin {
     jvmToolchain(17)
 }
 
+// Configuration to share dependencies between Unit and Instrumentation tests
+val testCommon by configurations.creating
+configurations.testImplementation.get().extendsFrom(testCommon)
+configurations.androidTestImplementation.get().extendsFrom(testCommon)
+
 dependencies {
-    // Kotlin Core
+    // AndroidX & Core
     implementation(libs.androidx.core.ktx)
-
-    // App Compat
     implementation(libs.androidx.appcompat)
-
-    // Material 3
-    implementation(libs.material3)
-
-    // Coil
-    implementation(libs.coil.compose)
-
-    // Timber
-    implementation(libs.timber)
-
-    // DataStore
-    implementation(libs.androidx.datastore.preferences)
-
-    // Splash Screen
     implementation(libs.androidx.core.splashscreen)
 
-    // Gson
-    implementation(libs.gson)
-
-    // Kotlin Serialization
-    implementation(libs.kotlinx.serialization.json)
-
     // Jetpack Compose
-    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.accompanist.flowlayout)
+    implementation(libs.material3)
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
-
-    // Paging 3
-    implementation(libs.androidx.paging.runtime.ktx)
-    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.accompanist.flowlayout)
 
     // Lifecycle
-    implementation(libs.lifecycle.viewmodel.compose)
-    implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.runtime.livedata)
-    implementation(libs.jetbrains.kotlinx.coroutines.core)
+    implementation(libs.lifecycle.viewmodel.compose)
 
-    // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-
-    // RxJava | RxAndroid
-    implementation(libs.rxjava)
-    implementation(libs.rxandroid)
-
-    // OkHttp
-    implementation(libs.okhttp)
-    implementation(libs.logging.interceptor)
-
-    // Hilt
+    // DI (Hilt)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
     ksp(libs.androidx.hilt.compiler)
     ksp(libs.jetbrains.kotlin.metadata.jvm)
 
-    // Room
-    implementation(libs.androidx.room.ktx)
+    // Networking & Serialization
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+    implementation(libs.gson)
+    implementation(libs.kotlinx.serialization.json)
+
+    // Coroutines & RxJava
+    implementation(libs.jetbrains.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
+
+    // Storage & Data
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.datastore.preferences)
 
-    // Unit Tests
+    // Third Party Utilities
+    implementation(libs.coil.compose)
+    implementation(libs.timber)
+
+    // --- Testing ---
+
+    // Shared Test Dependencies
+    testCommon(libs.truth)
+    testCommon(libs.mockito.core)
+    testCommon(libs.hilt.android.testing)
+    testCommon(libs.kotlinx.coroutines.test)
+    testCommon(libs.arch.core.testing)
+    
+    // Unit Tests Only
     testImplementation(libs.junit)
-    testImplementation(libs.truth)
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.inline)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.arch.core.testing)
     testImplementation(libs.robolectric)
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.kotest)
-    kspTest(libs.hilt.compiler)
-    kspTest(libs.jetbrains.kotlin.metadata.jvm)
 
-    // Android Tests
+    // Instrumentation Tests Only (Android)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.ui.test.junit4)
     androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.truth)
-    androidTestImplementation(libs.mockito.core)
-    androidTestImplementation(libs.mockito.inline)
-    androidTestImplementation(libs.hilt.android.testing)
-    androidTestImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(libs.arch.core.testing)
-    kspAndroidTest(libs.hilt.compiler)
-    kspAndroidTest(libs.jetbrains.kotlin.metadata.jvm)
+    androidTestImplementation(libs.ui.test.junit4)
+
+    // Debug Tools
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
