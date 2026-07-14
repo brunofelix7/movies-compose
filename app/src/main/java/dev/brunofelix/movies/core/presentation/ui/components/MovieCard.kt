@@ -43,7 +43,7 @@ fun MovieCard(
         border = BorderStroke(2.dp, Colors.white.copy(alpha = 0.2f)),
         modifier = modifier
             .fillMaxWidth()
-            .height(230.dp)
+            .height(180.dp)
     ) {
         Box(
             contentAlignment = Alignment.Center,
@@ -63,7 +63,7 @@ fun MovieCard(
                         else -> MovieCardUiState.Error
                     }
                 },
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Inside,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
