@@ -40,10 +40,10 @@ fun MovieCard(
     Card(
         onClick = { onClick(uiState.id) },
         shape = shape,
-        border = BorderStroke(2.dp, Colors.white.copy(alpha = 0.2f)),
+        border = BorderStroke(1.dp, Colors.white.copy(alpha = 0.2f)),
         modifier = modifier
             .fillMaxWidth()
-            .height(180.dp)
+            .height(150.dp)
     ) {
         Box(
             contentAlignment = Alignment.Center,
@@ -63,7 +63,7 @@ fun MovieCard(
                         else -> MovieCardUiState.Error
                     }
                 },
-                contentScale = ContentScale.Inside,
+                contentScale = ContentScale.Crop,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
