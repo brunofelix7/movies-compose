@@ -20,7 +20,7 @@ import coil.request.ImageRequest
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyImage
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.state.UiState
-import dev.brunofelix.movies.core.presentation.ui.resources.Colors
+import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
 
 @Composable

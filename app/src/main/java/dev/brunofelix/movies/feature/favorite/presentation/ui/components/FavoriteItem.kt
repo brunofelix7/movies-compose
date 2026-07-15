@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.presentation.ui.resources.Colors
+import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 @Composable
 fun FavoriteItem(

@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.presentation.ui.resources
+package dev.brunofelix.movies.core.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

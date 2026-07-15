@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
-import dev.brunofelix.movies.core.presentation.ui.resources.Colors
+import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

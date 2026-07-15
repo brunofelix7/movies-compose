@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import dev.brunofelix.movies.core.presentation.ui.resources.Colors
+import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 @Composable
 fun GradientBackground(

@@ -32,7 +32,8 @@ import dev.brunofelix.movies.core.presentation.ui.components.CustomButton
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
-import dev.brunofelix.movies.core.presentation.ui.resources.Colors
+import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
+import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.core.util.extension.formatDecimal
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiActions
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
@@ -95,6 +96,7 @@ fun DetailContent(
                                                 text = "${if (state.uiState.data.duration <= 0) "--" else state.uiState.data.duration}min"
                                             )
                                         }
+                                        Spacer(Modifier.size(8.dp))
                                         Row(
                                             modifier = Modifier.fillMaxWidth()
                                         ) {

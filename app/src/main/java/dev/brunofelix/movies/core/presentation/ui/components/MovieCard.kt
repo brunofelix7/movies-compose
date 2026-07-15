@@ -25,7 +25,7 @@ import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import dev.brunofelix.movies.core.presentation.state.MovieCardUiState
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
-import dev.brunofelix.movies.core.presentation.ui.resources.Colors
+import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 @Composable
 fun MovieCard(
