@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.detail.presentation.ui.components
+package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
