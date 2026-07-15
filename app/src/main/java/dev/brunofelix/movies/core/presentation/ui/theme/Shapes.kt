@@ -8,7 +8,7 @@ val SmallSpacing = 4.dp
 val MediumSpacing = 8.dp
 val LargeSpacing = 16.dp
 
-val Shapes = Shapes(
+val appShapes = Shapes(
     small = RoundedCornerShape(SmallSpacing),
     medium = RoundedCornerShape(MediumSpacing),
     large = RoundedCornerShape(LargeSpacing)

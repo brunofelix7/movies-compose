@@ -21,16 +21,11 @@ fun PMovieTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
-
+    val colors = if (darkTheme) DarkColorPalette else LightColorPalette
     MaterialTheme(
         colorScheme = colors,
-        typography = Typography,
-        shapes = Shapes,
+        typography = appTypography,
+        shapes = appShapes,
         content = content
     )
 }
