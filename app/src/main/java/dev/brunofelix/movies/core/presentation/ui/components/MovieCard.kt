@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
@@ -68,12 +67,6 @@ fun MovieCard(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Colors.blackPrimary)
-            )
-            MovieRate(
-                rate = uiState.voteAverage,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(12.dp)
             )
             when (cardState) {
                 is MovieCardUiState.Loading -> LoadingState()
