@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.feature.detail.presentation.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,13 +13,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Timer
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +33,7 @@ import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.resources.Colors
+import dev.brunofelix.movies.core.util.extension.formatDecimal
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiActions
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
 
@@ -76,38 +79,22 @@ fun DetailContent(
                                             modifier = Modifier.padding(bottom = 8.dp)
                                         )
                                         Row(
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            modifier = Modifier.fillMaxWidth()
+                                            horizontalArrangement = Arrangement.spacedBy(12.dp)
                                         ) {
-                                            Icon(
-                                                imageVector = Icons.Outlined.CalendarMonth,
-                                                tint = Colors.redPrimary,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(20.dp)
+                                            MovieInfoChip(
+                                                icon = Icons.Default.Star,
+                                                iconTint = Color.Yellow,
+                                                text = if (state.uiState.data.voteAverage <= 0) "--" else state.uiState.data.voteAverage.formatDecimal()
                                             )
-                                            Text(
-                                                text = state.uiState.data.releaseDate,
-                                                fontSize = 14.sp,
-                                                fontWeight = FontWeight.Normal,
-                                                color = Colors.lightGray,
-                                                modifier = Modifier.padding(start = 4.dp)
+                                            MovieInfoChip(
+                                                icon = Icons.Outlined.CalendarMonth,
+                                                text = state.uiState.data.releaseDate
                                             )
-                                            Spacer(Modifier.size(12.dp))
-                                            Icon(
-                                                imageVector = Icons.Outlined.Timer,
-                                                tint = Colors.redPrimary,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(20.dp)
-                                            )
-                                            Text(
-                                                text = "${if (state.uiState.data.duration <= 0) "--" else state.uiState.data.duration}min",
-                                                fontSize = 14.sp,
-                                                fontWeight = FontWeight.Normal,
-                                                color = Colors.lightGray,
-                                                modifier = Modifier.padding(start = 4.dp)
+                                            MovieInfoChip(
+                                                icon = Icons.Outlined.Timer,
+                                                text = "${if (state.uiState.data.duration <= 0) "--" else state.uiState.data.duration}min"
                                             )
                                         }
-                                        Spacer(Modifier.size(8.dp))
                                         Row(
                                             modifier = Modifier.fillMaxWidth()
                                         ) {
@@ -189,6 +176,7 @@ private fun SuccessPreview() {
                     title = "Super Mario Galaxy",
                     releaseDate = "01/04/2026",
                     duration = 120,
+                    voteAverage = 7.5F,
                     overview = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                 )
             )
