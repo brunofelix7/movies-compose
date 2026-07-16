@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Timer
@@ -26,12 +24,12 @@ import androidx.compose.ui.unit.sp
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
-import dev.brunofelix.movies.core.presentation.ui.components.CustomButton
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.components.MovieGenderContainer
 import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
+import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.core.util.extension.formatDecimal
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiActions
@@ -52,73 +50,53 @@ fun DetailContent(
             when (state.uiState) {
                 is UiState.Loading -> LoadingState()
                 is UiState.Success -> {
-                    LazyColumn {
-                        item {
-                            Spacer(modifier = Modifier.height(80.dp))
-                        }
-                        item {
-                            Row {
-                                Column(
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Column {
-                                        Text(
-                                            text = state.uiState.data.title,
-                                            color = Colors.white,
-                                            fontSize = 22.sp,
-                                            fontWeight = FontWeight.SemiBold,
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis,
-                                            modifier = Modifier.padding(bottom = 8.dp)
+                    Column {
+                        Spacer(modifier = Modifier.height(80.dp))
+                        Row {
+                            Column(
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Column {
+                                    Text(
+                                        text = state.uiState.data.title,
+                                        color = Colors.white,
+                                        fontSize = 22.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier.padding(bottom = 8.dp)
+                                    )
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                    ) {
+                                        MovieInfoChip(
+                                            icon = Icons.Default.Star,
+                                            iconTint = Color.Yellow,
+                                            text = if (state.uiState.data.voteAverage <= 0) "--" else state.uiState.data.voteAverage.formatDecimal()
                                         )
-                                        Row(
-                                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                                        ) {
-                                            MovieInfoChip(
-                                                icon = Icons.Default.Star,
-                                                iconTint = Color.Yellow,
-                                                text = if (state.uiState.data.voteAverage <= 0) "--" else state.uiState.data.voteAverage.formatDecimal()
-                                            )
-                                            MovieInfoChip(
-                                                icon = Icons.Outlined.CalendarMonth,
-                                                text = state.uiState.data.releaseDate
-                                            )
-                                            MovieInfoChip(
-                                                icon = Icons.Outlined.Timer,
-                                                text = "${if (state.uiState.data.duration <= 0) "--" else state.uiState.data.duration}min"
-                                            )
-                                        }
-                                        Column(
-                                            modifier = Modifier.padding(vertical = 12.dp)
-                                        ) {
-                                            MovieGenderContainer(
-                                                gendersList = state.uiState.data.genres
-                                            )
-                                        }
+                                        MovieInfoChip(
+                                            icon = Icons.Outlined.CalendarMonth,
+                                            text = state.uiState.data.releaseDate
+                                        )
+                                        MovieInfoChip(
+                                            icon = Icons.Outlined.Timer,
+                                            text = "${if (state.uiState.data.duration <= 0) "--" else state.uiState.data.duration}min"
+                                        )
+                                    }
+                                    Column(
+                                        modifier = Modifier.padding(vertical = 12.dp)
+                                    ) {
+                                        MovieGenderContainer(
+                                            gendersList = state.uiState.data.genres
+                                        )
                                     }
                                 }
                             }
-                            CustomButton(
-                                text = "Watch Trailer",
-                                icon = Icons.Filled.Movie,
-                                isOutlined = false,
-                                onClick = actions.onWatchTrailer
-                            )
-                            Text(
-                                text = "Overview",
-                                color = Colors.lightGray,
-                                fontWeight = FontWeight.Medium,
-                                fontSize = 16.sp,
-                                modifier = Modifier.padding(bottom = 4.dp, top = 16.dp)
-                            )
-                            Text(
-                                text = state.uiState.data.overview,
-                                color = Colors.white,
-                                fontWeight = FontWeight.Light,
-                                fontSize = 16.sp,
-                                modifier = Modifier.padding(bottom = 4.dp)
-                            )
                         }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        MovieOverview(
+                            overview = state.uiState.data.overview
+                        )
                     }
                 }
                 else -> {
