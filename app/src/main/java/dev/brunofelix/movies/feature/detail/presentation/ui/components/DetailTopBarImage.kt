@@ -11,15 +11,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyImage
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
-import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
 
@@ -34,7 +36,18 @@ fun DetailTopBarImage(
     Box(
         modifier = modifier
             .clip(shape)
-            .background(Colors.blackPrimary),
+            .background(Colors.blackPrimary)
+            .drawWithContent {
+                drawContent()
+                val strokeWidth = 0.5.dp.toPx()
+                val y = size.height - strokeWidth / 2
+                drawLine(
+                    color = Colors.white.copy(alpha = 0.2f),
+                    start = Offset(0f, y),
+                    end = Offset(size.width, y),
+                    strokeWidth = strokeWidth
+                )
+            },
         contentAlignment = Alignment.Center
     ) {
         AsyncImage(
