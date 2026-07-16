@@ -34,12 +34,10 @@ fun MovieOverview(
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Colors.blackPrimary.copy(alpha = 0.4f)
+            containerColor = Colors.blackPrimary.copy(alpha = 0.1f)
         ),
-        border = BorderStroke(0.5.dp, Colors.white.copy(alpha = 0.1f)),
-        modifier = modifier
-            .fillMaxWidth()
-            .height(150.dp)
+        border = BorderStroke(1.dp, Colors.white.copy(alpha = 0.1f)),
+        modifier = modifier.fillMaxWidth()
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
