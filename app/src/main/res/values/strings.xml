@@ -14,6 +14,7 @@
     <string name="details">Details</string>
     <string name="search">Search</string>
     <string name="retry">Retry</string>
+    <string name="overview">Overview</string>
 
     <!-- Error messages -->
     <string name="error_title">Oops!</string>
