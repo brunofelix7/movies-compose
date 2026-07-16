@@ -26,7 +26,7 @@ fun LoadingState(
     ) {
         CircularProgressIndicator(
             color = Colors.redPrimary,
-            modifier = modifier.size(40.dp)
+            modifier = modifier.size(36.dp)
         )
     }
 }
