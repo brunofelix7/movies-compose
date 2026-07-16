@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
@@ -62,7 +63,15 @@ private fun LoadingPreview() {
 private fun SuccessPreview() {
     DetailScreen(
         state = DetailUiState(
-            uiState = UiState.Success(MovieUiState()),
+            uiState = UiState.Success(MovieUiState(
+                genres = listOf(
+                    MovieGenre(name = "Action"),
+                    MovieGenre(name = "Adventure"),
+                    MovieGenre(name = "Comedy"),
+                    MovieGenre(name = "Drama"),
+                    MovieGenre(name = "Terror")
+                )
+            )),
             isFavorite = false
         ),
         actions = DetailUiActions()
