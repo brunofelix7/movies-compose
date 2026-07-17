@@ -4,11 +4,12 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -17,10 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
@@ -37,8 +36,7 @@ fun MainTopBar(
             Text(
                 text = title,
                 color = Colors.white,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Medium
+                style = MaterialTheme.typography.titleLarge
             )
         },
         windowInsets = TopAppBarDefaults.windowInsets.add(WindowInsets(top = 8.dp)),
@@ -63,7 +61,7 @@ fun MainTopBar(
             IconButton(
                 content = {
                     Icon(
-                        imageVector = Icons.Filled.Language,
+                        imageVector = Icons.Filled.Settings,
                         tint = Colors.white,
                         contentDescription = stringResource(R.string.top_bar_language_icon)
                     )
@@ -76,7 +74,7 @@ fun MainTopBar(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun Preview() {
     MainTopBar(
