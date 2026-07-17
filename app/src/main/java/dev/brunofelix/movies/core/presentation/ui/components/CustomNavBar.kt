@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -60,7 +61,8 @@ fun CustomNavBar(
                 },
                 label = {
                     Text(
-                        text = currentItem.title
+                        text = currentItem.title,
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 },
                 onClick = {
