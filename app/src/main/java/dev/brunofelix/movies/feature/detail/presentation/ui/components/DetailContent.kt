@@ -31,13 +31,11 @@ import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.core.util.extension.formatDecimal
-import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiActions
-import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
+import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
 
 @Composable
 fun DetailContent(
-    state: DetailUiState,
-    actions: DetailUiActions,
+    state: MovieDetailState,
     modifier: Modifier = Modifier
 ) {
     GradientBackground {
@@ -111,8 +109,7 @@ fun DetailContent(
 @Composable
 private fun LoadingPreview() {
     DetailContent(
-        state = DetailUiState(),
-        actions = DetailUiActions()
+        state = MovieDetailState()
     )
 }
 
@@ -120,10 +117,9 @@ private fun LoadingPreview() {
 @Composable
 private fun ErrorPreview() {
     DetailContent(
-        state = DetailUiState(
+        state = MovieDetailState(
             uiState = UiState.Error(0)
-        ),
-        actions = DetailUiActions()
+        )
     )
 }
 
@@ -131,7 +127,7 @@ private fun ErrorPreview() {
 @Composable
 private fun SuccessPreview() {
     DetailContent(
-        state = DetailUiState(
+        state = MovieDetailState(
             uiState = UiState.Success(
                 data = MovieUiState(
                     title = "Super Mario Galaxy",
@@ -148,7 +144,6 @@ private fun SuccessPreview() {
                     )
                 )
             )
-        ),
-        actions = DetailUiActions()
+        )
     )
 }

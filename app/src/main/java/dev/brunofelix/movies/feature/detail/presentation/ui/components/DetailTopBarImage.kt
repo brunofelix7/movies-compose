@@ -23,11 +23,11 @@ import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyImage
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
-import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
+import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
 
 @Composable
 fun DetailTopBarImage(
-    uiState: DetailUiState,
+    uiState: MovieDetailState,
     modifier: Modifier = Modifier
 ) {
     val backdropPath = remember { mutableStateOf<String?>("") }
@@ -79,6 +79,6 @@ fun DetailTopBarImage(
 @Composable
 private fun Preview() {
     DetailTopBarImage(
-        uiState = DetailUiState()
+        uiState = MovieDetailState()
     )
 }

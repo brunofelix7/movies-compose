@@ -12,22 +12,20 @@ import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
-import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiActions
-import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
+import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
 import dev.brunofelix.movies.feature.detail.presentation.ui.components.DetailContent
 import dev.brunofelix.movies.feature.detail.presentation.ui.components.DetailHeader
 
 @Composable
 fun DetailScreen(
-    state: DetailUiState,
-    actions: DetailUiActions,
+    state: MovieDetailState,
     modifier: Modifier = Modifier
 ) {
     GradientBackground {
         Scaffold(
             containerColor = Color.Transparent,
             topBar = {
-                DetailHeader(state, actions)
+                DetailHeader(state)
             },
             content = { innerPadding ->
                 when (state.uiState) {
@@ -35,7 +33,6 @@ fun DetailScreen(
                     is UiState.Success -> {
                         DetailContent(
                             state = state,
-                            actions = actions,
                             modifier = modifier.padding(innerPadding)
                         )
                     }
@@ -50,11 +47,10 @@ fun DetailScreen(
 @Composable
 private fun LoadingPreview() {
     DetailScreen(
-        state = DetailUiState(
+        state = MovieDetailState(
             uiState = UiState.Loading,
             isFavorite = false
-        ),
-        actions = DetailUiActions()
+        )
     )
 }
 
@@ -62,7 +58,7 @@ private fun LoadingPreview() {
 @Composable
 private fun SuccessPreview() {
     DetailScreen(
-        state = DetailUiState(
+        state = MovieDetailState(
             uiState = UiState.Success(MovieUiState(
                 genres = listOf(
                     MovieGenre(name = "Action"),
@@ -73,8 +69,7 @@ private fun SuccessPreview() {
                 )
             )),
             isFavorite = false
-        ),
-        actions = DetailUiActions()
+        )
     )
 }
 
@@ -82,10 +77,9 @@ private fun SuccessPreview() {
 @Composable
 private fun ErrorPreview() {
     DetailScreen(
-        state = DetailUiState(
+        state = MovieDetailState(
             uiState = UiState.Error(0),
             isFavorite = false
-        ),
-        actions = DetailUiActions()
+        )
     )
 }
