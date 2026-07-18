@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
-import dev.brunofelix.movies.feature.detail.presentation.navigation.detailNavGraph
+import dev.brunofelix.movies.feature.detail.presentation.navigation.movieDetailGraph
 import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteNavGraph
 import dev.brunofelix.movies.feature.popular.presentation.navigation.popularNavGraph
 import dev.brunofelix.movies.feature.upcoming.presentation.navigation.upcomingNavGraph
@@ -20,7 +20,7 @@ fun MovieNavHost(
     ) {
         popularNavGraph(navController)
         upcomingNavGraph(navController)
-        detailNavGraph(navController)
+        movieDetailGraph(navController)
         favoriteNavGraph(navController)
     }
 }

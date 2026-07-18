@@ -19,7 +19,7 @@ import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
 import dev.brunofelix.movies.feature.detail.presentation.ui.DetailScreen
 import dev.brunofelix.movies.feature.detail.presentation.viewmodel.DetailViewModel
 
-fun NavGraphBuilder.detailNavGraph(
+fun NavGraphBuilder.movieDetailGraph(
     navController: NavController
 ) {
     composable<MovieRoute.DetailsScreen>(
