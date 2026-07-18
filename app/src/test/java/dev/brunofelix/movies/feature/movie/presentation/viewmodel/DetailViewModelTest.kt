@@ -8,10 +8,6 @@ import dev.brunofelix.movies.core.data.api.mapper.toDomain
 import dev.brunofelix.movies.core.data.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
-import dev.brunofelix.movies.feature.detail.domain.use_case.DeleteMovieUseCase
-import dev.brunofelix.movies.feature.detail.domain.use_case.GetMovieDetailsUseCase
-import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCase
-import dev.brunofelix.movies.feature.detail.domain.use_case.SaveMovieUseCase
 import dev.brunofelix.movies.feature.detail.presentation.viewmodel.DetailViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory
