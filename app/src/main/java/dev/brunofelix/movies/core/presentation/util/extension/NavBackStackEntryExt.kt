@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 inline fun <reified T: ViewModel> NavBackStackEntry.sharedViewModel(
     navController: NavController
 ): T {
-    val navGraphRoute = destination.parent?.route ?: return hiltViewModel()
+    val navGraphRoute = destination.parent?.id ?: return hiltViewModel()
     val parentEntry = remember(this) { navController.getBackStackEntry(navGraphRoute) }
     return hiltViewModel(parentEntry)
 }
