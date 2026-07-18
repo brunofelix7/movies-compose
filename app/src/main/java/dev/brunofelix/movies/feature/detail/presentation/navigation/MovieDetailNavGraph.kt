@@ -14,8 +14,7 @@ import dev.brunofelix.movies.core.presentation.navigation.exitTransition
 import dev.brunofelix.movies.core.presentation.navigation.popEnterTransition
 import dev.brunofelix.movies.core.presentation.navigation.popExitTransition
 import dev.brunofelix.movies.core.presentation.util.extension.sharedViewModel
-import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiActions
-import dev.brunofelix.movies.feature.detail.presentation.state.DetailUiState
+import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
 import dev.brunofelix.movies.feature.detail.presentation.ui.DetailScreen
 import dev.brunofelix.movies.feature.detail.presentation.viewmodel.DetailViewModel
 
@@ -32,19 +31,21 @@ fun NavGraphBuilder.movieDetailGraph(
         val detailViewModel: DetailViewModel = it.sharedViewModel(navController)
         val uiState by detailViewModel.uiState.collectAsStateWithLifecycle()
         val isFavorite by detailViewModel.isFavorite.collectAsStateWithLifecycle()
+        val onBack = remember<() -> Unit> { { navController.popBackStack() } }
+        val onFavorite = remember<() -> Unit> { { detailViewModel.onFavoriteToggle() } }
+        val onWatchTrailer = remember<() -> Unit> { { /* chamar lógica do trailer */ } }
         val state = remember(uiState, isFavorite) {
-            DetailUiState(uiState, isFavorite)
-        }
-        val actions = remember(navController, detailViewModel) {
-            DetailUiActions(
-                onBack = { navController.popBackStack() },
-                onFavorite = { detailViewModel.onFavoriteToggle() },
-                onWatchTrailer = { /* chamar lógica do trailer */ }
+            MovieDetailState(
+                uiState = uiState,
+                isFavorite = isFavorite,
+                onBack = onBack,
+                onFavorite = onFavorite,
+                onWatchTrailer = onWatchTrailer
             )
         }
         LaunchedEffect(detailsScreen.movieId) {
             detailViewModel.getDetails(detailsScreen.movieId)
         }
-        DetailScreen(state, actions)
+        DetailScreen(state)
     }
 }
