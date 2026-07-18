@@ -16,7 +16,7 @@ fun MovieNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = MovieRoute.PopularScreen
+        startDestination = MovieDestination.Populars
     ) {
         popularNavGraph(navController)
         upcomingNavGraph(navController)

@@ -8,24 +8,24 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class CustomNavBarItem(
     val title: String,
-    val route: MovieRoute,
+    val route: MovieDestination,
     val icon: ImageVector
 ) {
     data object Popular: CustomNavBarItem(
         title = "Populars",
-        route = MovieRoute.PopularScreen,
+        route = MovieDestination.Populars,
         icon = Icons.Default.Movie,
     )
 
     data object Upcoming: CustomNavBarItem(
         title = "Upcoming",
-        route = MovieRoute.UpcomingScreen,
+        route = MovieDestination.Upcoming,
         icon = Icons.Default.DateRange
     )
 
     data object Favorite: CustomNavBarItem(
         title = "Favorites",
-        route = MovieRoute.FavoritesScreen,
+        route = MovieDestination.Favorites,
         icon = Icons.Default.Favorite
     )
 }
