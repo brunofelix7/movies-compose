@@ -9,6 +9,10 @@ import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.feature.detail.domain.use_case.DeleteMovieUseCase
+import dev.brunofelix.movies.feature.detail.domain.use_case.GetMovieDetailsUseCase
+import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCase
+import dev.brunofelix.movies.feature.detail.domain.use_case.SaveMovieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
