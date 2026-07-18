@@ -18,10 +18,25 @@ fun MovieNavHost(
         navController = navController,
         startDestination = MovieDestination.Populars
     ) {
-        popularNavGraph(navController)
-        upcomingNavGraph(navController)
-        movieDetailGraph(navController)
-        favoriteNavGraph(navController)
+        // Popular Graph
+        popularNavGraph(
+            navController = navController
+        )
+
+        // Upcoming Graph
+        upcomingNavGraph(
+            navController = navController
+        )
+
+        // Movie Detail Graph
+        movieDetailGraph(
+            navController = navController
+        )
+
+        // Favorite Graph
+        favoriteNavGraph(
+            navController = navController
+        )
     }
 }
 
