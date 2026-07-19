@@ -133,6 +133,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.kotest)
+    testImplementation(libs.mockk)
 
     // Instrumentation Tests Only (Android)
     androidTestImplementation(libs.androidx.junit)
