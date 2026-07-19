@@ -8,23 +8,24 @@ import dev.brunofelix.movies.core.data.api.mapper.toDomain
 import dev.brunofelix.movies.core.data.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.feature.detail.domain.use_case.DeleteMovieUseCase
+import dev.brunofelix.movies.feature.detail.domain.use_case.GetMovieDetailsUseCase
+import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCase
+import dev.brunofelix.movies.feature.detail.domain.use_case.SaveMovieUseCase
 import dev.brunofelix.movies.feature.detail.presentation.viewmodel.MovieDetailViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory
 import dev.brunofelix.movies.test_util.fake.FakeMovie
 import dev.brunofelix.movies.test_util.getOrAwaitValueTest
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
 class MovieDetailViewModelTest {
 
     @get:Rule
@@ -33,17 +34,10 @@ class MovieDetailViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @Mock
-    lateinit var getMovieDetailsUseCase: GetMovieDetailsUseCase
-
-    @Mock
-    lateinit var saveMovieUseCase: SaveMovieUseCase
-
-    @Mock
-    lateinit var isFavoriteMovieUseCase: IsFavoriteMovieUseCase
-
-    @Mock
-    lateinit var deleteMovieUseCase: DeleteMovieUseCase
+    val getMovieDetailsUseCase = mockk<GetMovieDetailsUseCase>()
+    val saveMovieUseCase = mockk<SaveMovieUseCase>()
+    val isFavoriteMovieUseCase = mockk<IsFavoriteMovieUseCase>()
+    val deleteMovieUseCase = mockk<DeleteMovieUseCase>()
 
     private lateinit var viewModel: MovieDetailViewModel
 
@@ -64,8 +58,8 @@ class MovieDetailViewModelTest {
         val movieUiState = movie.toUiState()
         val expectedState = UiState.Success(movieUiState)
 
-        `when`(getMovieDetailsUseCase(1)).thenReturn(Resource.Success(movie))
-        `when`(isFavoriteMovieUseCase(movie.id)).thenReturn(false)
+        coEvery { getMovieDetailsUseCase(1) } returns Resource.Success(movie)
+        coEvery { isFavoriteMovieUseCase(movie.id) } returns false
 
         // Act
         viewModel.getDetails(1)
@@ -79,7 +73,7 @@ class MovieDetailViewModelTest {
     fun `when GetMovieDetailsUseCase get error, then returns state 'Error' in uiState`() = runTest {
         // Arrange
         val expectedState = UiState.Error(R.string.movie_details_error)
-        `when`(getMovieDetailsUseCase(1)).thenReturn(Resource.Error(Exception("Error")))
+        coEvery { getMovieDetailsUseCase(1) } returns Resource.Error(Exception("Error"))
 
         // Act
         viewModel.getDetails(1)

@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.test_util.fake
 
+import dev.brunofelix.movies.core.data.api.mapper.toDomain
 import dev.brunofelix.movies.core.data.api.paging.MoviePopularPagingSource
 import dev.brunofelix.movies.core.data.api.paging.MovieUpcomingPagingSource
 import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
@@ -39,8 +40,13 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
 
     override suspend fun getDetails(id: Long): Result<Movie> {
         if (shouldReturnError) {
-            throw RemoteException(0, null)
+            return Result.failure(RemoteException(0, null))
         }
-        return Result.success(Movie())
+        val movieDto = fakeDataSource.find { it.id == id }
+        return if (movieDto != null) {
+            Result.success(movieDto.toDomain())
+        } else {
+            Result.failure(NoSuchElementException("Movie not found"))
+        }
     }
 }
