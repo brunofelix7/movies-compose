@@ -1,21 +1,15 @@
 package dev.brunofelix.movies.core.presentation.ui
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -41,23 +35,10 @@ fun MainScreen(
             }
         },
         content = { innerPadding ->
-            val systemNavigationPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-            val animatedBottomPadding by animateDpAsState(
-                targetValue = if (isBottomBarVisible) {
-                    innerPadding.calculateBottomPadding()
-                } else {
-                    systemNavigationPadding
-                },
-                animationSpec = tween(durationMillis = 300),
-                label = "BottomBarPadding"
-            )
             MovieNavHost(
-                modifier = Modifier.padding(
-                    top = 0.dp,
-                    bottom = animatedBottomPadding
-                ),
                 innerPadding = innerPadding,
-                navController = navController)
+                navController = navController
+            )
         }
     )
 }
