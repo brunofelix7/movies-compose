@@ -34,7 +34,7 @@ import dev.brunofelix.movies.core.util.extension.formatDecimal
 import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
 
 @Composable
-fun DetailContent(
+fun MovieDetailContent(
     state: MovieDetailState,
     modifier: Modifier = Modifier
 ) {
@@ -108,7 +108,7 @@ fun DetailContent(
 @Preview
 @Composable
 private fun LoadingPreview() {
-    DetailContent(
+    MovieDetailContent(
         state = MovieDetailState()
     )
 }
@@ -116,7 +116,7 @@ private fun LoadingPreview() {
 @Preview
 @Composable
 private fun ErrorPreview() {
-    DetailContent(
+    MovieDetailContent(
         state = MovieDetailState(
             uiState = UiState.Error(0)
         )
@@ -126,7 +126,7 @@ private fun ErrorPreview() {
 @Preview
 @Composable
 private fun SuccessPreview() {
-    DetailContent(
+    MovieDetailContent(
         state = MovieDetailState(
             uiState = UiState.Success(
                 data = MovieUiState(

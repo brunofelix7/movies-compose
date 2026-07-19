@@ -26,7 +26,7 @@ import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailTopBar(
+fun MovieDetailTopBar(
     modifier: Modifier = Modifier,
     isFavorite: Boolean,
     shouldShowFavorite: Boolean = true,
@@ -91,7 +91,7 @@ fun DetailTopBar(
 @Preview
 @Composable
 private fun Preview() {
-    DetailTopBar(
+    MovieDetailTopBar(
         isFavorite = true,
         onBackClick = {},
         onFavoriteClick = {}

@@ -26,7 +26,7 @@ import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
 
 @Composable
-fun DetailTopBarImage(
+fun MovieDetailTopBarImage(
     uiState: MovieDetailState,
     modifier: Modifier = Modifier
 ) {
@@ -78,7 +78,7 @@ fun DetailTopBarImage(
 @Preview
 @Composable
 private fun Preview() {
-    DetailTopBarImage(
+    MovieDetailTopBarImage(
         uiState = MovieDetailState()
     )
 }

@@ -18,7 +18,7 @@ import dev.brunofelix.movies.core.presentation.ui.components.MovieCard
 import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
 
 @Composable
-fun DetailHeader(
+fun MovieDetailHeader(
     state: MovieDetailState,
     modifier: Modifier = Modifier
 ) {
@@ -26,9 +26,9 @@ fun DetailHeader(
         modifier = modifier
     ) {
         if (state.uiState is UiState.Success) {
-            DetailTopBarImage(uiState = state)
+            MovieDetailTopBarImage(uiState = state)
         }
-        DetailTopBar(
+        MovieDetailTopBar(
             isFavorite = state.isFavorite,
             shouldShowFavorite = state.uiState is UiState.Success,
             onBackClick = state.onBack,
@@ -53,7 +53,7 @@ fun DetailHeader(
 private fun Preview() {
     Scaffold(
         topBar = {
-            DetailHeader(
+            MovieDetailHeader(
                 state = MovieDetailState(
                     uiState = UiState.Success(MovieUiState()),
                     isFavorite = false
