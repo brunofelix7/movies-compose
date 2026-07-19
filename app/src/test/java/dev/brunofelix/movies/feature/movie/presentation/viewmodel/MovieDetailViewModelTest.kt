@@ -8,7 +8,7 @@ import dev.brunofelix.movies.core.data.api.mapper.toDomain
 import dev.brunofelix.movies.core.data.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
-import dev.brunofelix.movies.feature.detail.presentation.viewmodel.DetailViewModel
+import dev.brunofelix.movies.feature.detail.presentation.viewmodel.MovieDetailViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory
 import dev.brunofelix.movies.test_util.fake.FakeMovie
@@ -25,7 +25,7 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class DetailViewModelTest {
+class MovieDetailViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -45,11 +45,11 @@ class DetailViewModelTest {
     @Mock
     lateinit var deleteMovieUseCase: DeleteMovieUseCase
 
-    private lateinit var viewModel: DetailViewModel
+    private lateinit var viewModel: MovieDetailViewModel
 
     @Before
     fun setUp() {
-        viewModel = DetailViewModel(
+        viewModel = MovieDetailViewModel(
             getMovieDetailsUseCase,
             saveMovieUseCase,
             isFavoriteMovieUseCase,
