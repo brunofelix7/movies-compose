@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import dev.brunofelix.movies.feature.detail.presentation.navigation.movieDetailGraph
-import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteNavGraph
+import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteGraph
 import dev.brunofelix.movies.feature.popular.presentation.navigation.popularNavGraph
 import dev.brunofelix.movies.feature.upcoming.presentation.navigation.upcomingNavGraph
 
@@ -37,7 +37,7 @@ fun MovieNavHost(
         )
 
         // Favorite Graph
-        favoriteNavGraph(
+        favoriteGraph(
             navController = navController
         )
     }
