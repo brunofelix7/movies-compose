@@ -9,14 +9,14 @@ import dev.brunofelix.movies.core.presentation.navigation.MovieDestination
 import dev.brunofelix.movies.core.presentation.util.extension.sharedViewModel
 import dev.brunofelix.movies.feature.favorite.presentation.state.MovieFavoriteState
 import dev.brunofelix.movies.feature.favorite.presentation.ui.MovieFavoriteScreen
-import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.FavoriteViewModel
+import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.MovieFavoriteViewModel
 
 fun NavGraphBuilder.favoriteGraph(
     navController: NavController
 ) {
     composable<MovieDestination.Favorites> {
-        val favoriteViewModel: FavoriteViewModel = it.sharedViewModel(navController)
-        val uiState by favoriteViewModel.uiState.collectAsStateWithLifecycle()
+        val viewModel: MovieFavoriteViewModel = it.sharedViewModel(navController)
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         MovieFavoriteScreen(
             state = MovieFavoriteState(
