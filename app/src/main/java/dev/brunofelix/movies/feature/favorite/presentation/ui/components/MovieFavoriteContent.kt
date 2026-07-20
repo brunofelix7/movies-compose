@@ -13,12 +13,12 @@ import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
-import dev.brunofelix.movies.feature.favorite.presentation.state.FavoriteState
+import dev.brunofelix.movies.feature.favorite.presentation.state.MovieFavoriteState
 
 @Composable
-fun FavoriteContent(
+fun MovieFavoriteContent(
     paddingValues: PaddingValues,
-    state: FavoriteState,
+    state: MovieFavoriteState,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -28,7 +28,7 @@ fun FavoriteContent(
         when (state.uiState) {
             is UiState.Loading -> LoadingState()
             is UiState.Success -> {
-                FavoriteList(
+                MovieFavoriteList(
                     paddingValues = paddingValues,
                     movies = state.uiState.data,
                     onClick = state.onCardClick
@@ -41,22 +41,22 @@ fun FavoriteContent(
 
 @Preview(showBackground = true, name = "Loading State")
 @Composable
-private fun FavoriteContentPreviewLoading() {
-    FavoriteContent(
-        state = FavoriteState(),
+private fun LoadingPreview() {
+    MovieFavoriteContent(
+        state = MovieFavoriteState(),
         paddingValues = PaddingValues(0.dp)
     )
 }
 
 @Preview(showBackground = true, name = "Success State")
 @Composable
-private fun FavoriteContentPreviewSuccess() {
+private fun SuccessPreview() {
     val movies = listOf(
         Movie(id = 1, title = "Movie 1", posterPath = ""),
         Movie(id = 2, title = "Movie 2", posterPath = "")
     )
-    FavoriteContent(
-        state = FavoriteState(
+    MovieFavoriteContent(
+        state = MovieFavoriteState(
             uiState = UiState.Success(movies)
         ),
         paddingValues = PaddingValues(0.dp)
@@ -65,9 +65,9 @@ private fun FavoriteContentPreviewSuccess() {
 
 @Preview(showBackground = true, name = "Error State")
 @Composable
-private fun FavoriteContentPreviewError() {
-    FavoriteContent(
-        state = FavoriteState(
+private fun ErrorPreview() {
+    MovieFavoriteContent(
+        state = MovieFavoriteState(
             uiState = UiState.Error(R.string.error)
         ),
         paddingValues = PaddingValues(0.dp)

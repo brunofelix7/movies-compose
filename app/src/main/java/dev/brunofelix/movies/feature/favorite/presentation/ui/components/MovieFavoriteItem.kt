@@ -26,7 +26,7 @@ import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 @Composable
-fun FavoriteItem(
+fun MovieFavoriteItem(
     modifier: Modifier = Modifier,
     movie: Movie,
     onClick: (id: Long) -> Unit
@@ -79,8 +79,8 @@ fun FavoriteItem(
 
 @Preview(showBackground = true)
 @Composable
-private fun FavoriteItemPreview() {
-    FavoriteItem(
+private fun SuccessPreview() {
+    MovieFavoriteItem(
         movie = Movie(
             id = 1,
             title = "Title",

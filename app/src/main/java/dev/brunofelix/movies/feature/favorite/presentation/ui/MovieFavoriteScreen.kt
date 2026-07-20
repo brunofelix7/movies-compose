@@ -11,14 +11,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
-import dev.brunofelix.movies.feature.favorite.presentation.state.FavoriteState
-import dev.brunofelix.movies.feature.favorite.presentation.ui.components.FavoriteContent
-import dev.brunofelix.movies.feature.favorite.presentation.ui.components.FavoriteHeader
+import dev.brunofelix.movies.feature.favorite.presentation.state.MovieFavoriteState
+import dev.brunofelix.movies.feature.favorite.presentation.ui.components.MovieFavoriteContent
+import dev.brunofelix.movies.feature.favorite.presentation.ui.components.MovieFavoriteHeader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteScreen(
-    state: FavoriteState,
+fun MovieFavoriteScreen(
+    state: MovieFavoriteState,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -28,10 +28,10 @@ fun FavoriteScreen(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             containerColor = Color.Transparent,
             topBar = {
-                FavoriteHeader(scrollBehavior)
+                MovieFavoriteHeader(scrollBehavior)
             },
             content = { innerPadding ->
-                FavoriteContent(
+                MovieFavoriteContent(
                     modifier = modifier,
                     paddingValues = innerPadding,
                     state = state
@@ -44,16 +44,16 @@ fun FavoriteScreen(
 @Preview
 @Composable
 private fun LoadingPreview() {
-    FavoriteScreen(
-        state = FavoriteState()
+    MovieFavoriteScreen(
+        state = MovieFavoriteState()
     )
 }
 
 @Preview
 @Composable
 private fun SuccessPreview() {
-    FavoriteScreen(
-        state = FavoriteState(
+    MovieFavoriteScreen(
+        state = MovieFavoriteState(
             uiState = UiState.Success(
                 data = listOf(
                     Movie(id = 1, title = "Movie 1", posterPath = ""),
@@ -67,8 +67,8 @@ private fun SuccessPreview() {
 @Preview
 @Composable
 private fun ErrorPreview() {
-    FavoriteScreen(
-        state = FavoriteState(
+    MovieFavoriteScreen(
+        state = MovieFavoriteState(
             uiState = UiState.Error(0)
         )
     )

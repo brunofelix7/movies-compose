@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.core.domain.model.Movie
 
 @Composable
-fun FavoriteList(
+fun MovieFavoriteList(
     modifier: Modifier = Modifier,
     movies: List<Movie>,
     paddingValues: PaddingValues,
@@ -27,7 +27,7 @@ fun FavoriteList(
                 items = movies,
                 key = { item: Movie -> item.id }
             ) { movie ->
-                FavoriteItem (
+                MovieFavoriteItem (
                     movie = movie,
                     onClick = {
                         onClick(movie.id)
@@ -40,12 +40,12 @@ fun FavoriteList(
 
 @Preview
 @Composable
-private fun FavoriteListPreview() {
+private fun SuccessPreview() {
     val movies = listOf(
         Movie(id = 1, title = "Movie 1", posterPath = ""),
         Movie(id = 2, title = "Movie 2", posterPath = "")
     )
-    FavoriteList(
+    MovieFavoriteList(
         movies = movies,
         paddingValues = PaddingValues(8.dp),
         onClick = { }

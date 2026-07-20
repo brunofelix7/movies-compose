@@ -12,7 +12,7 @@ import dev.brunofelix.movies.core.presentation.ui.components.MainTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteHeader(
+fun MovieFavoriteHeader(
     scrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
@@ -27,7 +27,7 @@ fun FavoriteHeader(
 @Preview
 @Composable
 private fun Preview() {
-    FavoriteHeader(
+    MovieFavoriteHeader(
         scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
         modifier = Modifier
     )
