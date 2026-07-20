@@ -7,11 +7,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import dev.brunofelix.movies.core.presentation.navigation.MovieDestination
 import dev.brunofelix.movies.core.presentation.util.extension.sharedViewModel
-import dev.brunofelix.movies.feature.favorite.presentation.state.FavoriteUiState
+import dev.brunofelix.movies.feature.favorite.presentation.state.FavoriteState
 import dev.brunofelix.movies.feature.favorite.presentation.ui.FavoriteScreen
 import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.FavoriteViewModel
 
-fun NavGraphBuilder.favoriteNavGraph(
+fun NavGraphBuilder.favoriteGraph(
     navController: NavController
 ) {
     composable<MovieDestination.Favorites> {
@@ -19,8 +19,8 @@ fun NavGraphBuilder.favoriteNavGraph(
         val uiState by favoriteViewModel.uiState.collectAsStateWithLifecycle()
 
         FavoriteScreen(
-            uiState = FavoriteUiState(
-                state = uiState,
+            state = FavoriteState(
+                uiState = uiState,
                 onCardClick = { movieId ->
                     navController.navigate(MovieDestination.Details(movieId))
                 }

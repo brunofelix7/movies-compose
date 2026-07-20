@@ -13,25 +13,25 @@ import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
-import dev.brunofelix.movies.feature.favorite.presentation.state.FavoriteUiState
+import dev.brunofelix.movies.feature.favorite.presentation.state.FavoriteState
 
 @Composable
 fun FavoriteContent(
     paddingValues: PaddingValues,
-    uiState: FavoriteUiState,
+    state: FavoriteState,
     modifier: Modifier = Modifier
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize()
     ) {
-        when (uiState.state) {
+        when (state.uiState) {
             is UiState.Loading -> LoadingState()
             is UiState.Success -> {
                 FavoriteList(
                     paddingValues = paddingValues,
-                    movies = uiState.state.data,
-                    onClick = uiState.onCardClick
+                    movies = state.uiState.data,
+                    onClick = state.onCardClick
                 )
             }
             is UiState.Error -> ErrorLayout()
@@ -43,7 +43,7 @@ fun FavoriteContent(
 @Composable
 private fun FavoriteContentPreviewLoading() {
     FavoriteContent(
-        uiState = FavoriteUiState(),
+        state = FavoriteState(),
         paddingValues = PaddingValues(0.dp)
     )
 }
@@ -56,8 +56,8 @@ private fun FavoriteContentPreviewSuccess() {
         Movie(id = 2, title = "Movie 2", posterPath = "")
     )
     FavoriteContent(
-        uiState = FavoriteUiState(
-            state = UiState.Success(movies)
+        state = FavoriteState(
+            uiState = UiState.Success(movies)
         ),
         paddingValues = PaddingValues(0.dp)
     )
@@ -67,8 +67,8 @@ private fun FavoriteContentPreviewSuccess() {
 @Composable
 private fun FavoriteContentPreviewError() {
     FavoriteContent(
-        uiState = FavoriteUiState(
-            state = UiState.Error(R.string.error)
+        state = FavoriteState(
+            uiState = UiState.Error(R.string.error)
         ),
         paddingValues = PaddingValues(0.dp)
     )

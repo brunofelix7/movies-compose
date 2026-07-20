@@ -20,9 +20,9 @@ import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.util.extension.sharedViewModel
 import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
-import dev.brunofelix.movies.feature.detail.presentation.ui.components.DetailContent
-import dev.brunofelix.movies.feature.detail.presentation.ui.components.DetailHeader
-import dev.brunofelix.movies.feature.detail.presentation.viewmodel.DetailViewModel
+import dev.brunofelix.movies.feature.detail.presentation.ui.components.MovieDetailContent
+import dev.brunofelix.movies.feature.detail.presentation.ui.components.MovieDetailHeader
+import dev.brunofelix.movies.feature.detail.presentation.viewmodel.MovieDetailViewModel
 
 @Composable
 fun MovieDetailRoute(
@@ -30,19 +30,19 @@ fun MovieDetailRoute(
     navController: NavController,
     backStackEntry: NavBackStackEntry
 ) {
-    // 1. Get the ViewModel from the NavBackStackEntry
-    val movieDetailViewModel = backStackEntry.sharedViewModel<DetailViewModel>(navController)
+    // Get the ViewModel from the NavBackStackEntry
+    val movieDetailViewModel = backStackEntry.sharedViewModel<MovieDetailViewModel>(navController)
 
-    // 2. Collect reactive states
+    // Collect reactive states
     val uiState by movieDetailViewModel.uiState.collectAsStateWithLifecycle()
     val isFavorite by movieDetailViewModel.isFavorite.collectAsStateWithLifecycle()
 
-    // 3. Memos the lambdas to have identical references in memory
+    // Memos the lambdas to have identical references in memory
     val onBack: () -> Unit = remember { { navController.popBackStack() } }
     val onFavorite: () -> Unit = remember { { movieDetailViewModel.onFavoriteToggle() } }
     val onWatchTrailer: () -> Unit = remember { { /* call trailer logic */ } }
 
-    // 4. Instantiates your mandatory state class
+    // Instantiates your mandatory state class
     val state = MovieDetailState(
         uiState = uiState,
         isFavorite = isFavorite,
@@ -51,12 +51,12 @@ fun MovieDetailRoute(
         onWatchTrailer = onWatchTrailer
     )
 
-    // 5. Triggers the API only when the movie ID actually changes
+    // Triggers the API only when the movie ID actually changes
     LaunchedEffect(movieId) {
         movieDetailViewModel.getDetails(movieId)
     }
 
-    // 6. Sends the unified state to the pure screen
+    // Sends the unified state to the pure screen
     MovieDetailScreen(state)
 }
 
@@ -69,13 +69,13 @@ private fun MovieDetailScreen(
         Scaffold(
             containerColor = Color.Transparent,
             topBar = {
-                DetailHeader(state)
+                MovieDetailHeader(state)
             },
             content = { innerPadding ->
                 when (state.uiState) {
                     is UiState.Loading -> LoadingState()
                     is UiState.Success -> {
-                        DetailContent(
+                        MovieDetailContent(
                             state = state,
                             modifier = modifier.padding(innerPadding)
                         )

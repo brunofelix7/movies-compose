@@ -5,7 +5,7 @@ import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.state.UiState
 
 @Immutable
-data class FavoriteUiState(
-    val state: UiState<List<Movie>> = UiState.Loading,
+data class FavoriteState(
+    val uiState: UiState<List<Movie>> = UiState.Loading,
     val onCardClick: (Long) -> Unit = {}
 )
