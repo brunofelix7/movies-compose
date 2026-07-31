@@ -47,7 +47,7 @@ mockitoCore = "5.23.0"
 mockitoInline = "5.2.0"
 archCoreTesting = "2.2.0"
 robolectric = "4.16.1"
-kotest = "6.2.2"
+kotest = "6.2.3"
 mockk = "1.14.11"
 
 [libraries]
