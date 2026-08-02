@@ -19,13 +19,10 @@ fun NavGraphBuilder.movieDetailGraph(
         exitTransition = exitTransition,
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition
-    ) { backStackEntry ->
-        val movieId = backStackEntry.toRoute<MovieDestination.Details>().movieId
-
+    ) {
         MovieDetailRoute(
-            movieId = movieId,
-            navController = navController,
-            backStackEntry = backStackEntry
+            movieId = it.toRoute<MovieDestination.Details>().movieId,
+            navController = navController
         )
     }
 }
