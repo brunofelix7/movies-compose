@@ -9,8 +9,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
@@ -18,7 +18,6 @@ import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
-import dev.brunofelix.movies.core.presentation.util.extension.sharedViewModel
 import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
 import dev.brunofelix.movies.feature.detail.presentation.ui.components.MovieDetailContent
 import dev.brunofelix.movies.feature.detail.presentation.ui.components.MovieDetailHeader
@@ -28,18 +27,15 @@ import dev.brunofelix.movies.feature.detail.presentation.viewmodel.MovieDetailVi
 fun MovieDetailRoute(
     movieId: Long,
     navController: NavController,
-    backStackEntry: NavBackStackEntry
+    viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
-    // Get the ViewModel from the NavBackStackEntry
-    val movieDetailViewModel = backStackEntry.sharedViewModel<MovieDetailViewModel>(navController)
-
     // Collect reactive states
-    val uiState by movieDetailViewModel.uiState.collectAsStateWithLifecycle()
-    val isFavorite by movieDetailViewModel.isFavorite.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
 
     // Memos the lambdas to have identical references in memory
     val onBack: () -> Unit = remember { { navController.popBackStack() } }
-    val onFavorite: () -> Unit = remember { { movieDetailViewModel.onFavoriteToggle() } }
+    val onFavorite: () -> Unit = remember { { viewModel.onFavoriteToggle() } }
     val onWatchTrailer: () -> Unit = remember { { /* call trailer logic */ } }
 
     // Instantiates your mandatory state class
@@ -53,7 +49,7 @@ fun MovieDetailRoute(
 
     // Triggers the API only when the movie ID actually changes
     LaunchedEffect(movieId) {
-        movieDetailViewModel.getDetails(movieId)
+        viewModel.getDetails(movieId)
     }
 
     // Sends the unified state to the pure screen
