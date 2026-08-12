@@ -10,10 +10,12 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
+import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.feature.favorite.presentation.state.MovieFavoriteState
-import dev.brunofelix.movies.feature.favorite.presentation.ui.components.MovieFavoriteContent
 import dev.brunofelix.movies.feature.favorite.presentation.ui.components.MovieFavoriteHeader
+import dev.brunofelix.movies.feature.favorite.presentation.ui.components.MovieFavoriteList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,11 +33,17 @@ fun MovieFavoriteScreen(
                 MovieFavoriteHeader(scrollBehavior)
             },
             content = { innerPadding ->
-                MovieFavoriteContent(
-                    modifier = modifier,
-                    paddingValues = innerPadding,
-                    state = state
-                )
+                when (state.uiState) {
+                    is UiState.Loading -> LoadingState()
+                    is UiState.Success -> {
+                        MovieFavoriteList(
+                            paddingValues = innerPadding,
+                            movies = state.uiState.data,
+                            onClick = state.onCardClick
+                        )
+                    }
+                    is UiState.Error -> ErrorLayout()
+                }
             }
         )
     }
