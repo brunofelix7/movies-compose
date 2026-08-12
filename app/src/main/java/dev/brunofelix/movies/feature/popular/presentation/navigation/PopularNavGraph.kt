@@ -3,7 +3,7 @@ package dev.brunofelix.movies.feature.popular.presentation.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import dev.brunofelix.movies.core.presentation.navigation.MovieDestination
+import dev.brunofelix.movies.core.presentation.navigation.AppDestination
 import dev.brunofelix.movies.core.presentation.util.extension.sharedViewModel
 import dev.brunofelix.movies.feature.popular.presentation.ui.MoviePopularScreen
 import dev.brunofelix.movies.feature.popular.presentation.viewmodel.MoviePopularViewModel
@@ -11,13 +11,13 @@ import dev.brunofelix.movies.feature.popular.presentation.viewmodel.MoviePopular
 fun NavGraphBuilder.popularNavGraph(
     navController: NavController
 ) {
-    composable<MovieDestination.Populars> { backStackEntry ->
+    composable<AppDestination.Movies> { backStackEntry ->
         val popularViewModel: MoviePopularViewModel = backStackEntry.sharedViewModel(navController)
 
         MoviePopularScreen(
             uiState = popularViewModel.uiState,
             onItemClick = { movieId ->
-                navController.navigate(MovieDestination.Details(movieId))
+                navController.navigate(AppDestination.Details(movieId))
             }
         )
     }

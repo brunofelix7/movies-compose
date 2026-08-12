@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import dev.brunofelix.movies.core.presentation.navigation.MovieDestination
+import dev.brunofelix.movies.core.presentation.navigation.AppDestination
 import dev.brunofelix.movies.core.presentation.navigation.enterTransition
 import dev.brunofelix.movies.core.presentation.navigation.exitTransition
 import dev.brunofelix.movies.core.presentation.navigation.popEnterTransition
@@ -14,14 +14,14 @@ import dev.brunofelix.movies.feature.detail.presentation.ui.MovieDetailRoute
 fun NavGraphBuilder.movieDetailGraph(
     navController: NavController
 ) {
-    composable<MovieDestination.Details>(
+    composable<AppDestination.Details>(
         enterTransition = enterTransition,
         exitTransition = exitTransition,
         popEnterTransition = popEnterTransition,
         popExitTransition = popExitTransition
     ) {
         MovieDetailRoute(
-            movieId = it.toRoute<MovieDestination.Details>().movieId,
+            movieId = it.toRoute<AppDestination.Details>().id,
             navController = navController
         )
     }

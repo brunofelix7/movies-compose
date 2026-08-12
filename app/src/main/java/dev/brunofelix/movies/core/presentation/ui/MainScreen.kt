@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import dev.brunofelix.movies.core.presentation.navigation.MovieNavHost
+import dev.brunofelix.movies.core.presentation.navigation.AppNavHost
 import dev.brunofelix.movies.core.presentation.ui.components.CustomNavBar
 import dev.brunofelix.movies.core.presentation.util.extension.shouldShowBottomBar
 
@@ -35,7 +35,7 @@ fun MainScreen(
             }
         },
         content = { innerPadding ->
-            MovieNavHost(
+            AppNavHost(
                 innerPadding = innerPadding,
                 navController = navController
             )
