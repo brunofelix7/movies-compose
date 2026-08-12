@@ -5,13 +5,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import dev.brunofelix.movies.feature.detail.presentation.navigation.movieDetailGraph
 import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteGraph
 import dev.brunofelix.movies.feature.popular.presentation.navigation.popularNavGraph
+import dev.brunofelix.movies.feature.search.presentation.ui.MovieSearchScreen
 import dev.brunofelix.movies.feature.upcoming.presentation.navigation.upcomingNavGraph
 
 @Composable
-fun MovieNavHost(
+fun AppNavHost(
     innerPadding: PaddingValues,
     navController: NavHostController,
     modifier: Modifier = Modifier
@@ -19,24 +21,20 @@ fun MovieNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = MovieDestination.Populars
+        startDestination = AppDestination.Movies
     ) {
-        // Popular Graph
         popularNavGraph(
             navController = navController
         )
-
-        // Upcoming Graph
         upcomingNavGraph(
             navController = navController
         )
-
-        // Movie Detail Graph
+        composable<AppDestination.Search> { backStackEntry ->
+            MovieSearchScreen()
+        }
         movieDetailGraph(
             navController = navController
         )
-
-        // Favorite Graph
         favoriteGraph(
             navController = navController
         )

@@ -1,5 +1,10 @@
 package dev.brunofelix.movies.core.presentation.ui.components
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.LiveTv
+import androidx.compose.material.icons.filled.LocalMovies
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -9,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,12 +24,42 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.brunofelix.movies.R
-import dev.brunofelix.movies.core.presentation.navigation.CustomNavBarItem
+import dev.brunofelix.movies.core.presentation.navigation.AppDestination
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
+
+sealed class CustomNavBarItem(
+    val title: String,
+    val route: AppDestination,
+    val icon: ImageVector
+) {
+    data object Popular: CustomNavBarItem(
+        title = "Movies",
+        route = AppDestination.Movies,
+        icon = Icons.Default.LocalMovies,
+    )
+
+    data object Upcoming: CustomNavBarItem(
+        title = "TV Shows",
+        route = AppDestination.TvShows,
+        icon = Icons.Default.LiveTv
+    )
+    data object Search: CustomNavBarItem(
+        title = "Search",
+        route = AppDestination.Search,
+        icon = Icons.Default.Search
+    )
+
+    data object Favorite: CustomNavBarItem(
+        title = "Favorites",
+        route = AppDestination.Favorites,
+        icon = Icons.Default.Favorite
+    )
+}
 
 private val navBarItems = listOf(
     CustomNavBarItem.Popular,
     CustomNavBarItem.Upcoming,
+    CustomNavBarItem.Search,
     CustomNavBarItem.Favorite
 )
 
