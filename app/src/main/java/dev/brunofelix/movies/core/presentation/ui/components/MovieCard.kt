@@ -34,7 +34,7 @@ fun MovieCard(
     onClick: (id: Long) -> Unit = {}
 ) {
     var cardState by remember { mutableStateOf<MovieCardUiState>(MovieCardUiState.Loading) }
-    val shape = RoundedCornerShape(16.dp)
+    val shape = RoundedCornerShape(12.dp)
 
     Card(
         onClick = { onClick(uiState.id) },
