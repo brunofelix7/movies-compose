@@ -27,7 +27,9 @@ fun MainContent(
 ) {
     GradientBackground {
         Box(
-            modifier = modifier.fillMaxSize().padding(horizontal = 16.dp)
+            modifier = modifier
+                .fillMaxSize()
+                .padding(horizontal = 8.dp)
         ) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(3),
