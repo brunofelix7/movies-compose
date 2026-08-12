@@ -51,16 +51,6 @@ fun MainTopBar(
             IconButton(
                 content = {
                     Icon(
-                        imageVector = Icons.Filled.Search,
-                        tint = Colors.white,
-                        contentDescription = stringResource(R.string.top_bar_search_icon)
-                    )
-                },
-                onClick = {}
-            )
-            IconButton(
-                content = {
-                    Icon(
                         imageVector = Icons.Filled.Settings,
                         tint = Colors.white,
                         contentDescription = stringResource(R.string.top_bar_language_icon)
