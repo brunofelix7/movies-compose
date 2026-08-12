@@ -16,7 +16,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class UpcomingViewModelTest {
+class TvShowsViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
