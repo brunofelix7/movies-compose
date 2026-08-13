@@ -3,6 +3,7 @@ package dev.brunofelix.movies.core.data.remote.source
 import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.data.remote.MovieService
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
+import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
 import dev.brunofelix.movies.core.data.remote.paging.BasePagingSource
 import dev.brunofelix.movies.core.data.util.extension.mapOrThrow
 import dev.brunofelix.movies.core.domain.model.Movie
@@ -22,9 +23,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     override fun getPopularPagingSource(): PagingSource<Int, Movie> {
         return BasePagingSource { page ->
             runCatching {
-                service.getPopulars(page).mapOrThrow {
-                    it.results?.map { result -> result.toDomain() } ?: emptyList()
-                }
+                service.getPopulars(page).mapOrThrow { it.toDomainList() }
             }
         }
     }
@@ -32,9 +31,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     override fun getUpcomingPagingSource(): PagingSource<Int, Movie> {
         return BasePagingSource { page ->
             runCatching {
-                service.getUpcoming(page).mapOrThrow {
-                    it.results?.map { result -> result.toDomain() } ?: emptyList()
-                }
+                service.getUpcoming(page).mapOrThrow { it.toDomainList() }
             }
         }
     }
@@ -42,9 +39,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     override fun getTopRatedPagingSource(): PagingSource<Int, Movie> {
         return BasePagingSource { page ->
             runCatching {
-                service.getTopRated(page).mapOrThrow {
-                    it.results?.map { result -> result.toDomain() } ?: emptyList()
-                }
+                service.getTopRated(page).mapOrThrow { it.toDomainList() }
             }
         }
     }

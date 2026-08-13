@@ -3,6 +3,7 @@ package dev.brunofelix.movies.core.data.remote.source
 import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.data.remote.TvShowService
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
+import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
 import dev.brunofelix.movies.core.data.remote.paging.BasePagingSource
 import dev.brunofelix.movies.core.data.util.extension.mapOrThrow
 import dev.brunofelix.movies.core.domain.model.TvShow
@@ -21,9 +22,7 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
     override fun getPopularPagingSource(): PagingSource<Int, TvShow> {
         return BasePagingSource { page ->
             runCatching {
-                service.getPopulars(page).mapOrThrow {
-                    it.results?.map { result -> result.toDomain() } ?: emptyList()
-                }
+                service.getPopulars(page).mapOrThrow { it.toDomainList() }
             }
         }
     }
@@ -31,9 +30,7 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
     override fun getTopRatedPagingSource(): PagingSource<Int, TvShow> {
         return BasePagingSource { page ->
             runCatching {
-                service.getTopRated(page).mapOrThrow {
-                    it.results?.map { result -> result.toDomain() } ?: emptyList()
-                }
+                service.getTopRated(page).mapOrThrow { it.toDomainList() }
             }
         }
     }
