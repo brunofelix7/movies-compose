@@ -5,7 +5,7 @@ import androidx.paging.PagingData
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
-import dev.brunofelix.movies.core.data.util.exception.RemoteException
+import dev.brunofelix.movies.core.domain.util.exception.RemoteException
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class GetUpcomingUseCaseImpl @Inject constructor(
                 )
             )
         } catch (e: Exception) {
-            throw RemoteException(R.string.upcoming_movies_error, e)
+            throw RemoteException.General(R.string.upcoming_movies_error, e)
         }
     }
 }

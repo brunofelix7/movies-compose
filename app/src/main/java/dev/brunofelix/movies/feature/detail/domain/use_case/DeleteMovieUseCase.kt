@@ -1,9 +1,9 @@
 package dev.brunofelix.movies.feature.detail.domain.use_case
 
 import dev.brunofelix.movies.R
+import dev.brunofelix.movies.core.domain.util.exception.LocalException
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
-import dev.brunofelix.movies.core.data.util.exception.LocalException
 import javax.inject.Inject
 
 fun interface DeleteMovieUseCase {
@@ -18,7 +18,7 @@ class DeleteMovieUseCaseImpl @Inject constructor(
         try {
             repository.delete(movie)
         } catch (e: Exception) {
-            throw LocalException(R.string.delete_movie_error, e)
+            throw LocalException.General(R.string.delete_movie_error, e)
         }
     }
 }

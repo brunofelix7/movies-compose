@@ -3,7 +3,7 @@ package dev.brunofelix.movies.feature.detail.domain.use_case
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
-import dev.brunofelix.movies.core.data.util.exception.LocalException
+import dev.brunofelix.movies.core.domain.util.exception.LocalException
 import javax.inject.Inject
 
 fun interface SaveMovieUseCase {
@@ -18,7 +18,7 @@ class SaveMovieUseCaseImpl @Inject constructor(
         try {
             repository.save(movie)
         } catch (e: Exception) {
-            throw LocalException(R.string.mark_favorite_error, e)
+            throw LocalException.General(R.string.mark_favorite_error, e)
         }
     }
 }

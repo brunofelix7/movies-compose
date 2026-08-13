@@ -6,6 +6,7 @@ import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
 import dev.brunofelix.movies.core.data.remote.paging.BasePagingSource
 import dev.brunofelix.movies.core.data.util.extension.mapOrThrow
+import dev.brunofelix.movies.core.data.util.extension.toRemoteException
 import dev.brunofelix.movies.core.domain.model.Movie
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         return BasePagingSource { page ->
             runCatching {
                 service.getPopulars(page).mapOrThrow { it.toDomainList() }
-            }
+            }.recoverCatching { throw it.toRemoteException() }
         }
     }
 
@@ -32,7 +33,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         return BasePagingSource { page ->
             runCatching {
                 service.getUpcoming(page).mapOrThrow { it.toDomainList() }
-            }
+            }.recoverCatching { throw it.toRemoteException() }
         }
     }
 
@@ -40,13 +41,13 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         return BasePagingSource { page ->
             runCatching {
                 service.getTopRated(page).mapOrThrow { it.toDomainList() }
-            }
+            }.recoverCatching { throw it.toRemoteException() }
         }
     }
 
     override suspend fun getDetails(id: Long): Result<Movie> {
         return runCatching {
             service.getDetails(id).mapOrThrow { it.toDomain() }
-        }
+        }.recoverCatching { throw it.toRemoteException() }
     }
 }

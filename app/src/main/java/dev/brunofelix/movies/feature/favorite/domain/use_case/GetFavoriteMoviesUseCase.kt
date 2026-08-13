@@ -2,7 +2,7 @@ package dev.brunofelix.movies.feature.favorite.domain.use_case
 
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
-import dev.brunofelix.movies.core.data.util.exception.LocalException
+import dev.brunofelix.movies.core.domain.util.exception.LocalException
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class GetFavoriteMoviesUseCaseImpl @Inject constructor(
         try {
             return repository.getFavoriteMovies()
         } catch (_: Exception) {
-            throw LocalException()
+            throw LocalException.Unknown()
         }
     }
 }

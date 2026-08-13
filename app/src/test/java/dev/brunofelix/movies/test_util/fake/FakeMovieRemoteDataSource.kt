@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.data.util.exception.RemoteException
+import dev.brunofelix.movies.core.domain.util.exception.RemoteException
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory
 
 class FakeMovieRemoteDataSource : MovieRemoteDataSource {
@@ -35,7 +35,7 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
 
     override suspend fun getDetails(id: Long): Result<Movie> {
         if (shouldReturnError) {
-            return Result.failure(RemoteException(0, null))
+            return Result.failure(RemoteException.Unknown())
         }
         val movieDto = fakeDataSource.find { it.id == id }
         return if (movieDto != null) {

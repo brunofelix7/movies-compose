@@ -1,7 +1,7 @@
 package dev.brunofelix.movies.feature.movie.presentation.viewmodel
 
 import com.google.common.truth.Truth.assertThat
-import dev.brunofelix.movies.core.data.util.exception.RemoteException
+import dev.brunofelix.movies.core.domain.util.exception.RemoteException
 import dev.brunofelix.movies.feature.popular.domain.use_case.GetPopularUseCase
 import dev.brunofelix.movies.feature.popular.presentation.viewmodel.MoviePopularViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule
@@ -42,7 +42,7 @@ class PopularViewModelTest {
     @Test(expected = Exception::class)
     fun `test getPopularMoviesUseCase, when gets error, then throws RemoteException`() = runTest {
         // Given
-        every { useCase() } throws RemoteException(0)
+        every { useCase() } throws RemoteException.Unknown()
 
         // When
         val result = viewModel.uiState.movies.first()
