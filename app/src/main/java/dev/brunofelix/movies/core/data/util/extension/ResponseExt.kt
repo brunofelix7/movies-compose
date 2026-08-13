@@ -1,8 +1,18 @@
 package dev.brunofelix.movies.core.data.util.extension
 
+import dev.brunofelix.movies.core.domain.util.exception.RemoteException
 import retrofit2.HttpException
 import retrofit2.Response
 
+/**
+ * Maps the body of a successful [Response] using the [transform] function, or throws
+ * a mapped [RemoteException] if the response is unsuccessful or the body is null.
+ *
+ * @param transform Function to map the response body [T] to the result type [R].
+ * @return The result of the [transform] function.
+ * @throws RemoteException if the response is not successful.
+ * @throws NullPointerException if the body is null on a successful response.
+ */
 inline fun <T, R> Response<T>.mapOrThrow(transform: (T) -> R): R {
     if (isSuccessful) {
         return body()?.let(transform) ?: throw NullPointerException("Response body is null")
@@ -11,6 +21,12 @@ inline fun <T, R> Response<T>.mapOrThrow(transform: (T) -> R): R {
     }
 }
 
+/**
+ * Converts a [Response] to a [Result] type, mapping any errors to a [RemoteException].
+ *
+ * @return A [Result.success] with the body if successful, or a [Result.failure]
+ * with a mapped [RemoteException] otherwise.
+ */
 fun <T> Response<T>.toResult(): Result<T> {
     return try {
         if (isSuccessful) {

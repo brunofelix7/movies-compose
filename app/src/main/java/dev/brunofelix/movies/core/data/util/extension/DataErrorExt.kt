@@ -5,6 +5,11 @@ import dev.brunofelix.movies.core.domain.util.exception.LocalException
 import dev.brunofelix.movies.core.domain.util.exception.RemoteException
 import dev.brunofelix.movies.core.presentation.util.UiText
 
+/**
+ * Maps a [RemoteException] to a [UiText] for display in the presentation layer.
+ *
+ * @return A [UiText] representation of the network error.
+ */
 fun RemoteException.toUiText(): UiText {
     return when (this) {
         is RemoteException.Unauthorized -> UiText.StringResource(R.string.error_network_unauthorized)
@@ -17,6 +22,11 @@ fun RemoteException.toUiText(): UiText {
     }
 }
 
+/**
+ * Maps a [LocalException] to a [UiText] for display in the presentation layer.
+ *
+ * @return A [UiText] representation of the local error.
+ */
 fun LocalException.toUiText(): UiText {
     return when (this) {
         is LocalException.DatabaseError -> UiText.StringResource(R.string.error)
@@ -27,6 +37,14 @@ fun LocalException.toUiText(): UiText {
     }
 }
 
+/**
+ * Maps any [Throwable] to a [UiText].
+ *
+ * If the throwable is a [RemoteException] or [LocalException], it uses their respective
+ * mapping functions. Otherwise, it returns a generic unknown error message.
+ *
+ * @return A [UiText] representation of the exception.
+ */
 fun Throwable.toUiText(): UiText {
     return when (this) {
         is RemoteException -> this.toUiText()
