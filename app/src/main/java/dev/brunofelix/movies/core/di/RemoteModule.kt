@@ -13,6 +13,7 @@ import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSourceImpl
 import dev.brunofelix.movies.core.data.remote.source.TvShowRemoteDataSource
 import dev.brunofelix.movies.core.data.remote.source.TvShowRemoteDataSourceImpl
+import dev.brunofelix.movies.core.domain.repository.LanguageRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -27,8 +28,10 @@ abstract class RemoteModule {
     companion object {
         @Provides
         @Singleton
-        fun provideMovieInterceptor(): RemoteInterceptor {
-            return RemoteInterceptor()
+        fun provideMovieInterceptor(
+            languageRepository: LanguageRepository
+        ): RemoteInterceptor {
+            return RemoteInterceptor(languageRepository)
         }
 
         @Provides
