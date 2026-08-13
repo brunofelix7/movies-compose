@@ -7,15 +7,23 @@ import dev.brunofelix.movies.core.domain.util.extension.toBackdropUrl
 import dev.brunofelix.movies.core.domain.util.extension.toPostUrl
 
 /**
- * Extension function to map a [MovieRootDto] to a list of [Movie] domain models.
- * @return A list of [Movie]s or an empty list if results are null.
+ * Maps a [MovieRootDto] (API response) to a list of [Movie] domain models.
+ *
+ * This function extracts the `results` from the root DTO and converts each [MovieDto]
+ * into a domain [Movie] object.
+ *
+ * @return A list of [Movie]s, or an empty list if results are null.
  */
 fun MovieRootDto.toDomainList(): List<Movie> {
     return results?.map { it.toDomain() } ?: emptyList()
 }
 
 /**
- * Extension function to map a [MovieDto] to a [Movie] domain model.
+ * Maps a [MovieDto] (API data object) to a [Movie] domain model.
+ *
+ * Handles null values by providing default empty strings or numeric fallbacks
+ * and applies URL formatting for poster and backdrop paths.
+ *
  * @return A domain representation of the movie.
  */
 fun MovieDto.toDomain(): Movie {

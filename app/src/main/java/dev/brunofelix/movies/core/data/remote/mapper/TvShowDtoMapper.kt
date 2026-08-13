@@ -5,16 +5,20 @@ import dev.brunofelix.movies.core.data.remote.dto.tv_show.TvShowRootDto
 import dev.brunofelix.movies.core.domain.model.TvShow
 
 /**
- * Extension function to map a [TvShowRootDto] to a list of [TvShow] domain models.
- * @return A list of [TvShow]s or an empty list if results are null.
+ * Maps a [TvShowRootDto] (API response) to a list of [TvShow] domain models.
+ *
+ * @return A list of [TvShow] objects, or an empty list if results are null.
  */
 fun TvShowRootDto.toDomainList(): List<TvShow> {
     return results?.map { it.toDomain() } ?: emptyList()
 }
 
 /**
- * Extension function to map a [TvShowDto] to a [TvShow] domain model.
- * @return A domain representation of the TV show.
+ * Maps a [TvShowDto] (API data object) to a [TvShow] domain model.
+ *
+ * Provides safe defaults for all nullable fields received from the API.
+ *
+ * @return A [TvShow] domain model.
  */
 fun TvShowDto.toDomain(): TvShow {
     return TvShow(
