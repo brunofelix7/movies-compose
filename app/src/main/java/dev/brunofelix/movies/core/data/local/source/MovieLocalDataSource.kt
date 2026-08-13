@@ -13,31 +13,9 @@ import javax.inject.Inject
  * It abstracts the data source implementation from the repository layer.
  */
 interface MovieLocalDataSource {
-    /**
-     * Inserts a movie into the local database.
-     * @param movie The [Movie] object to be inserted.
-     * @return The row ID of the newly inserted movie.
-     */
     suspend fun insert(movie: Movie): Long
-
-    /**
-     * Deletes a movie from the local database.
-     * @param movie The [Movie] object to be deleted.
-     * @return The number of rows affected by the deletion.
-     */
     suspend fun delete(movie: Movie): Int
-
-    /**
-     * Retrieves a specific movie by its unique identifier.
-     * @param id The unique ID of the movie.
-     * @return The [Movie] if found, or null otherwise.
-     */
     suspend fun getById(id: Long): Movie?
-
-    /**
-     * Retrieves all movies stored in the local database as a reactive stream.
-     * @return A [Flow] emitting a list of all [Movie]s.
-     */
     fun getAll(): Flow<List<Movie>>
 }
 
@@ -50,28 +28,35 @@ class MovieLocalDataSourceImpl @Inject constructor(
 ): MovieLocalDataSource {
 
     /**
-     * Inserts a movie into the local database by converting it to an entity.
+     * Inserts a movie into the local database.
+     * @param movie The [Movie] object to be inserted.
+     * @return The row ID of the newly inserted movie.
      */
     override suspend fun insert(movie: Movie): Long {
         return dao.insert(movie.toEntity())
     }
 
     /**
-     * Deletes a movie from the local database by converting it to an entity.
+     * Deletes a movie from the local database.
+     * @param movie The [Movie] object to be deleted.
+     * @return The number of rows affected by the deletion.
      */
     override suspend fun delete(movie: Movie): Int {
         return dao.delete(movie.toEntity())
     }
 
     /**
-     * Retrieves a movie by ID from the database and maps it to the domain model.
+     * Retrieves a specific movie by its unique identifier.
+     * @param id The unique ID of the movie.
+     * @return The [Movie] if found, or null otherwise.
      */
     override suspend fun getById(id: Long): Movie? {
         return dao.getById(id)?.toDomain()
     }
 
     /**
-     * Observes all movies from the database and maps the resulting entities to domain models.
+     * Retrieves all movies stored in the local database as a reactive stream.
+     * @return A [Flow] emitting a list of all [Movie]s.
      */
     override fun getAll(): Flow<List<Movie>> {
         return dao.getAll().map { entityList ->
