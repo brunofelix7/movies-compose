@@ -6,10 +6,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.brunofelix.movies.core.data.db.MovieDatabase
-import dev.brunofelix.movies.core.data.db.dao.MovieDao
-import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
-import dev.brunofelix.movies.core.data.source.MovieLocalDataSourceImpl
+import dev.brunofelix.movies.core.data.local.db.MovieDatabase
+import dev.brunofelix.movies.core.data.local.db.dao.MovieDao
+import dev.brunofelix.movies.core.data.local.source.MovieLocalDataSource
+import dev.brunofelix.movies.core.data.local.source.MovieLocalDataSourceImpl
 import javax.inject.Singleton
 
 @Module

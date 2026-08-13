@@ -5,10 +5,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.brunofelix.movies.BuildConfig
-import dev.brunofelix.movies.core.data.api.MovieApi
-import dev.brunofelix.movies.core.data.api.interceptor.MovieInterceptor
-import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
-import dev.brunofelix.movies.core.data.source.MovieRemoteDataSourceImpl
+import dev.brunofelix.movies.core.data.remote.MovieService
+import dev.brunofelix.movies.core.data.remote.TvShowService
+import dev.brunofelix.movies.core.data.remote.interceptor.MovieInterceptor
+import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSourceImpl
+import dev.brunofelix.movies.core.data.remote.source.TvShowRemoteDataSource
+import dev.brunofelix.movies.core.data.remote.source.TvShowRemoteDataSourceImpl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory
@@ -56,21 +59,40 @@ object ApiModule {
     }
 
     @Provides
-    fun provideMovieApi(
+    fun provideMovieService(
         client: OkHttpClient,
         converterFactory: GsonConverterFactory
-    ): MovieApi {
+    ): MovieService {
         return retrofit2.Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(client)
             .addConverterFactory(converterFactory)
             .build()
-            .create(MovieApi::class.java)
+            .create(MovieService::class.java)
+    }
+
+    @Provides
+    fun provideTvShowService(
+        client: OkHttpClient,
+        converterFactory: GsonConverterFactory
+    ): TvShowService {
+        return retrofit2.Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(client)
+            .addConverterFactory(converterFactory)
+            .build()
+            .create(TvShowService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideMovieRemoteDataSource(api: MovieApi): MovieRemoteDataSource {
+    fun provideMovieRemoteDataSource(api: MovieService): MovieRemoteDataSource {
         return MovieRemoteDataSourceImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTvShowRemoteDataSource(api: TvShowService): TvShowRemoteDataSource {
+        return TvShowRemoteDataSourceImpl(api)
     }
 }

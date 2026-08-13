@@ -5,9 +5,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.brunofelix.movies.core.data.repository.MovieRepositoryImpl
-import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
-import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.data.repository.TvShowRepositoryImpl
+import dev.brunofelix.movies.core.data.local.source.MovieLocalDataSource
+import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.data.remote.source.TvShowRemoteDataSource
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
+import dev.brunofelix.movies.core.domain.repository.TvShowRepository
 import javax.inject.Singleton
 
 @Module
@@ -21,5 +24,13 @@ object CoreModule {
         localDataSource: MovieLocalDataSource
     ): MovieRepository {
         return MovieRepositoryImpl(remoteDataSource, localDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTvShowRepository(
+        remoteDataSource: TvShowRemoteDataSource
+    ): TvShowRepository {
+        return TvShowRepositoryImpl(remoteDataSource)
     }
 }
