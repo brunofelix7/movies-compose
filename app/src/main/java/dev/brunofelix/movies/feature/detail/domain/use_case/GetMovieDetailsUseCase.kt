@@ -1,6 +1,6 @@
 package dev.brunofelix.movies.feature.detail.domain.use_case
 
-import dev.brunofelix.movies.core.data.util.Resource
+import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
 import javax.inject.Inject

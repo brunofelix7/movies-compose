@@ -2,7 +2,7 @@ package dev.brunofelix.movies.test_util.fake
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import dev.brunofelix.movies.core.data.util.Resource
+import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
 import dev.brunofelix.movies.core.data.util.extension.toResource

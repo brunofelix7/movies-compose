@@ -4,10 +4,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import dev.brunofelix.movies.core.data.remote.source.TvShowRemoteDataSource
-import dev.brunofelix.movies.core.data.util.Resource
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.repository.TvShowRepository
-import dev.brunofelix.movies.core.data.util.extension.toResource
+import dev.brunofelix.movies.core.domain.util.Resource
+import dev.brunofelix.movies.core.domain.util.toResource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

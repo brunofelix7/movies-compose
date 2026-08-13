@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.brunofelix.movies.R
-import dev.brunofelix.movies.core.data.util.Resource
+import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.state.MovieUiState

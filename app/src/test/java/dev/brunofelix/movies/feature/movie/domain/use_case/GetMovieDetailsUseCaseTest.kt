@@ -2,7 +2,7 @@ package dev.brunofelix.movies.feature.movie.domain.use_case
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
-import dev.brunofelix.movies.core.data.util.Resource
+import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.feature.detail.domain.use_case.GetMovieDetailsUseCase
 import dev.brunofelix.movies.feature.detail.domain.use_case.GetMovieDetailsUseCaseImpl
