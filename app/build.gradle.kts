@@ -54,6 +54,12 @@ android {
         compose = true
         buildConfig = true
     }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 kotlin {
@@ -133,6 +139,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
     testImplementation(libs.kotest)
+    testImplementation(libs.kotest.runner)
     testImplementation(libs.mockk)
 
     // Instrumentation Tests Only (Android)

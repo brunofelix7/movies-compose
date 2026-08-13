@@ -47,7 +47,7 @@ mockitoCore = "5.23.0"
 mockitoInline = "5.2.0"
 archCoreTesting = "2.2.0"
 robolectric = "4.16.1"
-kotest = "6.2.3"
+kotest = "6.2.4"
 mockk = "1.14.11"
 
 [libraries]
@@ -120,6 +120,7 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 kotest = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 [plugins]
