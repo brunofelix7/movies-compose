@@ -53,7 +53,7 @@ fun EmptyState(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun EmptyStatePreview() {
     EmptyState()
