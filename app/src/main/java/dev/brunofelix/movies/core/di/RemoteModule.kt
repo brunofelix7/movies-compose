@@ -8,7 +8,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.brunofelix.movies.BuildConfig
 import dev.brunofelix.movies.core.data.remote.MovieService
 import dev.brunofelix.movies.core.data.remote.TvShowService
-import dev.brunofelix.movies.core.data.remote.interceptor.MovieInterceptor
+import dev.brunofelix.movies.core.data.remote.interceptor.RemoteInterceptor
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSourceImpl
 import dev.brunofelix.movies.core.data.remote.source.TvShowRemoteDataSource
@@ -27,8 +27,8 @@ abstract class RemoteModule {
     companion object {
         @Provides
         @Singleton
-        fun provideMovieInterceptor(): MovieInterceptor {
-            return MovieInterceptor()
+        fun provideMovieInterceptor(): RemoteInterceptor {
+            return RemoteInterceptor()
         }
 
         @Provides
@@ -48,11 +48,11 @@ abstract class RemoteModule {
         @Provides
         @Singleton
         fun provideOkHttpClient(
-            movieInterceptor: MovieInterceptor,
+            remoteInterceptor: RemoteInterceptor,
             httpLoggingInterceptor: HttpLoggingInterceptor
         ): OkHttpClient {
             return OkHttpClient.Builder()
-                .addInterceptor(movieInterceptor)
+                .addInterceptor(remoteInterceptor)
                 .addInterceptor(httpLoggingInterceptor)
                 .connectTimeout(15L, TimeUnit.SECONDS)
                 .readTimeout(15L, TimeUnit.SECONDS)
