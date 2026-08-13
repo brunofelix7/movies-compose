@@ -1,22 +1,36 @@
 package dev.brunofelix.movies.core.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import dev.brunofelix.movies.core.data.remote.source.TvShowRemoteDataSource
 import dev.brunofelix.movies.core.data.util.Resource
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.repository.TvShowRepository
 import dev.brunofelix.movies.core.util.extension.toResource
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class TvShowRepositoryImpl @Inject constructor(
     private val remoteDataSource: TvShowRemoteDataSource
 ) : TvShowRepository {
 
-    override suspend fun getPopulars(page: Int): Resource<List<TvShow>> {
-        return remoteDataSource.getPopular(page).toResource()
+    override fun fetchPopulars(pagingConfig: PagingConfig): Flow<PagingData<TvShow>> {
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                remoteDataSource.getPopularPagingSource()
+            }
+        ).flow
     }
 
-    override suspend fun getTopRated(page: Int): Resource<List<TvShow>> {
-        return remoteDataSource.getTopRated(page).toResource()
+    override fun fetchTopRated(pagingConfig: PagingConfig): Flow<PagingData<TvShow>> {
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                remoteDataSource.getTopRatedPagingSource()
+            }
+        ).flow
     }
 
     override suspend fun getDetails(id: Long): Resource<TvShow> {
