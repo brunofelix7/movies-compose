@@ -15,7 +15,7 @@ class GetPopularUseCaseImpl @Inject constructor(
 
     override operator fun invoke(): Flow<PagingData<Movie>> {
         return try {
-            repository.fetchPopulars(
+            repository.getPopularMovies(
                 pagingConfig = PagingConfig(
                     pageSize = 20,
                     initialLoadSize = 20

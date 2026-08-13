@@ -16,7 +16,7 @@ class GetFavoriteMoviesUseCaseImpl @Inject constructor(
 
     override operator fun invoke(): Flow<List<Movie>> {
         try {
-            return repository.fetchFavorites()
+            return repository.getFavoriteMovies()
         } catch (_: Exception) {
             throw LocalException()
         }
