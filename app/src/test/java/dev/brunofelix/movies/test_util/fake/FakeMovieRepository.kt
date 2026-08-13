@@ -14,15 +14,19 @@ class FakeMovieRepository (
     private val localDataSource: FakeMovieLocalDataSource
 ): MovieRepository {
 
-    override fun fetchPopulars(pagingConfig: PagingConfig): Flow<PagingData<Movie>> = flow {
+    override fun getPopularMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>> = flow {
         TODO("Not yet implemented")
     }
 
-    override fun fetchUpcoming(pagingConfig: PagingConfig): Flow<PagingData<Movie>> = flow {
+    override fun getUpcomingMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>> = flow {
         TODO("Not yet implemented")
     }
 
-    override fun fetchFavorites(): Flow<List<Movie>> {
+    override fun getTopRatedMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>> = flow {
+        TODO("Not yet implemented")
+    }
+
+    override fun getFavoriteMovies(): Flow<List<Movie>> {
         TODO("Not yet implemented")
     }
 

@@ -33,18 +33,6 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPopular(page: Int): Result<List<Movie>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getUpcoming(page: Int): Result<List<Movie>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getTopRated(page: Int): Result<List<Movie>> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun getDetails(id: Long): Result<Movie> {
         if (shouldReturnError) {
             return Result.failure(RemoteException(0, null))
