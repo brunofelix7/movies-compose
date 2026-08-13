@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.util
+package dev.brunofelix.movies.core.data.util
 
 import timber.log.Timber
 

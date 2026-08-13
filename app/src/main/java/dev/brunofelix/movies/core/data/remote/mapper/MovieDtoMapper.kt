@@ -3,8 +3,8 @@ package dev.brunofelix.movies.core.data.remote.mapper
 import dev.brunofelix.movies.core.data.remote.dto.movie.MovieDto
 import dev.brunofelix.movies.core.data.remote.dto.movie.MovieRootDto
 import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.util.extension.toBackdropUrl
-import dev.brunofelix.movies.core.util.extension.toPostUrl
+import dev.brunofelix.movies.core.domain.util.extension.toBackdropUrl
+import dev.brunofelix.movies.core.domain.util.extension.toPostUrl
 
 /**
  * Extension function to map a [MovieRootDto] to a list of [Movie] domain models.

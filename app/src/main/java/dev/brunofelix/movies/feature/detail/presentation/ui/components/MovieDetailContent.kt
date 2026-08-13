@@ -30,7 +30,7 @@ import dev.brunofelix.movies.core.presentation.ui.components.MovieGenderContaine
 import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
-import dev.brunofelix.movies.core.util.extension.formatDecimal
+import dev.brunofelix.movies.core.domain.util.extension.formatDecimal
 import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
 
 @Composable

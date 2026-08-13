@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.util.exception
+package dev.brunofelix.movies.core.data.util.exception
 
 import androidx.annotation.StringRes
 

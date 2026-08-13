@@ -26,7 +26,7 @@ import dev.brunofelix.movies.core.presentation.ui.components.CustomSearchBar
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.MainTopBar
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
-import dev.brunofelix.movies.core.util.logInfo
+import dev.brunofelix.movies.core.data.util.logInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

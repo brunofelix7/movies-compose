@@ -2,8 +2,8 @@ package dev.brunofelix.movies.core.presentation.mapper
 
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
-import dev.brunofelix.movies.core.util.datetime.DateTimeConvert
-import dev.brunofelix.movies.core.util.datetime.DateTimePatterns
+import dev.brunofelix.movies.core.domain.util.datetime.DateTimeConvert
+import dev.brunofelix.movies.core.domain.util.datetime.DateTimePatterns
 
 fun Movie.toUiState(): MovieUiState {
     return MovieUiState(

@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.util.extension
+package dev.brunofelix.movies.core.domain.util.extension
 
 import dev.brunofelix.movies.BuildConfig
 

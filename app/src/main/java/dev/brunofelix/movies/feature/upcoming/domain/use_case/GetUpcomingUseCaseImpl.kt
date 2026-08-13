@@ -5,7 +5,7 @@ import androidx.paging.PagingData
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
-import dev.brunofelix.movies.core.util.exception.RemoteException
+import dev.brunofelix.movies.core.data.util.exception.RemoteException
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

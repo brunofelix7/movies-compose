@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.util.datetime
+package dev.brunofelix.movies.core.domain.util.datetime
 
 import java.text.SimpleDateFormat
 import java.util.Date
