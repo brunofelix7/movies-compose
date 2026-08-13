@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.data.remote.dto
+package dev.brunofelix.movies.core.data.remote.dto.movie
 
 import com.google.gson.annotations.SerializedName
 

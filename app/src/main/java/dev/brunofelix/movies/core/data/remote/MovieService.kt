@@ -1,7 +1,7 @@
 package dev.brunofelix.movies.core.data.remote
 
-import dev.brunofelix.movies.core.data.remote.dto.MovieDto
-import dev.brunofelix.movies.core.data.remote.dto.MovieRootDto
+import dev.brunofelix.movies.core.data.remote.dto.movie.MovieDto
+import dev.brunofelix.movies.core.data.remote.dto.movie.MovieRootDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

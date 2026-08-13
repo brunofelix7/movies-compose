@@ -5,7 +5,7 @@ import dev.brunofelix.movies.core.domain.model.TvShow
 
 fun TvShowDto.toDomain(): TvShow {
     return TvShow(
-        id = id ?: 0L,
+        id = id ?: -1L,
         name = name.orEmpty(),
         originalName = originalName.orEmpty(),
         originalLanguage = originalLanguage.orEmpty(),

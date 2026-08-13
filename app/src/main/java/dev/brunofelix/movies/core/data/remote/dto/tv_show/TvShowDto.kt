@@ -1,7 +1,7 @@
 package dev.brunofelix.movies.core.data.remote.dto.tv_show
 
 import com.google.gson.annotations.SerializedName
-import dev.brunofelix.movies.core.data.remote.dto.MovieGenreDto
+import dev.brunofelix.movies.core.data.remote.dto.movie.MovieGenreDto
 
 data class TvShowDto(
     @SerializedName("id")

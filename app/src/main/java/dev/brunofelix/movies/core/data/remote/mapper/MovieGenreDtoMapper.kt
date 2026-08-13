@@ -1,6 +1,6 @@
 package dev.brunofelix.movies.core.data.remote.mapper
 
-import dev.brunofelix.movies.core.data.remote.dto.MovieGenreDto
+import dev.brunofelix.movies.core.data.remote.dto.movie.MovieGenreDto
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 
 fun MovieGenreDto.toDomain(): MovieGenre {
