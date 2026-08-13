@@ -8,4 +8,10 @@
     <string name="delete_movie_error">Failed to delete the movie</string>
     <string name="is_favorite_movie_error">Failed to validate favorite movie</string>
     <string name="mark_favorite_error">Failed to mark movie as favorite</string>
+
+    <string name="error_network_unauthorized">Unauthorized access. Please login again.</string>
+    <string name="error_network_not_found">Resource not found.</string>
+    <string name="error_network_server">Server error. Please try again later.</string>
+    <string name="error_network_no_internet">No internet connection.</string>
+    <string name="error_unknown">An unknown error occurred.</string>
 </resources>
