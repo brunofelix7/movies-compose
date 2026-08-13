@@ -1,9 +1,9 @@
 package dev.brunofelix.movies.core.data.remote.source
 
+import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.data.remote.MovieService
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
-import dev.brunofelix.movies.core.data.remote.paging.MoviePopularPagingSource
-import dev.brunofelix.movies.core.data.remote.paging.MovieUpcomingPagingSource
+import dev.brunofelix.movies.core.data.remote.paging.BasePagingSource
 import dev.brunofelix.movies.core.data.remote.source.base.RemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
 import javax.inject.Inject
@@ -12,9 +12,17 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     api: MovieService
 ) : RemoteDataSource<MovieService>(api), MovieRemoteDataSource {
 
-    override fun getPopularPagingSource() = MoviePopularPagingSource(this)
+    override fun getPopularPagingSource(): PagingSource<Int, Movie> {
+        return BasePagingSource { page -> getPopular(page) }
+    }
 
-    override fun getUpcomingPagingSource() = MovieUpcomingPagingSource(this)
+    override fun getUpcomingPagingSource(): PagingSource<Int, Movie> {
+        return BasePagingSource { page -> getUpcoming(page) }
+    }
+
+    override fun getTopRatedPagingSource(): PagingSource<Int, Movie> {
+        return BasePagingSource { page -> getTopRated(page) }
+    }
 
     override suspend fun getPopular(page: Int): Result<List<Movie>> {
         return safeApiCall(
@@ -26,6 +34,13 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     override suspend fun getUpcoming(page: Int): Result<List<Movie>> {
         return safeApiCall(
             call = { getUpcoming(page) },
+            transform = { it.results?.map { result -> result.toDomain() } ?: emptyList() }
+        )
+    }
+
+    override suspend fun getTopRated(page: Int): Result<List<Movie>> {
+        return safeApiCall(
+            call = { getTopRated(page) },
             transform = { it.results?.map { result -> result.toDomain() } ?: emptyList() }
         )
     }
