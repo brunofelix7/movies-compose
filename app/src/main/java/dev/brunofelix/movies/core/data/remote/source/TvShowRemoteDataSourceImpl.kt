@@ -1,7 +1,9 @@
 package dev.brunofelix.movies.core.data.remote.source
 
+import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.data.remote.TvShowService
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
+import dev.brunofelix.movies.core.data.remote.paging.BasePagingSource
 import dev.brunofelix.movies.core.data.remote.source.base.RemoteDataSource
 import dev.brunofelix.movies.core.domain.model.TvShow
 import javax.inject.Inject
@@ -9,6 +11,14 @@ import javax.inject.Inject
 class TvShowRemoteDataSourceImpl @Inject constructor(
     api: TvShowService
 ) : RemoteDataSource<TvShowService>(api), TvShowRemoteDataSource {
+
+    override fun getPopularPagingSource(): PagingSource<Int, TvShow> {
+        return BasePagingSource { page -> getPopular(page) }
+    }
+
+    override fun getTopRatedPagingSource(): PagingSource<Int, TvShow> {
+        return BasePagingSource { page -> getTopRated(page) }
+    }
 
     override suspend fun getPopular(page: Int): Result<List<TvShow>> {
         return safeApiCall(
