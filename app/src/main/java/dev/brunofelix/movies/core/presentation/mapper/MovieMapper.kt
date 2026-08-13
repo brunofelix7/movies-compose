@@ -1,9 +1,8 @@
 package dev.brunofelix.movies.core.presentation.mapper
 
 import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.util.datetime.DateTimeConverter
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
-import dev.brunofelix.movies.core.domain.util.datetime.DateTimeConvert
-import dev.brunofelix.movies.core.domain.util.datetime.DateTimePatterns
 
 /**
  * Maps a [Movie] domain model to a [MovieUiState] for the presentation layer.
@@ -20,10 +19,10 @@ fun Movie.toUiState(): MovieUiState {
         overview = overview,
         posterPath = posterPath,
         backdropPath = backdropPath,
-        releaseDate = DateTimeConvert.format(
+        releaseDate = DateTimeConverter.format(
             value = releaseDate,
-            fromPattern = DateTimePatterns.YYYY_MM_DD.pattern,
-            toPattern = DateTimePatterns.DD_MM_YYYY.pattern
+            fromPattern = DateTimeConverter.YYYY_MM_DD,
+            toPattern = DateTimeConverter.DD_MM_YYYY
         ).value,
         voteAverage = voteAverage,
         duration = duration,
