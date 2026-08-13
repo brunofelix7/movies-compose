@@ -1,9 +1,9 @@
-package dev.brunofelix.movies.core.data.db
+package dev.brunofelix.movies.core.data.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import dev.brunofelix.movies.core.data.db.dao.MovieDao
-import dev.brunofelix.movies.core.data.db.entity.MovieEntity
+import dev.brunofelix.movies.core.data.local.db.dao.MovieDao
+import dev.brunofelix.movies.core.data.local.db.entity.MovieEntity
 
 @Database(
     entities = [MovieEntity::class],

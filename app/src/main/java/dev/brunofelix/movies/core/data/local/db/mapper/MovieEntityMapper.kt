@@ -1,6 +1,6 @@
-package dev.brunofelix.movies.core.data.db.mapper
+package dev.brunofelix.movies.core.data.local.db.mapper
 
-import dev.brunofelix.movies.core.data.db.entity.MovieEntity
+import dev.brunofelix.movies.core.data.local.db.entity.MovieEntity
 import dev.brunofelix.movies.core.domain.model.Movie
 
 fun MovieEntity.toDomain(): Movie {

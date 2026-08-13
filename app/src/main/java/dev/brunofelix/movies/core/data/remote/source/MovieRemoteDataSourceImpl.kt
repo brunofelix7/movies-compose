@@ -1,16 +1,16 @@
-package dev.brunofelix.movies.core.data.source
+package dev.brunofelix.movies.core.data.remote.source
 
-import dev.brunofelix.movies.core.data.api.MovieApi
-import dev.brunofelix.movies.core.data.api.mapper.toDomain
-import dev.brunofelix.movies.core.data.api.paging.MoviePopularPagingSource
-import dev.brunofelix.movies.core.data.api.paging.MovieUpcomingPagingSource
-import dev.brunofelix.movies.core.data.source.base.RemoteDataSource
+import dev.brunofelix.movies.core.data.remote.MovieService
+import dev.brunofelix.movies.core.data.remote.mapper.toDomain
+import dev.brunofelix.movies.core.data.remote.paging.MoviePopularPagingSource
+import dev.brunofelix.movies.core.data.remote.paging.MovieUpcomingPagingSource
+import dev.brunofelix.movies.core.data.remote.source.base.RemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
 import javax.inject.Inject
 
 class MovieRemoteDataSourceImpl @Inject constructor(
-    api: MovieApi
-) : RemoteDataSource<MovieApi>(api), MovieRemoteDataSource {
+    api: MovieService
+) : RemoteDataSource<MovieService>(api), MovieRemoteDataSource {
 
     override fun getPopularPagingSource() = MoviePopularPagingSource(this)
 

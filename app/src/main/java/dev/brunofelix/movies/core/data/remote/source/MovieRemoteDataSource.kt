@@ -1,7 +1,7 @@
-package dev.brunofelix.movies.core.data.source
+package dev.brunofelix.movies.core.data.remote.source
 
-import dev.brunofelix.movies.core.data.api.paging.MoviePopularPagingSource
-import dev.brunofelix.movies.core.data.api.paging.MovieUpcomingPagingSource
+import dev.brunofelix.movies.core.data.remote.paging.MoviePopularPagingSource
+import dev.brunofelix.movies.core.data.remote.paging.MovieUpcomingPagingSource
 import dev.brunofelix.movies.core.domain.model.Movie
 
 interface MovieRemoteDataSource {

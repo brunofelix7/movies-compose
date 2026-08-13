@@ -1,9 +1,9 @@
 package dev.brunofelix.movies.test_util.fake
 
-import dev.brunofelix.movies.core.data.api.mapper.toDomain
-import dev.brunofelix.movies.core.data.api.paging.MoviePopularPagingSource
-import dev.brunofelix.movies.core.data.api.paging.MovieUpcomingPagingSource
-import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.data.remote.mapper.toDomain
+import dev.brunofelix.movies.core.data.remote.paging.MoviePopularPagingSource
+import dev.brunofelix.movies.core.data.remote.paging.MovieUpcomingPagingSource
+import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.util.exception.RemoteException
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory

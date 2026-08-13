@@ -1,8 +1,8 @@
-package dev.brunofelix.movies.core.data.api.paging
+package dev.brunofelix.movies.core.data.remote.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.util.logError
 import retrofit2.HttpException

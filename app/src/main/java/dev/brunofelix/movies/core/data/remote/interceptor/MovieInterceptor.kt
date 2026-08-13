@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.data.api.interceptor
+package dev.brunofelix.movies.core.data.remote.interceptor
 
 import dev.brunofelix.movies.BuildConfig
 import okhttp3.Interceptor

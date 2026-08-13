@@ -1,6 +1,6 @@
-package dev.brunofelix.movies.core.data.api.mapper
+package dev.brunofelix.movies.core.data.remote.mapper
 
-import dev.brunofelix.movies.core.data.api.dto.MovieDto
+import dev.brunofelix.movies.core.data.remote.dto.MovieDto
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.util.extension.toBackdropUrl
 import dev.brunofelix.movies.core.util.extension.toPostUrl

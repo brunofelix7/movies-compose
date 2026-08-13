@@ -3,8 +3,8 @@ package dev.brunofelix.movies.core.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
-import dev.brunofelix.movies.core.data.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.data.local.source.MovieLocalDataSource
+import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.data.util.Resource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository

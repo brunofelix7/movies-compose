@@ -1,13 +1,13 @@
-package dev.brunofelix.movies.core.data.api
+package dev.brunofelix.movies.core.data.remote
 
-import dev.brunofelix.movies.core.data.api.dto.MovieDto
-import dev.brunofelix.movies.core.data.api.dto.MovieRootDto
+import dev.brunofelix.movies.core.data.remote.dto.MovieDto
+import dev.brunofelix.movies.core.data.remote.dto.MovieRootDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface MovieApi {
+interface MovieService {
 
     @GET("movie/popular")
     suspend fun getPopulars(

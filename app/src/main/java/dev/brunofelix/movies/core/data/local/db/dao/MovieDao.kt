@@ -1,11 +1,11 @@
-package dev.brunofelix.movies.core.data.db.dao
+package dev.brunofelix.movies.core.data.local.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import dev.brunofelix.movies.core.data.db.entity.MovieEntity
+import dev.brunofelix.movies.core.data.local.db.entity.MovieEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.data.source.base
+package dev.brunofelix.movies.core.data.remote.source.base
 
 import dev.brunofelix.movies.core.util.extension.mapOrThrow
 import retrofit2.Response

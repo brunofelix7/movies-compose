@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.data.source
+package dev.brunofelix.movies.core.data.local.source
 
 import dev.brunofelix.movies.core.domain.model.Movie
 import kotlinx.coroutines.flow.Flow

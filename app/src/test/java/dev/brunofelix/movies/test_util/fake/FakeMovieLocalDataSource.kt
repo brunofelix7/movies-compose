@@ -1,6 +1,6 @@
 package dev.brunofelix.movies.test_util.fake
 
-import dev.brunofelix.movies.core.data.source.MovieLocalDataSource
+import dev.brunofelix.movies.core.data.local.source.MovieLocalDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 

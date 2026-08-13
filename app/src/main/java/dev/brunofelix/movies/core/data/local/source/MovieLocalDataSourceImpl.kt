@@ -1,8 +1,8 @@
-package dev.brunofelix.movies.core.data.source
+package dev.brunofelix.movies.core.data.local.source
 
-import dev.brunofelix.movies.core.data.db.dao.MovieDao
-import dev.brunofelix.movies.core.data.db.mapper.toDomain
-import dev.brunofelix.movies.core.data.db.mapper.toEntity
+import dev.brunofelix.movies.core.data.local.db.dao.MovieDao
+import dev.brunofelix.movies.core.data.local.db.mapper.toDomain
+import dev.brunofelix.movies.core.data.local.db.mapper.toEntity
 import dev.brunofelix.movies.core.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
