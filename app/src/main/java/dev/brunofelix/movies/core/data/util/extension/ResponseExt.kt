@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.util.extension
+package dev.brunofelix.movies.core.data.util.extension
 
 import retrofit2.HttpException
 import retrofit2.Response
@@ -9,9 +9,4 @@ inline fun <T, R> Response<T>.mapOrThrow(transform: (T) -> R): R {
     } else {
         throw HttpException(this)
     }
-}
-
-fun Response<Unit>.mapOrThrow() {
-    if (isSuccessful) return
-    else throw HttpException(this)
 }

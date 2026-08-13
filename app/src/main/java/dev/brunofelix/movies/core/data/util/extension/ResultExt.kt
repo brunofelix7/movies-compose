@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.util.extension
+package dev.brunofelix.movies.core.data.util.extension
 
 import dev.brunofelix.movies.core.data.util.Resource
 
