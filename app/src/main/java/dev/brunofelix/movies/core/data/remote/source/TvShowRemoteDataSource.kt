@@ -11,8 +11,6 @@ import javax.inject.Inject
 interface TvShowRemoteDataSource {
     fun getPopularPagingSource(): PagingSource<Int, TvShow>
     fun getTopRatedPagingSource(): PagingSource<Int, TvShow>
-    suspend fun getPopular(page: Int): Result<List<TvShow>>
-    suspend fun getTopRated(page: Int): Result<List<TvShow>>
     suspend fun getDetails(id: Long): Result<TvShow>
 }
 
@@ -21,25 +19,21 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
 ) : TvShowRemoteDataSource {
 
     override fun getPopularPagingSource(): PagingSource<Int, TvShow> {
-        return BasePagingSource { page -> getPopular(page) }
-    }
-
-    override fun getTopRatedPagingSource(): PagingSource<Int, TvShow> {
-        return BasePagingSource { page -> getTopRated(page) }
-    }
-
-    override suspend fun getPopular(page: Int): Result<List<TvShow>> {
-        return runCatching {
-            service.getPopulars(page).mapOrThrow {
-                it.results?.map { result -> result.toDomain() } ?: emptyList()
+        return BasePagingSource { page ->
+            runCatching {
+                service.getPopulars(page).mapOrThrow {
+                    it.results?.map { result -> result.toDomain() } ?: emptyList()
+                }
             }
         }
     }
 
-    override suspend fun getTopRated(page: Int): Result<List<TvShow>> {
-        return runCatching {
-            service.getTopRated(page).mapOrThrow {
-                it.results?.map { result -> result.toDomain() } ?: emptyList()
+    override fun getTopRatedPagingSource(): PagingSource<Int, TvShow> {
+        return BasePagingSource { page ->
+            runCatching {
+                service.getTopRated(page).mapOrThrow {
+                    it.results?.map { result -> result.toDomain() } ?: emptyList()
+                }
             }
         }
     }

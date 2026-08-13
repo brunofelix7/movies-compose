@@ -12,9 +12,6 @@ interface MovieRemoteDataSource {
     fun getPopularPagingSource(): PagingSource<Int, Movie>
     fun getUpcomingPagingSource(): PagingSource<Int, Movie>
     fun getTopRatedPagingSource(): PagingSource<Int, Movie>
-    suspend fun getPopular(page: Int): Result<List<Movie>>
-    suspend fun getUpcoming(page: Int): Result<List<Movie>>
-    suspend fun getTopRated(page: Int): Result<List<Movie>>
     suspend fun getDetails(id: Long): Result<Movie>
 }
 
@@ -23,37 +20,31 @@ class MovieRemoteDataSourceImpl @Inject constructor(
 ) : MovieRemoteDataSource {
 
     override fun getPopularPagingSource(): PagingSource<Int, Movie> {
-        return BasePagingSource { page -> getPopular(page) }
+        return BasePagingSource { page ->
+            runCatching {
+                service.getPopulars(page).mapOrThrow {
+                    it.results?.map { result -> result.toDomain() } ?: emptyList()
+                }
+            }
+        }
     }
 
     override fun getUpcomingPagingSource(): PagingSource<Int, Movie> {
-        return BasePagingSource { page -> getUpcoming(page) }
+        return BasePagingSource { page ->
+            runCatching {
+                service.getUpcoming(page).mapOrThrow {
+                    it.results?.map { result -> result.toDomain() } ?: emptyList()
+                }
+            }
+        }
     }
 
     override fun getTopRatedPagingSource(): PagingSource<Int, Movie> {
-        return BasePagingSource { page -> getTopRated(page) }
-    }
-
-    override suspend fun getPopular(page: Int): Result<List<Movie>> {
-        return runCatching {
-            service.getPopulars(page).mapOrThrow {
-                it.results?.map { result -> result.toDomain() } ?: emptyList()
-            }
-        }
-    }
-
-    override suspend fun getUpcoming(page: Int): Result<List<Movie>> {
-        return runCatching {
-            service.getUpcoming(page).mapOrThrow {
-                it.results?.map { result -> result.toDomain() } ?: emptyList()
-            }
-        }
-    }
-
-    override suspend fun getTopRated(page: Int): Result<List<Movie>> {
-        return runCatching {
-            service.getTopRated(page).mapOrThrow {
-                it.results?.map { result -> result.toDomain() } ?: emptyList()
+        return BasePagingSource { page ->
+            runCatching {
+                service.getTopRated(page).mapOrThrow {
+                    it.results?.map { result -> result.toDomain() } ?: emptyList()
+                }
             }
         }
     }
