@@ -19,6 +19,11 @@ interface MovieService {
         @Query("page") page: Int
     ): Response<MovieRootDto>
 
+    @GET("movie/top_rated")
+    suspend fun getTopRated(
+        @Query("page") page: Int
+    ): Response<MovieRootDto>
+
     @GET("movie/{id}")
     suspend fun getDetails(
         @Path("id") id: Long
