@@ -15,11 +15,11 @@ import javax.inject.Inject
  * @property preferenceStorage The generic storage used to save and retrieve preferences.
  */
 class LanguageRepositoryImpl @Inject constructor(
-    private val preferenceStorage: PreferenceStorage
+    private val preferences: PreferenceStorage
 ) : LanguageRepository {
 
     override fun getLanguage(): Flow<LanguageEnum> {
-        return preferenceStorage.observe(
+        return preferences.observe(
             key = PreferencesKeys.LANGUAGE_KEY, 
             defaultValue = LanguageEnum.ENGLISH.code
         ).map { code ->
@@ -30,7 +30,7 @@ class LanguageRepositoryImpl @Inject constructor(
     override suspend fun saveLanguage(
         language: LanguageEnum
     ) {
-        preferenceStorage.put(
+        preferences.put(
             key = PreferencesKeys.LANGUAGE_KEY, 
             value = language.code
         )

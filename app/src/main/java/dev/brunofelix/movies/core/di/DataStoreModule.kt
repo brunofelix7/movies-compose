@@ -12,8 +12,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.brunofelix.movies.core.data.local.preferences.DataStorePreferenceStorage
 import dev.brunofelix.movies.core.data.local.preferences.PreferenceStorage
+import dev.brunofelix.movies.core.data.local.preferences.PreferenceStorageImpl
 import dev.brunofelix.movies.core.data.local.preferences.PreferencesKeys
 import dev.brunofelix.movies.core.data.repository.LanguageRepositoryImpl
 import dev.brunofelix.movies.core.domain.repository.LanguageRepository
@@ -26,7 +26,7 @@ abstract class DataStoreModule {
     @Binds
     @Singleton
     abstract fun bindPreferenceStorage(
-        impl: DataStorePreferenceStorage
+        impl: PreferenceStorageImpl
     ): PreferenceStorage
 
     @Binds

@@ -17,7 +17,7 @@ import javax.inject.Inject
 /**
  * Implementation of [PreferenceStorage] using Jetpack DataStore and Gson for object serialization.
  */
-class DataStorePreferenceStorage @Inject constructor(
+class PreferenceStorageImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val gson: Gson
 ) : PreferenceStorage {
