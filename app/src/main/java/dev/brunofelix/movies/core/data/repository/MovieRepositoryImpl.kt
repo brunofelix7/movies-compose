@@ -13,6 +13,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * Implementation of [MovieRepository].
+ *
+ * @property remoteDataSource The source for remote movie data.
+ * @property localDataSource The source for local movie persistence.
+ */
 class MovieRepositoryImpl @Inject constructor(
     private val remoteDataSource: MovieRemoteDataSource,
     private val localDataSource: MovieLocalDataSource

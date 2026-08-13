@@ -11,6 +11,11 @@ import dev.brunofelix.movies.core.domain.util.toResource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+/**
+ * Implementation of [TvShowRepository].
+ *
+ * @property remoteDataSource The source for remote TV show data.
+ */
 class TvShowRepositoryImpl @Inject constructor(
     private val remoteDataSource: TvShowRemoteDataSource
 ) : TvShowRepository {
