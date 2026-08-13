@@ -52,10 +52,7 @@ fun MainContent(
                                 8.dp,
                                 Alignment.CenterHorizontally
                             ),
-                            verticalArrangement = Arrangement.spacedBy(
-                                8.dp,
-                                Alignment.CenterVertically
-                            ),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier.fillMaxSize()
                         ) {
                             items(paging.itemCount) { index ->
