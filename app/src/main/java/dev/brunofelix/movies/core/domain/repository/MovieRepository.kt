@@ -13,5 +13,6 @@ interface MovieRepository {
     suspend fun getDetails(id: Long): Resource<Movie>
     fun fetchPopulars(pagingConfig: PagingConfig): Flow<PagingData<Movie>>
     fun fetchUpcoming(pagingConfig: PagingConfig): Flow<PagingData<Movie>>
+    fun fetchTopRated(pagingConfig: PagingConfig): Flow<PagingData<Movie>>
     fun fetchFavorites(): Flow<List<Movie>>
 }

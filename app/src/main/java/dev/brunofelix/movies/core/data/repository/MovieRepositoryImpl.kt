@@ -57,4 +57,13 @@ class MovieRepositoryImpl @Inject constructor(
             }
         ).flow
     }
+
+    override fun fetchTopRated(pagingConfig: PagingConfig): Flow<PagingData<Movie>> {
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                remoteDataSource.getTopRatedPagingSource()
+            }
+        ).flow
+    }
 }
