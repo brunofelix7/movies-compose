@@ -6,9 +6,9 @@ import androidx.paging.PagingData
 import dev.brunofelix.movies.core.data.local.source.MovieLocalDataSource
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.data.util.Resource
+import dev.brunofelix.movies.core.data.util.extension.toResource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
-import dev.brunofelix.movies.core.data.util.extension.toResource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -34,13 +34,13 @@ class MovieRepositoryImpl @Inject constructor(
         return remoteDataSource.getDetails(id).toResource()
     }
 
-    override fun fetchFavorites(): Flow<List<Movie>> {
+    override fun getFavoriteMovies(): Flow<List<Movie>> {
         return localDataSource.getAll().map { entityList ->
             entityList.map { it }
         }
     }
 
-    override fun fetchPopulars(pagingConfig: PagingConfig): Flow<PagingData<Movie>> {
+    override fun getPopularMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
@@ -49,7 +49,7 @@ class MovieRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun fetchUpcoming(pagingConfig: PagingConfig): Flow<PagingData<Movie>> {
+    override fun getUpcomingMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
@@ -58,7 +58,7 @@ class MovieRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun fetchTopRated(pagingConfig: PagingConfig): Flow<PagingData<Movie>> {
+    override fun getTopRatedMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
