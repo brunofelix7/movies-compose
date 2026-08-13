@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.data.db.entity
+package dev.brunofelix.movies.core.data.local.db.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

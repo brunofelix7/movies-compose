@@ -1,16 +1,17 @@
-package dev.brunofelix.movies.core.data.api.dto
+package dev.brunofelix.movies.core.data.remote.dto.tv_show
 
 import com.google.gson.annotations.SerializedName
+import dev.brunofelix.movies.core.data.remote.dto.MovieGenreDto
 
-data class MovieDto(
+data class TvShowDto(
     @SerializedName("id")
     val id: Long? = null,
 
-    @SerializedName("title")
-    val title: String? = null,
+    @SerializedName("name")
+    val name: String? = null,
 
-    @SerializedName("original_title")
-    val originalTitle: String? = null,
+    @SerializedName("original_name")
+    val originalName: String? = null,
 
     @SerializedName("original_language")
     val originalLanguage: String? = null,
@@ -24,11 +25,8 @@ data class MovieDto(
     @SerializedName("backdrop_path")
     val backdropPath: String? = null,
 
-    @SerializedName("release_date")
-    val releaseDate: String? = null,
-
-    @SerializedName("adult")
-    val adult: Boolean? = null,
+    @SerializedName("first_air_date")
+    val firstAirDate: String? = null,
 
     @SerializedName("genre_ids")
     val genreIds: List<Int>? = null,
@@ -36,17 +34,11 @@ data class MovieDto(
     @SerializedName("popularity")
     val popularity: Double? = null,
 
-    @SerializedName("video")
-    val video: Boolean? = null,
-
     @SerializedName("vote_average")
     val voteAverage: Float? = null,
 
     @SerializedName("vote_count")
     val voteCount: Int? = null,
-
-    @SerializedName("budget")
-    val budget: Int? = null,
 
     @SerializedName("genres")
     val genres: List<MovieGenreDto>? = null,
@@ -54,21 +46,21 @@ data class MovieDto(
     @SerializedName("homepage")
     val homepage: String? = null,
 
-    @SerializedName("imdb_id")
-    val imdbId: String? = null,
-
     @SerializedName("origin_country")
     val originCountry: List<String>? = null,
-
-    @SerializedName("revenue")
-    val revenue: Long? = null,
-
-    @SerializedName("runtime")
-    val runtime: Int? = null,
 
     @SerializedName("status")
     val status: String? = null,
 
     @SerializedName("tagline")
-    val tagline: String? = null
+    val tagline: String? = null,
+
+    @SerializedName("number_of_episodes")
+    val numberOfEpisodes: Int? = null,
+
+    @SerializedName("number_of_seasons")
+    val numberOfSeasons: Int? = null,
+
+    @SerializedName("type")
+    val type: String? = null
 )
