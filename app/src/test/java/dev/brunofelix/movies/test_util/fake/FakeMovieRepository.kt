@@ -5,7 +5,7 @@ import androidx.paging.PagingData
 import dev.brunofelix.movies.core.data.util.Resource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
-import dev.brunofelix.movies.core.util.extension.toResource
+import dev.brunofelix.movies.core.data.util.extension.toResource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
