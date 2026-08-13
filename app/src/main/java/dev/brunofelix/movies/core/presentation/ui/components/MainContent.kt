@@ -13,17 +13,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
 import dev.brunofelix.movies.core.presentation.util.extension.collectAsPreviewLazyPagingItems
+import dev.brunofelix.movies.core.presentation.util.extension.createCombinedLoadStates
 
 @Composable
 fun MainContent(
     modifier: Modifier = Modifier,
     paging: LazyPagingItems<Movie>?,
+    loadState: CombinedLoadStates? = paging?.loadState,
     paddingValues: PaddingValues,
     onClick: (id: Long) -> Unit
 ) {
@@ -33,8 +38,7 @@ fun MainContent(
                 .fillMaxSize()
                 .padding(horizontal = 8.dp)
         ) {
-            if (paging == null) return@Box
-            val loadState = paging.loadState
+            if (paging == null || loadState == null) return@Box
 
             // 1. Initial Load States (Refresh)
             when (loadState.refresh) {
@@ -55,7 +59,11 @@ fun MainContent(
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            items(paging.itemCount) { index ->
+                            items(
+                                count = paging.itemCount,
+                                key = paging.itemKey { movie -> movie.id },
+                                contentType = paging.itemContentType { "movie" }
+                            ) { index ->
                                 val movie = paging[index]
                                 movie?.let {
                                     MovieCard(
@@ -73,12 +81,14 @@ fun MainContent(
                                             modifier = Modifier.padding(vertical = 16.dp)
                                         )
                                     }
+
                                     is LoadState.Error -> {
                                         PagingRetry(
                                             modifier = Modifier.padding(vertical = 16.dp),
                                             onRetry = { paging.retry() }
                                         )
                                     }
+
                                     is LoadState.NotLoading -> Unit
                                 }
                             }
@@ -103,80 +113,79 @@ private fun BoxCenter(
     }
 }
 
-@Preview(showBackground = true, name = "Success")
+@Preview(showBackground = true)
 @Composable
 private fun SuccessPreview() {
     PMovieTheme {
         MainContent(
             paging = Movie.mocks().collectAsPreviewLazyPagingItems(),
+            loadState = createCombinedLoadStates(),
             paddingValues = PaddingValues(),
             onClick = {}
         )
     }
 }
 
-@Preview(showBackground = true, name = "Empty")
+@Preview(showBackground = true)
 @Composable
 private fun EmptyPreview() {
     PMovieTheme {
         MainContent(
             paging = emptyList<Movie>().collectAsPreviewLazyPagingItems(),
+            loadState = createCombinedLoadStates(),
             paddingValues = PaddingValues(),
             onClick = {}
         )
     }
 }
 
-@Preview(showBackground = true, name = "Initial Loading")
+@Preview(showBackground = true)
 @Composable
 private fun InitialLoadingPreview() {
     PMovieTheme {
         MainContent(
-            paging = emptyList<Movie>().collectAsPreviewLazyPagingItems(
-                refresh = LoadState.Loading
-            ),
+            paging = emptyList<Movie>().collectAsPreviewLazyPagingItems(),
+            loadState = createCombinedLoadStates(refresh = LoadState.Loading),
             paddingValues = PaddingValues(),
             onClick = {}
         )
     }
 }
 
-@Preview(showBackground = true, name = "Initial Error")
+@Preview(showBackground = true)
 @Composable
 private fun InitialErrorPreview() {
     PMovieTheme {
         MainContent(
-            paging = emptyList<Movie>().collectAsPreviewLazyPagingItems(
-                refresh = LoadState.Error(Exception())
-            ),
+            paging = emptyList<Movie>().collectAsPreviewLazyPagingItems(),
+            loadState = createCombinedLoadStates(refresh = LoadState.Error(Exception())),
             paddingValues = PaddingValues(),
             onClick = {}
         )
     }
 }
 
-@Preview(showBackground = true, name = "Pagination Loading")
+@Preview(showBackground = true)
 @Composable
-private fun LoadingPreview() {
+private fun PaginationLoadingPreview() {
     PMovieTheme {
         MainContent(
-            paging = Movie.mocks().collectAsPreviewLazyPagingItems(
-                append = LoadState.Loading
-            ),
+            paging = Movie.mocks().collectAsPreviewLazyPagingItems(),
+            loadState = createCombinedLoadStates(append = LoadState.Loading),
             paddingValues = PaddingValues(bottom = 80.dp),
             onClick = {}
         )
     }
 }
 
-@Preview(showBackground = true, name = "Pagination Error")
+@Preview(showBackground = true)
 @Composable
-private fun ErrorPreview() {
+private fun PaginationErrorPreview() {
+    val movies = Movie.mocks()
     PMovieTheme {
         MainContent(
-            paging = Movie.mocks().collectAsPreviewLazyPagingItems(
-                append = LoadState.Error(Exception())
-            ),
+            paging = movies.collectAsPreviewLazyPagingItems(),
+            loadState = createCombinedLoadStates(append = LoadState.Error(Exception())),
             paddingValues = PaddingValues(bottom = 80.dp),
             onClick = {}
         )
