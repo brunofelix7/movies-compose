@@ -10,6 +10,6 @@ import dev.brunofelix.movies.core.data.local.db.entity.MovieEntity
     exportSchema = false,
     version = 1
 )
-abstract class MovieDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract val movieDao: MovieDao
 }

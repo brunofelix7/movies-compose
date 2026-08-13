@@ -5,7 +5,7 @@ import androidx.test.filters.MediumTest
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dev.brunofelix.movies.core.data.local.db.MovieDatabase
+import dev.brunofelix.movies.core.data.local.db.AppDatabase
 import dev.brunofelix.movies.test_util.factory.MovieEntityFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -30,7 +30,7 @@ class MovieDaoTest {
 
     @Inject
     @Named("test_db")
-    lateinit var db: MovieDatabase
+    lateinit var db: AppDatabase
 
     @Before
     fun setUp() {
