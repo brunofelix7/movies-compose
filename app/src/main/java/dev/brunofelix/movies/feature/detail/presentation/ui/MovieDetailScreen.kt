@@ -18,6 +18,7 @@ import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
+import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
 import dev.brunofelix.movies.feature.detail.presentation.ui.components.MovieDetailContent
 import dev.brunofelix.movies.feature.detail.presentation.ui.components.MovieDetailHeader
@@ -76,7 +77,9 @@ private fun MovieDetailScreen(
                             modifier = modifier.padding(innerPadding)
                         )
                     }
-                    is UiState.Error -> ErrorLayout()
+                    is UiState.Error -> {
+                        ErrorLayout(errorMessage = state.uiState.uiText)
+                    }
                 }
             }
         )
@@ -118,7 +121,7 @@ private fun SuccessPreview() {
 private fun ErrorPreview() {
     MovieDetailScreen(
         state = MovieDetailState(
-            uiState = UiState.Error(0),
+            uiState = UiState.Error(UiText.DynamicString("Error message")),
             isFavorite = false
         )
     )

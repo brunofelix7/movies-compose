@@ -26,3 +26,11 @@ fun LocalException.toUiText(): UiText {
         is LocalException.General -> UiText.StringResource(this.messageRes)
     }
 }
+
+fun Throwable.toUiText(): UiText {
+    return when (this) {
+        is RemoteException -> this.toUiText()
+        is LocalException -> this.toUiText()
+        else -> UiText.StringResource(R.string.error_unknown)
+    }
+}

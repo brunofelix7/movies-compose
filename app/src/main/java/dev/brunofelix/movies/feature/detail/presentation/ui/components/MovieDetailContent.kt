@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
@@ -95,9 +96,10 @@ fun MovieDetailContent(
                         )
                     }
                 }
-                else -> {
+                is UiState.Error -> {
                     ErrorLayout(
-                        modifier = Modifier.padding(top = 64.dp)
+                        modifier = Modifier.padding(top = 64.dp),
+                        errorMessage = state.uiState.uiText
                     )
                 }
             }
@@ -118,7 +120,7 @@ private fun LoadingPreview() {
 private fun ErrorPreview() {
     MovieDetailContent(
         state = MovieDetailState(
-            uiState = UiState.Error(0)
+            uiState = UiState.Error(UiText.DynamicString("Error"))
         )
     )
 }

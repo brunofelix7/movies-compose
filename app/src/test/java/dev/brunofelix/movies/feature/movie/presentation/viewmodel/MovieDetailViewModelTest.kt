@@ -7,7 +7,9 @@ import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
+import dev.brunofelix.movies.core.data.util.extension.toUiText
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.detail.domain.use_case.DeleteMovieUseCase
 import dev.brunofelix.movies.feature.detail.domain.use_case.GetMovieDetailsUseCase
 import dev.brunofelix.movies.feature.detail.domain.use_case.IsFavoriteMovieUseCase
@@ -72,8 +74,9 @@ class MovieDetailViewModelTest {
     @Test
     fun `when GetMovieDetailsUseCase get error, then returns state 'Error' in uiState`() = runTest {
         // Arrange
-        val expectedState = UiState.Error(R.string.movie_details_error)
-        coEvery { getMovieDetailsUseCase(1) } returns Resource.Error(Exception("Error"))
+        val exception = Exception("Error")
+        val expectedState = UiState.Error(exception.toUiText())
+        coEvery { getMovieDetailsUseCase(1) } returns Resource.Error(exception)
 
         // Act
         viewModel.getDetails(1)

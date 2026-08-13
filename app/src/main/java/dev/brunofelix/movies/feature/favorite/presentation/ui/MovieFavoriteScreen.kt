@@ -10,6 +10,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
@@ -42,7 +43,9 @@ fun MovieFavoriteScreen(
                             onClick = state.onCardClick
                         )
                     }
-                    is UiState.Error -> ErrorLayout()
+                    is UiState.Error -> {
+                        ErrorLayout(errorMessage = state.uiState.uiText)
+                    }
                 }
             }
         )
@@ -77,7 +80,7 @@ private fun SuccessPreview() {
 private fun ErrorPreview() {
     MovieFavoriteScreen(
         state = MovieFavoriteState(
-            uiState = UiState.Error(0)
+            uiState = UiState.Error(UiText.DynamicString("Error"))
         )
     )
 }

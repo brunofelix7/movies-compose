@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.data.util.extension.toUiText
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.favorite.domain.use_case.GetFavoriteMoviesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,12 +34,12 @@ class MovieFavoriteViewModel @Inject constructor(
             .onStart {
                 _uiState.value = UiState.Loading
             }
-            .catch { _ ->
-                _uiState.value = UiState.Error(R.string.error)
+            .catch { 
+                _uiState.value = UiState.Error(it.toUiText())
             }
             .collectLatest { data ->
                 _uiState.value = if (data.isEmpty()) {
-                    UiState.Error(R.string.empty_state)
+                    UiState.Error(UiText.StringResource(R.string.empty_state))
                 } else {
                     UiState.Success(data)
                 }

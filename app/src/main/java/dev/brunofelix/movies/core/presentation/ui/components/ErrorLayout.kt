@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -24,11 +25,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
+import dev.brunofelix.movies.core.presentation.util.UiText
 
 @Composable
 fun ErrorLayout(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    errorMessage: UiText? = null
 ) {
+    val context = LocalContext.current
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -59,7 +63,7 @@ fun ErrorLayout(
             modifier = Modifier.padding(bottom = 4.dp)
         )
         Text(
-            text = stringResource(R.string.error_message),
+            text = errorMessage?.asString(context) ?: stringResource(R.string.error_message),
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
             color = Colors.lightGray,
