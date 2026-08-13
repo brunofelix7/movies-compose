@@ -7,8 +7,8 @@ import dev.brunofelix.movies.core.domain.model.TvShow
 import kotlinx.coroutines.flow.Flow
 
 interface TvShowRepository {
-    fun fetchPopulars(pagingConfig: PagingConfig): Flow<PagingData<TvShow>>
-    fun fetchTopRated(pagingConfig: PagingConfig): Flow<PagingData<TvShow>>
+    fun getPopularTvShows(pagingConfig: PagingConfig): Flow<PagingData<TvShow>>
+    fun getTopRatedTvShows(pagingConfig: PagingConfig): Flow<PagingData<TvShow>>
     suspend fun getDetails(id: Long): Resource<TvShow>
 }
 

@@ -15,7 +15,7 @@ class TvShowRepositoryImpl @Inject constructor(
     private val remoteDataSource: TvShowRemoteDataSource
 ) : TvShowRepository {
 
-    override fun fetchPopulars(pagingConfig: PagingConfig): Flow<PagingData<TvShow>> {
+    override fun getPopularTvShows(pagingConfig: PagingConfig): Flow<PagingData<TvShow>> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
@@ -24,7 +24,7 @@ class TvShowRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun fetchTopRated(pagingConfig: PagingConfig): Flow<PagingData<TvShow>> {
+    override fun getTopRatedTvShows(pagingConfig: PagingConfig): Flow<PagingData<TvShow>> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
