@@ -1,8 +1,7 @@
 package dev.brunofelix.movies.test_util.fake
 
+import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
-import dev.brunofelix.movies.core.data.remote.paging.MoviePopularPagingSource
-import dev.brunofelix.movies.core.data.remote.paging.MovieUpcomingPagingSource
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.util.exception.RemoteException
@@ -22,11 +21,15 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
         shouldReturnError = value
     }
 
-    override fun getPopularPagingSource(): MoviePopularPagingSource {
+    override fun getPopularPagingSource(): PagingSource<Int, Movie> {
         TODO("Not yet implemented")
     }
 
-    override fun getUpcomingPagingSource(): MovieUpcomingPagingSource {
+    override fun getUpcomingPagingSource(): PagingSource<Int, Movie> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTopRatedPagingSource(): PagingSource<Int, Movie> {
         TODO("Not yet implemented")
     }
 
@@ -35,6 +38,10 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
     }
 
     override suspend fun getUpcoming(page: Int): Result<List<Movie>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getTopRated(page: Int): Result<List<Movie>> {
         TODO("Not yet implemented")
     }
 
