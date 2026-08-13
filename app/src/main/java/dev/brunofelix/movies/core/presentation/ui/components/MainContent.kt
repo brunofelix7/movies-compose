@@ -81,14 +81,12 @@ fun MainContent(
                                             modifier = Modifier.padding(vertical = 16.dp)
                                         )
                                     }
-
                                     is LoadState.Error -> {
                                         PagingRetry(
                                             modifier = Modifier.padding(vertical = 16.dp),
                                             onRetry = { paging.retry() }
                                         )
                                     }
-
                                     is LoadState.NotLoading -> Unit
                                 }
                             }
