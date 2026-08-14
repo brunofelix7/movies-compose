@@ -137,6 +137,7 @@ dependencies {
     
     // Unit Tests Only
     testImplementation(libs.junit)
+    testImplementation(libs.junit.vintage.engine)
     testImplementation(libs.robolectric)
     testImplementation(libs.kotest)
     testImplementation(libs.kotest.runner)
