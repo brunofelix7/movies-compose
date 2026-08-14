@@ -9,6 +9,7 @@ import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteEn
 import dev.brunofelix.movies.feature.movie.detail.presentation.navigation.movieDetailEntry
 import dev.brunofelix.movies.feature.movie.home.presentation.navigation.movieHomeEntry
 import dev.brunofelix.movies.feature.search.presentation.navigation.searchEntry
+import dev.brunofelix.movies.feature.tv_show.detail.presentation.navigation.tvShowDetailEntry
 import dev.brunofelix.movies.feature.tv_show.home.presentation.navigation.tvShowHomeEntry
 
 @Composable
@@ -44,6 +45,11 @@ fun MainNavHost(
 
         // Movie Details Screen
         movieDetailEntry(
+            navigator = navigator
+        )
+
+        // TV Show Details Screen
+        tvShowDetailEntry(
             navigator = navigator
         )
     }
