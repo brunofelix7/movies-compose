@@ -68,6 +68,8 @@ object DateTimeConverter {
         toPattern: String,
         toZone: ZoneId = ZoneId.systemDefault()
     ): Result {
+        if (timestamp <= 0) return Result()
+
         return try {
             val formatterOutput = DateTimeFormatter.ofPattern(toPattern, Locale.getDefault())
             val instant = Instant.ofEpochMilli(timestamp)
