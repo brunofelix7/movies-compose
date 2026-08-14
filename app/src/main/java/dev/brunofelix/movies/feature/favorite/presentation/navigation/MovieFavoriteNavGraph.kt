@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.feature.favorite.presentation.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -12,13 +13,15 @@ import dev.brunofelix.movies.feature.favorite.presentation.ui.MovieFavoriteScree
 import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.MovieFavoriteViewModel
 
 fun NavGraphBuilder.favoriteGraph(
-    navController: NavController
+    navController: NavController,
+    paddingValues: PaddingValues
 ) {
     composable<AppDestination.Favorites> {
         val viewModel: MovieFavoriteViewModel = it.sharedViewModel(navController)
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         MovieFavoriteScreen(
+            paddingValues = paddingValues,
             state = MovieFavoriteState(
                 uiState = uiState,
                 onCardClick = { movieId ->

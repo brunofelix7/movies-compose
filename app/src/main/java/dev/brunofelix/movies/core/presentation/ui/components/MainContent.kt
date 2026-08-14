@@ -17,7 +17,6 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
-import androidx.paging.compose.itemKey
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
@@ -32,63 +31,60 @@ fun MainContent(
     paddingValues: PaddingValues,
     onClick: (id: Long) -> Unit
 ) {
-    GradientBackground {
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(horizontal = 8.dp)
-        ) {
-            if (paging == null || loadState == null) return@Box
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 8.dp)
+    ) {
+        if (paging == null || loadState == null) return@Box
 
-            // 1. Initial Load States (Refresh)
-            when (loadState.refresh) {
-                is LoadState.Loading -> BoxCenter { LoadingState() }
-                is LoadState.Error -> BoxCenter { PagingRetry(onRetry = { paging.retry() }) }
-                is LoadState.NotLoading -> {
-                    if (paging.itemCount == 0) {
-                        EmptyState()
-                    } else {
-                        // 2. Data is loaded, show the grid
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(3),
-                            contentPadding = paddingValues,
-                            horizontalArrangement = Arrangement.spacedBy(
-                                8.dp,
-                                Alignment.CenterHorizontally
-                            ),
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            items(
-                                count = paging.itemCount,
-                                key = paging.itemKey { movie -> movie.id },
-                                contentType = paging.itemContentType { "movie" }
-                            ) { index ->
-                                val movie = paging[index]
-                                movie?.let {
-                                    MovieCard(
-                                        uiState = movie.toUiState(),
-                                        onClick = { id -> onClick(id) }
+        // 1. Initial Load States (Refresh)
+        when (loadState.refresh) {
+            is LoadState.Loading -> BoxCenter { LoadingState() }
+            is LoadState.Error -> BoxCenter { PagingRetry(onRetry = { paging.retry() }) }
+            is LoadState.NotLoading -> {
+                if (paging.itemCount == 0) {
+                    EmptyState()
+                } else {
+                    // 2. Data is loaded, show the grid
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(3),
+                        contentPadding = paddingValues,
+                        horizontalArrangement = Arrangement.spacedBy(
+                            8.dp,
+                            Alignment.CenterHorizontally
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(
+                            count = paging.itemCount,
+                            contentType = paging.itemContentType { "movie" }
+                        ) { index ->
+                            val movie = paging[index]
+                            movie?.let {
+                                MovieCard(
+                                    uiState = movie.toUiState(),
+                                    onClick = { id -> onClick(id) }
+                                )
+                            }
+                        }
+
+                        // 3. Pagination States (Append)
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            when (loadState.append) {
+                                is LoadState.Loading -> {
+                                    LoadingState(
+                                        modifier = Modifier.padding(vertical = 16.dp)
                                     )
                                 }
-                            }
-
-                            // 3. Pagination States (Append)
-                            item(span = { GridItemSpan(maxLineSpan) }) {
-                                when (loadState.append) {
-                                    is LoadState.Loading -> {
-                                        LoadingState(
-                                            modifier = Modifier.padding(vertical = 16.dp)
-                                        )
-                                    }
-                                    is LoadState.Error -> {
-                                        PagingRetry(
-                                            modifier = Modifier.padding(vertical = 16.dp),
-                                            onRetry = { paging.retry() }
-                                        )
-                                    }
-                                    is LoadState.NotLoading -> Unit
+                                is LoadState.Error -> {
+                                    PagingRetry(
+                                        modifier = Modifier.padding(vertical = 16.dp),
+                                        onRetry = { paging.retry() }
+                                    )
                                 }
+                                is LoadState.NotLoading -> Unit
                             }
                         }
                     }

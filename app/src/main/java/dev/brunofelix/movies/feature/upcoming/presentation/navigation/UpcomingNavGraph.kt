@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.feature.upcoming.presentation.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -9,7 +10,8 @@ import dev.brunofelix.movies.feature.upcoming.presentation.ui.MovieUpcomingScree
 import dev.brunofelix.movies.feature.upcoming.presentation.viewmodel.MovieUpcomingViewModel
 
 fun NavGraphBuilder.upcomingNavGraph(
-    navController: NavController
+    navController: NavController,
+    paddingValues: PaddingValues
 ) {
     composable<AppDestination.TvShows> { backStackEntry ->
         val upcomingViewModel: MovieUpcomingViewModel = backStackEntry.sharedViewModel(navController)
@@ -18,7 +20,8 @@ fun NavGraphBuilder.upcomingNavGraph(
             uiState = upcomingViewModel.uiState,
             onItemClick = { movieId ->
                 navController.navigate(AppDestination.Details(movieId))
-            }
+            },
+            paddingValues = paddingValues
         )
     }
 }

@@ -16,7 +16,6 @@ import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
-import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
@@ -62,28 +61,28 @@ private fun MovieDetailScreen(
     state: MovieDetailState,
     modifier: Modifier = Modifier
 ) {
-    GradientBackground {
-        Scaffold(
-            containerColor = Color.Transparent,
-            topBar = {
-                MovieDetailHeader(state)
-            },
-            content = { innerPadding ->
-                when (state.uiState) {
-                    is UiState.Loading -> LoadingState()
-                    is UiState.Success -> {
-                        MovieDetailContent(
-                            state = state,
-                            modifier = modifier.padding(innerPadding)
-                        )
-                    }
-                    is UiState.Error -> {
-                        ErrorLayout(errorMessage = state.uiState.uiText)
-                    }
+    Scaffold(
+        modifier = modifier,
+        containerColor = Color.Transparent,
+        topBar = {
+            MovieDetailHeader(state)
+        },
+        content = { innerPadding ->
+            when (state.uiState) {
+                is UiState.Loading -> LoadingState()
+                is UiState.Success -> {
+                    MovieDetailContent(
+                        state = state,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+
+                is UiState.Error -> {
+                    ErrorLayout(errorMessage = state.uiState.uiText)
                 }
             }
-        )
-    }
+        }
+    )
 }
 
 @Preview

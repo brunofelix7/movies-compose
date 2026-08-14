@@ -1,8 +1,10 @@
 package dev.brunofelix.movies.core.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,29 +16,34 @@ import dev.brunofelix.movies.feature.upcoming.presentation.navigation.upcomingNa
 
 @Composable
 fun AppNavHost(
-    innerPadding: PaddingValues,
+    paddingValues: PaddingValues,
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
     NavHost(
-        modifier = modifier,
+        modifier = modifier.padding(top = 12.dp),
         navController = navController,
         startDestination = AppDestination.Movies
     ) {
         popularNavGraph(
-            navController = navController
+            navController = navController,
+            paddingValues = paddingValues
         )
         upcomingNavGraph(
-            navController = navController
+            navController = navController,
+            paddingValues = paddingValues
         )
-        composable<AppDestination.Search> { backStackEntry ->
-            MovieSearchScreen()
+        composable<AppDestination.Search> {
+            MovieSearchScreen(
+                paddingValues = paddingValues
+            )
         }
         movieDetailGraph(
             navController = navController
         )
         favoriteGraph(
-            navController = navController
+            navController = navController,
+            paddingValues = paddingValues
         )
     }
 }
