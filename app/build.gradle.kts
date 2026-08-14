@@ -21,7 +21,7 @@ android {
         applicationId = "dev.brunofelix.movies"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0.0"
         testInstrumentationRunner = "dev.brunofelix.movies.test_util.HiltTestRunner"
 
