@@ -13,7 +13,7 @@ import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 @Composable
 fun GradientBackground(
     modifier: Modifier = Modifier,
-    colors: List<Color> = listOf(Colors.darkRed, Colors.blackPrimary),
+    colors: List<Color> = listOf(Colors.blackPrimary, Colors.darkRed),
     content: @Composable () -> Unit
 ) {
     Box(
