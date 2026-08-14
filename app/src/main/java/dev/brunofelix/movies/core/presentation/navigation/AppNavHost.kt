@@ -7,12 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import dev.brunofelix.movies.feature.detail.presentation.navigation.movieDetailGraph
+import dev.brunofelix.movies.feature.detail.presentation.navigation.detailGraph
 import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteGraph
-import dev.brunofelix.movies.feature.popular.presentation.navigation.popularNavGraph
-import dev.brunofelix.movies.feature.search.presentation.ui.MovieSearchScreen
-import dev.brunofelix.movies.feature.upcoming.presentation.navigation.upcomingNavGraph
+import dev.brunofelix.movies.feature.popular.presentation.navigation.movieGraph
+import dev.brunofelix.movies.feature.search.presentation.navigation.searchGraph
+import dev.brunofelix.movies.feature.upcoming.presentation.navigation.tvShowGraph
 
 @Composable
 fun AppNavHost(
@@ -25,22 +24,30 @@ fun AppNavHost(
         navController = navController,
         startDestination = AppDestination.Movies
     ) {
-        popularNavGraph(
+        // Movies Screen
+        movieGraph(
             navController = navController,
             paddingValues = paddingValues
         )
-        upcomingNavGraph(
+
+        // TV Shows Screen
+        tvShowGraph(
             navController = navController,
             paddingValues = paddingValues
         )
-        composable<AppDestination.Search> {
-            MovieSearchScreen(
-                paddingValues = paddingValues
-            )
-        }
-        movieDetailGraph(
+
+        // Search Screen
+        searchGraph(
+            navController = navController,
+            paddingValues = paddingValues
+        )
+
+        // Details Screen
+        detailGraph(
             navController = navController
         )
+
+        // Favorites Screen
         favoriteGraph(
             navController = navController,
             paddingValues = paddingValues

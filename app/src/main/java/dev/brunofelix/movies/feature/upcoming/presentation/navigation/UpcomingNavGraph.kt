@@ -9,7 +9,7 @@ import dev.brunofelix.movies.core.presentation.util.extension.sharedViewModel
 import dev.brunofelix.movies.feature.upcoming.presentation.ui.MovieUpcomingScreen
 import dev.brunofelix.movies.feature.upcoming.presentation.viewmodel.MovieUpcomingViewModel
 
-fun NavGraphBuilder.upcomingNavGraph(
+fun NavGraphBuilder.tvShowGraph(
     navController: NavController,
     paddingValues: PaddingValues
 ) {

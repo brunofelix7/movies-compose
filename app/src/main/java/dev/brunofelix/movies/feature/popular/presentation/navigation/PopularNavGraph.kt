@@ -9,7 +9,7 @@ import dev.brunofelix.movies.core.presentation.navigation.AppDestination
 import dev.brunofelix.movies.feature.popular.presentation.ui.MoviePopularScreen
 import dev.brunofelix.movies.feature.popular.presentation.viewmodel.MoviePopularViewModel
 
-fun NavGraphBuilder.popularNavGraph(
+fun NavGraphBuilder.movieGraph(
     navController: NavController,
     paddingValues: PaddingValues
 ) {

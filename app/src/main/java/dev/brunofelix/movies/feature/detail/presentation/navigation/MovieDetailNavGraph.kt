@@ -11,7 +11,7 @@ import dev.brunofelix.movies.core.presentation.navigation.popEnterTransition
 import dev.brunofelix.movies.core.presentation.navigation.popExitTransition
 import dev.brunofelix.movies.feature.detail.presentation.ui.MovieDetailRoute
 
-fun NavGraphBuilder.movieDetailGraph(
+fun NavGraphBuilder.detailGraph(
     navController: NavController
 ) {
     composable<AppDestination.Details>(
