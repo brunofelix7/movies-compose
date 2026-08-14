@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.detail.presentation.navigation
+package dev.brunofelix.movies.feature.movie.detail.presentation.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -9,7 +9,7 @@ import dev.brunofelix.movies.core.presentation.navigation.enterTransition
 import dev.brunofelix.movies.core.presentation.navigation.exitTransition
 import dev.brunofelix.movies.core.presentation.navigation.popEnterTransition
 import dev.brunofelix.movies.core.presentation.navigation.popExitTransition
-import dev.brunofelix.movies.feature.detail.presentation.ui.MovieDetailRoute
+import dev.brunofelix.movies.feature.movie.detail.presentation.ui.MovieDetailRoute
 
 fun NavGraphBuilder.detailGraph(
     navController: NavController

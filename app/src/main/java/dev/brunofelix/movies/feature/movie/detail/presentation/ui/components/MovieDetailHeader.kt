@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.detail.presentation.ui.components
+package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +15,7 @@ import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.MovieCard
-import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
+import dev.brunofelix.movies.feature.movie.detail.presentation.state.MovieDetailState
 
 @Composable
 fun MovieDetailHeader(

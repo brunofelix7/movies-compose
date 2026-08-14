@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.detail.presentation.state
+package dev.brunofelix.movies.feature.movie.detail.presentation.state
 
 import androidx.compose.runtime.Immutable
 import dev.brunofelix.movies.core.presentation.state.MovieUiState

@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.detail.presentation.ui.components
+package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background

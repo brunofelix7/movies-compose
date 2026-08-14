@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.detail.presentation.ui.components
+package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,7 +23,7 @@ import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyImage
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
-import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
+import dev.brunofelix.movies.feature.movie.detail.presentation.state.MovieDetailState
 
 @Composable
 fun MovieDetailTopBarImage(

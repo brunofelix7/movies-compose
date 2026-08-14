@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.detail.presentation.ui
+package dev.brunofelix.movies.feature.movie.detail.presentation.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -18,10 +18,10 @@ import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.util.UiText
-import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
-import dev.brunofelix.movies.feature.detail.presentation.ui.components.MovieDetailContent
-import dev.brunofelix.movies.feature.detail.presentation.ui.components.MovieDetailHeader
-import dev.brunofelix.movies.feature.detail.presentation.viewmodel.MovieDetailViewModel
+import dev.brunofelix.movies.feature.movie.detail.presentation.state.MovieDetailState
+import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailContent
+import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailHeader
+import dev.brunofelix.movies.feature.movie.detail.presentation.viewmodel.MovieDetailViewModel
 
 @Composable
 fun MovieDetailRoute(

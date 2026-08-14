@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.detail.presentation.ui.components
+package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,9 +21,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.core.domain.model.MovieGenre
+import dev.brunofelix.movies.core.domain.util.extension.formatDecimal
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
-import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
@@ -31,8 +31,8 @@ import dev.brunofelix.movies.core.presentation.ui.components.MovieGenderContaine
 import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
-import dev.brunofelix.movies.core.domain.util.extension.formatDecimal
-import dev.brunofelix.movies.feature.detail.presentation.state.MovieDetailState
+import dev.brunofelix.movies.core.presentation.util.UiText
+import dev.brunofelix.movies.feature.movie.detail.presentation.state.MovieDetailState
 
 @Composable
 fun MovieDetailContent(
