@@ -1,5 +1,7 @@
 package dev.brunofelix.movies.feature.movie.detail.presentation.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -16,11 +18,12 @@ import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
-import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.movie.detail.presentation.state.MovieDetailState
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailContent
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailHeader
+import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailSkeleton
+import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailTopBar
 import dev.brunofelix.movies.feature.movie.detail.presentation.viewmodel.MovieDetailViewModel
 
 @Composable
@@ -61,28 +64,40 @@ private fun MovieDetailScreen(
     state: MovieDetailState,
     modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        modifier = modifier,
-        containerColor = Color.Transparent,
-        topBar = {
-            MovieDetailHeader(state)
-        },
-        content = { innerPadding ->
-            when (state.uiState) {
-                is UiState.Loading -> LoadingState()
-                is UiState.Success -> {
-                    MovieDetailContent(
-                        state = state,
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-
-                is UiState.Error -> {
-                    ErrorLayout(errorMessage = state.uiState.uiText)
+    if (state.uiState is UiState.Loading) {
+        Box(
+            modifier = modifier.fillMaxSize()
+        ) {
+            MovieDetailSkeleton()
+            MovieDetailTopBar(
+                isFavorite = false,
+                shouldShowFavorite = false,
+                onBackClick = state.onBack,
+                onFavoriteClick = {}
+            )
+        }
+    } else {
+        Scaffold(
+            modifier = modifier,
+            containerColor = Color.Transparent,
+            topBar = {
+                MovieDetailHeader(state)
+            },
+            content = { innerPadding ->
+                when (state.uiState) {
+                    is UiState.Success -> {
+                        MovieDetailContent(
+                            state = state,
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                    }
+                    is UiState.Error -> {
+                        ErrorLayout(errorMessage = state.uiState.uiText)
+                    }
                 }
             }
-        }
-    )
+        )
+    }
 }
 
 @Preview

@@ -26,7 +26,6 @@ import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
-import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.components.MovieGenderContainer
 import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
@@ -46,7 +45,6 @@ fun MovieDetailContent(
                 .padding(16.dp)
         ) {
             when (state.uiState) {
-                is UiState.Loading -> LoadingState()
                 is UiState.Success -> {
                     Column {
                         Spacer(modifier = Modifier.height(80.dp))
@@ -96,12 +94,15 @@ fun MovieDetailContent(
                         )
                     }
                 }
+
                 is UiState.Error -> {
                     ErrorLayout(
                         modifier = Modifier.padding(top = 64.dp),
                         errorMessage = state.uiState.uiText
                     )
                 }
+
+                else -> Unit
             }
         }
     }

@@ -21,7 +21,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyImage
-import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.feature.movie.detail.presentation.state.MovieDetailState
 
@@ -63,7 +62,6 @@ fun MovieDetailTopBarImage(
                 .align(Alignment.Center)
         )
         when (uiState.uiState) {
-            is UiState.Loading -> LoadingState()
             is UiState.Success -> {
                 backdropPath.value = uiState.uiState.data.backdropPath
                 if (backdropPath.value?.isEmpty() == true) {
