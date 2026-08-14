@@ -14,7 +14,7 @@ fun EntryProviderScope<NavKey>.tvShowHomeEntry(
     entry<MainNavKey.TvShows> {
         TvShowHomeScreen(
             onItemClick = { tvShowId ->
-                navigator.navigate(MainNavKey.MovieDetails(tvShowId))
+                navigator.navigate(MainNavKey.TvShowDetails(tvShowId))
             },
             paddingValues = paddingValues
         )
