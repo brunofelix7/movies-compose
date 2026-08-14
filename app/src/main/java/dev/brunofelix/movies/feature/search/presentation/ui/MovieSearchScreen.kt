@@ -6,19 +6,18 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.brunofelix.movies.core.data.util.logInfo
+import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.ui.components.CustomSearchBar
+import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
 
 @Composable
@@ -27,11 +26,6 @@ fun MovieSearchScreen(
     paddingValues: PaddingValues = PaddingValues()
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    val focusRequester = remember { FocusRequester() }
-
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
 
     Column(
         modifier = modifier
@@ -40,25 +34,26 @@ fun MovieSearchScreen(
     ) {
         CustomSearchBar(
             query = searchQuery,
-            placeholderText = "Search movie",
+            placeholderText = stringResource(R.string.search_bar_hint),
             onQueryChange = { newQuery ->
                 searchQuery = newQuery
             },
             onSearch = { submittedQuery ->
-                logInfo("query: $submittedQuery")
+                // TODO: Handle search logic here
             },
-            containerColor = Color.Black.copy(alpha = 0.25F),
+            containerColor = Color.White.copy(alpha = 0.1F),
             modifier = Modifier
-                .focusRequester(focusRequester)
-                .padding(horizontal = 16.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
         )
     }
 }
 
-@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun Preview() {
     PMovieTheme {
-        MovieSearchScreen()
+        GradientBackground {
+            MovieSearchScreen()
+        }
     }
 }
