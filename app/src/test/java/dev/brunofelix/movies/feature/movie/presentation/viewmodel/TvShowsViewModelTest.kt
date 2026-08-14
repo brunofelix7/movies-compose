@@ -2,8 +2,8 @@ package dev.brunofelix.movies.feature.movie.presentation.viewmodel
 
 import com.google.common.truth.Truth.assertThat
 import dev.brunofelix.movies.core.domain.util.exception.RemoteException
-import dev.brunofelix.movies.feature.upcoming.domain.use_case.GetUpcomingUseCase
-import dev.brunofelix.movies.feature.upcoming.presentation.viewmodel.MovieUpcomingViewModel
+import dev.brunofelix.movies.feature.movie.upcoming.domain.use_case.GetUpcomingUseCase
+import dev.brunofelix.movies.feature.movie.upcoming.presentation.viewmodel.MovieUpcomingViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule
 import dev.brunofelix.movies.test_util.fake.FakePagingData
 import io.mockk.every
