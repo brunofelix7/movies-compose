@@ -49,7 +49,7 @@ fun MainTopBar(
         windowInsets = TopAppBarDefaults.windowInsets.add(WindowInsets(top = 8.dp)),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
-            scrolledContainerColor = Colors.blackPrimary.copy(alpha = 0.85F),
+            scrolledContainerColor = Color.Transparent,
             navigationIconContentColor = Color.Unspecified,
             titleContentColor = Color.Unspecified,
             actionIconContentColor = Color.Unspecified
