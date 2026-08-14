@@ -19,22 +19,24 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
+import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
 import dev.brunofelix.movies.core.presentation.util.extension.collectAsPreviewLazyPagingItems
 import dev.brunofelix.movies.core.presentation.util.extension.createCombinedLoadStates
 
 @Composable
-fun MainContent(
-    modifier: Modifier = Modifier,
-    paging: LazyPagingItems<Movie>?,
-    loadState: CombinedLoadStates? = paging?.loadState,
+fun <T : Any> MainContent(
+    paging: LazyPagingItems<T>?,
     paddingValues: PaddingValues,
-    onClick: (id: Long) -> Unit
+    onClick: (id: Long) -> Unit,
+    toUiState: (T) -> MovieUiState,
+    modifier: Modifier = Modifier,
+    loadState: CombinedLoadStates? = paging?.loadState,
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 8.dp)
+            .padding(horizontal = 16.dp)
     ) {
         if (paging == null || loadState == null) return@Box
 
@@ -59,12 +61,12 @@ fun MainContent(
                     ) {
                         items(
                             count = paging.itemCount,
-                            contentType = paging.itemContentType { "movie" }
+                            contentType = paging.itemContentType { "card" }
                         ) { index ->
-                            val movie = paging[index]
-                            movie?.let {
+                            val item = paging[index]
+                            item?.let {
                                 MovieCard(
-                                    uiState = movie.toUiState(),
+                                    uiState = toUiState(it),
                                     onClick = { id -> onClick(id) }
                                 )
                             }
@@ -115,73 +117,8 @@ private fun SuccessPreview() {
             paging = Movie.mocks().collectAsPreviewLazyPagingItems(),
             loadState = createCombinedLoadStates(),
             paddingValues = PaddingValues(),
-            onClick = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun EmptyPreview() {
-    PMovieTheme {
-        MainContent(
-            paging = emptyList<Movie>().collectAsPreviewLazyPagingItems(),
-            loadState = createCombinedLoadStates(),
-            paddingValues = PaddingValues(),
-            onClick = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun InitialLoadingPreview() {
-    PMovieTheme {
-        MainContent(
-            paging = emptyList<Movie>().collectAsPreviewLazyPagingItems(),
-            loadState = createCombinedLoadStates(refresh = LoadState.Loading),
-            paddingValues = PaddingValues(),
-            onClick = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun InitialErrorPreview() {
-    PMovieTheme {
-        MainContent(
-            paging = emptyList<Movie>().collectAsPreviewLazyPagingItems(),
-            loadState = createCombinedLoadStates(refresh = LoadState.Error(Exception())),
-            paddingValues = PaddingValues(),
-            onClick = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PaginationLoadingPreview() {
-    PMovieTheme {
-        MainContent(
-            paging = Movie.mocks().collectAsPreviewLazyPagingItems(),
-            loadState = createCombinedLoadStates(append = LoadState.Loading),
-            paddingValues = PaddingValues(bottom = 80.dp),
-            onClick = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PaginationErrorPreview() {
-    val movies = Movie.mocks()
-    PMovieTheme {
-        MainContent(
-            paging = movies.collectAsPreviewLazyPagingItems(),
-            loadState = createCombinedLoadStates(append = LoadState.Error(Exception())),
-            paddingValues = PaddingValues(bottom = 80.dp),
-            onClick = {}
+            onClick = {},
+            toUiState = { it.toUiState() }
         )
     }
 }
