@@ -2,7 +2,7 @@ package dev.brunofelix.movies.feature.favorite.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -12,7 +12,7 @@ import dev.brunofelix.movies.feature.favorite.presentation.state.MovieFavoriteSt
 import dev.brunofelix.movies.feature.favorite.presentation.ui.MovieFavoriteScreen
 import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.MovieFavoriteViewModel
 
-fun EntryProviderScope<NavKey>.favoriteGraph(
+fun EntryProviderScope<NavKey>.favoriteEntry(
     navigator: Navigator,
     paddingValues: PaddingValues
 ) {

@@ -5,11 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteGraph
-import dev.brunofelix.movies.feature.movie.detail.presentation.navigation.detailGraph
-import dev.brunofelix.movies.feature.movie.home.presentation.navigation.movieHomeGraph
-import dev.brunofelix.movies.feature.search.presentation.navigation.searchGraph
-import dev.brunofelix.movies.feature.tv_show.home.presentation.navigation.tvShowHomeGraph
+import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteEntry
+import dev.brunofelix.movies.feature.movie.detail.presentation.navigation.movieDetailEntry
+import dev.brunofelix.movies.feature.movie.home.presentation.navigation.movieHomeEntry
+import dev.brunofelix.movies.feature.search.presentation.navigation.searchEntry
+import dev.brunofelix.movies.feature.tv_show.home.presentation.navigation.tvShowHomeEntry
 
 @Composable
 fun AppNavHost(
@@ -20,30 +20,30 @@ fun AppNavHost(
 ) {
     val entryProvider = entryProvider {
         // Movies Screen
-        movieHomeGraph(
+        movieHomeEntry(
             navigator = navigator,
             paddingValues = paddingValues
         )
 
         // TV Shows Screen
-        tvShowHomeGraph(
+        tvShowHomeEntry(
             navigator = navigator,
             paddingValues = paddingValues
         )
 
         // Search Screen
-        searchGraph(
+        searchEntry(
             paddingValues = paddingValues
         )
 
         // Favorites Screen
-        favoriteGraph(
+        favoriteEntry(
             navigator = navigator,
             paddingValues = paddingValues
         )
 
         // Movie Details Screen
-        detailGraph(
+        movieDetailEntry(
             navigator = navigator
         )
     }

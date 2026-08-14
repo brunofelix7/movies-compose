@@ -6,7 +6,7 @@ import dev.brunofelix.movies.core.presentation.navigation.AppDestination
 import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.MovieDetailRoute
 
-fun EntryProviderScope<NavKey>.detailGraph(
+fun EntryProviderScope<NavKey>.movieDetailEntry(
     navigator: Navigator
 ) {
     entry<AppDestination.Details> { key ->
