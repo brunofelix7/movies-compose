@@ -36,7 +36,7 @@ fun <T : Any> MainContent(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         if (paging == null || loadState == null) return@Box
 

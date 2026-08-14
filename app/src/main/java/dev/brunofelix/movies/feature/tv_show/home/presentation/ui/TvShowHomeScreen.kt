@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -21,6 +22,7 @@ import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.ui.components.CategorySelector
 import dev.brunofelix.movies.core.presentation.ui.components.MainContent
+import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.feature.tv_show.home.presentation.viewmodel.TvShowHomeViewModel
 
 @Composable
@@ -46,7 +48,13 @@ fun TvShowHomeScreen(
                     viewModel.onCategorySelected(category)
                 }
             },
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(top = 8.dp)
+        )
+
+        HorizontalDivider(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            thickness = 1.dp,
+            color = Colors.lightGray.copy(alpha = 0.2f)
         )
 
         AnimatedContent(
