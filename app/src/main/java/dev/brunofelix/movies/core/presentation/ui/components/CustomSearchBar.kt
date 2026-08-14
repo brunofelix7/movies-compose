@@ -28,6 +28,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
+import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
 
 /**
@@ -61,7 +62,7 @@ fun CustomSearchBar(
     query: String,
     onQueryChange: (String) -> Unit = {},
     onSearch: (String) -> Unit = {},
-    placeholderText: String = stringResource(R.string.search_bar),
+    placeholderText: String = stringResource(R.string.search_bar_hint),
     labelText: String? = null,
     enabled: Boolean = true,
     shape: Shape = CircleShape,
@@ -71,7 +72,7 @@ fun CustomSearchBar(
     textColor: Color = MaterialTheme.colorScheme.onSurface,
     hintColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
     labelColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    iconColor: Color = MaterialTheme.colorScheme.onSurfaceVariant
+    iconColor: Color = Colors.lightGray
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -135,8 +136,11 @@ fun CustomSearchBar(
             unfocusedTrailingIconColor = iconColor,
 
             // Placeholder (Hint)
-            focusedPlaceholderColor = hintColor,
-            unfocusedPlaceholderColor = hintColor,
+            focusedPlaceholderColor = hintColor.copy(alpha = 0.38f),
+            unfocusedPlaceholderColor = hintColor.copy(alpha = 0.38f),
+
+            // Cursor
+            cursorColor = hintColor,
 
             // Label
             focusedLabelColor = focusedBorderColor,
