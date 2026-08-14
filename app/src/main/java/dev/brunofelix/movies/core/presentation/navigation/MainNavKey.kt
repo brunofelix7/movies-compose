@@ -19,4 +19,7 @@ sealed interface MainNavKey : NavKey {
 
     @Serializable
     data class MovieDetails(val id: Long) : MainNavKey
+
+    @Serializable
+    data class TvShowDetails(val id: Long) : MainNavKey
 }

@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
-import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
 import dev.brunofelix.movies.core.presentation.navigation.MainNavHost
+import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
 import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.core.presentation.navigation.rememberNavigationState
 import dev.brunofelix.movies.core.presentation.ui.components.CustomNavBar
@@ -36,7 +36,6 @@ fun MainScreen() {
         )
     )
     val navigator = remember { Navigator(navigationState) }
-    
     val currentRoute = navigationState.backStacks[navigationState.topLevelRoute]?.last()
     val isBottomBarVisible = currentRoute.shouldShowBottomBar
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
