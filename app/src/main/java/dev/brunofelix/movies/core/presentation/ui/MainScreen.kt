@@ -48,7 +48,9 @@ fun MainScreen() {
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
             containerColor = Color.Transparent,
             topBar = {
-                if (isBottomBarVisible) {
+                TopBarAnimated(
+                    visible = isBottomBarVisible
+                ) {
                     MainTopBar(
                         scrollBehavior = scrollBehavior
                     )
@@ -73,6 +75,19 @@ fun MainScreen() {
             }
         )
     }
+}
+
+@Composable
+private fun TopBarAnimated(
+    visible: Boolean,
+    content: @Composable () -> Unit
+) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = slideInVertically(initialOffsetY = { -it }, animationSpec = tween(600)),
+        exit = slideOutVertically(targetOffsetY = { -it }, animationSpec = tween(600)),
+        content = { content() }
+    )
 }
 
 @Composable
