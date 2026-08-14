@@ -2,22 +2,22 @@ package dev.brunofelix.movies.feature.favorite.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import dev.brunofelix.movies.core.presentation.navigation.AppDestination
-import dev.brunofelix.movies.core.presentation.util.extension.sharedViewModel
+import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.feature.favorite.presentation.state.MovieFavoriteState
 import dev.brunofelix.movies.feature.favorite.presentation.ui.MovieFavoriteScreen
 import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.MovieFavoriteViewModel
 
-fun NavGraphBuilder.favoriteGraph(
-    navController: NavController,
+fun EntryProviderScope<NavKey>.favoriteGraph(
+    navigator: Navigator,
     paddingValues: PaddingValues
 ) {
-    composable<AppDestination.Favorites> {
-        val viewModel: MovieFavoriteViewModel = it.sharedViewModel(navController)
+    entry<AppDestination.Favorites> {
+        val viewModel: MovieFavoriteViewModel = hiltViewModel()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         MovieFavoriteScreen(
@@ -25,7 +25,7 @@ fun NavGraphBuilder.favoriteGraph(
             state = MovieFavoriteState(
                 uiState = uiState,
                 onCardClick = { movieId ->
-                    navController.navigate(AppDestination.Details(movieId))
+                    navigator.navigate(AppDestination.Details(movieId))
                 }
             )
         )

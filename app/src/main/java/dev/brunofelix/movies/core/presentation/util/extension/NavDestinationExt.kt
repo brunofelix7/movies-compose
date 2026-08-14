@@ -1,16 +1,12 @@
 package dev.brunofelix.movies.core.presentation.util.extension
 
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation3.runtime.NavKey
 import dev.brunofelix.movies.core.presentation.navigation.AppDestination
 
-val NavDestination?.shouldShowBottomBar: Boolean
-    get() = this?.let { dest ->
-        val topLevelRoutes = listOf(
-            AppDestination.Movies::class,
-            AppDestination.TvShows::class,
-            AppDestination.Search::class,
-            AppDestination.Favorites::class,
-        )
-        topLevelRoutes.any { route -> dest.hasRoute(route) }
+val NavKey?.shouldShowBottomBar: Boolean
+    get() = this?.let { key ->
+        key is AppDestination.Movies ||
+        key is AppDestination.TvShows ||
+        key is AppDestination.Search ||
+        key is AppDestination.Favorites
     } ?: false

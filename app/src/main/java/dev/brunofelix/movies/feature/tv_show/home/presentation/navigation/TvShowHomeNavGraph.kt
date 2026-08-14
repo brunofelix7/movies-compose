@@ -1,20 +1,20 @@
 package dev.brunofelix.movies.feature.tv_show.home.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import dev.brunofelix.movies.core.presentation.navigation.AppDestination
+import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.feature.tv_show.home.presentation.ui.TvShowHomeScreen
 
-fun NavGraphBuilder.tvShowHomeGraph(
-    navController: NavController,
+fun EntryProviderScope<NavKey>.tvShowHomeGraph(
+    navigator: Navigator,
     paddingValues: PaddingValues
 ) {
-    composable<AppDestination.TvShows> {
+    entry<AppDestination.TvShows> {
         TvShowHomeScreen(
             onItemClick = { tvShowId ->
-                navController.navigate(AppDestination.Details(tvShowId))
+                navigator.navigate(AppDestination.Details(tvShowId))
             },
             paddingValues = paddingValues
         )

@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
 
@@ -37,7 +36,7 @@ class MainActivity : ComponentActivity() {
                 controller.isAppearanceLightNavigationBars = false
             }
             PMovieTheme {
-                MainScreen(navController = rememberNavController())
+                MainScreen()
             }
         }
     }

@@ -1,20 +1,20 @@
 package dev.brunofelix.movies.feature.movie.home.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import dev.brunofelix.movies.core.presentation.navigation.AppDestination
+import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.feature.movie.home.presentation.ui.MovieHomeScreen
 
-fun NavGraphBuilder.movieHomeGraph(
-    navController: NavController,
+fun EntryProviderScope<NavKey>.movieHomeGraph(
+    navigator: Navigator,
     paddingValues: PaddingValues
 ) {
-    composable<AppDestination.Movies> {
+    entry<AppDestination.Movies> {
         MovieHomeScreen(
             onItemClick = { movieId ->
-                navController.navigate(AppDestination.Details(movieId))
+                navigator.navigate(AppDestination.Details(movieId))
             },
             paddingValues = paddingValues
         )

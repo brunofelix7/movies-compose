@@ -11,8 +11,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import dev.brunofelix.movies.core.domain.model.MovieGenre
+import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
@@ -26,7 +26,7 @@ import dev.brunofelix.movies.feature.movie.detail.presentation.viewmodel.MovieDe
 @Composable
 fun MovieDetailRoute(
     movieId: Long,
-    navController: NavController,
+    navigator: Navigator,
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
     // Collect reactive states
@@ -34,7 +34,7 @@ fun MovieDetailRoute(
     val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
 
     // Memos the lambdas to have identical references in memory
-    val onBack: () -> Unit = remember { { navController.popBackStack() } }
+    val onBack: () -> Unit = remember { { navigator.goBack() } }
     val onFavorite: () -> Unit = remember { { viewModel.onFavoriteToggle() } }
     val onWatchTrailer: () -> Unit = remember { { /* call trailer logic */ } }
 

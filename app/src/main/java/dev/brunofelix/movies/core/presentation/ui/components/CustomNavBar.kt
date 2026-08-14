@@ -12,19 +12,14 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.navigation.AppDestination
+import dev.brunofelix.movies.core.presentation.navigation.NavigationState
+import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 sealed class CustomNavBarItem(
@@ -65,11 +60,10 @@ private val navBarItems = listOf(
 
 @Composable
 fun CustomNavBar(
-    navController: NavController,
+    navigationState: NavigationState,
+    navigator: Navigator,
     modifier: Modifier = Modifier
 ) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
     val itemColors = NavigationBarItemDefaults.colors(
         selectedIconColor = Colors.redPrimary,
         unselectedIconColor = Colors.white,
@@ -84,7 +78,7 @@ fun CustomNavBar(
         modifier = modifier
     ) {
         navBarItems.forEach { currentItem ->
-            val isSelected = currentDestination?.hasRoute(currentItem.route::class) ?: false
+            val isSelected = currentItem.route == navigationState.topLevelRoute
 
             NavigationBarItem(
                 selected = isSelected,
@@ -103,24 +97,10 @@ fun CustomNavBar(
                 },
                 onClick = {
                     if (!isSelected) {
-                        navController.navigate(currentItem.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
+                        navigator.navigate(currentItem.route)
                     }
                 }
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    CustomNavBar(
-        navController = rememberNavController()
-    )
 }
