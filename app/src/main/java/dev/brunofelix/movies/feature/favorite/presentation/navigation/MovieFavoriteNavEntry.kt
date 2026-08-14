@@ -6,7 +6,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import dev.brunofelix.movies.core.presentation.navigation.AppDestination
+import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
 import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.feature.favorite.presentation.state.MovieFavoriteState
 import dev.brunofelix.movies.feature.favorite.presentation.ui.MovieFavoriteScreen
@@ -16,7 +16,7 @@ fun EntryProviderScope<NavKey>.favoriteEntry(
     navigator: Navigator,
     paddingValues: PaddingValues
 ) {
-    entry<AppDestination.Favorites> {
+    entry<MainNavKey.Favorites> {
         val viewModel: MovieFavoriteViewModel = hiltViewModel()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -25,7 +25,7 @@ fun EntryProviderScope<NavKey>.favoriteEntry(
             state = MovieFavoriteState(
                 uiState = uiState,
                 onCardClick = { movieId ->
-                    navigator.navigate(AppDestination.Details(movieId))
+                    navigator.navigate(MainNavKey.MovieDetails(movieId))
                 }
             )
         )

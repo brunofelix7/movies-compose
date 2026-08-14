@@ -17,36 +17,36 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
-import dev.brunofelix.movies.core.presentation.navigation.AppDestination
+import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
 import dev.brunofelix.movies.core.presentation.navigation.NavigationState
 import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 sealed class CustomNavBarItem(
     val title: String,
-    val route: AppDestination,
+    val route: MainNavKey,
     val icon: ImageVector
 ) {
     data object Popular: CustomNavBarItem(
         title = "Movies",
-        route = AppDestination.Movies,
+        route = MainNavKey.Movies,
         icon = Icons.Default.LocalMovies,
     )
 
     data object Upcoming: CustomNavBarItem(
         title = "TV Shows",
-        route = AppDestination.TvShows,
+        route = MainNavKey.TvShows,
         icon = Icons.Default.LiveTv
     )
     data object Search: CustomNavBarItem(
         title = "Search",
-        route = AppDestination.Search,
+        route = MainNavKey.Search,
         icon = Icons.Default.Search
     )
 
     data object Favorite: CustomNavBarItem(
         title = "Favorites",
-        route = AppDestination.Favorites,
+        route = MainNavKey.Favorites,
         icon = Icons.Default.Favorite
     )
 }

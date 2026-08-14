@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
-import dev.brunofelix.movies.core.presentation.navigation.AppDestination
-import dev.brunofelix.movies.core.presentation.navigation.AppNavHost
+import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
+import dev.brunofelix.movies.core.presentation.navigation.MainNavHost
 import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.core.presentation.navigation.rememberNavigationState
 import dev.brunofelix.movies.core.presentation.ui.components.CustomNavBar
@@ -27,12 +27,12 @@ import dev.brunofelix.movies.core.presentation.util.extension.shouldShowBottomBa
 @Composable
 fun MainScreen() {
     val navigationState = rememberNavigationState(
-        startRoute = AppDestination.Movies,
+        startRoute = MainNavKey.Movies,
         topLevelRoutes = setOf(
-            AppDestination.Movies,
-            AppDestination.TvShows,
-            AppDestination.Search,
-            AppDestination.Favorites
+            MainNavKey.Movies,
+            MainNavKey.TvShows,
+            MainNavKey.Search,
+            MainNavKey.Favorites
         )
     )
     val navigator = remember { Navigator(navigationState) }
@@ -67,7 +67,7 @@ fun MainScreen() {
                 }
             },
             content = { paddingValues ->
-                AppNavHost(
+                MainNavHost(
                     paddingValues = paddingValues,
                     navigationState = navigationState,
                     navigator = navigator

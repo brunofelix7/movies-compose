@@ -12,7 +12,7 @@ import dev.brunofelix.movies.feature.search.presentation.navigation.searchEntry
 import dev.brunofelix.movies.feature.tv_show.home.presentation.navigation.tvShowHomeEntry
 
 @Composable
-fun AppNavHost(
+fun MainNavHost(
     paddingValues: PaddingValues,
     navigationState: NavigationState,
     navigator: Navigator,
