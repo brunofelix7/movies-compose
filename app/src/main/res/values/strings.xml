@@ -11,6 +11,9 @@
     <string name="duration_minutes">%1$s min</string>
     <string name="description">Description</string>
     <string name="populars">Populars</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="tv_shows">TV Shows</string>
     <string name="upcoming">Upcoming</string>
     <string name="favorites">Favorites</string>
     <string name="details">Details</string>
