@@ -3,6 +3,8 @@ package dev.brunofelix.movies.core.data.remote.mapper
 import dev.brunofelix.movies.core.data.remote.dto.tv_show.TvShowDto
 import dev.brunofelix.movies.core.data.remote.dto.tv_show.TvShowRootDto
 import dev.brunofelix.movies.core.domain.model.TvShow
+import dev.brunofelix.movies.core.domain.util.extension.toBackdropUrl
+import dev.brunofelix.movies.core.domain.util.extension.toPostUrl
 
 /**
  * Maps a [TvShowRootDto] (API response) to a list of [TvShow] domain models.
@@ -27,8 +29,8 @@ fun TvShowDto.toDomain(): TvShow {
         originalName = originalName.orEmpty(),
         originalLanguage = originalLanguage.orEmpty(),
         overview = overview.orEmpty(),
-        posterPath = posterPath.orEmpty(),
-        backdropPath = backdropPath.orEmpty(),
+        posterPath = posterPath?.toPostUrl() ?: "",
+        backdropPath = backdropPath?.toBackdropUrl() ?: "",
         firstAirDate = firstAirDate.orEmpty(),
         genreIds = genreIds ?: emptyList(),
         popularity = popularity ?: 0.0,

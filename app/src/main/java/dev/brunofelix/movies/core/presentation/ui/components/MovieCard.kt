@@ -52,7 +52,7 @@ fun MovieCard(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(uiState.posterPath)
+                    .data(uiState.posterPath.ifEmpty { uiState.backdropPath })
                     .crossfade(true)
                     .build(),
                 onState = { state ->
