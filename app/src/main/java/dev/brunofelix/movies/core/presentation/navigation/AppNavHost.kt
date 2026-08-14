@@ -1,17 +1,15 @@
 package dev.brunofelix.movies.core.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import dev.brunofelix.movies.feature.detail.presentation.navigation.detailGraph
 import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteGraph
-import dev.brunofelix.movies.feature.popular.presentation.navigation.movieGraph
+import dev.brunofelix.movies.feature.movie.detail.presentation.navigation.detailGraph
+import dev.brunofelix.movies.feature.movie.home.presentation.navigation.movieHomeGraph
 import dev.brunofelix.movies.feature.search.presentation.navigation.searchGraph
-import dev.brunofelix.movies.feature.upcoming.presentation.navigation.tvShowGraph
+import dev.brunofelix.movies.feature.tv_show.home.presentation.navigation.tvShowHomeGraph
 
 @Composable
 fun AppNavHost(
@@ -20,18 +18,18 @@ fun AppNavHost(
     modifier: Modifier = Modifier
 ) {
     NavHost(
-        modifier = modifier.padding(top = 12.dp),
+        modifier = modifier,
         navController = navController,
         startDestination = AppDestination.Movies
     ) {
         // Movies Screen
-        movieGraph(
+        movieHomeGraph(
             navController = navController,
             paddingValues = paddingValues
         )
 
         // TV Shows Screen
-        tvShowGraph(
+        tvShowHomeGraph(
             navController = navController,
             paddingValues = paddingValues
         )
