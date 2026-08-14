@@ -50,7 +50,7 @@ fun MovieSearchScreen(
             containerColor = Color.Black.copy(alpha = 0.25F),
             modifier = Modifier
                 .focusRequester(focusRequester)
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 16.dp)
         )
     }
 }
