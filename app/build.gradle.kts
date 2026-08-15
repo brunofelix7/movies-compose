@@ -45,6 +45,18 @@ android {
         }
     }
 
+    flavorDimensions += "version"
+    productFlavors {
+        create("prod") {
+            dimension = "version"
+        }
+        create("beta") {
+            dimension = "version"
+            applicationIdSuffix = ".beta"
+            versionNameSuffix = "-beta"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
