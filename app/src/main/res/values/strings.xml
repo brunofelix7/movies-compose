@@ -1,6 +1,6 @@
 <resources>
     <!-- App name -->
-    <string name="app_name">Movies Compose</string>
+    <string name="app_name">Movies</string>
     <string name="movies">Movies</string>
     <string name="compose">Compose</string>
 
