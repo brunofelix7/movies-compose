@@ -23,12 +23,14 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import dev.brunofelix.movies.R
+import dev.brunofelix.movies.core.domain.model.enums.MediaType
+import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
 import dev.brunofelix.movies.core.presentation.ui.components.CustomSearchBar
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.MovieCard
@@ -40,7 +42,8 @@ import dev.brunofelix.movies.feature.search.presentation.viewmodel.SearchViewMod
 fun MovieSearchScreen(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(),
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel(),
+    onNavigate: (MainNavKey) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val searchResults = state.searchResults.collectAsLazyPagingItems()
@@ -99,7 +102,11 @@ fun MovieSearchScreen(
                     MovieCard(
                         uiState = media.toUiState(),
                         onClick = {
-                            // TODO: Handle navigation based on media.type
+                            val route = when (media.type) {
+                                MediaType.MOVIE -> MainNavKey.MovieDetails(media.id)
+                                MediaType.TV_SHOW -> MainNavKey.TvShowDetails(media.id)
+                            }
+                            onNavigate(route)
                         }
                     )
                 }
