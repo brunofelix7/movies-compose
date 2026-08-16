@@ -8,7 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.brunofelix.movies.core.data.local.db.AppDatabase
-import dev.brunofelix.movies.core.data.local.db.dao.MovieDao
+import dev.brunofelix.movies.core.data.local.db.dao.MediaDao
 import dev.brunofelix.movies.core.data.local.source.MovieLocalDataSource
 import dev.brunofelix.movies.core.data.local.source.MovieLocalDataSourceImpl
 import dev.brunofelix.movies.core.domain.util.DB_NAME
@@ -31,8 +31,8 @@ abstract class LocalModule {
 
         @Provides
         @Singleton
-        fun provideMovieDao(db: AppDatabase): MovieDao {
-            return db.movieDao
+        fun provideMovieDao(db: AppDatabase): MediaDao {
+            return db.mediaDao
         }
     }
 
