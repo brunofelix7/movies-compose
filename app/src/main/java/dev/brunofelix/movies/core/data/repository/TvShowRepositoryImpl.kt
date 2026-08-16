@@ -41,4 +41,13 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun getDetails(id: Long): Resource<TvShow> {
         return remoteDataSource.getDetails(id).toResource()
     }
+
+    override fun search(query: String, pagingConfig: PagingConfig): Flow<PagingData<TvShow>> {
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                remoteDataSource.search(query)
+            }
+        ).flow
+    }
 }

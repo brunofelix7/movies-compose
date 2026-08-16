@@ -28,5 +28,13 @@ interface TvShowRepository {
      * @return A [Resource] containing the [TvShow] details or an error.
      */
     suspend fun getDetails(id: Long): Resource<TvShow>
+
+    /**
+     * Searches for TV shows by a query string.
+     * @param query The search query.
+     * @param pagingConfig Configuration for pagination behavior.
+     * @return A [Flow] of paginated search results.
+     */
+    fun search(query: String, pagingConfig: PagingConfig): Flow<PagingData<TvShow>>
 }
 
