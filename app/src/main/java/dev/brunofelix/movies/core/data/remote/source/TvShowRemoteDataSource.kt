@@ -20,10 +20,9 @@ interface TvShowRemoteDataSource {
     /**
      * Searches for TV shows by a query string.
      * @param query The search query.
-     * @param page The page number to fetch.
      * @return A [PagingSource] for the search results.
      */
-    fun search(query: String, page: Int): PagingSource<Int, TvShow>
+    fun search(query: String): PagingSource<Int, TvShow>
 
     /**
      * Fetches TV show details by ID.

@@ -42,7 +42,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override fun search(query: String, page: Int): PagingSource<Int, Movie> {
+    override fun search(query: String): PagingSource<Int, Movie> {
         return BasePagingSource { page ->
             runCatching {
                 service.search(query, page).mapOrThrow { it.toDomainList() }
