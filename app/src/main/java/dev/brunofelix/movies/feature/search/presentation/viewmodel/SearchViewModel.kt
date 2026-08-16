@@ -37,7 +37,7 @@ class SearchViewModel @Inject constructor(
         }
 
         searchJob = viewModelScope.launch {
-            delay(400.milliseconds)
+            delay(500.milliseconds)
             _state.update { it.copy(isLoading = true) }
             onSearch()
         }
