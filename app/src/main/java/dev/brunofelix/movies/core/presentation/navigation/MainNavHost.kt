@@ -34,7 +34,8 @@ fun MainNavHost(
 
         // Search Screen
         searchEntry(
-            paddingValues = paddingValues
+            paddingValues = paddingValues,
+            onNavigate = navigator::navigate
         )
 
         // Favorites Screen
