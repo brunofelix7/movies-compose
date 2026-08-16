@@ -23,6 +23,13 @@ interface MovieRemoteDataSource {
     fun getTopRatedPagingSource(): PagingSource<Int, Movie>
 
     /**
+     * Searches for movies by a query string.
+     * @param query The search query.
+     * @param page The page number to fetch.
+     */
+    fun search(query: String, page: Int): PagingSource<Int, Movie>
+
+    /**
      * Fetches movie details by ID.
      * @param id The unique movie identifier.
      * @return A [Result] containing the [Movie] domain model.
