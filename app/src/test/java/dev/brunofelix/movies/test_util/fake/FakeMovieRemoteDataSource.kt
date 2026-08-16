@@ -33,6 +33,19 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun search(query: String, page: Int): Result<List<Movie>> {
+        if (shouldReturnError) {
+            return Result.failure(RemoteException.Unknown())
+        }
+        return Result.success(fakeDataSource.map { it.toDomain() }.filter {
+            it.title.contains(query, ignoreCase = true)
+        })
+    }
+
+    override fun search(query: String): PagingSource<Int, Movie> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getDetails(id: Long): Result<Movie> {
         if (shouldReturnError) {
             return Result.failure(RemoteException.Unknown())
