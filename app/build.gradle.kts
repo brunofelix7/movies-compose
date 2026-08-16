@@ -32,7 +32,6 @@ android {
         buildConfigField("String", "API_KEY", properties["API_KEY"].toString())
         buildConfigField("String", "BASE_URL", properties["BASE_URL"].toString())
         buildConfigField("String", "BASE_URL_IMAGE", properties["BASE_URL_IMAGE"].toString())
-        buildConfigField("String", "LANGUAGE", properties["LANGUAGE"].toString())
     }
 
     buildTypes {
