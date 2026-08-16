@@ -2,6 +2,7 @@ package dev.brunofelix.movies.feature.search.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.brunofelix.movies.feature.search.domain.use_case.SearchUseCase
@@ -10,7 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,10 +28,17 @@ class SearchViewModel @Inject constructor(
     private var searchJob: Job? = null
 
     fun onQueryChange(query: String) {
-        _state.update { it.copy(query = query) }
+        _state.update { it.copy(query = query, isLoading = false) }
         searchJob?.cancel()
+        
+        if (query.isBlank()) {
+            onSearch()
+            return
+        }
+
         searchJob = viewModelScope.launch {
             delay(400.milliseconds)
+            _state.update { it.copy(isLoading = true) }
             onSearch()
         }
     }
@@ -40,10 +48,18 @@ class SearchViewModel @Inject constructor(
         val currentQuery = _state.value.query
         if (currentQuery.isNotBlank()) {
             _state.update {
-                it.copy(searchResults = searchUseCase(currentQuery).cachedIn(viewModelScope))
+                it.copy(
+                    searchResults = searchUseCase(currentQuery).cachedIn(viewModelScope),
+                    isLoading = false
+                )
             }
         } else {
-            _state.update { it.copy(searchResults = emptyFlow()) }
+            _state.update {
+                it.copy(
+                    searchResults = flowOf(PagingData.empty()),
+                    isLoading = false
+                )
+            }
         }
     }
 }
