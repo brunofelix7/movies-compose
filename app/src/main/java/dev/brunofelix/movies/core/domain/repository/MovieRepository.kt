@@ -2,8 +2,8 @@ package dev.brunofelix.movies.core.domain.repository
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -59,4 +59,12 @@ interface MovieRepository {
      * @return A list of [Movie] domain models.
      */
     fun getFavoriteMovies(): Flow<List<Movie>>
+
+    /**
+     * Searches for movies by a query string.
+     * @param query The search query.
+     * @param pagingConfig Configuration for pagination behavior.
+     * @return A [Flow] of paginated search results.
+     */
+    fun search(query: String, pagingConfig: PagingConfig): Flow<PagingData<Movie>>
 }

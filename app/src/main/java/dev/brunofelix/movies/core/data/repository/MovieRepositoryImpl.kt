@@ -46,6 +46,15 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun search(query: String, pagingConfig: PagingConfig): Flow<PagingData<Movie>> {
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = {
+                remoteDataSource.search(query)
+            }
+        ).flow
+    }
+
     override fun getPopularMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>> {
         return Pager(
             config = pagingConfig,
