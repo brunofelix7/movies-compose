@@ -25,6 +25,14 @@ interface MovieRemoteDataSource {
     /**
      * Searches for movies by a query string.
      * @param query The search query.
+     * @param page The page number to fetch.
+     * @return A [Result] containing a list of [Movie]s.
+     */
+    suspend fun search(query: String, page: Int): Result<List<Movie>>
+
+    /**
+     * Searches for movies by a query string.
+     * @param query The search query.
      * @return A [PagingSource] for the search results.
      */
     fun search(query: String): PagingSource<Int, Movie>

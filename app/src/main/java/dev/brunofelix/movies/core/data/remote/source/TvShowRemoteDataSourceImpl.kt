@@ -34,11 +34,15 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
         }
     }
 
+    override suspend fun search(query: String, page: Int): Result<List<TvShow>> {
+        return runCatching {
+            service.search(query, page).mapOrThrow { it.toDomainList() }
+        }.recoverCatching { throw it.toRemoteException() }
+    }
+
     override fun search(query: String): PagingSource<Int, TvShow> {
         return BasePagingSource { page ->
-            runCatching {
-                service.search(query, page).mapOrThrow { it.toDomainList() }
-            }.recoverCatching { throw it.toRemoteException() }
+            search(query, page)
         }
     }
 
