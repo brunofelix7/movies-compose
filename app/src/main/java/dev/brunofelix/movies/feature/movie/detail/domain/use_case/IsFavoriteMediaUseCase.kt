@@ -17,7 +17,7 @@ class IsFavoriteMediaUseCaseImpl @Inject constructor(
         return try {
             repository.isFavorite(id)
         } catch (e: Exception) {
-            throw LocalException.General(R.string.is_favorite_movie_error, e)
+            throw LocalException.General(R.string.is_favorite_media_error, e)
         }
     }
 }

@@ -18,7 +18,7 @@ class DeleteMediaUseCaseImpl @Inject constructor(
         try {
             repository.delete(media)
         } catch (e: Exception) {
-            throw LocalException.General(R.string.delete_movie_error, e)
+            throw LocalException.General(R.string.delete_media_error, e)
         }
     }
 }
