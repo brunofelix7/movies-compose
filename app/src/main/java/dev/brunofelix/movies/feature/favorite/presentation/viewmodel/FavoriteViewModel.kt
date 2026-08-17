@@ -1,0 +1,40 @@
+package dev.brunofelix.movies.feature.favorite.presentation.viewmodel
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.brunofelix.movies.R
+import dev.brunofelix.movies.core.data.util.extension.toUiText
+import dev.brunofelix.movies.core.domain.model.Media
+import dev.brunofelix.movies.core.domain.use_case.GetFavoriteMediasUseCase
+import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.util.UiText
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
+
+@HiltViewModel
+class FavoriteViewModel @Inject constructor(
+    useCase: GetFavoriteMediasUseCase
+) : ViewModel() {
+
+    val uiState: StateFlow<UiState<List<Media>>> = useCase()
+        .map { data ->
+            if (data.isEmpty()) {
+                UiState.Error(UiText.StringResource(R.string.empty_state))
+            } else {
+                UiState.Success(data)
+            }
+        }
+        .onStart { emit(UiState.Loading) }
+        .catch { UiState.Error(it.toUiText()) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = UiState.Loading
+        )
+}
