@@ -4,8 +4,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.brunofelix.movies.core.data.repository.MediaRepositoryImpl
 import dev.brunofelix.movies.core.data.repository.MovieRepositoryImpl
 import dev.brunofelix.movies.core.data.repository.TvShowRepositoryImpl
+import dev.brunofelix.movies.core.domain.repository.MediaRepository
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
 import dev.brunofelix.movies.core.domain.repository.TvShowRepository
 import javax.inject.Singleton
@@ -25,4 +27,10 @@ abstract class RepositoryModule {
     abstract fun bindTvShowRepository(
         impl: TvShowRepositoryImpl
     ): TvShowRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindMediaRepository(
+        impl: MediaRepositoryImpl
+    ): MediaRepository
 }
