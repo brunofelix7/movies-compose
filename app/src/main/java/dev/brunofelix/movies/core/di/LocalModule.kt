@@ -9,8 +9,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.brunofelix.movies.core.data.local.db.AppDatabase
 import dev.brunofelix.movies.core.data.local.db.dao.MediaDao
-import dev.brunofelix.movies.core.data.local.source.MovieLocalDataSource
-import dev.brunofelix.movies.core.data.local.source.MovieLocalDataSourceImpl
+import dev.brunofelix.movies.core.data.local.source.MediaLocalDataSource
+import dev.brunofelix.movies.core.data.local.source.MediaLocalDataSourceImpl
 import dev.brunofelix.movies.core.domain.util.DB_NAME
 import javax.inject.Singleton
 
@@ -38,7 +38,7 @@ abstract class LocalModule {
 
     @Binds
     @Singleton
-    abstract fun bindMovieLocalDataSource(
-        impl: MovieLocalDataSourceImpl
-    ): MovieLocalDataSource
+    abstract fun bindMediaLocalDataSource(
+        impl: MediaLocalDataSourceImpl
+    ): MediaLocalDataSource
 }
