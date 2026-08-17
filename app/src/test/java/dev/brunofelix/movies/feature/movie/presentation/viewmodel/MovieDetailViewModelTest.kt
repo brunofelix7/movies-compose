@@ -5,13 +5,13 @@ import androidx.lifecycle.asLiveData
 import com.google.common.truth.Truth.assertThat
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.util.extension.toUiText
+import dev.brunofelix.movies.core.domain.use_case.DeleteMediaUseCase
+import dev.brunofelix.movies.core.domain.use_case.IsFavoriteMediaUseCase
+import dev.brunofelix.movies.core.domain.use_case.SaveMediaUseCase
 import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.DeleteMovieUseCase
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailsUseCase
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.IsFavoriteMovieUseCase
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.SaveMovieUseCase
+import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
 import dev.brunofelix.movies.feature.movie.detail.presentation.viewmodel.MovieDetailViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory
@@ -34,20 +34,20 @@ class MovieDetailViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    val getMovieDetailsUseCase = mockk<GetMovieDetailsUseCase>()
-    val saveMovieUseCase = mockk<SaveMovieUseCase>()
-    val isFavoriteMovieUseCase = mockk<IsFavoriteMovieUseCase>()
-    val deleteMovieUseCase = mockk<DeleteMovieUseCase>()
+    val getMovieDetailUseCase = mockk<GetMovieDetailUseCase>()
+    val saveMediaUseCase = mockk<SaveMediaUseCase>()
+    val isFavoriteMediaUseCase = mockk<IsFavoriteMediaUseCase>()
+    val deleteMediaUseCase = mockk<DeleteMediaUseCase>()
 
     private lateinit var viewModel: MovieDetailViewModel
 
     @Before
     fun setUp() {
         viewModel = MovieDetailViewModel(
-            getMovieDetailsUseCase,
-            saveMovieUseCase,
-            isFavoriteMovieUseCase,
-            deleteMovieUseCase
+            getMovieDetailUseCase,
+            saveMediaUseCase,
+            isFavoriteMediaUseCase,
+            deleteMediaUseCase
         )
     }
 
@@ -58,8 +58,8 @@ class MovieDetailViewModelTest {
         val movieUiState = movie.toUiState()
         val expectedState = UiState.Success(movieUiState)
 
-        coEvery { getMovieDetailsUseCase(1) } returns Resource.Success(movie)
-        coEvery { isFavoriteMovieUseCase(movie.id) } returns false
+        coEvery { getMovieDetailUseCase(1) } returns Resource.Success(movie)
+        coEvery { isFavoriteMediaUseCase(movie.id) } returns false
 
         // Act
         viewModel.getDetails(1)
@@ -74,7 +74,7 @@ class MovieDetailViewModelTest {
         // Arrange
         val exception = Exception("Error")
         val expectedState = UiState.Error(exception.toUiText())
-        coEvery { getMovieDetailsUseCase(1) } returns Resource.Error(exception)
+        coEvery { getMovieDetailUseCase(1) } returns Resource.Error(exception)
 
         // Act
         viewModel.getDetails(1)
