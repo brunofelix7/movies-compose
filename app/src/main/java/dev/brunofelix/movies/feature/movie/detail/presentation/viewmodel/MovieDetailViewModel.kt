@@ -4,15 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.brunofelix.movies.core.data.util.extension.toUiText
+import dev.brunofelix.movies.core.domain.mapper.toMedia
 import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.use_case.DeleteMediaUseCase
+import dev.brunofelix.movies.core.domain.use_case.IsFavoriteMediaUseCase
+import dev.brunofelix.movies.core.domain.use_case.SaveMediaUseCase
 import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.DeleteMovieUseCase
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailsUseCase
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.IsFavoriteMovieUseCase
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.SaveMovieUseCase
+import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,10 +21,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
-    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
-    private val saveMovieUseCase: SaveMovieUseCase,
-    private val isFavoriteMovieUseCase: IsFavoriteMovieUseCase,
-    private val deleteMovieUseCase: DeleteMovieUseCase
+    private val getMovieDetailUseCase: GetMovieDetailUseCase,
+    private val saveMediaUseCase: SaveMediaUseCase,
+    private val isFavoriteMediaUseCase: IsFavoriteMediaUseCase,
+    private val deleteMediaUseCase: DeleteMediaUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<MovieUiState>>(UiState.Loading)
@@ -43,11 +44,11 @@ class MovieDetailViewModel @Inject constructor(
             _uiState.value = UiState.Loading
             _isFavorite.value = false
 
-            when (val result = getMovieDetailsUseCase(movieId)) {
+            when (val result = getMovieDetailUseCase(movieId)) {
                 is Resource.Success -> {
                     movieDomain = result.data
                     _uiState.value = UiState.Success(result.data.toUiState())
-                    _isFavorite.value = isFavoriteMovieUseCase(result.data.id)
+                    _isFavorite.value = isFavoriteMediaUseCase(result.data.id)
                 }
                 is Resource.Error -> {
                     _uiState.value = UiState.Error(result.throwable.toUiText())
@@ -59,11 +60,11 @@ class MovieDetailViewModel @Inject constructor(
     fun onFavoriteToggle() = viewModelScope.launch {
         movieDomain?.let { movie ->
             if (_isFavorite.value) {
-                deleteMovieUseCase(movie)
+                deleteMediaUseCase(movie.toMedia())
             } else {
-                saveMovieUseCase(movie)
+                saveMediaUseCase(movie.toMedia())
             }
-            _isFavorite.value = isFavoriteMovieUseCase(movie.id)
+            _isFavorite.value = isFavoriteMediaUseCase(movie.id)
         }
     }
 }
