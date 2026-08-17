@@ -2,6 +2,8 @@ package dev.brunofelix.movies.core.data.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import dev.brunofelix.movies.core.data.local.db.converter.Converters
 import dev.brunofelix.movies.core.data.local.db.dao.MediaDao
 import dev.brunofelix.movies.core.data.local.db.entity.MediaEntity
 
@@ -14,6 +16,7 @@ import dev.brunofelix.movies.core.data.local.db.entity.MediaEntity
     exportSchema = false,
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     /**
      * Provides access to [MediaDao] for movie-related database operations.
