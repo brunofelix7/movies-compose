@@ -22,13 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 @Composable
-fun MovieFavoriteItem(
+fun FavoriteItem(
     modifier: Modifier = Modifier,
-    movie: Movie,
+    media: Media,
     onClick: (id: Long) -> Unit
 ) {
     Card(
@@ -38,7 +38,7 @@ fun MovieFavoriteItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable(
-                onClick = { onClick(movie.id) }
+                onClick = { onClick(media.id) }
             )
     ) {
         Column(
@@ -54,7 +54,7 @@ fun MovieFavoriteItem(
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(movie.posterPath)
+                        .data(media.posterPath)
                         .crossfade(true)
                         .build(),
                     contentScale = ContentScale.FillWidth,
@@ -63,7 +63,7 @@ fun MovieFavoriteItem(
                 )
             }
             Text(
-                text = movie.title,
+                text = media.title,
                 maxLines = 1,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -80,11 +80,10 @@ fun MovieFavoriteItem(
 @Preview(showBackground = true)
 @Composable
 private fun SuccessPreview() {
-    MovieFavoriteItem(
-        movie = Movie(
+    FavoriteItem(
+        media = Media(
             id = 1,
-            title = "Title",
-            posterPath = ""
+            title = "Title"
         ),
         onClick = { }
     )
