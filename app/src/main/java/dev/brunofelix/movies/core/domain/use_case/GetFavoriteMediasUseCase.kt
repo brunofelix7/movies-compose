@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.favorite.domain.use_case
+package dev.brunofelix.movies.core.domain.use_case
 
 import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.domain.repository.MediaRepository

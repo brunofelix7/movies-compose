@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.movie.detail.domain.use_case
+package dev.brunofelix.movies.core.domain.use_case
 
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.Media
