@@ -3,12 +3,10 @@ package dev.brunofelix.movies.feature.favorite.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.data.util.extension.toUiText
 import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.domain.use_case.GetFavoriteMediasUseCase
 import dev.brunofelix.movies.core.presentation.state.UiState
-import dev.brunofelix.movies.core.presentation.util.UiText
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -24,11 +22,7 @@ class FavoriteViewModel @Inject constructor(
 
     val uiState: StateFlow<UiState<List<Media>>> = useCase()
         .map { data ->
-            if (data.isEmpty()) {
-                UiState.Error(UiText.StringResource(R.string.empty_state))
-            } else {
-                UiState.Success(data)
-            }
+            if (data.isEmpty()) UiState.Empty else UiState.Success(data)
         }
         .onStart { emit(UiState.Loading) }
         .catch { UiState.Error(it.toUiText()) }
