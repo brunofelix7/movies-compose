@@ -6,13 +6,13 @@ import dev.brunofelix.movies.core.domain.repository.MediaRepository
 import dev.brunofelix.movies.core.domain.util.exception.LocalException
 import javax.inject.Inject
 
-fun interface DeleteMovieUseCase {
+fun interface DeleteMediaUseCase {
     suspend operator fun invoke(media: Media)
 }
 
-class DeleteMovieUseCaseImpl @Inject constructor(
+class DeleteMediaUseCaseImpl @Inject constructor(
     private val repository: MediaRepository
-) : DeleteMovieUseCase {
+) : DeleteMediaUseCase {
 
     override suspend fun invoke(media: Media) {
         try {
