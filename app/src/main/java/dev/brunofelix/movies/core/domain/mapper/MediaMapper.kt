@@ -11,7 +11,6 @@ fun Movie.toMedia() = Media(
     posterPath = posterPath,
     voteAverage = voteAverage,
     releaseDate = releaseDate,
-    overview = overview,
     type = MediaType.MOVIE
 )
 
@@ -23,7 +22,6 @@ fun TvShow.toMedia() = Media(
     posterPath = posterPath,
     voteAverage = voteAverage,
     releaseDate = firstAirDate,
-    overview = overview,
     type = MediaType.TV_SHOW
 )
 
