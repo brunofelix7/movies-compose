@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.util.Resource
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailsUseCase
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailsUseCaseImpl
+import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
+import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCaseImpl
 import dev.brunofelix.movies.test_util.MainDispatcherRule
 import dev.brunofelix.movies.test_util.fake.FakeMovieLocalDataSource
 import dev.brunofelix.movies.test_util.fake.FakeMovieRemoteDataSource
@@ -17,7 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class GetMovieDetailsUseCaseTest {
+class GetMovieDetailUseCaseTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -28,14 +28,14 @@ class GetMovieDetailsUseCaseTest {
     private lateinit var remoteDataSource: FakeMovieRemoteDataSource
     private lateinit var localDataSource: FakeMovieLocalDataSource
     private lateinit var repository: FakeMovieRepository
-    private lateinit var useCase: GetMovieDetailsUseCase
+    private lateinit var useCase: GetMovieDetailUseCase
 
     @Before
     fun setUp() {
         remoteDataSource = FakeMovieRemoteDataSource()
         localDataSource = FakeMovieLocalDataSource()
         repository = FakeMovieRepository(remoteDataSource, localDataSource)
-        useCase = GetMovieDetailsUseCaseImpl(repository)
+        useCase = GetMovieDetailUseCaseImpl(repository)
     }
 
     @Test
