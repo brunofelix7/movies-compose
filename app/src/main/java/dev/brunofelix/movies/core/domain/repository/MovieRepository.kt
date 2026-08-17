@@ -10,24 +10,6 @@ import kotlinx.coroutines.flow.Flow
  * Repository interface for managing Movie data from both remote and local sources.
  */
 interface MovieRepository {
-    /**
-     * Saves a movie to the local favorites database.
-     * @param movie The [Movie] to save.
-     */
-    suspend fun save(movie: Movie)
-
-    /**
-     * Deletes a movie from the local favorites database.
-     * @param movie The [Movie] to delete.
-     */
-    suspend fun delete(movie: Movie)
-
-    /**
-     * Checks if a movie is currently marked as a favorite.
-     * @param id The unique identifier of the movie.
-     * @return True if the movie is a favorite, false otherwise.
-     */
-    suspend fun isFavorite(id: Long): Boolean
 
     /**
      * Fetches detailed information for a specific movie from the remote source.
@@ -53,10 +35,4 @@ interface MovieRepository {
      * @param pagingConfig Configuration for pagination behavior.
      */
     fun getTopRatedMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>>
-
-    /**
-     * Provides a [Flow] of all favorite movies stored locally.
-     * @return A list of [Movie] domain models.
-     */
-    fun getFavoriteMovies(): Flow<List<Movie>>
 }
