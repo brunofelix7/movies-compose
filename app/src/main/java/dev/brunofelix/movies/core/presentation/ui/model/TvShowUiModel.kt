@@ -1,8 +1,8 @@
-package dev.brunofelix.movies.core.presentation.state
+package dev.brunofelix.movies.core.presentation.ui.model
 
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 
-data class TvShowUiState(
+data class TvShowUiModel(
     val id: Long = 0L,
     val name: String = "",
     val overview: String = "",

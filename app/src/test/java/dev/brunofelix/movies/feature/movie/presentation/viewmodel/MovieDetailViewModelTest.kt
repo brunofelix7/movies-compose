@@ -10,7 +10,7 @@ import dev.brunofelix.movies.core.domain.use_case.IsFavoriteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.SaveMediaUseCase
 import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiModel
-import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.MovieDetailViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule

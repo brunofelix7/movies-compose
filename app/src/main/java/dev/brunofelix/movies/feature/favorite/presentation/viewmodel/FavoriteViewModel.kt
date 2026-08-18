@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.brunofelix.movies.core.data.util.extension.toUiText
 import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.domain.use_case.GetFavoriteMediasUseCase
-import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.util.UiState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch

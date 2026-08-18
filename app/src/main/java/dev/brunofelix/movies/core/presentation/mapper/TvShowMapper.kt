@@ -2,18 +2,18 @@ package dev.brunofelix.movies.core.presentation.mapper
 
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.util.datetime.DateTimeConverter
-import dev.brunofelix.movies.core.presentation.state.TvShowUiState
+import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
 
 /**
- * Maps a [TvShow] domain model to a [TvShowUiState] for the presentation layer.
+ * Maps a [TvShow] domain model to a [TvShowUiModel] for the presentation layer.
  *
  * This function performs UI-specific transformations, such as converting the
  * first air date from "YYYY-MM-DD" to "DD/MM/YYYY" format for display.
  *
- * @return A [TvShowUiState] containing formatted data for the UI.
+ * @return A [TvShowUiModel] containing formatted data for the UI.
  */
-fun TvShow.toUiModel(): TvShowUiState {
-    return TvShowUiState(
+fun TvShow.toUiModel(): TvShowUiModel {
+    return TvShowUiModel(
         id = id,
         name = name,
         overview = overview,

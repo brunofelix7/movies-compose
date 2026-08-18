@@ -1,6 +1,4 @@
-package dev.brunofelix.movies.core.presentation.state
-
-import dev.brunofelix.movies.core.presentation.util.UiText
+package dev.brunofelix.movies.core.presentation.util
 
 sealed class UiState<out T> {
     data object Loading : UiState<Nothing>()

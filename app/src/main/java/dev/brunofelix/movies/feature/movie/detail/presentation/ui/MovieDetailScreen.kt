@@ -14,7 +14,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.navigation.Navigator
-import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel

@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.presentation.state
+package dev.brunofelix.movies.core.presentation.util
 
 import androidx.annotation.StringRes
 import kotlinx.coroutines.flow.MutableSharedFlow
