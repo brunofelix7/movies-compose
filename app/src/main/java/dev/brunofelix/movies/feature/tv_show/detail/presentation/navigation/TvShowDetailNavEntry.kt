@@ -13,7 +13,7 @@ import androidx.navigation3.runtime.NavKey
 import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
 
 fun EntryProviderScope<NavKey>.tvShowDetailEntry(
-    onNavigate: (MainNavKey) -> Unit,
+    onBack: () -> Unit
 ) {
     entry<MainNavKey.TvShowDetails> { key ->
         Box(

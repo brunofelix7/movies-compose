@@ -22,38 +22,22 @@ fun MainNavDisplay(
 ) {
     val entryProvider = entryProvider {
         // Movies Screen
-        movieHomeEntry(
-            onNavigate = onNavigate,
-            paddingValues = paddingValues
-        )
+        movieHomeEntry(onNavigate, paddingValues)
 
         // TV Shows Screen
-        tvShowHomeEntry(
-            onNavigate = onNavigate,
-            paddingValues = paddingValues
-        )
+        tvShowHomeEntry(onNavigate, paddingValues)
 
         // Search Screen
-        searchEntry(
-            onNavigate = onNavigate,
-            paddingValues = paddingValues
-        )
+        searchEntry(onNavigate, paddingValues)
 
         // Favorites Screen
-        favoriteEntry(
-            onNavigate = onNavigate,
-            paddingValues = paddingValues
-        )
+        favoriteEntry(onNavigate, paddingValues)
 
         // Movie Details Screen
-        movieDetailEntry(
-            onBack = onBack
-        )
+        movieDetailEntry(onBack)
 
         // TV Show Details Screen
-        tvShowDetailEntry(
-            onNavigate = onNavigate
-        )
+        tvShowDetailEntry(onBack)
     }
 
     NavDisplay(
