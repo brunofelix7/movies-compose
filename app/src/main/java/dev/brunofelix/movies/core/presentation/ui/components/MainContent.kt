@@ -17,9 +17,8 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
+import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.presentation.mapper.toUiState
-import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
 import dev.brunofelix.movies.core.presentation.util.extension.collectAsPreviewLazyPagingItems
 import dev.brunofelix.movies.core.presentation.util.extension.createCombinedLoadStates
@@ -29,7 +28,7 @@ fun <T : Any> MainContent(
     paging: LazyPagingItems<T>?,
     paddingValues: PaddingValues,
     onClick: (id: Long) -> Unit,
-    toUiState: (T) -> MovieUiState,
+    media: (T) -> Media,
     modifier: Modifier = Modifier,
     loadState: CombinedLoadStates? = paging?.loadState,
 ) {
@@ -65,8 +64,8 @@ fun <T : Any> MainContent(
                         ) { index ->
                             val item = paging[index]
                             item?.let {
-                                MovieCard(
-                                    uiState = toUiState(it),
+                                MediaCard(
+                                    media = media(it),
                                     onClick = { id -> onClick(id) }
                                 )
                             }
@@ -118,7 +117,7 @@ private fun SuccessPreview() {
             loadState = createCombinedLoadStates(),
             paddingValues = PaddingValues(),
             onClick = {},
-            toUiState = { it.toUiState() }
+            media = { Media() }
         )
     }
 }

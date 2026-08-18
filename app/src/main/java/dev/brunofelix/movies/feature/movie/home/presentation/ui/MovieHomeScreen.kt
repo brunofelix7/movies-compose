@@ -14,11 +14,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import dev.brunofelix.movies.core.domain.mapper.toMedia
 import dev.brunofelix.movies.core.domain.model.enums.MovieCategory
-import dev.brunofelix.movies.core.presentation.mapper.toUiState
 import dev.brunofelix.movies.core.presentation.ui.components.CategorySelector
 import dev.brunofelix.movies.core.presentation.ui.components.MainContent
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
@@ -68,7 +68,7 @@ fun MovieHomeScreen(
                     paging = movies,
                     paddingValues = PaddingValues(bottom = paddingValues.calculateBottomPadding()),
                     onClick = onItemClick,
-                    toUiState = { it.toUiState() }
+                    media = { it.toMedia() }
                 )
             }
         }

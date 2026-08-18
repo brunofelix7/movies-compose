@@ -33,9 +33,8 @@ import dev.brunofelix.movies.core.domain.model.enums.MediaType
 import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
 import dev.brunofelix.movies.core.presentation.ui.components.CustomSearchBar
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
-import dev.brunofelix.movies.core.presentation.ui.components.MovieCard
+import dev.brunofelix.movies.core.presentation.ui.components.MediaCard
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
-import dev.brunofelix.movies.feature.search.presentation.mapper.toUiState
 import dev.brunofelix.movies.feature.search.presentation.viewmodel.SearchViewModel
 
 @Composable
@@ -99,8 +98,8 @@ fun MovieSearchScreen(
                 key = searchResults.itemKey { it.id }
             ) { index ->
                 searchResults[index]?.let { media ->
-                    MovieCard(
-                        uiState = media.toUiState(),
+                    MediaCard(
+                        media = media,
                         onClick = {
                             val route = when (media.type) {
                                 MediaType.MOVIE -> MainNavKey.MovieDetails(media.id)
