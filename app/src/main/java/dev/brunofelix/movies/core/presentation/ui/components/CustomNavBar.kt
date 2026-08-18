@@ -18,8 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
-import dev.brunofelix.movies.core.presentation.navigation.NavigationState
-import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 sealed class CustomNavBarItem(
@@ -60,8 +58,8 @@ private val navBarItems = listOf(
 
 @Composable
 fun CustomNavBar(
-    navigationState: NavigationState,
-    navigator: Navigator,
+    currentTab: MainNavKey,
+    onNavigate: (MainNavKey) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val itemColors = NavigationBarItemDefaults.colors(
@@ -78,7 +76,7 @@ fun CustomNavBar(
         modifier = modifier
     ) {
         navBarItems.forEach { currentItem ->
-            val isSelected = currentItem.route == navigationState.topLevelRoute
+            val isSelected = currentItem.route == currentTab
 
             NavigationBarItem(
                 selected = isSelected,
@@ -97,7 +95,7 @@ fun CustomNavBar(
                 },
                 onClick = {
                     if (!isSelected) {
-                        navigator.navigate(currentItem.route)
+                        onNavigate(currentItem.route)
                     }
                 }
             )
