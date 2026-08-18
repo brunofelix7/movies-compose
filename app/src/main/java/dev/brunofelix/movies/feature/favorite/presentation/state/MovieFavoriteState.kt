@@ -6,6 +6,6 @@ import dev.brunofelix.movies.core.presentation.util.UiState
 
 @Immutable
 data class MovieFavoriteState(
-    val uiState: UiState<List<Media>> = UiState.Loading,
+    val uiState: UiState<List<Media>> = UiState.Initial,
     val onCardClick: (Long) -> Unit = {}
 )

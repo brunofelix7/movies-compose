@@ -11,8 +11,8 @@ import dev.brunofelix.movies.core.domain.use_case.IsFavoriteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.SaveMediaUseCase
 import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiModel
-import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
+import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +27,7 @@ class MovieDetailViewModel @Inject constructor(
     private val deleteMediaUseCase: DeleteMediaUseCase
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState<MovieUiModel>>(UiState.Loading)
+    private val _uiState = MutableStateFlow<UiState<MovieUiModel>>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
     private val _isFavorite = MutableStateFlow(false)

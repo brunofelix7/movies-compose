@@ -5,10 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.brunofelix.movies.core.domain.model.Media
-import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
+import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.favorite.presentation.state.MovieFavoriteState
 import dev.brunofelix.movies.feature.favorite.presentation.ui.components.MovieFavoriteList
@@ -30,6 +30,7 @@ fun MovieFavoriteScreen(
         }
         is UiState.Error -> ErrorLayout()
         is UiState.Empty -> EmptyState()
+        else -> Unit
     }
 }
 

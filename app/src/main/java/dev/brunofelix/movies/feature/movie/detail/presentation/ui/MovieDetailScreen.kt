@@ -93,6 +93,7 @@ private fun MovieDetailScreen(
                             ErrorLayout(errorMessage = uiState.uiText)
                         }
                         is UiState.Empty -> EmptyState()
+                        is UiState.Initial -> Unit
                     }
                 }
             )
