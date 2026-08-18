@@ -12,7 +12,7 @@ import dev.brunofelix.movies.core.presentation.state.TvShowUiState
  *
  * @return A [TvShowUiState] containing formatted data for the UI.
  */
-fun TvShow.toUiState(): TvShowUiState {
+fun TvShow.toUiModel(): TvShowUiState {
     return TvShowUiState(
         id = id,
         name = name,
