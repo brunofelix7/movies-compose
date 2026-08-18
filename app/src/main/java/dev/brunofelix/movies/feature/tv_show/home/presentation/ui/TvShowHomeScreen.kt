@@ -17,9 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import dev.brunofelix.movies.core.domain.mapper.toMedia
 import dev.brunofelix.movies.core.domain.model.enums.TvShowCategory
-import dev.brunofelix.movies.core.presentation.mapper.toUiState
-import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.ui.components.CategorySelector
 import dev.brunofelix.movies.core.presentation.ui.components.MainContent
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
@@ -69,18 +68,7 @@ fun TvShowHomeScreen(
                     paging = tvShows,
                     paddingValues = PaddingValues(bottom = paddingValues.calculateBottomPadding()),
                     onClick = onItemClick,
-                    toUiState = { tvShow ->
-                        val tvState = tvShow.toUiState()
-                        // Map TvShowUiState to MovieUiState (which is what MovieCard currently uses)
-                        // In a real project, we'd have a unified CardUiState
-                        MovieUiState(
-                            id = tvState.id,
-                            title = tvState.name,
-                            posterPath = tvState.posterPath,
-                            backdropPath = tvState.backdropPath,
-                            voteAverage = tvState.voteAverage
-                        )
-                    }
+                    media = { it.toMedia() }
                 )
             }
         }
