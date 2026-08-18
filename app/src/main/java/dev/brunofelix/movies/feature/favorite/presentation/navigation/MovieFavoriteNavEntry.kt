@@ -7,13 +7,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
-import dev.brunofelix.movies.core.presentation.navigation.Navigator
 import dev.brunofelix.movies.feature.favorite.presentation.state.MovieFavoriteState
 import dev.brunofelix.movies.feature.favorite.presentation.ui.MovieFavoriteScreen
 import dev.brunofelix.movies.feature.favorite.presentation.viewmodel.FavoriteViewModel
 
 fun EntryProviderScope<NavKey>.favoriteEntry(
-    navigator: Navigator,
+    onNavigate: (MainNavKey) -> Unit,
     paddingValues: PaddingValues
 ) {
     entry<MainNavKey.Favorites> {
@@ -26,7 +25,7 @@ fun EntryProviderScope<NavKey>.favoriteEntry(
                 uiState = uiState,
                 onCardClick = { id ->
                     // TODO: navigate to movie or TV show details
-                    navigator.navigate(MainNavKey.MovieDetails(id))
+                    onNavigate(MainNavKey.MovieDetails(id))
                 }
             )
         )

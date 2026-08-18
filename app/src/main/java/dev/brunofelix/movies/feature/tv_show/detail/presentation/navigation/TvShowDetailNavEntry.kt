@@ -11,10 +11,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
-import dev.brunofelix.movies.core.presentation.navigation.Navigator
 
 fun EntryProviderScope<NavKey>.tvShowDetailEntry(
-    navigator: Navigator
+    onNavigate: (MainNavKey) -> Unit,
 ) {
     entry<MainNavKey.TvShowDetails> { key ->
         Box(

@@ -7,8 +7,8 @@ import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
 import dev.brunofelix.movies.feature.search.presentation.ui.MovieSearchScreen
 
 fun EntryProviderScope<NavKey>.searchEntry(
-    paddingValues: PaddingValues,
-    onNavigate: (NavKey) -> Unit
+    onNavigate: (MainNavKey) -> Unit,
+    paddingValues: PaddingValues
 ) {
     entry<MainNavKey.Search> {
         MovieSearchScreen(

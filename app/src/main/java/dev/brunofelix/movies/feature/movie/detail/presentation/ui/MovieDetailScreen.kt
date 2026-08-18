@@ -13,11 +13,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.brunofelix.movies.core.domain.model.MovieGenre
-import dev.brunofelix.movies.core.presentation.navigation.Navigator
-import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
+import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailContent
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailHeader
@@ -27,7 +26,7 @@ import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.Mov
 @Composable
 fun MovieDetailRoute(
     movieId: Long,
-    navigator: Navigator,
+    onBack: () -> Unit,
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -40,7 +39,7 @@ fun MovieDetailRoute(
     MovieDetailScreen(
         uiState = uiState,
         isFavorite = isFavorite,
-        onBack = { navigator.goBack() },
+        onBack = onBack,
         onFavorite = { viewModel.onFavoriteToggle() },
         onWatchTrailer = {
             // TODO: call watch trailer logic
