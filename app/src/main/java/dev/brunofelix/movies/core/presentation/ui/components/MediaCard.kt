@@ -23,21 +23,28 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
-import dev.brunofelix.movies.core.presentation.state.MovieCardUiState
-import dev.brunofelix.movies.core.presentation.state.MovieUiState
+import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
+sealed interface MediaCardState {
+    data object Loading : MediaCardState
+    data object Success : MediaCardState
+    data object Error : MediaCardState
+}
+
 @Composable
-fun MovieCard(
+fun MediaCard(
     modifier: Modifier = Modifier,
-    uiState: MovieUiState,
+    media: Media,
     onClick: (id: Long) -> Unit = {}
 ) {
-    var cardState by remember { mutableStateOf<MovieCardUiState>(MovieCardUiState.Loading) }
+    var cardState by remember {
+        mutableStateOf<MediaCardState>(MediaCardState.Loading)
+    }
     val shape = RoundedCornerShape(12.dp)
 
     Card(
-        onClick = { onClick(uiState.id) },
+        onClick = { onClick(media.id) },
         shape = shape,
         border = BorderStroke(1.dp, Colors.white.copy(alpha = 0.2f)),
         modifier = modifier
@@ -52,14 +59,14 @@ fun MovieCard(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(uiState.posterPath.ifEmpty { uiState.backdropPath })
+                    .data(media.posterPath)
                     .crossfade(true)
                     .build(),
                 onState = { state ->
                     cardState = when (state) {
-                        is AsyncImagePainter.State.Success -> MovieCardUiState.Success
-                        is AsyncImagePainter.State.Loading -> MovieCardUiState.Loading
-                        else -> MovieCardUiState.Error
+                        is AsyncImagePainter.State.Success -> MediaCardState.Success
+                        is AsyncImagePainter.State.Loading -> MediaCardState.Loading
+                        else -> MediaCardState.Error
                     }
                 },
                 contentScale = ContentScale.Crop,
@@ -69,8 +76,8 @@ fun MovieCard(
                     .background(Colors.blackPrimary)
             )
             when (cardState) {
-                is MovieCardUiState.Loading -> LoadingState()
-                is MovieCardUiState.Error -> EmptyImage()
+                is MediaCardState.Loading -> LoadingState()
+                is MediaCardState.Error -> EmptyImage()
                 else -> Unit
             }
         }
@@ -79,9 +86,9 @@ fun MovieCard(
 
 @Preview(showBackground = true)
 @Composable
-private fun MovieCardPreview() {
-    MovieCard(
-        uiState = MovieUiState(
+private fun MediaCardPreview() {
+    MediaCard(
+        media = Media(
             id = 1L,
             title = "Movie 1",
             voteAverage = 9.1f
