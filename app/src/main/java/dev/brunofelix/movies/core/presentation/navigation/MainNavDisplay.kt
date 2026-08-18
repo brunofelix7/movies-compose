@@ -13,51 +13,53 @@ import dev.brunofelix.movies.feature.tv_show.detail.presentation.navigation.tvSh
 import dev.brunofelix.movies.feature.tv_show.home.presentation.navigation.tvShowHomeEntry
 
 @Composable
-fun MainNavHost(
+fun MainNavDisplay(
+    backStack: List<MainNavKey>,
+    onNavigate: (MainNavKey) -> Unit,
+    onBack: () -> Unit,
     paddingValues: PaddingValues,
-    navigationState: NavigationState,
-    navigator: Navigator,
     modifier: Modifier = Modifier
 ) {
     val entryProvider = entryProvider {
         // Movies Screen
         movieHomeEntry(
-            navigator = navigator,
+            onNavigate = onNavigate,
             paddingValues = paddingValues
         )
 
         // TV Shows Screen
         tvShowHomeEntry(
-            navigator = navigator,
+            onNavigate = onNavigate,
             paddingValues = paddingValues
         )
 
         // Search Screen
         searchEntry(
-            paddingValues = paddingValues,
-            onNavigate = navigator::navigate
+            onNavigate = onNavigate,
+            paddingValues = paddingValues
         )
 
         // Favorites Screen
         favoriteEntry(
-            navigator = navigator,
+            onNavigate = onNavigate,
             paddingValues = paddingValues
         )
 
         // Movie Details Screen
         movieDetailEntry(
-            navigator = navigator
+            onBack = onBack
         )
 
         // TV Show Details Screen
         tvShowDetailEntry(
-            navigator = navigator
+            onNavigate = onNavigate
         )
     }
 
     NavDisplay(
         modifier = modifier,
-        entries = navigationState.toEntries(entryProvider),
-        onBack = { navigator.goBack() }
+        backStack = backStack,
+        onBack = onBack,
+        entryProvider = entryProvider
     )
 }
