@@ -4,9 +4,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
+import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.favorite.presentation.state.MovieFavoriteState
@@ -23,12 +24,12 @@ fun MovieFavoriteScreen(
         is UiState.Success -> {
             MovieFavoriteList(
                 paddingValues = paddingValues,
-                movies = state.uiState.data,
+                medias = state.uiState.data,
                 onClick = state.onCardClick
             )
         }
-
-        is UiState.Error -> EmptyState()
+        is UiState.Error -> ErrorLayout()
+        is UiState.Empty -> EmptyState()
     }
 }
 
@@ -47,8 +48,8 @@ private fun SuccessPreview() {
         state = MovieFavoriteState(
             uiState = UiState.Success(
                 data = listOf(
-                    Movie(id = 1, title = "Movie 1", posterPath = ""),
-                    Movie(id = 2, title = "Movie 2", posterPath = "")
+                    Media(id = 1, title = "Movie 1", posterPath = ""),
+                    Media(id = 2, title = "Movie 2", posterPath = "")
                 )
             )
         )
