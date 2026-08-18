@@ -11,6 +11,7 @@ fun Movie.toMedia() = Media(
     posterPath = posterPath,
     voteAverage = voteAverage,
     releaseDate = releaseDate,
+    duration = duration,
     type = MediaType.MOVIE
 )
 
