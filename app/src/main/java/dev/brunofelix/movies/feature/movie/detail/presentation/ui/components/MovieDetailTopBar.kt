@@ -30,8 +30,8 @@ fun MovieDetailTopBar(
     modifier: Modifier = Modifier,
     isFavorite: Boolean,
     shouldShowFavorite: Boolean = true,
-    onBackClick: () -> Unit,
-    onFavoriteClick: () -> Unit
+    onBackClick: () -> Unit = {},
+    onFavoriteClick: () -> Unit = {}
 ) {
     TopAppBar(
         title = {

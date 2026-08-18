@@ -7,7 +7,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,16 +14,15 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.navigation.Navigator
-import dev.brunofelix.movies.core.presentation.state.MovieUiState
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
+import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
 import dev.brunofelix.movies.core.presentation.util.UiText
-import dev.brunofelix.movies.feature.movie.detail.presentation.state.MovieDetailState
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailContent
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailHeader
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailSkeleton
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailTopBar
-import dev.brunofelix.movies.feature.movie.detail.presentation.viewmodel.MovieDetailViewModel
 
 @Composable
 fun MovieDetailRoute(
@@ -32,71 +30,74 @@ fun MovieDetailRoute(
     navigator: Navigator,
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
-    // Collect reactive states
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
 
-    // Memos the lambdas to have identical references in memory
-    val onBack: () -> Unit = remember { { navigator.goBack() } }
-    val onFavorite: () -> Unit = remember { { viewModel.onFavoriteToggle() } }
-    val onWatchTrailer: () -> Unit = remember { { /* call trailer logic */ } }
-
-    // Instantiates your mandatory state class
-    val state = MovieDetailState(
-        uiState = uiState,
-        isFavorite = isFavorite,
-        onBack = onBack,
-        onFavorite = onFavorite,
-        onWatchTrailer = onWatchTrailer
-    )
-
-    // Triggers the API only when the movie ID actually changes
     LaunchedEffect(movieId) {
         viewModel.getDetails(movieId)
     }
 
-    // Sends the unified state to the pure screen
-    MovieDetailScreen(state)
+    MovieDetailScreen(
+        uiState = uiState,
+        isFavorite = isFavorite,
+        onBack = { navigator.goBack() },
+        onFavorite = { viewModel.onFavoriteToggle() },
+        onWatchTrailer = {
+            // TODO: call watch trailer logic
+        }
+    )
 }
 
 @Composable
 private fun MovieDetailScreen(
-    state: MovieDetailState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    uiState: UiState<MovieUiModel>,
+    isFavorite: Boolean,
+    onBack: () -> Unit = {},
+    onFavorite: () -> Unit = {},
+    onWatchTrailer: () -> Unit = {}
 ) {
-    if (state.uiState is UiState.Loading) {
-        Box(
-            modifier = modifier.fillMaxSize()
-        ) {
-            MovieDetailSkeleton()
-            MovieDetailTopBar(
-                isFavorite = false,
-                shouldShowFavorite = false,
-                onBackClick = state.onBack,
-                onFavoriteClick = {}
-            )
+    when (uiState) {
+        is UiState.Loading -> {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                MovieDetailSkeleton()
+                MovieDetailTopBar(
+                    isFavorite = false,
+                    shouldShowFavorite = false,
+                    onBackClick = onBack
+                )
+            }
         }
-    } else {
-        Scaffold(
-            modifier = modifier,
-            containerColor = Color.Transparent,
-            topBar = {
-                MovieDetailHeader(state)
-            },
-            content = { innerPadding ->
-                when (state.uiState) {
-                    is UiState.Success -> {
-                        MovieDetailContent(
-                            state = state,
-                            modifier = Modifier.padding(innerPadding)
-                        )
-                    }
-                    is UiState.Error -> {
-                        ErrorLayout(errorMessage = state.uiState.uiText)
+        else -> {
+            Scaffold(
+                modifier = modifier,
+                containerColor = Color.Transparent,
+                topBar = {
+                    MovieDetailHeader(
+                        movie = (uiState as? UiState.Success)?.data,
+                        isFavorite = isFavorite,
+                        onBackClick = onBack,
+                        onFavoriteClick = onFavorite
+                    )
+                },
+                content = { innerPadding ->
+                    when (uiState) {
+                        is UiState.Success -> {
+                            MovieDetailContent(
+                                movie = uiState.data,
+                                modifier = Modifier.padding(innerPadding)
+                            )
+                        }
+                        is UiState.Error -> {
+                            ErrorLayout(errorMessage = uiState.uiText)
+                        }
+                        is UiState.Empty -> EmptyState()
                     }
                 }
-            }
-        )
+            )
+        }
     }
 }
 
@@ -104,10 +105,8 @@ private fun MovieDetailScreen(
 @Composable
 private fun LoadingPreview() {
     MovieDetailScreen(
-        state = MovieDetailState(
-            uiState = UiState.Loading,
-            isFavorite = false
-        )
+        uiState = UiState.Loading,
+        isFavorite = false
     )
 }
 
@@ -115,18 +114,16 @@ private fun LoadingPreview() {
 @Composable
 private fun SuccessPreview() {
     MovieDetailScreen(
-        state = MovieDetailState(
-            uiState = UiState.Success(MovieUiState(
-                genres = listOf(
-                    MovieGenre(name = "Action"),
-                    MovieGenre(name = "Adventure"),
-                    MovieGenre(name = "Comedy"),
-                    MovieGenre(name = "Drama"),
-                    MovieGenre(name = "Terror")
-                )
-            )),
-            isFavorite = false
-        )
+        uiState = UiState.Success(MovieUiModel(
+            genres = listOf(
+                MovieGenre(name = "Action"),
+                MovieGenre(name = "Adventure"),
+                MovieGenre(name = "Comedy"),
+                MovieGenre(name = "Drama"),
+                MovieGenre(name = "Terror")
+            )
+        )),
+        isFavorite = false
     )
 }
 
@@ -134,9 +131,7 @@ private fun SuccessPreview() {
 @Composable
 private fun ErrorPreview() {
     MovieDetailScreen(
-        state = MovieDetailState(
-            uiState = UiState.Error(UiText.DynamicString("Error message")),
-            isFavorite = false
-        )
+        uiState = UiState.Error(UiText.DynamicString("Error message")),
+        isFavorite = false
     )
 }

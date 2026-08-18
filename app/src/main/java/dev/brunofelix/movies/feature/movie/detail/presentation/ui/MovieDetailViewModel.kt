@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.movie.detail.presentation.viewmodel
+package dev.brunofelix.movies.feature.movie.detail.presentation.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,9 +10,9 @@ import dev.brunofelix.movies.core.domain.use_case.DeleteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.IsFavoriteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.SaveMediaUseCase
 import dev.brunofelix.movies.core.domain.util.Resource
-import dev.brunofelix.movies.core.presentation.mapper.toUiState
-import dev.brunofelix.movies.core.presentation.state.MovieUiState
+import dev.brunofelix.movies.core.presentation.mapper.toUiModel
 import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +27,7 @@ class MovieDetailViewModel @Inject constructor(
     private val deleteMediaUseCase: DeleteMediaUseCase
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState<MovieUiState>>(UiState.Loading)
+    private val _uiState = MutableStateFlow<UiState<MovieUiModel>>(UiState.Loading)
     val uiState = _uiState.asStateFlow()
 
     private val _isFavorite = MutableStateFlow(false)
@@ -47,7 +47,7 @@ class MovieDetailViewModel @Inject constructor(
             when (val result = getMovieDetailUseCase(movieId)) {
                 is Resource.Success -> {
                     movieDomain = result.data
-                    _uiState.value = UiState.Success(result.data.toUiState())
+                    _uiState.value = UiState.Success(result.data.toUiModel())
                     _isFavorite.value = isFavoriteMediaUseCase(result.data.id)
                 }
                 is Resource.Error -> {

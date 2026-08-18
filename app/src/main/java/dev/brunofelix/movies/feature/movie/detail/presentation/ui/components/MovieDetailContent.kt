@@ -21,21 +21,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.core.domain.model.MovieGenre
-import dev.brunofelix.movies.core.domain.util.extension.formatDecimal
-import dev.brunofelix.movies.core.presentation.state.MovieUiState
-import dev.brunofelix.movies.core.presentation.state.UiState
-import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.MovieGenderContainer
 import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
+import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
-import dev.brunofelix.movies.core.presentation.util.UiText
-import dev.brunofelix.movies.feature.movie.detail.presentation.state.MovieDetailState
 
 @Composable
 fun MovieDetailContent(
-    state: MovieDetailState,
+    movie: MovieUiModel,
     modifier: Modifier = Modifier
 ) {
     GradientBackground {
@@ -44,65 +39,52 @@ fun MovieDetailContent(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            when (state.uiState) {
-                is UiState.Success -> {
-                    Column {
-                        Spacer(modifier = Modifier.height(80.dp))
-                        Row {
-                            Column(
-                                modifier = Modifier.fillMaxWidth()
+            Column {
+                Spacer(modifier = Modifier.height(80.dp))
+                Row {
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column {
+                            Text(
+                                text = movie.title,
+                                color = Colors.white,
+                                style = MaterialTheme.typography.titleLarge,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            )
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                Column {
-                                    Text(
-                                        text = state.uiState.data.title,
-                                        color = Colors.white,
-                                        style = MaterialTheme.typography.titleLarge,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                        modifier = Modifier.padding(bottom = 8.dp)
-                                    )
-                                    Row(
-                                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                                    ) {
-                                        MovieInfoChip(
-                                            icon = Icons.Default.Star,
-                                            iconTint = Color.Yellow,
-                                            text = if (state.uiState.data.voteAverage <= 0) "--" else state.uiState.data.voteAverage.formatDecimal()
-                                        )
-                                        MovieInfoChip(
-                                            icon = Icons.Outlined.CalendarMonth,
-                                            text = state.uiState.data.releaseDate
-                                        )
-                                        MovieInfoChip(
-                                            icon = Icons.Outlined.Timer,
-                                            text = "${if (state.uiState.data.duration <= 0) "--" else state.uiState.data.duration}min"
-                                        )
-                                    }
-                                    Column(
-                                        modifier = Modifier.padding(vertical = 12.dp)
-                                    ) {
-                                        MovieGenderContainer(
-                                            gendersList = state.uiState.data.genres
-                                        )
-                                    }
-                                }
+                                MovieInfoChip(
+                                    icon = Icons.Default.Star,
+                                    iconTint = Color.Yellow,
+                                    text = movie.voteAverage
+                                )
+                                MovieInfoChip(
+                                    icon = Icons.Outlined.CalendarMonth,
+                                    text = movie.releaseDate
+                                )
+                                MovieInfoChip(
+                                    icon = Icons.Outlined.Timer,
+                                    text = movie.duration
+                                )
+                            }
+                            Column(
+                                modifier = Modifier.padding(vertical = 12.dp)
+                            ) {
+                                MovieGenderContainer(
+                                    gendersList = movie.genres
+                                )
                             }
                         }
-                        Spacer(modifier = Modifier.height(8.dp))
-                        MovieOverview(
-                            overview = state.uiState.data.overview
-                        )
                     }
                 }
-
-                is UiState.Error -> {
-                    ErrorLayout(
-                        modifier = Modifier.padding(top = 64.dp),
-                        errorMessage = state.uiState.uiText
-                    )
-                }
-
-                else -> Unit
+                Spacer(modifier = Modifier.height(8.dp))
+                MovieOverview(
+                    overview = movie.overview
+                )
             }
         }
     }
@@ -110,42 +92,20 @@ fun MovieDetailContent(
 
 @Preview
 @Composable
-private fun LoadingPreview() {
-    MovieDetailContent(
-        state = MovieDetailState()
-    )
-}
-
-@Preview
-@Composable
-private fun ErrorPreview() {
-    MovieDetailContent(
-        state = MovieDetailState(
-            uiState = UiState.Error(UiText.DynamicString("Error"))
-        )
-    )
-}
-
-@Preview
-@Composable
 private fun SuccessPreview() {
     MovieDetailContent(
-        state = MovieDetailState(
-            uiState = UiState.Success(
-                data = MovieUiState(
-                    title = "Super Mario Galaxy",
-                    releaseDate = "01/04/2026",
-                    duration = 120,
-                    voteAverage = 7.5F,
-                    overview = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                    genres = listOf(
-                        MovieGenre(name = "Action"),
-                        MovieGenre(name = "Adventure"),
-                        MovieGenre(name = "Comedy"),
-                        MovieGenre(name = "Drama"),
-                        MovieGenre(name = "Terror")
-                    )
-                )
+        movie = MovieUiModel(
+            title = "Super Mario Galaxy",
+            releaseDate = "01/04/2026",
+            duration = "120min",
+            voteAverage = "7.3",
+            overview = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            genres = listOf(
+                MovieGenre(name = "Action"),
+                MovieGenre(name = "Adventure"),
+                MovieGenre(name = "Comedy"),
+                MovieGenre(name = "Drama"),
+                MovieGenre(name = "Terror")
             )
         )
     )

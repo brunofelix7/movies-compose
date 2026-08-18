@@ -11,32 +11,39 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.brunofelix.movies.core.presentation.state.MovieUiState
-import dev.brunofelix.movies.core.presentation.state.UiState
+import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
-import dev.brunofelix.movies.core.presentation.ui.components.MovieCard
-import dev.brunofelix.movies.feature.movie.detail.presentation.state.MovieDetailState
+import dev.brunofelix.movies.core.presentation.ui.components.MediaCard
+import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
 
 @Composable
 fun MovieDetailHeader(
-    state: MovieDetailState,
+    movie: MovieUiModel?,
+    isFavorite: Boolean,
+    onBackClick: () -> Unit,
+    onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
     ) {
-        if (state.uiState is UiState.Success) {
-            MovieDetailTopBarImage(uiState = state)
-        }
-        MovieDetailTopBar(
-            isFavorite = state.isFavorite,
-            shouldShowFavorite = state.uiState is UiState.Success,
-            onBackClick = state.onBack,
-            onFavoriteClick = state.onFavorite
+        MovieDetailTopBarImage(
+            backdropPath = movie?.backdropPath
         )
-        (state.uiState as? UiState.Success)?.let {
-            MovieCard(
-                uiState = it.data,
+        MovieDetailTopBar(
+            isFavorite = isFavorite,
+            shouldShowFavorite = movie != null,
+            onBackClick = onBackClick,
+            onFavoriteClick = onFavoriteClick
+        )
+        movie?.let {
+            MediaCard(
+                media = Media(
+                    id = it.id,
+                    title = it.title,
+                    posterPath = it.posterPath,
+                    releaseDate = it.releaseDate,
+                ),
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .fillMaxWidth(0.45F)
@@ -54,10 +61,10 @@ private fun Preview() {
     Scaffold(
         topBar = {
             MovieDetailHeader(
-                state = MovieDetailState(
-                    uiState = UiState.Success(MovieUiState()),
-                    isFavorite = false
-                )
+                movie = MovieUiModel(),
+                isFavorite = false,
+                onBackClick = {},
+                onFavoriteClick = {}
             )
         },
         content = { innerPadding ->

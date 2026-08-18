@@ -9,10 +9,10 @@ import dev.brunofelix.movies.core.domain.use_case.DeleteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.IsFavoriteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.SaveMediaUseCase
 import dev.brunofelix.movies.core.domain.util.Resource
-import dev.brunofelix.movies.core.presentation.mapper.toUiState
+import dev.brunofelix.movies.core.presentation.mapper.toUiModel
 import dev.brunofelix.movies.core.presentation.state.UiState
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
-import dev.brunofelix.movies.feature.movie.detail.presentation.viewmodel.MovieDetailViewModel
+import dev.brunofelix.movies.feature.movie.detail.presentation.ui.MovieDetailViewModel
 import dev.brunofelix.movies.test_util.MainDispatcherRule
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory
 import dev.brunofelix.movies.test_util.fake.FakeMovie
@@ -55,7 +55,7 @@ class MovieDetailViewModelTest {
     fun `when GetMovieDetailsUseCase get success, then returns 'Success' in uiState`() = runTest {
         // Arrange
         val movie = MovieDtoFactory().create(FakeMovie.JohnWick).toDomain()
-        val movieUiState = movie.toUiState()
+        val movieUiState = movie.toUiModel()
         val expectedState = UiState.Success(movieUiState)
 
         coEvery { getMovieDetailUseCase(1) } returns Resource.Success(movie)
