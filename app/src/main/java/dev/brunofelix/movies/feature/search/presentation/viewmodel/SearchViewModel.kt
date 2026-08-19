@@ -2,9 +2,12 @@ package dev.brunofelix.movies.feature.search.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.brunofelix.movies.core.data.util.BasePagingSource
+import dev.brunofelix.movies.core.data.util.extension.asPagerFlow
 import dev.brunofelix.movies.feature.search.domain.use_case.SearchUseCase
 import dev.brunofelix.movies.feature.search.presentation.state.SearchState
 import kotlinx.coroutines.Job
@@ -26,6 +29,8 @@ class SearchViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     private var searchJob: Job? = null
+
+    private val pagingConfig = PagingConfig(pageSize = 40)
 
     fun onQueryChange(query: String) {
         _state.update { it.copy(query = query, isLoading = false) }
@@ -49,7 +54,11 @@ class SearchViewModel @Inject constructor(
         if (currentQuery.isNotBlank()) {
             _state.update {
                 it.copy(
-                    searchResults = searchUseCase(currentQuery).cachedIn(viewModelScope),
+                    searchResults = pagingConfig.asPagerFlow {
+                        BasePagingSource(pageSize = 40) { page ->
+                            searchUseCase(currentQuery, page)
+                        }
+                    }.cachedIn(viewModelScope),
                     isLoading = false
                 )
             }
