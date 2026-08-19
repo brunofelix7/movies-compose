@@ -1,6 +1,5 @@
 package dev.brunofelix.movies.core.data.remote.source
 
-import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.domain.model.TvShow
 
 /**
@@ -8,14 +7,14 @@ import dev.brunofelix.movies.core.domain.model.TvShow
  */
 interface TvShowRemoteDataSource {
     /**
-     * Returns a [PagingSource] for popular TV shows.
+     * Fetches a list of popular TV shows for a specific page.
      */
-    fun getPopularPagingSource(): PagingSource<Int, TvShow>
+    suspend fun getPopulars(page: Int): Result<List<TvShow>>
 
     /**
-     * Returns a [PagingSource] for top-rated TV shows.
+     * Fetches a list of top-rated TV shows for a specific page.
      */
-    fun getTopRatedPagingSource(): PagingSource<Int, TvShow>
+    suspend fun getTopRated(page: Int): Result<List<TvShow>>
 
     /**
      * Searches for TV shows by a query string.
