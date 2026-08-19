@@ -23,6 +23,19 @@ sealed interface Resource<out T> {
 }
 
 /**
+ * Returns the result of [onSuccess] for [Resource.Success] or [onFailure] for [Resource.Error].
+ */
+inline fun <T, R> Resource<T>.fold(
+    onSuccess: (T) -> R,
+    onFailure: (Throwable) -> R
+): R {
+    return when (this) {
+        is Resource.Success -> onSuccess(data)
+        is Resource.Error -> onFailure(throwable)
+    }
+}
+
+/**
  * Extension function to convert a [Result] to a [Resource].
  *
  * @param T The type of the value in the [Result].
