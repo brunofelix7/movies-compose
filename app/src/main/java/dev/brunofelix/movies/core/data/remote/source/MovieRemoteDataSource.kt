@@ -31,13 +31,6 @@ interface MovieRemoteDataSource {
     suspend fun search(query: String, page: Int): Result<List<Movie>>
 
     /**
-     * Searches for movies by a query string.
-     * @param query The search query.
-     * @return A [PagingSource] for the search results.
-     */
-    fun search(query: String): PagingSource<Int, Movie>
-
-    /**
      * Fetches movie details by ID.
      * @param id The unique movie identifier.
      * @return A [Result] containing the [Movie] domain model.
