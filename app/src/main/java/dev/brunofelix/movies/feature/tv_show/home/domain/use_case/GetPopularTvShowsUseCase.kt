@@ -1,20 +1,18 @@
 package dev.brunofelix.movies.feature.tv_show.home.domain.use_case
 
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.repository.TvShowRepository
-import kotlinx.coroutines.flow.Flow
+import dev.brunofelix.movies.core.domain.util.Resource
 import javax.inject.Inject
 
 fun interface GetPopularTvShowsUseCase {
-    operator fun invoke(): Flow<PagingData<TvShow>>
+    suspend operator fun invoke(page: Int): Resource<List<TvShow>>
 }
 
 class GetPopularTvShowsUseCaseImpl @Inject constructor(
     private val repository: TvShowRepository
 ) : GetPopularTvShowsUseCase {
-    override fun invoke(): Flow<PagingData<TvShow>> {
-        return repository.getPopularTvShows(PagingConfig(pageSize = 20))
+    override suspend fun invoke(page: Int): Resource<List<TvShow>> {
+        return repository.getPopularTvShows(page)
     }
 }
