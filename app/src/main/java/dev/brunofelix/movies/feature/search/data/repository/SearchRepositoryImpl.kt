@@ -1,11 +1,11 @@
 package dev.brunofelix.movies.feature.search.data.repository
 
-import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import dev.brunofelix.movies.core.data.remote.paging.BasePagingSource
+import dev.brunofelix.movies.core.data.util.BasePagingSource
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.data.remote.source.TvShowRemoteDataSource
+import dev.brunofelix.movies.core.data.util.extension.asPagerFlow
 import dev.brunofelix.movies.core.domain.mapper.toMovieMediaList
 import dev.brunofelix.movies.core.domain.mapper.toTvShowMediaList
 import dev.brunofelix.movies.core.domain.model.Media
@@ -22,17 +22,14 @@ class SearchRepositoryImpl @Inject constructor(
         query: String,
         pagingConfig: PagingConfig
     ): Flow<PagingData<Media>> {
-        return Pager(
-            config = pagingConfig,
-            pagingSourceFactory = {
-                BasePagingSource(pagingConfig.pageSize) { page ->
-                    runCatching {
-                        val movies = movieRemoteDataSource.search(query, page).getOrThrow()
-                        val tvShows = tvShowRemoteDataSource.search(query, page).getOrThrow()
-                        movies.toMovieMediaList() + tvShows.toTvShowMediaList()
-                    }
+        return pagingConfig.asPagerFlow {
+            BasePagingSource(pagingConfig.pageSize) { page ->
+                runCatching {
+                    val movies = movieRemoteDataSource.search(query, page).getOrThrow()
+                    val tvShows = tvShowRemoteDataSource.search(query, page).getOrThrow()
+                    movies.toMovieMediaList() + tvShows.toTvShowMediaList()
                 }
             }
-        ).flow
+        }
     }
 }
