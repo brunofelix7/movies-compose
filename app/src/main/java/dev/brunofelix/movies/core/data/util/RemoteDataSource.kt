@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.core.data.util
 
 import dev.brunofelix.movies.core.data.util.extension.mapOrThrow
+import dev.brunofelix.movies.core.data.util.extension.toRemoteException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -41,7 +42,7 @@ abstract class RemoteDataSource<T : Any>(
             Result.success(response.mapOrThrow(transform))
         } catch (e: Exception) {
             if (e is CancellationException) throw e
-            Result.failure(e)
+            Result.failure(e.toRemoteException())
         }
     }
 
@@ -61,7 +62,7 @@ abstract class RemoteDataSource<T : Any>(
             Result.success(response.code())
         } catch (e: Exception) {
             if (e is CancellationException) throw e
-            Result.failure(e)
+            Result.failure(e.toRemoteException())
         }
     }
 
@@ -84,7 +85,7 @@ abstract class RemoteDataSource<T : Any>(
             }
             .flowOn(Dispatchers.IO)
             .catch { error ->
-                throw error
+                throw error.toRemoteException()
             }
     }
 }
