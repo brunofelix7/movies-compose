@@ -4,10 +4,8 @@ import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.data.remote.MovieService
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
-import dev.brunofelix.movies.core.data.remote.paging.BasePagingSource
+import dev.brunofelix.movies.core.data.util.BasePagingSource
 import dev.brunofelix.movies.core.data.util.RemoteDataSource
-import dev.brunofelix.movies.core.data.util.extension.mapOrThrow
-import dev.brunofelix.movies.core.data.util.extension.toRemoteException
 import dev.brunofelix.movies.core.domain.model.Movie
 import javax.inject.Inject
 
