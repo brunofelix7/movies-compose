@@ -22,6 +22,17 @@ inline fun <T, R> Response<T>.mapOrThrow(transform: (T) -> R): R {
 }
 
 /**
+ * Maps the body of a successful [Response] to the result type [R], or throws
+ *
+ * @param transform Function to map the response body [T] to the result type [R].
+ * @return The result of the [transform] function.
+ */
+fun Response<Unit>.mapOrThrow() {
+    if (isSuccessful) return
+    else throw HttpException(this)
+}
+
+/**
  * Converts a [Response] to a [Result] type, mapping any errors to a [RemoteException].
  *
  * @return A [Result.success] with the body if successful, or a [Result.failure]
