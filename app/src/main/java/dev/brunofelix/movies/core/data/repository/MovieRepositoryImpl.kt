@@ -1,8 +1,6 @@
 package dev.brunofelix.movies.core.data.repository
 
-import androidx.paging.PagingConfig
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
-import dev.brunofelix.movies.core.data.util.extension.asPagerFlow
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
 import dev.brunofelix.movies.core.domain.util.toResource
 import javax.inject.Inject
@@ -20,15 +18,15 @@ class MovieRepositoryImpl @Inject constructor(
         id: Long
     ) = remoteDataSource.getDetails(id).toResource()
 
-    override fun getPopularMovies(
-        pagingConfig: PagingConfig
-    ) = pagingConfig.asPagerFlow { remoteDataSource.getPopularPagingSource() }
+    override suspend fun getPopularMovies(
+        page: Int
+    ) = remoteDataSource.getPopulars(page).toResource()
 
-    override fun getUpcomingMovies(
-        pagingConfig: PagingConfig
-    ) = pagingConfig.asPagerFlow { remoteDataSource.getUpcomingPagingSource() }
+    override suspend fun getUpcomingMovies(
+        page: Int
+    ) = remoteDataSource.getUpcoming(page).toResource()
 
-    override fun getTopRatedMovies(
-        pagingConfig: PagingConfig
-    ) = pagingConfig.asPagerFlow { remoteDataSource.getTopRatedPagingSource() }
+    override suspend fun getTopRatedMovies(
+        page: Int
+    ) = remoteDataSource.getTopRated(page).toResource()
 }

@@ -1,10 +1,7 @@
 package dev.brunofelix.movies.core.domain.repository
 
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.util.Resource
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Repository interface for managing Movie data from both remote and local sources.
@@ -19,20 +16,23 @@ interface MovieRepository {
     suspend fun getDetails(id: Long): Resource<Movie>
 
     /**
-     * Provides a [Flow] of paginated popular movies.
-     * @param pagingConfig Configuration for pagination behavior.
+     * Fetches a list of popular movies for a specific page.
+     * @param page The page number to fetch.
+     * @return A [Resource] containing a list of [Movie]s.
      */
-    fun getPopularMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>>
+    suspend fun getPopularMovies(page: Int): Resource<List<Movie>>
 
     /**
-     * Provides a [Flow] of paginated upcoming movies.
-     * @param pagingConfig Configuration for pagination behavior.
+     * Fetches a list of upcoming movies for a specific page.
+     * @param page The page number to fetch.
+     * @return A [Resource] containing a list of [Movie]s.
      */
-    fun getUpcomingMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>>
+    suspend fun getUpcomingMovies(page: Int): Resource<List<Movie>>
 
     /**
-     * Provides a [Flow] of paginated top-rated movies.
-     * @param pagingConfig Configuration for pagination behavior.
+     * Fetches a list of top-rated movies for a specific page.
+     * @param page The page number to fetch.
+     * @return A [Resource] containing a list of [Movie]s.
      */
-    fun getTopRatedMovies(pagingConfig: PagingConfig): Flow<PagingData<Movie>>
+    suspend fun getTopRatedMovies(page: Int): Resource<List<Movie>>
 }
