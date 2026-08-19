@@ -1,26 +1,25 @@
 package dev.brunofelix.movies.core.domain.repository
 
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.util.Resource
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Repository interface for managing TV Show data from remote sources.
  */
 interface TvShowRepository {
     /**
-     * Provides a [Flow] of paginated popular TV shows.
-     * @param pagingConfig Configuration for pagination behavior.
+     * Fetches a list of popular TV shows for a specific page.
+     * @param page The page number to fetch.
+     * @return A [Resource] containing a list of [TvShow]s.
      */
-    fun getPopularTvShows(pagingConfig: PagingConfig): Flow<PagingData<TvShow>>
+    suspend fun getPopularTvShows(page: Int): Resource<List<TvShow>>
 
     /**
-     * Provides a [Flow] of paginated top-rated TV shows.
-     * @param pagingConfig Configuration for pagination behavior.
+     * Fetches a list of top-rated TV shows for a specific page.
+     * @param page The page number to fetch.
+     * @return A [Resource] containing a list of [TvShow]s.
      */
-    fun getTopRatedTvShows(pagingConfig: PagingConfig): Flow<PagingData<TvShow>>
+    suspend fun getTopRatedTvShows(page: Int): Resource<List<TvShow>>
 
     /**
      * Fetches detailed information for a specific TV show from the remote source.
@@ -29,4 +28,3 @@ interface TvShowRepository {
      */
     suspend fun getDetails(id: Long): Resource<TvShow>
 }
-
