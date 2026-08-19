@@ -26,13 +26,6 @@ interface TvShowRemoteDataSource {
     suspend fun search(query: String, page: Int): Result<List<TvShow>>
 
     /**
-     * Searches for TV shows by a query string.
-     * @param query The search query.
-     * @return A [PagingSource] for the search results.
-     */
-    fun search(query: String): PagingSource<Int, TvShow>
-
-    /**
      * Fetches TV show details by ID.
      * @param id The unique TV show identifier.
      * @return A [Result] containing the [TvShow] domain model.
