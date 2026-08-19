@@ -29,7 +29,7 @@ inline fun <T, R> Response<T>.mapOrThrow(transform: (T) -> R): R {
  */
 fun Response<Unit>.mapOrThrow() {
     if (isSuccessful) return
-    else throw HttpException(this)
+    else throw HttpException(this).toRemoteException()
 }
 
 /**
