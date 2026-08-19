@@ -1,6 +1,5 @@
 package dev.brunofelix.movies.core.data.remote.source
 
-import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.domain.model.Movie
 
 /**
@@ -8,19 +7,19 @@ import dev.brunofelix.movies.core.domain.model.Movie
  */
 interface MovieRemoteDataSource {
     /**
-     * Returns a [PagingSource] for popular movies.
+     * Fetches a list of popular movies for a specific page.
      */
-    fun getPopularPagingSource(): PagingSource<Int, Movie>
+    suspend fun getPopulars(page: Int): Result<List<Movie>>
 
     /**
-     * Returns a [PagingSource] for upcoming movies.
+     * Fetches a list of upcoming movies for a specific page.
      */
-    fun getUpcomingPagingSource(): PagingSource<Int, Movie>
+    suspend fun getUpcoming(page: Int): Result<List<Movie>>
 
     /**
-     * Returns a [PagingSource] for top-rated movies.
+     * Fetches a list of top-rated movies for a specific page.
      */
-    fun getTopRatedPagingSource(): PagingSource<Int, Movie>
+    suspend fun getTopRated(page: Int): Result<List<Movie>>
 
     /**
      * Searches for movies by a query string.

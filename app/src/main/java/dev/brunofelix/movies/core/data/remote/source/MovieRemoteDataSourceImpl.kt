@@ -1,10 +1,8 @@
 package dev.brunofelix.movies.core.data.remote.source
 
-import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.data.remote.MovieService
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
-import dev.brunofelix.movies.core.data.util.BasePagingSource
 import dev.brunofelix.movies.core.data.util.RemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
 import javax.inject.Inject
@@ -17,31 +15,25 @@ class MovieRemoteDataSourceImpl @Inject constructor(
     service: MovieService
 ) : RemoteDataSource<MovieService>(service), MovieRemoteDataSource {
 
-    override fun getPopularPagingSource(): PagingSource<Int, Movie> {
-        return BasePagingSource { page ->
-            safeApiCall(
-                call = { getPopulars(page) },
-                transform = { it.toDomainList() }
-            )
-        }
+    override suspend fun getPopulars(page: Int): Result<List<Movie>> {
+        return safeApiCall(
+            call = { getPopulars(page) },
+            transform = { it.toDomainList() }
+        )
     }
 
-    override fun getUpcomingPagingSource(): PagingSource<Int, Movie> {
-        return BasePagingSource { page ->
-            safeApiCall(
-                call = { getUpcoming(page) },
-                transform = { it.toDomainList() }
-            )
-        }
+    override suspend fun getUpcoming(page: Int): Result<List<Movie>> {
+        return safeApiCall(
+            call = { getUpcoming(page) },
+            transform = { it.toDomainList() }
+        )
     }
 
-    override fun getTopRatedPagingSource(): PagingSource<Int, Movie> {
-        return BasePagingSource { page ->
-            safeApiCall(
-                call = { getTopRated(page) },
-                transform = { it.toDomainList() }
-            )
-        }
+    override suspend fun getTopRated(page: Int): Result<List<Movie>> {
+        return safeApiCall(
+            call = { getTopRated(page) },
+            transform = { it.toDomainList() }
+        )
     }
 
     override suspend fun search(query: String, page: Int): Result<List<Movie>> {
