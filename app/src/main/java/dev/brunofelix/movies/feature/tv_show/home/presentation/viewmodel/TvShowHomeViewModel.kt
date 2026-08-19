@@ -2,9 +2,12 @@ package dev.brunofelix.movies.feature.tv_show.home.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.brunofelix.movies.core.data.util.BasePagingSource
+import dev.brunofelix.movies.core.data.util.extension.asPagerFlow
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.model.enums.TvShowCategory
 import dev.brunofelix.movies.feature.tv_show.home.domain.use_case.GetPopularTvShowsUseCase
@@ -25,8 +28,15 @@ class TvShowHomeViewModel @Inject constructor(
     private val _selectedCategory = MutableStateFlow(TvShowCategory.POPULAR)
     val selectedCategory = _selectedCategory.asStateFlow()
 
-    private val popularTvShowsFlow = getPopularUseCase().cachedIn(viewModelScope)
-    private val topRatedTvShowsFlow = getTopRatedUseCase().cachedIn(viewModelScope)
+    private val pagingConfig = PagingConfig(pageSize = 20)
+
+    private val popularTvShowsFlow = pagingConfig.asPagerFlow {
+        BasePagingSource { getPopularUseCase(it) }
+    }.cachedIn(viewModelScope)
+
+    private val topRatedTvShowsFlow = pagingConfig.asPagerFlow {
+        BasePagingSource { getTopRatedUseCase(it) }
+    }.cachedIn(viewModelScope)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val tvShows: Flow<PagingData<TvShow>> = _selectedCategory.flatMapLatest { category ->
