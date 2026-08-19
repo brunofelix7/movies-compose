@@ -1,21 +1,19 @@
 package dev.brunofelix.movies.feature.search.domain.use_case
 
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import dev.brunofelix.movies.core.domain.model.Media
+import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.feature.search.domain.repository.SearchRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 fun interface SearchUseCase {
-    operator fun invoke(query: String): Flow<PagingData<Media>>
+    suspend operator fun invoke(query: String, page: Int): Resource<List<Media>>
 }
 
 class SearchUseCaseImpl @Inject constructor(
     private val repository: SearchRepository
 ) : SearchUseCase {
 
-    override fun invoke(query: String): Flow<PagingData<Media>> {
-        return repository.search(query, PagingConfig(pageSize = 40))
+    override suspend fun invoke(query: String, page: Int): Resource<List<Media>> {
+        return repository.search(query, page)
     }
 }
