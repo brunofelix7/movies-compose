@@ -24,7 +24,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
             safeApiCall(
                 call = { getPopulars(page) },
                 transform = { it.toDomainList() }
-            ).recoverCatching { throw it.toRemoteException() }
+            )
         }
     }
 
@@ -33,7 +33,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
             safeApiCall(
                 call = { getUpcoming(page) },
                 transform = { it.toDomainList() }
-            ).recoverCatching { throw it.toRemoteException() }
+            )
         }
     }
 
@@ -42,7 +42,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(
             safeApiCall(
                 call = { getTopRated(page) },
                 transform = { it.toDomainList() }
-            ).recoverCatching { throw it.toRemoteException() }
+            )
         }
     }
 
@@ -50,13 +50,13 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         return safeApiCall(
             call = { search(query, page) },
             transform = { it.toDomainList() }
-        ).recoverCatching { throw it.toRemoteException() }
+        )
     }
 
     override suspend fun getDetails(id: Long): Result<Movie> {
         return safeApiCall(
             call = { getDetails(id) },
             transform = { it.toDomain() }
-        ).recoverCatching { throw it.toRemoteException() }
+        )
     }
 }
