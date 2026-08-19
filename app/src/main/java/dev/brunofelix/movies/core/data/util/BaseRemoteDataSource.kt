@@ -20,7 +20,7 @@ import retrofit2.Response
  * @param T The type of the Retrofit API interface.
  * @property api The API instance used for the calls.
  */
-abstract class RemoteDataSource<T : Any>(
+abstract class BaseRemoteDataSource<T : Any>(
     private val api: T
 ) {
     /**

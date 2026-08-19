@@ -3,7 +3,7 @@ package dev.brunofelix.movies.core.data.remote.source
 import dev.brunofelix.movies.core.data.remote.TvShowService
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
-import dev.brunofelix.movies.core.data.util.RemoteDataSource
+import dev.brunofelix.movies.core.data.util.BaseRemoteDataSource
 import dev.brunofelix.movies.core.domain.model.TvShow
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ import javax.inject.Inject
  */
 class TvShowRemoteDataSourceImpl @Inject constructor(
     service: TvShowService
-) : RemoteDataSource<TvShowService>(service), TvShowRemoteDataSource {
+) : BaseRemoteDataSource<TvShowService>(service), TvShowRemoteDataSource {
 
     override suspend fun getPopulars(page: Int): Result<List<TvShow>> {
         return safeApiCall(

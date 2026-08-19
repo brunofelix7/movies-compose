@@ -3,7 +3,7 @@ package dev.brunofelix.movies.core.data.remote.source
 import dev.brunofelix.movies.core.data.remote.MovieService
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
-import dev.brunofelix.movies.core.data.util.RemoteDataSource
+import dev.brunofelix.movies.core.data.util.BaseRemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ import javax.inject.Inject
  */
 class MovieRemoteDataSourceImpl @Inject constructor(
     service: MovieService
-) : RemoteDataSource<MovieService>(service), MovieRemoteDataSource {
+) : BaseRemoteDataSource<MovieService>(service), MovieRemoteDataSource {
 
     override suspend fun getPopulars(page: Int): Result<List<Movie>> {
         return safeApiCall(
