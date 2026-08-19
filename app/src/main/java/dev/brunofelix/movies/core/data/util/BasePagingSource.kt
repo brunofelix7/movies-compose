@@ -1,10 +1,10 @@
-package dev.brunofelix.movies.core.data.remote.paging
+package dev.brunofelix.movies.core.data.util
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 
 /**
- * A generic [PagingSource] that can be used for any list that follows the TMDB pagination pattern.
+ * A generic [androidx.paging.PagingSource] that can be used for any list that follows the TMDB pagination pattern.
  * @param T The type of data being paged.
  * @param pageSize The number of items per page expected from the API. Default is 20 for TMDB.
  * @param fetch A lambda function that fetches the data for a specific page.
