@@ -24,7 +24,7 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
             safeApiCall(
                 call = { getPopulars(page) },
                 transform = { it.toDomainList() }
-            ).recoverCatching { throw it.toRemoteException() }
+            )
         }
     }
 
@@ -33,7 +33,7 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
             safeApiCall(
                 call = { getTopRated(page) },
                 transform = { it.toDomainList() }
-            ).recoverCatching { throw it.toRemoteException() }
+            )
         }
     }
 
@@ -41,13 +41,13 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
         return safeApiCall(
             call = { search(query, page) },
             transform = { it.toDomainList() }
-        ).recoverCatching { throw it.toRemoteException() }
+        )
     }
 
     override suspend fun getDetails(id: Long): Result<TvShow> {
         return safeApiCall(
             call = { getDetails(id) },
             transform = { it.toDomain() }
-        ).recoverCatching { throw it.toRemoteException() }
+        )
     }
 }
