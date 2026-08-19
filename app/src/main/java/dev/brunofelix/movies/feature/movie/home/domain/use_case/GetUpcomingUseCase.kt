@@ -1,20 +1,18 @@
 package dev.brunofelix.movies.feature.movie.home.domain.use_case
 
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
-import kotlinx.coroutines.flow.Flow
+import dev.brunofelix.movies.core.domain.util.Resource
 import javax.inject.Inject
 
 fun interface GetUpcomingUseCase {
-    operator fun invoke(): Flow<PagingData<Movie>>
+    suspend operator fun invoke(page: Int): Resource<List<Movie>>
 }
 
 class GetUpcomingUseCaseImpl @Inject constructor(
     private val repository: MovieRepository
 ) : GetUpcomingUseCase {
-    override fun invoke(): Flow<PagingData<Movie>> {
-        return repository.getUpcomingMovies(PagingConfig(pageSize = 20))
+    override suspend fun invoke(page: Int): Resource<List<Movie>> {
+        return repository.getUpcomingMovies(page)
     }
 }
