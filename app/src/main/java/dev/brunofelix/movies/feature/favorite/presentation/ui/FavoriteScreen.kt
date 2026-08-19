@@ -3,6 +3,7 @@ package dev.brunofelix.movies.feature.favorite.presentation.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -12,11 +13,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
+import dev.brunofelix.movies.core.presentation.ui.model.MediaUiModel
 import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.favorite.presentation.ui.components.FavoriteItem
@@ -42,7 +43,7 @@ internal fun FavoriteRoute(
 @Composable
 internal fun FavoriteScreen(
     modifier: Modifier = Modifier,
-    uiState: UiState<List<Media>>,
+    uiState: UiState<List<MediaUiModel>>,
     paddingValues: PaddingValues = PaddingValues(),
     onCardClick: (id: Long) -> Unit = {}
 ) {
@@ -50,13 +51,13 @@ internal fun FavoriteScreen(
         is UiState.Loading -> LoadingState()
         is UiState.Success -> {
             LazyColumn(
-                modifier = modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = modifier.fillMaxSize().padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
                 contentPadding = paddingValues,
                 content = {
                     items(
                         items = uiState.data,
-                        key = { item: Media -> item.id }
+                        key = { item: MediaUiModel -> item.id }
                     ) { media ->
                         FavoriteItem (
                             media = media,
@@ -86,8 +87,8 @@ private fun SuccessPreview() {
     FavoriteScreen(
         uiState = UiState.Success(
             data = listOf(
-                Media(id = 1, title = "Movie 1", posterPath = ""),
-                Media(id = 2, title = "Movie 2", posterPath = "")
+                MediaUiModel(id = 1, title = "Movie 1", posterPath = ""),
+                MediaUiModel(id = 2, title = "Movie 2", posterPath = "")
             )
         )
     )
