@@ -2,6 +2,8 @@ package dev.brunofelix.movies.core.data.util
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import dev.brunofelix.movies.core.domain.util.Resource
+import dev.brunofelix.movies.core.domain.util.fold
 
 /**
  * A generic [androidx.paging.PagingSource] that can be used for any list that follows the TMDB pagination pattern.
@@ -11,7 +13,7 @@ import androidx.paging.PagingState
  */
 class BasePagingSource<T : Any>(
     private val pageSize: Int = 20,
-    private val fetch: suspend (Int) -> Result<List<T>>
+    private val fetch: suspend (Int) -> Resource<List<T>>
 ) : PagingSource<Int, T>() {
 
     override fun getRefreshKey(state: PagingState<Int, T>): Int? {
