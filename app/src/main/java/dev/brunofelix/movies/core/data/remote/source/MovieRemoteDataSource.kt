@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.core.data.remote.source
 
 import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.model.Video
 
 /**
  * Remote data source for Movie-related operations.
@@ -35,4 +36,11 @@ interface MovieRemoteDataSource {
      * @return A [Result] containing the [Movie] domain model.
      */
     suspend fun getDetails(id: Long): Result<Movie>
+
+    /**
+     * Fetches movie videos by ID.
+     * @param id The unique movie identifier.
+     * @return A [Result] containing a list of [Video] domain models.
+     */
+    suspend fun getVideos(id: Long): Result<List<Video>>
 }

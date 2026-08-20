@@ -5,6 +5,7 @@ import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
 import dev.brunofelix.movies.core.data.util.BaseRemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.model.Video
 import javax.inject.Inject
 
 /**
@@ -47,6 +48,13 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         return safeApiCall(
             call = { getDetails(id) },
             transform = { it.toDomain() }
+        )
+    }
+
+    override suspend fun getVideos(id: Long): Result<List<Video>> {
+        return safeApiCall(
+            call = { getVideos(id) },
+            transform = { it.toDomainList() }
         )
     }
 }
