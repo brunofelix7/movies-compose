@@ -31,6 +31,7 @@ retrofit = "3.0.0"
 gson = "2.14.0"
 coroutines = "1.11.0"
 serialization = "1.11.0"
+youtubePlayer = "13.0.0"
 
 # Utilities
 timber = "5.0.1"
@@ -109,6 +110,7 @@ rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroi
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanistFlowlayout" }
 jetbrains-kotlin-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlinMetadataJvm" }
+youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtubePlayer" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }

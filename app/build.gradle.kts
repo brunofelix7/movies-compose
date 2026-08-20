@@ -138,6 +138,7 @@ dependencies {
     // Third Party Utilities
     implementation(libs.coil.compose)
     implementation(libs.timber)
+    implementation(libs.youtube.player)
 
     // --- Testing ---
 
