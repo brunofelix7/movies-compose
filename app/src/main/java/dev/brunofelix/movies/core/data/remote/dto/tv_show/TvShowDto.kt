@@ -29,62 +29,62 @@ import dev.brunofelix.movies.core.data.remote.dto.movie.MovieGenreDto
  */
 data class TvShowDto(
     @SerializedName("id")
-    val id: Long? = null,
+    val id: Long?,
 
     @SerializedName("name")
-    val name: String? = null,
+    val name: String?,
 
     @SerializedName("original_name")
-    val originalName: String? = null,
+    val originalName: String?,
 
     @SerializedName("original_language")
-    val originalLanguage: String? = null,
+    val originalLanguage: String?,
 
     @SerializedName("overview")
-    val overview: String? = null,
+    val overview: String?,
 
     @SerializedName("poster_path")
-    val posterPath: String? = null,
+    val posterPath: String?,
 
     @SerializedName("backdrop_path")
-    val backdropPath: String? = null,
+    val backdropPath: String?,
 
     @SerializedName("first_air_date")
-    val firstAirDate: String? = null,
+    val firstAirDate: String?,
 
     @SerializedName("genre_ids")
-    val genreIds: List<Int>? = null,
+    val genreIds: List<Int>?,
 
     @SerializedName("popularity")
-    val popularity: Double? = null,
+    val popularity: Double?,
 
     @SerializedName("vote_average")
-    val voteAverage: Float? = null,
+    val voteAverage: Float?,
 
     @SerializedName("vote_count")
-    val voteCount: Int? = null,
+    val voteCount: Int?,
 
     @SerializedName("genres")
-    val genres: List<MovieGenreDto>? = null,
+    val genres: List<MovieGenreDto>?,
 
     @SerializedName("homepage")
-    val homepage: String? = null,
+    val homepage: String?,
 
     @SerializedName("origin_country")
-    val originCountry: List<String>? = null,
+    val originCountry: List<String>?,
 
     @SerializedName("status")
-    val status: String? = null,
+    val status: String?,
 
     @SerializedName("tagline")
-    val tagline: String? = null,
+    val tagline: String?,
 
     @SerializedName("number_of_episodes")
-    val numberOfEpisodes: Int? = null,
+    val numberOfEpisodes: Int?,
 
     @SerializedName("number_of_seasons")
-    val numberOfSeasons: Int? = null,
+    val numberOfSeasons: Int?,
 
     @SerializedName("type")
-    val type: String? = null
+    val type: String?
 )
