@@ -21,6 +21,7 @@
     <string name="search_bar_hint">Search movie or TV show…</string>
     <string name="retry">Retry</string>
     <string name="overview">Overview</string>
+    <string name="trailer">Trailer</string>
     <string name="no_results_found">No results found.</string>
 
     <!-- Error messages -->
