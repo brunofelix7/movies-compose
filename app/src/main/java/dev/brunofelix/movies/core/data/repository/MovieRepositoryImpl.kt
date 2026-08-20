@@ -1,7 +1,9 @@
 package dev.brunofelix.movies.core.data.repository
 
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.domain.model.Video
 import dev.brunofelix.movies.core.domain.repository.MovieRepository
+import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.domain.util.toResource
 import javax.inject.Inject
 
@@ -29,4 +31,8 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getTopRatedMovies(
         page: Int
     ) = remoteDataSource.getTopRated(page).toResource()
+
+    override suspend fun getVideos(
+        id: Long
+    ): Resource<List<Video>> = remoteDataSource.getVideos(id).toResource()
 }
