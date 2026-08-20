@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.core.domain.repository
 
 import dev.brunofelix.movies.core.domain.model.TvShow
+import dev.brunofelix.movies.core.domain.model.Video
 import dev.brunofelix.movies.core.domain.util.Resource
 
 /**
@@ -27,4 +28,11 @@ interface TvShowRepository {
      * @return A [Resource] containing the [TvShow] details or an error.
      */
     suspend fun getDetails(id: Long): Resource<TvShow>
+
+    /**
+     * Fetches videos for a specific TV show from the remote source.
+     * @param id The unique identifier of the TV show.
+     * @return A [Resource] containing a list of [Video]s or an error.
+     */
+    suspend fun getVideos(id: Long): Resource<List<Video>>
 }
