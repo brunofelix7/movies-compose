@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.core.data.remote.source
 
 import dev.brunofelix.movies.core.domain.model.TvShow
+import dev.brunofelix.movies.core.domain.model.Video
 
 /**
  * Remote data source for TV Show-related operations.
@@ -30,4 +31,11 @@ interface TvShowRemoteDataSource {
      * @return A [Result] containing the [TvShow] domain model.
      */
     suspend fun getDetails(id: Long): Result<TvShow>
+
+    /**
+     * Fetches TV show videos by ID.
+     * @param id The unique TV show identifier.
+     * @return A [Result] containing a list of [Video] domain models.
+     */
+    suspend fun getVideos(id: Long): Result<List<Video>>
 }
