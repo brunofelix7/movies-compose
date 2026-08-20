@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.core.data.remote
 
+import dev.brunofelix.movies.core.data.remote.dto.VideoRootDto
 import dev.brunofelix.movies.core.data.remote.dto.tv_show.TvShowDto
 import dev.brunofelix.movies.core.data.remote.dto.tv_show.TvShowRootDto
 import retrofit2.Response
@@ -53,4 +54,14 @@ interface TvShowService {
         @Query("query") query: String,
         @Query("page") page: Int
     ): Response<TvShowRootDto>
+
+    /**
+     * Fetches videos (trailers, teasers, etc.) for a specific TV show.
+     * @param id The unique identifier of the TV show.
+     * @return A [Response] containing a [VideoRootDto].
+     */
+    @GET("tv/{id}/videos")
+    suspend fun getVideos(
+        @Path("id") id: Long
+    ): Response<VideoRootDto>
 }
