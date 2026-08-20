@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.core.data.remote
 
+import dev.brunofelix.movies.core.data.remote.dto.VideoRootDto
 import dev.brunofelix.movies.core.data.remote.dto.movie.MovieDto
 import dev.brunofelix.movies.core.data.remote.dto.movie.MovieRootDto
 import retrofit2.Response
@@ -63,4 +64,14 @@ interface MovieService {
         @Query("query") query: String,
         @Query("page") page: Int
     ): Response<MovieRootDto>
+
+    /**
+     * Fetches videos (trailers, teasers, etc.) for a specific movie.
+     * @param id The unique identifier of the movie.
+     * @return A [Response] containing a [VideoRootDto].
+     */
+    @GET("movie/{id}/videos")
+    suspend fun getVideos(
+        @Path("id") id: Long
+    ): Response<VideoRootDto>
 }
