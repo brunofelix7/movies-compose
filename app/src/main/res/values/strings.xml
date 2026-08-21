@@ -1,8 +1,8 @@
 <resources>
     <!-- App name -->
-    <string name="app_name">Movies</string>
-    <string name="movies">Movies</string>
-    <string name="compose">Compose</string>
+    <string name="app_name">Mita</string>
+    <string name="movies">Mita</string>
+    <string name="compose">みた</string>
 
     <!-- General -->
     <string name="release_date">Release Date</string>
@@ -22,6 +22,8 @@
     <string name="retry">Retry</string>
     <string name="overview">Overview</string>
     <string name="trailer">Trailer</string>
+    <string name="seasons">%1$d Seasons</string>
+    <string name="episodes">%1$d Episodes</string>
     <string name="no_results_found">No results found.</string>
 
     <!-- Error messages -->
