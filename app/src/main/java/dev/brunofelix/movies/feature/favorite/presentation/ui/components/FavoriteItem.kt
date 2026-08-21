@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import dev.brunofelix.movies.core.domain.model.enums.MediaType
 import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.model.MediaUiModel
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
@@ -40,7 +41,7 @@ import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 fun FavoriteItem(
     modifier: Modifier = Modifier,
     media: MediaUiModel,
-    onClick: (id: Long) -> Unit = {}
+    onClick: () -> Unit = {}
 ) {
     val shape = RoundedCornerShape(12.dp)
 
@@ -56,7 +57,7 @@ fun FavoriteItem(
             .fillMaxWidth()
             .height(120.dp)
             .clickable(
-                onClick = { onClick(media.id) }
+                onClick = onClick
             )
     ) {
         Row(
@@ -95,10 +96,12 @@ fun FavoriteItem(
                         icon = Icons.Outlined.CalendarMonth,
                         text = media.releaseDate
                     )
-                    MovieInfoChip(
-                        icon = Icons.Outlined.Timer,
-                        text = media.duration
-                    )
+                    if (media.type == MediaType.MOVIE) {
+                        MovieInfoChip(
+                            icon = Icons.Outlined.Timer,
+                            text = media.duration
+                        )
+                    }
                 }
                 MovieInfoChip(
                     icon = Icons.Default.Star,
