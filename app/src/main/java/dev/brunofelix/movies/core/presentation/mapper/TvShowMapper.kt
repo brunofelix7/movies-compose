@@ -2,6 +2,7 @@ package dev.brunofelix.movies.core.presentation.mapper
 
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.util.datetime.DateTimeConverter
+import dev.brunofelix.movies.core.domain.util.extension.formatDecimal
 import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
 
 /**
@@ -24,7 +25,7 @@ fun TvShow.toUiModel(): TvShowUiModel {
             fromPattern = DateTimeConverter.YYYY_MM_DD,
             toPattern = DateTimeConverter.DD_MM_YYYY
         ).value,
-        voteAverage = voteAverage,
+        voteAverage = if (voteAverage <= 0) "--" else voteAverage.formatDecimal(),
         genres = genres,
         numberOfEpisodes = numberOfEpisodes,
         numberOfSeasons = numberOfSeasons
