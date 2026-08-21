@@ -9,8 +9,9 @@ data class TvShowUiModel(
     val posterPath: String = "",
     val backdropPath: String = "",
     val firstAirDate: String = "",
-    val voteAverage: Float = 0F,
+    val voteAverage: String = "",
     val genres: List<MovieGenre> = emptyList(),
     val numberOfEpisodes: Int = 0,
-    val numberOfSeasons: Int = 0
+    val numberOfSeasons: Int = 0,
+    val trailerKey: String? = null
 )
