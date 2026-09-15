@@ -18,6 +18,9 @@ sealed interface MainNavKey : NavKey {
     data object Favorites : MainNavKey
 
     @Serializable
+    data object Settings : MainNavKey
+
+    @Serializable
     data class MovieDetails(val id: Long) : MainNavKey
 
     @Serializable

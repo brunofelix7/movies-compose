@@ -9,6 +9,7 @@ import dev.brunofelix.movies.feature.favorite.presentation.navigation.favoriteEn
 import dev.brunofelix.movies.feature.movie.detail.presentation.navigation.movieDetailEntry
 import dev.brunofelix.movies.feature.movie.home.presentation.navigation.movieHomeEntry
 import dev.brunofelix.movies.feature.search.presentation.navigation.searchEntry
+import dev.brunofelix.movies.feature.settings.presentation.navigation.settingsEntry
 import dev.brunofelix.movies.feature.tv_show.detail.presentation.navigation.tvShowDetailEntry
 import dev.brunofelix.movies.feature.tv_show.home.presentation.navigation.tvShowHomeEntry
 
@@ -32,6 +33,9 @@ fun MainNavDisplay(
 
         // Favorites Screen
         favoriteEntry(onNavigate, paddingValues)
+
+        // Settings Screen
+        settingsEntry(paddingValues)
 
         // Movie Details Screen
         movieDetailEntry(onBack)

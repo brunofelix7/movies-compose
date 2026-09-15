@@ -8,5 +8,6 @@ val NavKey?.shouldShowBottomBar: Boolean
         key is MainNavKey.Movies ||
         key is MainNavKey.TvShows ||
         key is MainNavKey.Search ||
-        key is MainNavKey.Favorites
+        key is MainNavKey.Favorites ||
+        key is MainNavKey.Settings
     } ?: false
