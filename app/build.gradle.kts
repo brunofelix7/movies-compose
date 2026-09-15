@@ -90,21 +90,10 @@ dependencies {
 
     // Jetpack Compose
     implementation(platform(libs.compose.bom))
-    implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.navigation3.ui)
-    implementation(libs.androidx.navigation3.runtime)
-    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-    implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.runtime.livedata)
-    implementation(libs.accompanist.flowlayout)
+    implementation(libs.bundles.compose)
 
     // Lifecycle
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.bundles.lifecycle)
 
     // DI (Hilt)
     implementation(libs.hilt.android)
@@ -114,18 +103,10 @@ dependencies {
     ksp(libs.jetbrains.kotlin.metadata.jvm)
 
     // Networking & Serialization
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.okhttp)
-    implementation(libs.logging.interceptor)
-    implementation(libs.gson)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.bundles.networking)
 
-    // Coroutines & RxJava
-    implementation(libs.jetbrains.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.rxjava)
-    implementation(libs.rxandroid)
+    // Coroutines
+    implementation(libs.bundles.coroutines)
 
     // Storage & Data
     implementation(libs.androidx.room.runtime)
@@ -143,11 +124,7 @@ dependencies {
     // --- Testing ---
 
     // Shared Test Dependencies
-    testCommon(libs.truth)
-    testCommon(libs.mockito.core)
-    testCommon(libs.hilt.android.testing)
-    testCommon(libs.kotlinx.coroutines.test)
-    testCommon(libs.arch.core.testing)
+    testCommon(libs.bundles.test.common)
     
     // Unit Tests Only
     testImplementation(libs.junit)
