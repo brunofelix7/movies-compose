@@ -12,9 +12,6 @@ sealed interface MainNavKey : NavKey {
     data object TvShows : MainNavKey
 
     @Serializable
-    data object Search : MainNavKey
-
-    @Serializable
     data object Favorites : MainNavKey
 
     @Serializable

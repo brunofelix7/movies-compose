@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.zIndex
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.brunofelix.movies.core.presentation.navigation.MainNavDisplay
@@ -23,6 +25,7 @@ import dev.brunofelix.movies.core.presentation.ui.components.CustomNavBar
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.MainTopBar
 import dev.brunofelix.movies.core.presentation.util.extension.shouldShowBottomBar
+import dev.brunofelix.movies.feature.search.presentation.ui.SearchOverlayRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,12 +34,15 @@ fun MainScreen(
 ) {
     val backStack by viewModel.backStack.collectAsStateWithLifecycle()
     val currentTab by viewModel.currentTab.collectAsStateWithLifecycle()
+    val isSearchVisible by viewModel.isSearchVisible.collectAsStateWithLifecycle()
 
     MainScreenContent(
         backStack = backStack,
         currentTab = currentTab,
+        isSearchVisible = isSearchVisible,
         onNavigate = viewModel::navigateTo,
-        onBack = viewModel::popBackStack
+        onBack = viewModel::popBackStack,
+        onSearchVisibilityChange = viewModel::onSearchVisibilityChange
     )
 }
 
@@ -46,11 +52,18 @@ fun MainScreenContent(
     backStack: List<MainNavKey>,
     currentTab: MainNavKey,
     onNavigate: (MainNavKey) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    isSearchVisible: Boolean = false,
+    onSearchVisibilityChange: (Boolean) -> Unit = {}
 ) {
     val currentRoute = backStack.lastOrNull()
     val isBottomBarVisible = currentRoute?.shouldShowBottomBar ?: false
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val closeSearch = { onSearchVisibilityChange(false) }
+    val navigateAndCloseSearch = { route: MainNavKey ->
+        closeSearch()
+        onNavigate(route)
+    }
 
     GradientBackground {
         Scaffold(
@@ -63,7 +76,10 @@ fun MainScreenContent(
                     visible = isBottomBarVisible
                 ) {
                     MainTopBar(
-                        scrollBehavior = scrollBehavior
+                        scrollBehavior = scrollBehavior,
+                        isSearching = isSearchVisible,
+                        onSearch = { onSearchVisibilityChange(true) },
+                        onCancelSearch = closeSearch
                     )
                 }
             },
@@ -73,17 +89,27 @@ fun MainScreenContent(
                 ) {
                     CustomNavBar(
                         currentTab = currentTab,
-                        onNavigate = onNavigate
+                        onNavigate = navigateAndCloseSearch
                     )
                 }
             },
             content = { paddingValues ->
-                MainNavDisplay(
-                    backStack = backStack,
-                    onNavigate = onNavigate,
-                    onBack = onBack,
-                    paddingValues = paddingValues
-                )
+                Box(modifier = Modifier.fillMaxSize()) {
+                    MainNavDisplay(
+                        backStack = backStack,
+                        onNavigate = onNavigate,
+                        onBack = onBack,
+                        paddingValues = paddingValues
+                    )
+
+                    SearchOverlayRoute(
+                        isVisible = isSearchVisible,
+                        paddingValues = paddingValues,
+                        onClose = closeSearch,
+                        onNavigate = navigateAndCloseSearch,
+                        modifier = Modifier.zIndex(1F)
+                    )
+                }
             }
         )
     }

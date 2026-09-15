@@ -26,6 +26,9 @@ class MainNavViewModel @Inject constructor(): ViewModel() {
     private val _currentTab = MutableStateFlow<MainNavKey>(startTab)
     val currentTab: StateFlow<MainNavKey> = _currentTab
 
+    private val _isSearchVisible = MutableStateFlow(false)
+    val isSearchVisible: StateFlow<Boolean> = _isSearchVisible
+
     private val _tabStacks = MutableStateFlow(
         topLevelTabs.associateWith { tab -> listOf(tab) }
     )
@@ -37,6 +40,10 @@ class MainNavViewModel @Inject constructor(): ViewModel() {
         SharingStarted.WhileSubscribed(5000),
         listOf(startTab)
     )
+
+    fun onSearchVisibilityChange(isVisible: Boolean) {
+        _isSearchVisible.value = isVisible
+    }
 
     fun navigateTo(route: MainNavKey) {
         if (route in topLevelTabs) {
