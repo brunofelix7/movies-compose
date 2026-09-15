@@ -10,17 +10,22 @@ import dev.brunofelix.movies.core.data.util.BasePagingSource
 import dev.brunofelix.movies.core.data.util.extension.asPagerFlow
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.model.enums.TvShowCategory
+import dev.brunofelix.movies.core.domain.use_case.GetLanguageUseCase
+import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.feature.tv_show.home.domain.use_case.GetPopularTvShowsUseCase
 import dev.brunofelix.movies.feature.tv_show.home.domain.use_case.GetTopRatedTvShowsUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class TvShowHomeViewModel @Inject constructor(
+    getLanguageUseCase: GetLanguageUseCase,
     private val getPopularUseCase: GetPopularTvShowsUseCase,
     private val getTopRatedUseCase: GetTopRatedTvShowsUseCase
 ) : ViewModel() {
@@ -30,20 +35,29 @@ class TvShowHomeViewModel @Inject constructor(
 
     private val pagingConfig = PagingConfig(pageSize = 20)
 
-    private val popularTvShowsFlow = pagingConfig.asPagerFlow {
-        BasePagingSource { getPopularUseCase(it) }
-    }.cachedIn(viewModelScope)
+    private val language = getLanguageUseCase().distinctUntilChanged()
 
-    private val topRatedTvShowsFlow = pagingConfig.asPagerFlow {
-        BasePagingSource { getTopRatedUseCase(it) }
-    }.cachedIn(viewModelScope)
+    private val popularTvShowsFlow = pagerFlowPerLanguage { getPopularUseCase(it) }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+    private val topRatedTvShowsFlow = pagerFlowPerLanguage { getTopRatedUseCase(it) }
+
     val tvShows: Flow<PagingData<TvShow>> = _selectedCategory.flatMapLatest { category ->
         when (category) {
             TvShowCategory.POPULAR -> popularTvShowsFlow
             TvShowCategory.TOP_RATED -> topRatedTvShowsFlow
         }
+    }
+
+    /**
+     * Rebuilds the pager whenever the preferred language changes, so the already
+     * paginated pages are dropped and refetched in the newly selected language.
+     */
+    private fun pagerFlowPerLanguage(
+        fetch: suspend (page: Int) -> Resource<List<TvShow>>
+    ): Flow<PagingData<TvShow>> {
+        return language
+            .flatMapLatest { pagingConfig.asPagerFlow { BasePagingSource(fetch = fetch) } }
+            .cachedIn(viewModelScope)
     }
 
     fun onCategorySelected(category: TvShowCategory) {
