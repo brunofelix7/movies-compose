@@ -9,8 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,18 +28,7 @@ fun MovieDetailTopBarImage(
     Box(
         modifier = modifier
             .clip(shape)
-            .background(Colors.blackPrimary)
-            .drawWithContent {
-                drawContent()
-                val strokeWidth = 0.5.dp.toPx()
-                val y = size.height - strokeWidth / 2
-                drawLine(
-                    color = Colors.white.copy(alpha = 0.2f),
-                    start = Offset(0f, y),
-                    end = Offset(size.width, y),
-                    strokeWidth = strokeWidth
-                )
-            },
+            .background(Colors.blackPrimary),
         contentAlignment = Alignment.Center
     ) {
         AsyncImage(
