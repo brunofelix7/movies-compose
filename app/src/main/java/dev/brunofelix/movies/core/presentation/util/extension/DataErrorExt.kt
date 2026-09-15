@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.data.util.extension
+package dev.brunofelix.movies.core.presentation.util.extension
 
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.util.exception.LocalException
