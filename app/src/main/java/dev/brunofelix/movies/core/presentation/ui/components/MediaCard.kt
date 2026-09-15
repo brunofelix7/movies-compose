@@ -1,6 +1,5 @@
 package dev.brunofelix.movies.core.presentation.ui.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,7 +45,6 @@ fun MediaCard(
     Card(
         onClick = { onClick(media.id) },
         shape = shape,
-        border = BorderStroke(1.dp, Colors.white.copy(alpha = 0.2f)),
         modifier = modifier
             .fillMaxWidth()
             .height(150.dp)
