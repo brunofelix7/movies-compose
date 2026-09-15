@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,7 +42,6 @@ import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.components.MediaCard
-import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
 import dev.brunofelix.movies.core.presentation.util.extension.collectAsPreviewLazyPagingItems
 import dev.brunofelix.movies.feature.search.presentation.viewmodel.SearchViewModel
@@ -136,14 +134,11 @@ internal fun SearchOverlay(
         exit = fadeOut(),
         modifier = modifier
     ) {
-        Surface(
-            color = Colors.blackPrimary.copy(alpha = 0.95F),
-            modifier = Modifier
-                .fillMaxSize()
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null
-                ) { onAction(SearchOverlayUiAction.OnClose) }
+        GradientBackground(
+            modifier = Modifier.clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onAction(SearchOverlayUiAction.OnClose) }
         ) {
             Column(
                 modifier = Modifier
