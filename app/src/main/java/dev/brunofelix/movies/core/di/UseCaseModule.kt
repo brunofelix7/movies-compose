@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.brunofelix.movies.core.domain.use_case.DeleteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.DeleteMediaUseCaseImpl
+import dev.brunofelix.movies.core.domain.use_case.GetLanguageUseCase
+import dev.brunofelix.movies.core.domain.use_case.GetLanguageUseCaseImpl
 import dev.brunofelix.movies.core.domain.use_case.IsFavoriteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.IsFavoriteMediaUseCaseImpl
 import dev.brunofelix.movies.core.domain.use_case.SaveMediaUseCase
@@ -29,4 +31,9 @@ abstract class UseCaseModule {
     abstract fun bindIsFavoriteMovieUseCase(
         impl: IsFavoriteMediaUseCaseImpl
     ): IsFavoriteMediaUseCase
+
+    @Binds
+    abstract fun bindGetLanguageUseCase(
+        impl: GetLanguageUseCaseImpl
+    ): GetLanguageUseCase
 }

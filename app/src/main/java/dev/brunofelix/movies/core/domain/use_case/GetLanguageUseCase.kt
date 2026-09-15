@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.settings.domain.use_case
+package dev.brunofelix.movies.core.domain.use_case
 
 import dev.brunofelix.movies.core.domain.model.enums.LanguageEnum
 import dev.brunofelix.movies.core.domain.repository.LanguageRepository
