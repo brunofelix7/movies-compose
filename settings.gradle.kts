@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "movies-compose"
+rootProject.name = "movies-explorer"
 include(":app")
