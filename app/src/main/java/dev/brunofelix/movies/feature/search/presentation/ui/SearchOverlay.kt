@@ -49,7 +49,7 @@ import dev.brunofelix.movies.feature.search.presentation.viewmodel.SearchViewMod
 data class SearchOverlayUiState(
     val isVisible: Boolean = false,
     val query: String = "",
-    val isLoading: Boolean = false,
+    val isSearchTriggered: Boolean = false,
     val focusRequester: FocusRequester = FocusRequester()
 )
 
@@ -96,7 +96,7 @@ fun SearchOverlayRoute(
         uiState = SearchOverlayUiState(
             isVisible = isVisible,
             query = state.query,
-            isLoading = state.isLoading,
+            isSearchTriggered = state.isSearchTriggered,
             focusRequester = focusRequester
         ),
         searchResults = searchResults,
@@ -164,11 +164,12 @@ internal fun SearchOverlay(
                     )
                 }
 
-                val isSearching = uiState.isLoading ||
-                        searchResults.loadState.refresh is LoadState.Loading
+                val isSearching = searchResults.loadState.refresh is LoadState.Loading
 
                 when {
                     uiState.query.isBlank() -> Unit
+                    // While debouncing, keep whatever is on screen instead of flashing a spinner.
+                    !uiState.isSearchTriggered -> Unit
                     isSearching -> LoadingState()
                     searchResults.itemCount == 0 -> EmptyState()
                     else -> SearchResults(
@@ -216,7 +217,11 @@ private fun Preview() {
     PMovieTheme {
         GradientBackground {
             SearchOverlay(
-                uiState = SearchOverlayUiState(isVisible = true, query = "Matrix"),
+                uiState = SearchOverlayUiState(
+                    isVisible = true,
+                    query = "Matrix",
+                    isSearchTriggered = true
+                ),
                 searchResults = listOf(
                     Media(id = 1L, title = "Movie 1"),
                     Media(id = 2L, title = "Movie 2"),

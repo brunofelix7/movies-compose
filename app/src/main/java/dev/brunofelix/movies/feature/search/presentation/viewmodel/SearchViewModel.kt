@@ -20,6 +20,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
+private const val PAGE_SIZE = 40
+private val SEARCH_DEBOUNCE = 500.milliseconds
+
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchUseCase: SearchUseCase
@@ -30,45 +33,48 @@ class SearchViewModel @Inject constructor(
 
     private var searchJob: Job? = null
 
-    private val pagingConfig = PagingConfig(pageSize = 40)
+    private val pagingConfig = PagingConfig(pageSize = PAGE_SIZE)
 
     fun onQueryChange(query: String) {
-        _state.update { it.copy(query = query, isLoading = false) }
         searchJob?.cancel()
-        
+        _state.update { it.copy(query = query) }
+
         if (query.isBlank()) {
-            onSearch()
+            clearResults()
             return
         }
 
         searchJob = viewModelScope.launch {
-            delay(500.milliseconds)
-            _state.update { it.copy(isLoading = true) }
-            onSearch()
+            delay(SEARCH_DEBOUNCE)
+            search(query)
         }
     }
 
     fun onSearch() {
         searchJob?.cancel()
-        val currentQuery = _state.value.query
-        if (currentQuery.isNotBlank()) {
-            _state.update {
-                it.copy(
-                    searchResults = pagingConfig.asPagerFlow {
-                        BasePagingSource(pageSize = 40) { page ->
-                            searchUseCase(currentQuery, page)
-                        }
-                    }.cachedIn(viewModelScope),
-                    isLoading = false
-                )
-            }
-        } else {
-            _state.update {
-                it.copy(
-                    searchResults = flowOf(PagingData.empty()),
-                    isLoading = false
-                )
-            }
+        val query = _state.value.query
+        if (query.isBlank()) clearResults() else search(query)
+    }
+
+    private fun search(query: String) {
+        _state.update {
+            it.copy(
+                searchResults = pagingConfig.asPagerFlow {
+                    BasePagingSource(pageSize = PAGE_SIZE) { page ->
+                        searchUseCase(query, page)
+                    }
+                }.cachedIn(viewModelScope),
+                isSearchTriggered = true
+            )
+        }
+    }
+
+    private fun clearResults() {
+        _state.update {
+            it.copy(
+                searchResults = flowOf(PagingData.empty()),
+                isSearchTriggered = false
+            )
         }
     }
 }

@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.flowOf
 data class SearchState(
     val query: String = "",
     val searchResults: Flow<PagingData<Media>> = flowOf(PagingData.empty()),
-    val isLoading: Boolean = false
+    val isSearchTriggered: Boolean = false
 )
