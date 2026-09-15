@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.LiveTv
 import androidx.compose.material.icons.filled.LocalMovies
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -25,35 +25,36 @@ sealed class CustomNavBarItem(
     val route: MainNavKey,
     val icon: ImageVector
 ) {
-    data object Popular: CustomNavBarItem(
+    data object Movies: CustomNavBarItem(
         title = "Movies",
         route = MainNavKey.Movies,
         icon = Icons.Default.LocalMovies,
     )
 
-    data object Upcoming: CustomNavBarItem(
+    data object TvShows: CustomNavBarItem(
         title = "TV Shows",
         route = MainNavKey.TvShows,
         icon = Icons.Default.LiveTv
     )
-    data object Search: CustomNavBarItem(
-        title = "Search",
-        route = MainNavKey.Search,
-        icon = Icons.Default.Search
-    )
 
-    data object Favorite: CustomNavBarItem(
+    data object Favorites: CustomNavBarItem(
         title = "Favorites",
         route = MainNavKey.Favorites,
         icon = Icons.Default.Favorite
     )
+
+    data object Settings: CustomNavBarItem(
+        title = "Settings",
+        route = MainNavKey.Settings,
+        icon = Icons.Default.Settings
+    )
 }
 
 private val navBarItems = listOf(
-    CustomNavBarItem.Popular,
-    CustomNavBarItem.Upcoming,
-    CustomNavBarItem.Search,
-    CustomNavBarItem.Favorite
+    CustomNavBarItem.Movies,
+    CustomNavBarItem.TvShows,
+    CustomNavBarItem.Favorites,
+    CustomNavBarItem.Settings
 )
 
 @Composable

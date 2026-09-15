@@ -17,8 +17,8 @@ class MainNavViewModel @Inject constructor(): ViewModel() {
     val topLevelTabs = listOf(
         MainNavKey.Movies,
         MainNavKey.TvShows,
-        MainNavKey.Search,
-        MainNavKey.Favorites
+        MainNavKey.Favorites,
+        MainNavKey.Settings
     )
 
     private val startTab = MainNavKey.Movies
