@@ -1,6 +1,6 @@
-# Movies Compose 🎬
+# Movies Explorer 🎬
 
-**Movies Compose** is a modern Android application that allows you to explore movies and TV shows using the [TMDB API](https://www.themoviedb.org/). The project was developed with a focus on current technologies, following the best practices for Android development.
+**Movies Explorer** is a modern Android application that allows you to explore movies and TV shows using the [TMDB API](https://www.themoviedb.org/). The project was developed with a focus on current technologies, following the best practices for Android development.
 
 ---
 
