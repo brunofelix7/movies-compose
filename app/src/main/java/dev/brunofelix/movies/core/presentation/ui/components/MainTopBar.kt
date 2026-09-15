@@ -71,7 +71,7 @@ fun MainTopBar(
                 if (searching) {
                     Text(
                         text = stringResource(R.string.cancel),
-                        color = Colors.redPrimary,
+                        color = Colors.white,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier
                             .padding(end = 16.dp)
