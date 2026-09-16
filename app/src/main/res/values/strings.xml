@@ -44,6 +44,8 @@
     <string name="top_bar_language_icon">Language icon</string>
     <string name="top_bar_favorite_icon">Favorite icon</string>
     <string name="top_bar_back_icon">Back icon</string>
+    <string name="overview_expand">Expand overview</string>
+    <string name="overview_collapse">Collapse overview</string>
     <string name="settings_selected_language_icon">Selected language icon</string>
     <string name="empty_icon">Empty icon</string>
     <string name="error_icon">Error icon</string>
