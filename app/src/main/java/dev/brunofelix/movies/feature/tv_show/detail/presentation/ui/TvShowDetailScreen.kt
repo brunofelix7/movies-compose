@@ -3,26 +3,26 @@ package dev.brunofelix.movies.feature.tv_show.detail.presentation.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.domain.model.MovieGenre
+import dev.brunofelix.movies.core.presentation.ui.components.DetailHeader
+import dev.brunofelix.movies.core.presentation.ui.components.DetailSkeleton
+import dev.brunofelix.movies.core.presentation.ui.components.DetailTopBar
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
+import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components.TvShowDetailContent
-import dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components.TvShowDetailHeader
-import dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components.TvShowDetailSkeleton
-import dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components.TvShowDetailTopBar
 
 @Composable
 fun TvShowDetailRoute(
@@ -32,7 +32,6 @@ fun TvShowDetailRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
-    val scrollState = rememberScrollState()
 
     LaunchedEffect(tvShowId) {
         viewModel.getDetails(tvShowId)
@@ -41,7 +40,6 @@ fun TvShowDetailRoute(
     TvShowDetailScreen(
         uiState = uiState,
         isFavorite = isFavorite,
-        scrollState = scrollState,
         onBack = onBack,
         onFavorite = { viewModel.onFavoriteToggle() }
     )
@@ -52,7 +50,6 @@ private fun TvShowDetailScreen(
     modifier: Modifier = Modifier,
     uiState: UiState<TvShowUiModel>,
     isFavorite: Boolean,
-    scrollState: androidx.compose.foundation.ScrollState = rememberScrollState(),
     onBack: () -> Unit = {},
     onFavorite: () -> Unit = {}
 ) {
@@ -61,8 +58,8 @@ private fun TvShowDetailScreen(
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
-                TvShowDetailSkeleton()
-                TvShowDetailTopBar(
+                DetailSkeleton(infoChipCount = 4)
+                DetailTopBar(
                     isFavorite = false,
                     shouldShowFavorite = false,
                     onBackClick = onBack
@@ -70,14 +67,23 @@ private fun TvShowDetailScreen(
             }
         }
         else -> {
+            val tvShow = (uiState as? UiState.Success)?.data
+
             Scaffold(
                 modifier = modifier,
-                containerColor = Color.Transparent,
+                containerColor = Colors.blackPrimary,
                 topBar = {
-                    TvShowDetailHeader(
-                        tvShow = (uiState as? UiState.Success)?.data,
+                    DetailHeader(
+                        backdropPath = tvShow?.backdropPath,
+                        media = tvShow?.let {
+                            Media(
+                                id = it.id,
+                                title = it.name,
+                                posterPath = it.posterPath,
+                                releaseDate = it.firstAirDate
+                            )
+                        },
                         isFavorite = isFavorite,
-                        scrollState = scrollState,
                         onBackClick = onBack,
                         onFavoriteClick = onFavorite
                     )
@@ -87,7 +93,6 @@ private fun TvShowDetailScreen(
                         is UiState.Success -> {
                             TvShowDetailContent(
                                 tvShow = uiState.data,
-                                scrollState = scrollState,
                                 modifier = Modifier.padding(innerPadding)
                             )
                         }
