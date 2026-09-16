@@ -6,8 +6,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.brunofelix.movies.core.data.util.BasePagingSource
-import dev.brunofelix.movies.core.data.util.extension.asPagerFlow
+import dev.brunofelix.movies.core.presentation.util.BasePagingSource
+import dev.brunofelix.movies.core.presentation.util.extension.asPagerFlow
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.model.enums.TvShowCategory
 import dev.brunofelix.movies.feature.tv_show.home.domain.use_case.GetPopularTvShowsUseCase
