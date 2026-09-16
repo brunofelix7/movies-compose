@@ -20,6 +20,7 @@ data class TvShow(
     val tagline: String = "",
     val numberOfEpisodes: Int = 0,
     val numberOfSeasons: Int = 0,
+    val seasons: List<Season> = emptyList(),
     val type: String = ""
 ) {
     companion object {

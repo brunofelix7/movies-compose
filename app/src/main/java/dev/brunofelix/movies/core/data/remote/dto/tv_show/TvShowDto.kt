@@ -25,6 +25,7 @@ import dev.brunofelix.movies.core.data.remote.dto.movie.MovieGenreDto
  * @property tagline A short catchphrase or slogan for the TV show.
  * @property numberOfEpisodes The total number of episodes available for the TV show.
  * @property numberOfSeasons The total number of seasons available for the TV show.
+ * @property seasons The seasons of the TV show, without their episodes.
  * @property type The type of the TV show (e.g., Scripted, Reality).
  */
 data class TvShowDto(
@@ -84,6 +85,9 @@ data class TvShowDto(
 
     @SerializedName("number_of_seasons")
     val numberOfSeasons: Int?,
+
+    @SerializedName("seasons")
+    val seasons: List<SeasonDto>?,
 
     @SerializedName("type")
     val type: String?

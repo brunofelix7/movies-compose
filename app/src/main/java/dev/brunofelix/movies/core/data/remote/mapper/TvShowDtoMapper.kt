@@ -43,6 +43,7 @@ fun TvShowDto.toDomain(): TvShow {
         tagline = tagline.orEmpty(),
         numberOfEpisodes = numberOfEpisodes ?: 0,
         numberOfSeasons = numberOfSeasons ?: 0,
+        seasons = seasons?.map { it.toDomain() } ?: emptyList(),
         type = type.orEmpty()
     )
 }

@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.core.data.remote.source
 
+import dev.brunofelix.movies.core.domain.model.Episode
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.model.Video
 
@@ -38,6 +39,14 @@ interface TvShowRemoteDataSource {
      * @return A [Result] containing a list of [Video] domain models.
      */
     suspend fun getVideos(id: Long): Result<List<Video>>
+
+    /**
+     * Fetches the episodes of a single season.
+     * @param id The unique TV show identifier.
+     * @param seasonNumber The position of the season, `0` for specials.
+     * @return A [Result] containing a list of [Episode] domain models.
+     */
+    suspend fun getSeasonEpisodes(id: Long, seasonNumber: Int): Result<List<Episode>>
 
     /**
      * Fetches TV shows premiering between [startDate] and [endDate].

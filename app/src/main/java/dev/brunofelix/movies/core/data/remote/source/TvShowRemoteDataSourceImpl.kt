@@ -3,7 +3,9 @@ package dev.brunofelix.movies.core.data.remote.source
 import dev.brunofelix.movies.core.data.remote.TvShowService
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
+import dev.brunofelix.movies.core.data.remote.mapper.toEpisodeList
 import dev.brunofelix.movies.core.data.util.BaseRemoteDataSource
+import dev.brunofelix.movies.core.domain.model.Episode
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.model.Video
 import javax.inject.Inject
@@ -48,6 +50,13 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
         return safeApiCall(
             call = { getVideos(id) },
             transform = { it.toDomainList() }
+        )
+    }
+
+    override suspend fun getSeasonEpisodes(id: Long, seasonNumber: Int): Result<List<Episode>> {
+        return safeApiCall(
+            call = { getSeason(id, seasonNumber) },
+            transform = { it.toEpisodeList() }
         )
     }
 

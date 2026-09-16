@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.core.data.remote
 
 import dev.brunofelix.movies.core.data.remote.dto.VideoRootDto
+import dev.brunofelix.movies.core.data.remote.dto.tv_show.SeasonDto
 import dev.brunofelix.movies.core.data.remote.dto.tv_show.TvShowDto
 import dev.brunofelix.movies.core.data.remote.dto.tv_show.TvShowRootDto
 import retrofit2.Response
@@ -42,6 +43,18 @@ interface TvShowService {
     suspend fun getDetails(
         @Path("id") id: Long
     ): Response<TvShowDto>
+
+    /**
+     * Fetches a single season with its episodes.
+     * @param id The unique identifier of the TV show.
+     * @param seasonNumber The position of the season, `0` for specials.
+     * @return A [Response] containing a [SeasonDto].
+     */
+    @GET("tv/{id}/season/{season_number}")
+    suspend fun getSeason(
+        @Path("id") id: Long,
+        @Path("season_number") seasonNumber: Int
+    ): Response<SeasonDto>
 
     /**
      * Searches for TV shows by a query string.
