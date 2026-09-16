@@ -1,7 +1,9 @@
 package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -35,7 +37,13 @@ fun DetailTopBar(
     TopAppBar(
         title = {},
         navigationIcon = {
-            IconButton(onClick = onBackClick) {
+            IconButton(
+                onClick = onBackClick,
+                modifier = Modifier.background(
+                    color = Colors.blackPrimary.copy(alpha = 0.2F),
+                    shape = CircleShape
+                )
+            ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     tint = Colors.white,
@@ -47,7 +55,12 @@ fun DetailTopBar(
             AnimatedVisibility(visible = shouldShowFavorite) {
                 IconButton(
                     onClick = onFavoriteClick,
-                    modifier = Modifier.padding(end = 8.dp)
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .background(
+                            color = Colors.blackPrimary.copy(alpha = 0.2F),
+                            shape = CircleShape
+                        )
                 ) {
                     Icon(
                         imageVector = if (isFavorite) {
