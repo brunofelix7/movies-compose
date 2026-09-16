@@ -106,11 +106,13 @@ fun TvShowDetailContent(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
+                MovieOverview(
+                    overview = tvShow.overview,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
                 tvShow.trailerKey?.let { key ->
-                    SectionCard(
-                        title = stringResource(R.string.trailer),
-                        modifier = Modifier.padding(bottom = 24.dp)
-                    ) {
+                    SectionCard(title = stringResource(R.string.trailer)) {
                         YouTubePlayer(
                             videoId = key,
                             modifier = Modifier
@@ -119,10 +121,6 @@ fun TvShowDetailContent(
                         )
                     }
                 }
-
-                MovieOverview(
-                    overview = tvShow.overview
-                )
 
                 Spacer(modifier = Modifier.height(100.dp))
             }
