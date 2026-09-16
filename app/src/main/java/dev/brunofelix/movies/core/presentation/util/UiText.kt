@@ -8,7 +8,18 @@ sealed interface UiText {
     class StringResource(
         @StringRes val resId: Int,
         vararg val args: Any
-    ) : UiText
+    ) : UiText {
+        // Compared by value so equal errors don't re-emit through StateFlow.
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other !is StringResource) return false
+            return resId == other.resId && args.contentEquals(other.args)
+        }
+
+        override fun hashCode(): Int {
+            return 31 * resId + args.contentHashCode()
+        }
+    }
 
     fun asString(context: Context): String {
         return when (this) {
