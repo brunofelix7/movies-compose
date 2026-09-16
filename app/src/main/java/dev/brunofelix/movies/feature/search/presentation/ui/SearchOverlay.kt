@@ -61,11 +61,16 @@ sealed interface SearchOverlayUiAction {
 }
 
 /**
- * Hosts the [SearchOverlay] and keeps the keyboard in sync with its visibility, requesting
- * focus on the search bar when the overlay opens and dismissing it when the overlay closes.
+ * Hosts the [SearchOverlay] and keeps the keyboard in sync with it.
+ *
+ * @param isActive whether the search session is running. The query and the results are only
+ * dropped when it ends, so navigating to a detail screen and coming back keeps them.
+ * @param isVisible whether the overlay is currently on screen. It is hidden while the user is
+ * away on another destination, without ending the session.
  */
 @Composable
 fun SearchOverlayRoute(
+    isActive: Boolean,
     isVisible: Boolean,
     onClose: () -> Unit,
     onNavigate: (MainNavKey) -> Unit,
@@ -79,12 +84,17 @@ fun SearchOverlayRoute(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(isVisible) {
-        if (isVisible) {
+    LaunchedEffect(isActive) {
+        if (isActive) {
             focusRequester.requestFocus()
             keyboardController?.show()
         } else {
             viewModel.onQueryChange("")
+        }
+    }
+
+    LaunchedEffect(isVisible) {
+        if (!isVisible) {
             focusManager.clearFocus()
             keyboardController?.hide()
         }
@@ -111,7 +121,6 @@ fun SearchOverlayRoute(
                         MediaType.MOVIE -> MainNavKey.MovieDetails(action.media.id)
                         MediaType.TV_SHOW -> MainNavKey.TvShowDetails(action.media.id)
                     }
-                    onClose()
                     onNavigate(route)
                 }
             }

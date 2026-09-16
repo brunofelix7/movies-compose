@@ -103,10 +103,11 @@ fun MainScreenContent(
                     )
 
                     SearchOverlayRoute(
-                        isVisible = isSearchVisible,
+                        isActive = isSearchVisible,
+                        isVisible = isSearchVisible && isBottomBarVisible,
                         paddingValues = paddingValues,
                         onClose = closeSearch,
-                        onNavigate = navigateAndCloseSearch,
+                        onNavigate = onNavigate,
                         modifier = Modifier.zIndex(1F)
                     )
                 }
