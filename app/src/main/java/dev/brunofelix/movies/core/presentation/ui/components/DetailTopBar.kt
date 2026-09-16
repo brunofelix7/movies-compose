@@ -39,10 +39,12 @@ fun DetailTopBar(
         navigationIcon = {
             IconButton(
                 onClick = onBackClick,
-                modifier = Modifier.background(
-                    color = Colors.blackPrimary.copy(alpha = 0.2F),
-                    shape = CircleShape
-                )
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .background(
+                        color = Colors.blackPrimary.copy(alpha = 0.2F),
+                        shape = CircleShape
+                    )
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
