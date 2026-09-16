@@ -2,28 +2,26 @@ package dev.brunofelix.movies.feature.movie.home.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.brunofelix.movies.core.presentation.util.BasePagingSource
-import dev.brunofelix.movies.core.presentation.util.extension.asPagerFlow
-import dev.brunofelix.movies.core.domain.model.Movie
-import dev.brunofelix.movies.core.domain.model.enums.MovieCategory
+import dev.brunofelix.movies.core.domain.mapper.toMovieMediaList
 import dev.brunofelix.movies.core.domain.use_case.GetLanguageUseCase
-import dev.brunofelix.movies.core.domain.util.Resource
+import dev.brunofelix.movies.core.presentation.util.UiState
+import dev.brunofelix.movies.core.presentation.util.extension.toUiState
 import dev.brunofelix.movies.feature.movie.home.domain.use_case.GetPopularUseCase
 import dev.brunofelix.movies.feature.movie.home.domain.use_case.GetTopRatedUseCase
 import dev.brunofelix.movies.feature.movie.home.domain.use_case.GetUpcomingUseCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
+import dev.brunofelix.movies.feature.movie.home.presentation.state.MovieHomeState
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
+private const val FIRST_PAGE = 1
+
 @HiltViewModel
 class MovieHomeViewModel @Inject constructor(
     getLanguageUseCase: GetLanguageUseCase,
@@ -32,41 +30,46 @@ class MovieHomeViewModel @Inject constructor(
     private val getTopRatedUseCase: GetTopRatedUseCase
 ) : ViewModel() {
 
-    private val _selectedCategory = MutableStateFlow(MovieCategory.POPULAR)
-    val selectedCategory = _selectedCategory.asStateFlow()
+    private val _state = MutableStateFlow(MovieHomeState())
+    val state = _state.asStateFlow()
 
-    private val pagingConfig = PagingConfig(pageSize = 20)
-
-    private val language = getLanguageUseCase().distinctUntilChanged()
-
-    private val popularMoviesFlow = pagerFlowPerLanguage { getPopularUseCase(it) }
-
-    private val upcomingMoviesFlow = pagerFlowPerLanguage { getUpcomingUseCase(it) }
-
-    private val topRatedMoviesFlow = pagerFlowPerLanguage { getTopRatedUseCase(it) }
-
-    val movies: Flow<PagingData<Movie>> = _selectedCategory.flatMapLatest { category ->
-        when (category) {
-            MovieCategory.POPULAR -> popularMoviesFlow
-            MovieCategory.UPCOMING -> upcomingMoviesFlow
-            MovieCategory.TOP_RATED -> topRatedMoviesFlow
+    init {
+        viewModelScope.launch {
+            getLanguageUseCase().distinctUntilChanged().collectLatest { load() }
         }
     }
 
-    /**
-     * Rebuilds the pager whenever the preferred language changes, so the already
-     * paginated pages are dropped and refetched in the newly selected language.
-     */
-    private fun pagerFlowPerLanguage(
-        fetch: suspend (page: Int) -> Resource<List<Movie>>
-    ): Flow<PagingData<Movie>> {
-        return language
-            .flatMapLatest { pagingConfig.asPagerFlow { BasePagingSource(fetch = fetch) } }
-            .cachedIn(viewModelScope)
+    fun onRetry() {
+        viewModelScope.launch { load() }
     }
 
-    fun onCategorySelected(category: MovieCategory) {
-        if (_selectedCategory.value == category) return
-        _selectedCategory.value = category
+    private suspend fun load() = coroutineScope {
+        _state.value = MovieHomeState(
+            popular = UiState.Loading,
+            upcoming = UiState.Loading,
+            topRated = UiState.Loading
+        )
+        launch {
+            val result = getPopularUseCase(FIRST_PAGE).toUiState { it.toMovieMediaList() }
+            _state.update { it.copy(popular = result) }
+        }
+        launch {
+            val result = getUpcomingUseCase(FIRST_PAGE).toUiState { it.toMovieMediaList() }
+            _state.update { it.copy(upcoming = result) }
+        }
+        launch {
+            val result = getTopRatedUseCase(FIRST_PAGE).toUiState { it.toMovieMediaList() }
+            _state.update { it.copy(topRated = result) }
+        }
     }
+
+    // Kept for the upcoming filter work, which will reuse the category selector.
+    //
+    // private val _selectedCategory = MutableStateFlow(MovieCategory.POPULAR)
+    // val selectedCategory = _selectedCategory.asStateFlow()
+    //
+    // fun onCategorySelected(category: MovieCategory) {
+    //     if (_selectedCategory.value == category) return
+    //     _selectedCategory.value = category
+    // }
 }
