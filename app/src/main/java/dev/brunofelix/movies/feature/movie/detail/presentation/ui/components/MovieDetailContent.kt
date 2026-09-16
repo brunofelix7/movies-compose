@@ -1,7 +1,9 @@
 package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.MovieGenre
-import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.MovieGenderContainer
 import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
@@ -38,10 +39,14 @@ import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 @Composable
 fun MovieDetailContent(
     movie: MovieUiModel,
-    scrollState: ScrollState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    scrollState: ScrollState = rememberScrollState()
 ) {
-    GradientBackground {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Colors.blackPrimary)
+    ) {
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -49,7 +54,6 @@ fun MovieDetailContent(
                 .verticalScroll(scrollState)
         ) {
             Column {
-                Spacer(modifier = Modifier.height(80.dp))
                 Row {
                     Column(
                         modifier = Modifier.fillMaxWidth()
@@ -131,7 +135,6 @@ private fun SuccessPreview() {
                 MovieGenre(name = "Drama"),
                 MovieGenre(name = "Terror")
             )
-        ),
-        scrollState = rememberScrollState()
+        )
     )
 }

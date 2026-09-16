@@ -3,26 +3,26 @@ package dev.brunofelix.movies.feature.movie.detail.presentation.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.domain.model.MovieGenre
+import dev.brunofelix.movies.core.presentation.ui.components.DetailHeader
+import dev.brunofelix.movies.core.presentation.ui.components.DetailSkeleton
+import dev.brunofelix.movies.core.presentation.ui.components.DetailTopBar
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
+import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailContent
-import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailHeader
-import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailSkeleton
-import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailTopBar
 
 @Composable
 fun MovieDetailRoute(
@@ -32,7 +32,6 @@ fun MovieDetailRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
-    val scrollState = rememberScrollState()
 
     LaunchedEffect(movieId) {
         viewModel.getDetails(movieId)
@@ -41,7 +40,6 @@ fun MovieDetailRoute(
     MovieDetailScreen(
         uiState = uiState,
         isFavorite = isFavorite,
-        scrollState = scrollState,
         onBack = onBack,
         onFavorite = { viewModel.onFavoriteToggle() }
     )
@@ -52,7 +50,6 @@ private fun MovieDetailScreen(
     modifier: Modifier = Modifier,
     uiState: UiState<MovieUiModel>,
     isFavorite: Boolean,
-    scrollState: androidx.compose.foundation.ScrollState = rememberScrollState(),
     onBack: () -> Unit = {},
     onFavorite: () -> Unit = {}
 ) {
@@ -61,8 +58,8 @@ private fun MovieDetailScreen(
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
-                MovieDetailSkeleton()
-                MovieDetailTopBar(
+                DetailSkeleton()
+                DetailTopBar(
                     isFavorite = false,
                     shouldShowFavorite = false,
                     onBackClick = onBack
@@ -70,14 +67,23 @@ private fun MovieDetailScreen(
             }
         }
         else -> {
+            val movie = (uiState as? UiState.Success)?.data
+
             Scaffold(
                 modifier = modifier,
-                containerColor = Color.Transparent,
+                containerColor = Colors.blackPrimary,
                 topBar = {
-                    MovieDetailHeader(
-                        movie = (uiState as? UiState.Success)?.data,
+                    DetailHeader(
+                        backdropPath = movie?.backdropPath,
+                        media = movie?.let {
+                            Media(
+                                id = it.id,
+                                title = it.title,
+                                posterPath = it.posterPath,
+                                releaseDate = it.releaseDate
+                            )
+                        },
                         isFavorite = isFavorite,
-                        scrollState = scrollState,
                         onBackClick = onBack,
                         onFavoriteClick = onFavorite
                     )
@@ -87,7 +93,6 @@ private fun MovieDetailScreen(
                         is UiState.Success -> {
                             MovieDetailContent(
                                 movie = uiState.data,
-                                scrollState = scrollState,
                                 modifier = Modifier.padding(innerPadding)
                             )
                         }
@@ -117,6 +122,7 @@ private fun LoadingPreview() {
 private fun SuccessPreview() {
     MovieDetailScreen(
         uiState = UiState.Success(MovieUiModel(
+            title = "Super Mario Galaxy",
             genres = listOf(
                 MovieGenre(name = "Action"),
                 MovieGenre(name = "Adventure"),
