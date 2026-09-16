@@ -18,7 +18,7 @@ class MainNavViewModel @Inject constructor(): ViewModel() {
         MainNavKey.Movies,
         MainNavKey.TvShows,
         MainNavKey.Favorites,
-        MainNavKey.Settings
+        MainNavKey.Releases
     )
 
     private val startTab = MainNavKey.Movies

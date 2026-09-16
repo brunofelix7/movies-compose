@@ -26,6 +26,13 @@
     <string name="episodes">%1$d Episodes</string>
     <string name="no_results_found">No results found.</string>
     <string name="cancel">Cancel</string>
+    <string name="view_more">View more</string>
+
+    <!-- Releases -->
+    <string name="releases">Releases</string>
+    <string name="releases_theaters">In Theaters</string>
+    <string name="releases_streaming">On Streaming</string>
+    <string name="releases_series">Series Premieres</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -41,6 +48,7 @@
     <!-- Content descriptions -->
     <string name="navbar_icon">Navbar icon</string>
     <string name="top_bar_search_icon">Search icon</string>
+    <string name="top_bar_settings_icon">Settings icon</string>
     <string name="top_bar_language_icon">Language icon</string>
     <string name="top_bar_favorite_icon">Favorite icon</string>
     <string name="top_bar_back_icon">Back icon</string>
