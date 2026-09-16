@@ -6,6 +6,7 @@ import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
 import dev.brunofelix.movies.core.data.util.BaseRemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.model.Video
+import dev.brunofelix.movies.core.domain.model.enums.ReleaseType
 import javax.inject.Inject
 
 /**
@@ -57,4 +58,33 @@ class MovieRemoteDataSourceImpl @Inject constructor(
             transform = { it.toDomainList() }
         )
     }
+
+    override suspend fun getReleases(
+        startDate: String,
+        endDate: String,
+        type: ReleaseType,
+        page: Int
+    ): Result<List<Movie>> {
+        return safeApiCall(
+            call = {
+                discover(
+                    startDate = startDate,
+                    endDate = endDate,
+                    releaseType = type.query,
+                    sortBy = SORT_BY_POPULARITY,
+                    page = page
+                )
+            },
+            transform = { it.toDomainList() }
+        )
+    }
 }
+
+private const val SORT_BY_POPULARITY = "popularity.desc"
+
+/** TMDB release type codes: 2 limited theatrical, 3 theatrical, 4 digital. */
+private val ReleaseType.query: String
+    get() = when (this) {
+        ReleaseType.THEATERS -> "2|3"
+        ReleaseType.STREAMING -> "4"
+    }

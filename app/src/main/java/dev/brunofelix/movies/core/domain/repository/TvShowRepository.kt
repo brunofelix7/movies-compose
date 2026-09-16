@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.core.domain.repository
 
+import dev.brunofelix.movies.core.domain.model.ReleaseMonth
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.model.Video
 import dev.brunofelix.movies.core.domain.util.Resource
@@ -35,4 +36,10 @@ interface TvShowRepository {
      * @return A [Resource] containing a list of [Video]s or an error.
      */
     suspend fun getVideos(id: Long): Resource<List<Video>>
+
+    /**
+     * Fetches the TV shows premiering in [month].
+     * @return A [Resource] containing a list of [TvShow]s.
+     */
+    suspend fun getReleases(month: ReleaseMonth, page: Int): Resource<List<TvShow>>
 }

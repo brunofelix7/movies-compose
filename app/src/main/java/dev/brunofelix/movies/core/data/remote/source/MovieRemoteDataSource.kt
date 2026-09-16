@@ -2,6 +2,7 @@ package dev.brunofelix.movies.core.data.remote.source
 
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.model.Video
+import dev.brunofelix.movies.core.domain.model.enums.ReleaseType
 
 /**
  * Remote data source for Movie-related operations.
@@ -43,4 +44,17 @@ interface MovieRemoteDataSource {
      * @return A [Result] containing a list of [Video] domain models.
      */
     suspend fun getVideos(id: Long): Result<List<Video>>
+
+    /**
+     * Fetches movies released between [startDate] and [endDate] through the given [type].
+     * @param startDate Inclusive lower bound, as `yyyy-MM-dd`.
+     * @param endDate Inclusive upper bound, as `yyyy-MM-dd`.
+     * @return A [Result] containing a list of [Movie]s.
+     */
+    suspend fun getReleases(
+        startDate: String,
+        endDate: String,
+        type: ReleaseType,
+        page: Int
+    ): Result<List<Movie>>
 }

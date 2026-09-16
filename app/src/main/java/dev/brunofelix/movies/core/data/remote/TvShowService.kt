@@ -64,4 +64,20 @@ interface TvShowService {
     suspend fun getVideos(
         @Path("id") id: Long
     ): Response<VideoRootDto>
+
+    /**
+     * Fetches TV shows whose first air date falls within a date range.
+     * @param startDate Inclusive lower bound, as `yyyy-MM-dd`.
+     * @param endDate Inclusive upper bound, as `yyyy-MM-dd`.
+     * @param sortBy TMDB sort expression.
+     * @param page The page number to fetch.
+     * @return A [Response] containing a [TvShowRootDto].
+     */
+    @GET("discover/tv")
+    suspend fun discover(
+        @Query("first_air_date.gte") startDate: String,
+        @Query("first_air_date.lte") endDate: String,
+        @Query("sort_by") sortBy: String,
+        @Query("page") page: Int
+    ): Response<TvShowRootDto>
 }

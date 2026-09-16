@@ -38,4 +38,16 @@ interface TvShowRemoteDataSource {
      * @return A [Result] containing a list of [Video] domain models.
      */
     suspend fun getVideos(id: Long): Result<List<Video>>
+
+    /**
+     * Fetches TV shows premiering between [startDate] and [endDate].
+     * @param startDate Inclusive lower bound, as `yyyy-MM-dd`.
+     * @param endDate Inclusive upper bound, as `yyyy-MM-dd`.
+     * @return A [Result] containing a list of [TvShow]s.
+     */
+    suspend fun getReleases(
+        startDate: String,
+        endDate: String,
+        page: Int
+    ): Result<List<TvShow>>
 }

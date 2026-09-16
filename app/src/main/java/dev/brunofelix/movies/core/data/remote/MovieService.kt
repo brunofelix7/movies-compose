@@ -74,4 +74,22 @@ interface MovieService {
     suspend fun getVideos(
         @Path("id") id: Long
     ): Response<VideoRootDto>
+
+    /**
+     * Fetches movies released within a date range.
+     * @param startDate Inclusive lower bound, as `yyyy-MM-dd`.
+     * @param endDate Inclusive upper bound, as `yyyy-MM-dd`.
+     * @param releaseType TMDB release types to keep, pipe separated (e.g. `2|3` for theatrical).
+     * @param sortBy TMDB sort expression.
+     * @param page The page number to fetch.
+     * @return A [Response] containing a [MovieRootDto].
+     */
+    @GET("discover/movie")
+    suspend fun discover(
+        @Query("release_date.gte") startDate: String,
+        @Query("release_date.lte") endDate: String,
+        @Query("with_release_type") releaseType: String,
+        @Query("sort_by") sortBy: String,
+        @Query("page") page: Int
+    ): Response<MovieRootDto>
 }

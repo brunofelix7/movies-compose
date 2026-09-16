@@ -50,4 +50,24 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
             transform = { it.toDomainList() }
         )
     }
+
+    override suspend fun getReleases(
+        startDate: String,
+        endDate: String,
+        page: Int
+    ): Result<List<TvShow>> {
+        return safeApiCall(
+            call = {
+                discover(
+                    startDate = startDate,
+                    endDate = endDate,
+                    sortBy = SORT_BY_POPULARITY,
+                    page = page
+                )
+            },
+            transform = { it.toDomainList() }
+        )
+    }
 }
+
+private const val SORT_BY_POPULARITY = "popularity.desc"

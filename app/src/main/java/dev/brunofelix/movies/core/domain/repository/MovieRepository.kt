@@ -1,7 +1,9 @@
 package dev.brunofelix.movies.core.domain.repository
 
 import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.model.ReleaseMonth
 import dev.brunofelix.movies.core.domain.model.Video
+import dev.brunofelix.movies.core.domain.model.enums.ReleaseType
 import dev.brunofelix.movies.core.domain.util.Resource
 
 /**
@@ -43,4 +45,14 @@ interface MovieRepository {
      * @return A [Resource] containing a list of [Video]s or an error.
      */
     suspend fun getVideos(id: Long): Resource<List<Video>>
+
+    /**
+     * Fetches the movies released in [month] through the given [type].
+     * @return A [Resource] containing a list of [Movie]s.
+     */
+    suspend fun getReleases(
+        month: ReleaseMonth,
+        type: ReleaseType,
+        page: Int
+    ): Resource<List<Movie>>
 }
