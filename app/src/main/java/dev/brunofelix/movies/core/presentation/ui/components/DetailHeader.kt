@@ -19,9 +19,9 @@ import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 internal val BackdropHeight = 260.dp
-internal val PosterHeight = 180.dp
+internal val PosterHeight = 200.dp
 internal val PosterOverhang = 60.dp
-internal const val PosterWidthFraction = 0.35F
+internal const val PosterWidthFraction = 0.40F
 
 /**
  * Backdrop, top bar and poster shared by the movie and TV show detail screens.
