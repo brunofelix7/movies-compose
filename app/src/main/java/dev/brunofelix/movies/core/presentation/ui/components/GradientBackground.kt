@@ -20,7 +20,7 @@ fun GradientBackground(
         modifier = modifier
             .fillMaxSize()
             .background(
-                brush = Brush.verticalGradient(
+                brush = Brush.linearGradient(
                     colors = colors
                 )
             )

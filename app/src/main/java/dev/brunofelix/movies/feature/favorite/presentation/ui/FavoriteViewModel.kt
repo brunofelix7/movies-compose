@@ -3,7 +3,7 @@ package dev.brunofelix.movies.feature.favorite.presentation.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.brunofelix.movies.core.data.util.extension.toUiText
+import dev.brunofelix.movies.core.presentation.util.extension.toUiText
 import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.domain.model.enums.FavoriteCategory
 import dev.brunofelix.movies.core.domain.model.enums.MediaType

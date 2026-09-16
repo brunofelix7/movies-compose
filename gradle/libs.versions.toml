@@ -6,12 +6,11 @@ ksp = "2.3.10"
 
 # Compose
 composeBom = "2026.06.01"
-compose = "1.11.4"
+compose = "1.12.0"
 material3 = "1.4.0"
 materialIconsExtended = "1.7.8"
 activityCompose = "1.13.0"
 nav3 = "1.1.6"
-lifecycleViewmodelNav3 = "2.11.0"
 coilCompose = "2.7.0"
 
 # AndroidX & Google
@@ -26,7 +25,7 @@ hilt = "2.60.1"
 hiltAndroidx = "1.4.0"
 
 # Networking & DI
-okhttp = "5.4.0"
+okhttp = "5.5.0"
 retrofit = "3.0.0"
 gson = "2.14.0"
 coroutines = "1.11.0"
@@ -35,9 +34,6 @@ youtubePlayer = "13.0.0"
 
 # Utilities
 timber = "5.0.1"
-rxjava = "3.1.12"
-rxandroid = "3.0.2"
-accompanistFlowlayout = "0.36.0"
 kotlinMetadataJvm = "2.4.0"
 
 # Testing
@@ -47,7 +43,6 @@ junitVintage = "5.11.0"
 espressoCore = "3.7.0"
 truth = "1.4.5"
 mockitoCore = "5.23.0"
-mockitoInline = "5.2.0"
 archCoreTesting = "2.2.0"
 robolectric = "4.16.1"
 kotest = "6.2.4"
@@ -74,8 +69,7 @@ androidx-material-icons-extended = { module = "androidx.compose.material:materia
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3" }
-androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
-androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "compose" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
 
 # Dependency Injection
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -106,9 +100,6 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 # Third Party
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
-rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
-rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
-accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanistFlowlayout" }
 jetbrains-kotlin-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlinMetadataJvm" }
 youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtubePlayer" }
 
@@ -120,7 +111,6 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }
-mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockitoInline" }
 truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
@@ -129,6 +119,42 @@ robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "
 kotest = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+
+[bundles]
+compose = [
+    "ui",
+    "ui-graphics",
+    "ui-tooling-preview",
+    "material3",
+    "androidx-activity-compose",
+    "androidx-navigation3-ui",
+    "androidx-navigation3-runtime",
+    "androidx-lifecycle-viewmodel-navigation3",
+    "androidx-material-icons-extended"
+]
+lifecycle = [
+    "androidx-lifecycle-runtime-ktx",
+    "lifecycle-viewmodel-compose"
+]
+networking = [
+    "retrofit",
+    "converter-gson",
+    "okhttp",
+    "logging-interceptor",
+    "gson",
+    "kotlinx-serialization-json"
+]
+coroutines = [
+    "jetbrains-kotlinx-coroutines-core",
+    "kotlinx-coroutines-android"
+]
+test-common = [
+    "truth",
+    "mockito-core",
+    "hilt-android-testing",
+    "kotlinx-coroutines-test",
+    "arch-core-testing"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

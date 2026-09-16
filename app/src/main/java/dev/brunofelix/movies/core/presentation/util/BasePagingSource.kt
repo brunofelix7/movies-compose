@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.data.util
+package dev.brunofelix.movies.core.presentation.util
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

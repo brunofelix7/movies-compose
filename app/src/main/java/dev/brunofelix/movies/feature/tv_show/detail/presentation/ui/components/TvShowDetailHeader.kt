@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
+package dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
@@ -6,24 +6,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.core.domain.model.Media
-import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.MediaCard
-import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
+import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
 import kotlin.math.roundToInt
 
 @Composable
-fun MovieDetailHeader(
-    movie: MovieUiModel?,
+fun TvShowDetailHeader(
+    tvShow: TvShowUiModel?,
     isFavorite: Boolean,
     scrollState: ScrollState,
     onBackClick: () -> Unit,
@@ -36,22 +32,22 @@ fun MovieDetailHeader(
     Box(
         modifier = modifier
     ) {
-        MovieDetailTopBarImage(
-            backdropPath = movie?.backdropPath
+        TvShowDetailTopBarImage(
+            backdropPath = tvShow?.backdropPath
         )
-        MovieDetailTopBar(
+        TvShowDetailTopBar(
             isFavorite = isFavorite,
-            shouldShowFavorite = movie != null,
+            shouldShowFavorite = tvShow != null,
             onBackClick = onBackClick,
             onFavoriteClick = onFavoriteClick
         )
-        movie?.let {
+        tvShow?.let {
             MediaCard(
                 media = Media(
                     id = it.id,
-                    title = it.title,
+                    title = it.name,
                     posterPath = it.posterPath,
-                    releaseDate = it.releaseDate,
+                    releaseDate = it.firstAirDate,
                 ),
                 modifier = Modifier
                     .padding(start = 16.dp)
@@ -65,27 +61,4 @@ fun MovieDetailHeader(
             )
         }
     }
-}
-
-@Preview
-@Composable
-private fun Preview() {
-    Scaffold(
-        topBar = {
-            MovieDetailHeader(
-                movie = MovieUiModel(),
-                isFavorite = false,
-                scrollState = rememberScrollState(),
-                onBackClick = {},
-                onFavoriteClick = {}
-            )
-        },
-        content = { innerPadding ->
-            GradientBackground {
-                Box(
-                    modifier = Modifier.padding(innerPadding)
-                )
-            }
-        }
-    )
 }

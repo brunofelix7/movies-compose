@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.movie.detail.presentation.ui
+package dev.brunofelix.movies.feature.tv_show.detail.presentation.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,29 +16,29 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
-import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
+import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
 import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.util.UiText
-import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailContent
-import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailHeader
-import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailSkeleton
-import dev.brunofelix.movies.feature.movie.detail.presentation.ui.components.MovieDetailTopBar
+import dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components.TvShowDetailContent
+import dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components.TvShowDetailHeader
+import dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components.TvShowDetailSkeleton
+import dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components.TvShowDetailTopBar
 
 @Composable
-fun MovieDetailRoute(
-    movieId: Long,
+fun TvShowDetailRoute(
+    tvShowId: Long,
     onBack: () -> Unit,
-    viewModel: MovieDetailViewModel = hiltViewModel()
+    viewModel: TvShowDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(movieId) {
-        viewModel.getDetails(movieId)
+    LaunchedEffect(tvShowId) {
+        viewModel.getDetails(tvShowId)
     }
 
-    MovieDetailScreen(
+    TvShowDetailScreen(
         uiState = uiState,
         isFavorite = isFavorite,
         scrollState = scrollState,
@@ -48,9 +48,9 @@ fun MovieDetailRoute(
 }
 
 @Composable
-private fun MovieDetailScreen(
+private fun TvShowDetailScreen(
     modifier: Modifier = Modifier,
-    uiState: UiState<MovieUiModel>,
+    uiState: UiState<TvShowUiModel>,
     isFavorite: Boolean,
     scrollState: androidx.compose.foundation.ScrollState = rememberScrollState(),
     onBack: () -> Unit = {},
@@ -61,8 +61,8 @@ private fun MovieDetailScreen(
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
-                MovieDetailSkeleton()
-                MovieDetailTopBar(
+                TvShowDetailSkeleton()
+                TvShowDetailTopBar(
                     isFavorite = false,
                     shouldShowFavorite = false,
                     onBackClick = onBack
@@ -74,8 +74,8 @@ private fun MovieDetailScreen(
                 modifier = modifier,
                 containerColor = Color.Transparent,
                 topBar = {
-                    MovieDetailHeader(
-                        movie = (uiState as? UiState.Success)?.data,
+                    TvShowDetailHeader(
+                        tvShow = (uiState as? UiState.Success)?.data,
                         isFavorite = isFavorite,
                         scrollState = scrollState,
                         onBackClick = onBack,
@@ -85,8 +85,8 @@ private fun MovieDetailScreen(
                 content = { innerPadding ->
                     when (uiState) {
                         is UiState.Success -> {
-                            MovieDetailContent(
-                                movie = uiState.data,
+                            TvShowDetailContent(
+                                tvShow = uiState.data,
                                 scrollState = scrollState,
                                 modifier = Modifier.padding(innerPadding)
                             )
@@ -106,7 +106,7 @@ private fun MovieDetailScreen(
 @Preview
 @Composable
 private fun LoadingPreview() {
-    MovieDetailScreen(
+    TvShowDetailScreen(
         uiState = UiState.Loading,
         isFavorite = false
     )
@@ -115,8 +115,9 @@ private fun LoadingPreview() {
 @Preview
 @Composable
 private fun SuccessPreview() {
-    MovieDetailScreen(
-        uiState = UiState.Success(MovieUiModel(
+    TvShowDetailScreen(
+        uiState = UiState.Success(TvShowUiModel(
+            name = "The Last of Us",
             genres = listOf(
                 MovieGenre(name = "Action"),
                 MovieGenre(name = "Adventure"),
@@ -132,7 +133,7 @@ private fun SuccessPreview() {
 @Preview
 @Composable
 private fun ErrorPreview() {
-    MovieDetailScreen(
+    TvShowDetailScreen(
         uiState = UiState.Error(UiText.DynamicString("Error message")),
         isFavorite = false
     )

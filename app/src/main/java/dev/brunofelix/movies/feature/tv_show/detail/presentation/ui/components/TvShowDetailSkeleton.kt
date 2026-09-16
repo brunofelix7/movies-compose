@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
+package dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,7 +23,7 @@ import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.util.shimmerEffect
 
 @Composable
-fun MovieDetailSkeleton(
+fun TvShowDetailSkeleton(
     modifier: Modifier = Modifier
 ) {
     GradientBackground {
@@ -46,7 +46,7 @@ fun MovieDetailSkeleton(
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    // Movie card placeholder
+                    // TV Show card placeholder
                     Box(
                         modifier = Modifier
                             .fillMaxWidth(0.45F)
@@ -72,7 +72,7 @@ fun MovieDetailSkeleton(
                     Spacer(modifier = Modifier.height(12.dp))
                     // Info chips row placeholders
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        repeat(3) {
+                        repeat(4) { // Added one more for seasons/episodes
                             Box(
                                 modifier = Modifier
                                     .size(60.dp, 24.dp)
@@ -112,6 +112,6 @@ fun MovieDetailSkeleton(
 
 @Preview(showBackground = true)
 @Composable
-private fun MovieDetailSkeletonPreview() {
-    MovieDetailSkeleton()
+private fun TvShowDetailSkeletonPreview() {
+    TvShowDetailSkeleton()
 }

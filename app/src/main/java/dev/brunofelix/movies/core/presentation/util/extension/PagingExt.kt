@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.core.data.util.extension
+package dev.brunofelix.movies.core.presentation.util.extension
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig

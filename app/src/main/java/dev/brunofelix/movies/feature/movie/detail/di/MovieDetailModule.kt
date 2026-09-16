@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCaseImpl
+import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieVideosUseCase
+import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieVideosUseCaseImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -15,4 +17,9 @@ abstract class MovieDetailModule {
     abstract fun bindGetMovieDetailsUseCase(
         impl: GetMovieDetailUseCaseImpl
     ): GetMovieDetailUseCase
+
+    @Binds
+    abstract fun bindGetMovieVideosUseCase(
+        impl: GetMovieVideosUseCaseImpl
+    ): GetMovieVideosUseCase
 }

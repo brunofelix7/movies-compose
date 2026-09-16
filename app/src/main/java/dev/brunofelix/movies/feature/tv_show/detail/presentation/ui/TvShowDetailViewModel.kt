@@ -1,20 +1,20 @@
-package dev.brunofelix.movies.feature.movie.detail.presentation.ui
+package dev.brunofelix.movies.feature.tv_show.detail.presentation.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.brunofelix.movies.core.presentation.util.extension.toUiText
 import dev.brunofelix.movies.core.domain.mapper.toMedia
-import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.use_case.DeleteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.IsFavoriteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.SaveMediaUseCase
 import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiModel
-import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
+import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
 import dev.brunofelix.movies.core.presentation.util.UiState
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
-import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieVideosUseCase
+import dev.brunofelix.movies.feature.tv_show.detail.domain.use_case.GetTvShowDetailUseCase
+import dev.brunofelix.movies.feature.tv_show.detail.domain.use_case.GetTvShowVideosUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,39 +22,39 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieDetailViewModel @Inject constructor(
-    private val getMovieDetailUseCase: GetMovieDetailUseCase,
-    private val getMovieVideosUseCase: GetMovieVideosUseCase,
+class TvShowDetailViewModel @Inject constructor(
+    private val getTvShowDetailUseCase: GetTvShowDetailUseCase,
+    private val getTvShowVideosUseCase: GetTvShowVideosUseCase,
     private val saveMediaUseCase: SaveMediaUseCase,
     private val isFavoriteMediaUseCase: IsFavoriteMediaUseCase,
     private val deleteMediaUseCase: DeleteMediaUseCase
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState<MovieUiModel>>(UiState.Initial)
+    private val _uiState = MutableStateFlow<UiState<TvShowUiModel>>(UiState.Initial)
     val uiState = _uiState.asStateFlow()
 
     private val _isFavorite = MutableStateFlow(false)
     val isFavorite = _isFavorite.asStateFlow()
 
-    private var movieDomain: Movie? = null
+    private var tvShowDomain: TvShow? = null
 
-    fun getDetails(movieId: Long) {
+    fun getDetails(tvShowId: Long) {
         val currentState = _uiState.value
-        if (currentState is UiState.Success && movieDomain?.id == movieId) {
+        if (currentState is UiState.Success && tvShowDomain?.id == tvShowId) {
             return
         }
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             _isFavorite.value = false
 
-            val detailsDeferred = async { getMovieDetailUseCase(movieId) }
-            val videosDeferred = async { getMovieVideosUseCase(movieId) }
+            val detailsDeferred = async { getTvShowDetailUseCase(tvShowId) }
+            val videosDeferred = async { getTvShowVideosUseCase(tvShowId) }
 
             val detailsResult = detailsDeferred.await()
             val videosResult = videosDeferred.await()
 
             if (detailsResult is Resource.Success) {
-                movieDomain = detailsResult.data
+                tvShowDomain = detailsResult.data
                 val trailerKey = if (videosResult is Resource.Success) {
                     videosResult.data.find {
                         it.site.equals("YouTube", ignoreCase = true) &&
@@ -75,13 +75,13 @@ class MovieDetailViewModel @Inject constructor(
     }
 
     fun onFavoriteToggle() = viewModelScope.launch {
-        movieDomain?.let { movie ->
+        tvShowDomain?.let { tvShow ->
             if (_isFavorite.value) {
-                deleteMediaUseCase(movie.toMedia())
+                deleteMediaUseCase(tvShow.toMedia())
             } else {
-                saveMediaUseCase(movie.toMedia())
+                saveMediaUseCase(tvShow.toMedia())
             }
-            _isFavorite.value = isFavoriteMediaUseCase(movie.id)
+            _isFavorite.value = isFavoriteMediaUseCase(tvShow.id)
         }
     }
 }

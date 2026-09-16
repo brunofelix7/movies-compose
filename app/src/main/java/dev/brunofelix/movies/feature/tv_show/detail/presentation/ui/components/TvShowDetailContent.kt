@@ -1,4 +1,4 @@
-package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
+package dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
@@ -12,9 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,12 +33,12 @@ import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
 import dev.brunofelix.movies.core.presentation.ui.components.SectionCard
 import dev.brunofelix.movies.core.presentation.ui.components.YouTubePlayer
-import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
+import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 @Composable
-fun MovieDetailContent(
-    movie: MovieUiModel,
+fun TvShowDetailContent(
+    tvShow: TvShowUiModel,
     scrollState: ScrollState,
     modifier: Modifier = Modifier
 ) {
@@ -56,7 +57,7 @@ fun MovieDetailContent(
                     ) {
                         Column {
                             Text(
-                                text = movie.title,
+                                text = tvShow.name,
                                 color = Colors.white,
                                 style = MaterialTheme.typography.titleLarge,
                                 maxLines = 1,
@@ -69,22 +70,31 @@ fun MovieDetailContent(
                                 MovieInfoChip(
                                     icon = Icons.Default.Star,
                                     iconTint = Color.Yellow,
-                                    text = movie.voteAverage
+                                    text = tvShow.voteAverage
                                 )
                                 MovieInfoChip(
                                     icon = Icons.Outlined.CalendarMonth,
-                                    text = movie.releaseDate
+                                    text = tvShow.firstAirDate
+                                )
+                            }
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                modifier = Modifier.padding(top = 8.dp)
+                            ) {
+                                MovieInfoChip(
+                                    icon = Icons.Default.Layers,
+                                    text = stringResource(R.string.seasons, tvShow.numberOfSeasons)
                                 )
                                 MovieInfoChip(
-                                    icon = Icons.Outlined.Timer,
-                                    text = movie.duration
+                                    icon = Icons.AutoMirrored.Filled.List,
+                                    text = stringResource(R.string.episodes, tvShow.numberOfEpisodes)
                                 )
                             }
                             Column(
                                 modifier = Modifier.padding(vertical = 12.dp)
                             ) {
                                 MovieGenderContainer(
-                                    gendersList = movie.genres
+                                    gendersList = tvShow.genres
                                 )
                             }
                         }
@@ -92,20 +102,22 @@ fun MovieDetailContent(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
-                movie.trailerKey?.let { key ->
+                tvShow.trailerKey?.let { key ->
                     SectionCard(
                         title = stringResource(R.string.trailer),
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        modifier = Modifier.padding(bottom = 24.dp)
                     ) {
                         YouTubePlayer(
                             videoId = key,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
                         )
                     }
                 }
 
                 MovieOverview(
-                    overview = movie.overview
+                    overview = tvShow.overview
                 )
 
                 Spacer(modifier = Modifier.height(100.dp))
@@ -117,19 +129,18 @@ fun MovieDetailContent(
 @Preview
 @Composable
 private fun SuccessPreview() {
-    MovieDetailContent(
-        movie = MovieUiModel(
-            title = "Super Mario Galaxy",
-            releaseDate = "01/04/2026",
-            duration = "120min",
-            voteAverage = "7.3",
-            overview = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    TvShowDetailContent(
+        tvShow = TvShowUiModel(
+            name = "The Last of Us",
+            firstAirDate = "15/01/2023",
+            voteAverage = "8.6",
+            numberOfSeasons = 1,
+            numberOfEpisodes = 9,
+            overview = "Twenty years after modern civilization has been destroyed, Joel, a hardened survivor, is hired to smuggle Ellie, a 14-year-old girl, out of an oppressive quarantine zone. What starts as a small job soon becomes a brutal, heartbreaking journey, as they both must traverse the U.S. and depend on each other for survival.",
             genres = listOf(
                 MovieGenre(name = "Action"),
                 MovieGenre(name = "Adventure"),
-                MovieGenre(name = "Comedy"),
-                MovieGenre(name = "Drama"),
-                MovieGenre(name = "Terror")
+                MovieGenre(name = "Drama")
             )
         ),
         scrollState = rememberScrollState()
