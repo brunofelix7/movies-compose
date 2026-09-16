@@ -96,19 +96,19 @@ fun MovieDetailContent(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
-                MovieOverview(
-                    overview = movie.overview,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
                 movie.trailerKey?.let { key ->
-                    SectionCard(title = stringResource(R.string.trailer)) {
+                    SectionCard(
+                        title = stringResource(R.string.trailer),
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    ) {
                         YouTubePlayer(
                             videoId = key,
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
                 }
+
+                MovieOverview(overview = movie.overview)
 
                 Spacer(modifier = Modifier.height(100.dp))
             }
