@@ -23,8 +23,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val FIRST_PAGE = 1
-private const val MONTHS_BACK = 6
-private const val MONTHS_FORWARD = 6
+private const val MONTHS_AHEAD = 6
 
 @HiltViewModel
 class ReleaseViewModel @Inject constructor(
@@ -34,7 +33,7 @@ class ReleaseViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(
-        ReleaseState(months = ReleaseMonth.window(MONTHS_BACK, MONTHS_FORWARD))
+        ReleaseState(months = ReleaseMonth.window(monthsBack = 0, monthsForward = MONTHS_AHEAD))
     )
     val state = _state.asStateFlow()
 
