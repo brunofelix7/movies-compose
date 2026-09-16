@@ -35,6 +35,7 @@ fun DetailHeader(
     media: Media?,
     isFavorite: Boolean,
     modifier: Modifier = Modifier,
+    isScrolled: Boolean = false,
     onBackClick: () -> Unit = {},
     onFavoriteClick: () -> Unit = {}
 ) {
@@ -53,6 +54,7 @@ fun DetailHeader(
         )
         DetailTopBar(
             isFavorite = isFavorite,
+            isScrolled = isScrolled,
             shouldShowFavorite = media != null,
             onBackClick = onBackClick,
             onFavoriteClick = onFavoriteClick
