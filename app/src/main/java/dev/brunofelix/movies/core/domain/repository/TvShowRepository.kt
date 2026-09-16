@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.core.domain.repository
 
+import dev.brunofelix.movies.core.domain.model.Episode
 import dev.brunofelix.movies.core.domain.model.ReleaseMonth
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.model.Video
@@ -36,6 +37,14 @@ interface TvShowRepository {
      * @return A [Resource] containing a list of [Video]s or an error.
      */
     suspend fun getVideos(id: Long): Resource<List<Video>>
+
+    /**
+     * Fetches the episodes of a single season.
+     * @param id The unique identifier of the TV show.
+     * @param seasonNumber The position of the season, `0` for specials.
+     * @return A [Resource] containing a list of [Episode]s or an error.
+     */
+    suspend fun getSeasonEpisodes(id: Long, seasonNumber: Int): Resource<List<Episode>>
 
     /**
      * Fetches the TV shows premiering in [month].

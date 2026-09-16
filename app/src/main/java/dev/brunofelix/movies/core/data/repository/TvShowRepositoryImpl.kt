@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.core.data.repository
 
 import dev.brunofelix.movies.core.data.remote.source.TvShowRemoteDataSource
+import dev.brunofelix.movies.core.domain.model.Episode
 import dev.brunofelix.movies.core.domain.model.ReleaseMonth
 import dev.brunofelix.movies.core.domain.model.Video
 import dev.brunofelix.movies.core.domain.repository.TvShowRepository
@@ -32,6 +33,11 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun getVideos(
         id: Long
     ): Resource<List<Video>> = remoteDataSource.getVideos(id).toResource()
+
+    override suspend fun getSeasonEpisodes(
+        id: Long,
+        seasonNumber: Int
+    ): Resource<List<Episode>> = remoteDataSource.getSeasonEpisodes(id, seasonNumber).toResource()
 
     override suspend fun getReleases(
         month: ReleaseMonth,
