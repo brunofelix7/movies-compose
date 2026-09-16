@@ -1,9 +1,9 @@
 package dev.brunofelix.movies.test_util.fake
 
-import androidx.paging.PagingSource
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.core.domain.model.Movie
+import dev.brunofelix.movies.core.domain.model.Video
 import dev.brunofelix.movies.core.domain.util.exception.RemoteException
 import dev.brunofelix.movies.test_util.factory.MovieDtoFactory
 
@@ -21,17 +21,11 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
         shouldReturnError = value
     }
 
-    override fun getPopularPagingSource(): PagingSource<Int, Movie> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getPopulars(page: Int): Result<List<Movie>> = allMovies()
 
-    override fun getUpcomingPagingSource(): PagingSource<Int, Movie> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getUpcoming(page: Int): Result<List<Movie>> = allMovies()
 
-    override fun getTopRatedPagingSource(): PagingSource<Int, Movie> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getTopRated(page: Int): Result<List<Movie>> = allMovies()
 
     override suspend fun search(query: String, page: Int): Result<List<Movie>> {
         if (shouldReturnError) {
@@ -40,10 +34,6 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
         return Result.success(fakeDataSource.map { it.toDomain() }.filter {
             it.title.contains(query, ignoreCase = true)
         })
-    }
-
-    override fun search(query: String): PagingSource<Int, Movie> {
-        TODO("Not yet implemented")
     }
 
     override suspend fun getDetails(id: Long): Result<Movie> {
@@ -56,5 +46,21 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
         } else {
             Result.failure(NoSuchElementException("Movie not found"))
         }
+    }
+
+    override suspend fun getVideos(id: Long): Result<List<Video>> {
+        if (shouldReturnError) {
+            return Result.failure(RemoteException.Unknown())
+        }
+        return Result.success(
+            listOf(Video(key = "abc", site = "YouTube", type = "Trailer"))
+        )
+    }
+
+    private fun allMovies(): Result<List<Movie>> {
+        if (shouldReturnError) {
+            return Result.failure(RemoteException.Unknown())
+        }
+        return Result.success(fakeDataSource.map { it.toDomain() })
     }
 }

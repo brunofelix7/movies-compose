@@ -7,7 +7,6 @@ import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCaseImpl
 import dev.brunofelix.movies.test_util.MainDispatcherRule
-import dev.brunofelix.movies.test_util.fake.FakeMovieLocalDataSource
 import dev.brunofelix.movies.test_util.fake.FakeMovieRemoteDataSource
 import dev.brunofelix.movies.test_util.fake.FakeMovieRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,15 +25,13 @@ class GetMovieDetailUseCaseTest {
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var remoteDataSource: FakeMovieRemoteDataSource
-    private lateinit var localDataSource: FakeMovieLocalDataSource
     private lateinit var repository: FakeMovieRepository
     private lateinit var useCase: GetMovieDetailUseCase
 
     @Before
     fun setUp() {
         remoteDataSource = FakeMovieRemoteDataSource()
-        localDataSource = FakeMovieLocalDataSource()
-        repository = FakeMovieRepository(remoteDataSource, localDataSource)
+        repository = FakeMovieRepository(remoteDataSource)
         useCase = GetMovieDetailUseCaseImpl(repository)
     }
 
