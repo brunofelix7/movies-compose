@@ -36,6 +36,16 @@ inline fun <T, R> Resource<T>.fold(
 }
 
 /**
+ * Transforms the value of a [Resource.Success], leaving a [Resource.Error] untouched.
+ */
+inline fun <T, R> Resource<T>.map(transform: (T) -> R): Resource<R> {
+    return when (this) {
+        is Resource.Success -> Resource.Success(transform(data))
+        is Resource.Error -> this
+    }
+}
+
+/**
  * Extension function to convert a [Result] to a [Resource].
  *
  * @param T The type of the value in the [Result].
