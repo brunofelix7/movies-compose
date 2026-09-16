@@ -28,6 +28,7 @@ fun TvShow.toUiModel(): TvShowUiModel {
         voteAverage = if (voteAverage <= 0) "--" else voteAverage.formatDecimal(),
         genres = genres,
         numberOfEpisodes = numberOfEpisodes,
-        numberOfSeasons = numberOfSeasons
+        numberOfSeasons = numberOfSeasons,
+        seasons = seasons.filter { it.episodeCount > 0 }.map { it.toUiModel() }
     )
 }
