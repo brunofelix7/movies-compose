@@ -34,14 +34,19 @@ import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
 import dev.brunofelix.movies.core.presentation.ui.components.SectionCard
 import dev.brunofelix.movies.core.presentation.ui.components.YouTubePlayer
+import dev.brunofelix.movies.core.presentation.ui.model.SeasonUiModel
 import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
+import dev.brunofelix.movies.feature.tv_show.detail.presentation.state.SeasonsState
 
 @Composable
 fun TvShowDetailContent(
     tvShow: TvShowUiModel,
+    seasonsState: SeasonsState,
     modifier: Modifier = Modifier,
-    scrollState: ScrollState = rememberScrollState()
+    scrollState: ScrollState = rememberScrollState(),
+    onSeasonToggle: (Int) -> Unit = {},
+    onSeasonRetry: (Int) -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -125,6 +130,13 @@ fun TvShowDetailContent(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
+                SeasonsSection(
+                    seasons = tvShow.seasons,
+                    state = seasonsState,
+                    onSeasonToggle = onSeasonToggle,
+                    onSeasonRetry = onSeasonRetry
+                )
+
                 Spacer(modifier = Modifier.height(100.dp))
             }
         }
@@ -146,7 +158,17 @@ private fun SuccessPreview() {
                 MovieGenre(name = "Action"),
                 MovieGenre(name = "Adventure"),
                 MovieGenre(name = "Drama")
+            ),
+            seasons = listOf(
+                SeasonUiModel(
+                    id = 1L,
+                    name = "Season 1",
+                    seasonNumber = 1,
+                    episodeCount = 9,
+                    airYear = "2023"
+                )
             )
-        )
+        ),
+        seasonsState = SeasonsState()
     )
 }

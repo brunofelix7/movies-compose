@@ -25,6 +25,7 @@ import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.util.UiText
+import dev.brunofelix.movies.feature.tv_show.detail.presentation.state.SeasonsState
 import dev.brunofelix.movies.feature.tv_show.detail.presentation.ui.components.TvShowDetailContent
 
 @Composable
@@ -35,6 +36,7 @@ fun TvShowDetailRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
+    val seasonsState by viewModel.seasonsState.collectAsStateWithLifecycle()
 
     LaunchedEffect(tvShowId) {
         viewModel.getDetails(tvShowId)
@@ -43,8 +45,11 @@ fun TvShowDetailRoute(
     TvShowDetailScreen(
         uiState = uiState,
         isFavorite = isFavorite,
+        seasonsState = seasonsState,
         onBack = onBack,
-        onFavorite = { viewModel.onFavoriteToggle() }
+        onFavorite = { viewModel.onFavoriteToggle() },
+        onSeasonToggle = viewModel::onSeasonToggle,
+        onSeasonRetry = viewModel::onSeasonRetry
     )
 }
 
@@ -53,8 +58,11 @@ private fun TvShowDetailScreen(
     modifier: Modifier = Modifier,
     uiState: UiState<TvShowUiModel>,
     isFavorite: Boolean,
+    seasonsState: SeasonsState = SeasonsState(),
     onBack: () -> Unit = {},
-    onFavorite: () -> Unit = {}
+    onFavorite: () -> Unit = {},
+    onSeasonToggle: (Int) -> Unit = {},
+    onSeasonRetry: (Int) -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
     val isScrolled by remember { derivedStateOf { scrollState.value > 0 } }
@@ -100,7 +108,10 @@ private fun TvShowDetailScreen(
                         is UiState.Success -> {
                             TvShowDetailContent(
                                 tvShow = uiState.data,
+                                seasonsState = seasonsState,
                                 scrollState = scrollState,
+                                onSeasonToggle = onSeasonToggle,
+                                onSeasonRetry = onSeasonRetry,
                                 modifier = Modifier.padding(innerPadding)
                             )
                         }
