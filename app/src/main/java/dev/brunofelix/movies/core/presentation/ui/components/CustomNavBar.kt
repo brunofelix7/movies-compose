@@ -1,10 +1,10 @@
 package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.LiveTv
 import androidx.compose.material.icons.filled.LocalMovies
-import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -46,7 +46,7 @@ sealed class CustomNavBarItem(
     data object Releases: CustomNavBarItem(
         title = "Releases",
         route = MainNavKey.Releases,
-        icon = Icons.Default.NewReleases
+        icon = Icons.Default.CalendarMonth
     )
 }
 
