@@ -1,29 +1,38 @@
 package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.MediaCard
 import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
+import kotlin.math.roundToInt
 
 @Composable
 fun MovieDetailHeader(
     movie: MovieUiModel?,
     isFavorite: Boolean,
+    scrollState: ScrollState,
     onBackClick: () -> Unit,
     onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val density = LocalDensity.current
+    val initialOffsetPx = with(density) { 80.dp.toPx() }
+
     Box(
         modifier = modifier
     ) {
@@ -49,7 +58,10 @@ fun MovieDetailHeader(
                     .fillMaxWidth(0.45F)
                     .height(220.dp)
                     .align(Alignment.BottomStart)
-                    .offset(y = 80.dp)
+                    .offset {
+                        val offset = (initialOffsetPx - scrollState.value).coerceAtLeast(0f)
+                        IntOffset(0, offset.roundToInt())
+                    }
             )
         }
     }
@@ -63,6 +75,7 @@ private fun Preview() {
             MovieDetailHeader(
                 movie = MovieUiModel(),
                 isFavorite = false,
+                scrollState = rememberScrollState(),
                 onBackClick = {},
                 onFavoriteClick = {}
             )

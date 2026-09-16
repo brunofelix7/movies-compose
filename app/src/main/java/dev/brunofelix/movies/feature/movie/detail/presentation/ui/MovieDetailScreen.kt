@@ -3,6 +3,7 @@ package dev.brunofelix.movies.feature.movie.detail.presentation.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,6 +32,7 @@ fun MovieDetailRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val isFavorite by viewModel.isFavorite.collectAsStateWithLifecycle()
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(movieId) {
         viewModel.getDetails(movieId)
@@ -39,11 +41,9 @@ fun MovieDetailRoute(
     MovieDetailScreen(
         uiState = uiState,
         isFavorite = isFavorite,
+        scrollState = scrollState,
         onBack = onBack,
-        onFavorite = { viewModel.onFavoriteToggle() },
-        onWatchTrailer = {
-            // TODO: call watch trailer logic
-        }
+        onFavorite = { viewModel.onFavoriteToggle() }
     )
 }
 
@@ -52,9 +52,9 @@ private fun MovieDetailScreen(
     modifier: Modifier = Modifier,
     uiState: UiState<MovieUiModel>,
     isFavorite: Boolean,
+    scrollState: androidx.compose.foundation.ScrollState = rememberScrollState(),
     onBack: () -> Unit = {},
-    onFavorite: () -> Unit = {},
-    onWatchTrailer: () -> Unit = {}
+    onFavorite: () -> Unit = {}
 ) {
     when (uiState) {
         is UiState.Loading -> {
@@ -77,6 +77,7 @@ private fun MovieDetailScreen(
                     MovieDetailHeader(
                         movie = (uiState as? UiState.Success)?.data,
                         isFavorite = isFavorite,
+                        scrollState = scrollState,
                         onBackClick = onBack,
                         onFavoriteClick = onFavorite
                     )
@@ -86,6 +87,7 @@ private fun MovieDetailScreen(
                         is UiState.Success -> {
                             MovieDetailContent(
                                 movie = uiState.data,
+                                scrollState = scrollState,
                                 modifier = Modifier.padding(innerPadding)
                             )
                         }

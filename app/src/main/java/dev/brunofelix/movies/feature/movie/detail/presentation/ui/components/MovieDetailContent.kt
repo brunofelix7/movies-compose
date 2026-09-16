@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.CalendarMonth
@@ -17,20 +20,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.ui.components.GradientBackground
 import dev.brunofelix.movies.core.presentation.ui.components.MovieGenderContainer
 import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
+import dev.brunofelix.movies.core.presentation.ui.components.SectionCard
+import dev.brunofelix.movies.core.presentation.ui.components.YouTubePlayer
 import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 @Composable
 fun MovieDetailContent(
     movie: MovieUiModel,
+    scrollState: ScrollState,
     modifier: Modifier = Modifier
 ) {
     GradientBackground {
@@ -38,6 +46,7 @@ fun MovieDetailContent(
             modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp)
+                .verticalScroll(scrollState)
         ) {
             Column {
                 Spacer(modifier = Modifier.height(80.dp))
@@ -82,9 +91,24 @@ fun MovieDetailContent(
                     }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
+
+                movie.trailerKey?.let { key ->
+                    SectionCard(
+                        title = stringResource(R.string.trailer),
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    ) {
+                        YouTubePlayer(
+                            videoId = key,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+
                 MovieOverview(
                     overview = movie.overview
                 )
+
+                Spacer(modifier = Modifier.height(100.dp))
             }
         }
     }
@@ -107,6 +131,7 @@ private fun SuccessPreview() {
                 MovieGenre(name = "Drama"),
                 MovieGenre(name = "Terror")
             )
-        )
+        ),
+        scrollState = rememberScrollState()
     )
 }

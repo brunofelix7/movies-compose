@@ -26,82 +26,84 @@ import dev.brunofelix.movies.core.presentation.util.shimmerEffect
 fun MovieDetailSkeleton(
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.fillMaxSize()
-    ) {
-        // Top image area placeholder
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.35f)
-                .shimmerEffect()
-        )
-
+    GradientBackground {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+            modifier = modifier.fillMaxSize()
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                // Movie card placeholder
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.45F)
-                        .height(220.dp)
-                        .offset(y = (-80).dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .shimmerEffect()
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-            }
+            // Top image area placeholder
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.35f)
+                    .shimmerEffect()
+            )
 
             Column(
-                modifier = Modifier.offset(y = (-60).dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
             ) {
-                // Title placeholder
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.7F)
-                        .height(30.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .shimmerEffect()
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                // Info chips row placeholders
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    repeat(3) {
-                        Box(
-                            modifier = Modifier
-                                .size(60.dp, 24.dp)
-                                .clip(RoundedCornerShape(16.dp))
-                                .shimmerEffect()
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                // Genres placeholders
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    repeat(2) {
-                        Box(
-                            modifier = Modifier
-                                .size(80.dp, 32.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .shimmerEffect()
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                repeat(5) {
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    // Movie card placeholder
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(16.dp)
-                            .clip(RoundedCornerShape(2.dp))
+                            .fillMaxWidth(0.45F)
+                            .height(220.dp)
+                            .offset(y = (-80).dp)
+                            .clip(RoundedCornerShape(12.dp))
                             .shimmerEffect()
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
+
+                Column(
+                    modifier = Modifier.offset(y = (-60).dp)
+                ) {
+                    // Title placeholder
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(0.7F)
+                            .height(30.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                            .shimmerEffect()
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    // Info chips row placeholders
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        repeat(3) {
+                            Box(
+                                modifier = Modifier
+                                    .size(60.dp, 24.dp)
+                                    .clip(RoundedCornerShape(16.dp))
+                                    .shimmerEffect()
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    // Genres placeholders
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        repeat(2) {
+                            Box(
+                                modifier = Modifier
+                                    .size(80.dp, 32.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .shimmerEffect()
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    repeat(5) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(16.dp)
+                                .clip(RoundedCornerShape(2.dp))
+                                .shimmerEffect()
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
         }
@@ -111,7 +113,5 @@ fun MovieDetailSkeleton(
 @Preview(showBackground = true)
 @Composable
 private fun MovieDetailSkeletonPreview() {
-    GradientBackground {
-        MovieDetailSkeleton()
-    }
+    MovieDetailSkeleton()
 }

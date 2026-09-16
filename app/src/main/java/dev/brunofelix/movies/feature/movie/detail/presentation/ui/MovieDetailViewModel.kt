@@ -3,7 +3,7 @@ package dev.brunofelix.movies.feature.movie.detail.presentation.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.brunofelix.movies.core.data.util.extension.toUiText
+import dev.brunofelix.movies.core.presentation.util.extension.toUiText
 import dev.brunofelix.movies.core.domain.mapper.toMedia
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.use_case.DeleteMediaUseCase
@@ -14,6 +14,8 @@ import dev.brunofelix.movies.core.presentation.mapper.toUiModel
 import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
 import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
+import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieVideosUseCase
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -22,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
+    private val getMovieVideosUseCase: GetMovieVideosUseCase,
     private val saveMediaUseCase: SaveMediaUseCase,
     private val isFavoriteMediaUseCase: IsFavoriteMediaUseCase,
     private val deleteMediaUseCase: DeleteMediaUseCase
@@ -44,15 +47,29 @@ class MovieDetailViewModel @Inject constructor(
             _uiState.value = UiState.Loading
             _isFavorite.value = false
 
-            when (val result = getMovieDetailUseCase(movieId)) {
-                is Resource.Success -> {
-                    movieDomain = result.data
-                    _uiState.value = UiState.Success(result.data.toUiModel())
-                    _isFavorite.value = isFavoriteMediaUseCase(result.data.id)
-                }
-                is Resource.Error -> {
-                    _uiState.value = UiState.Error(result.throwable.toUiText())
-                }
+            val detailsDeferred = async { getMovieDetailUseCase(movieId) }
+            val videosDeferred = async { getMovieVideosUseCase(movieId) }
+
+            val detailsResult = detailsDeferred.await()
+            val videosResult = videosDeferred.await()
+
+            if (detailsResult is Resource.Success) {
+                movieDomain = detailsResult.data
+                val trailerKey = if (videosResult is Resource.Success) {
+                    videosResult.data.find {
+                        it.site.equals("YouTube", ignoreCase = true) &&
+                                it.type.equals("Trailer", ignoreCase = true)
+                    }?.key ?: videosResult.data.firstOrNull {
+                        it.site.equals("YouTube", ignoreCase = true)
+                    }?.key
+                } else null
+
+                _uiState.value = UiState.Success(
+                    detailsResult.data.toUiModel().copy(trailerKey = trailerKey)
+                )
+                _isFavorite.value = isFavoriteMediaUseCase(detailsResult.data.id)
+            } else if (detailsResult is Resource.Error) {
+                _uiState.value = UiState.Error(detailsResult.throwable.toUiText())
             }
         }
     }
