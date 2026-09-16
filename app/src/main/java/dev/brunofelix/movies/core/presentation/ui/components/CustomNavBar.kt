@@ -4,7 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.LiveTv
 import androidx.compose.material.icons.filled.LocalMovies
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -43,10 +43,10 @@ sealed class CustomNavBarItem(
         icon = Icons.Default.Favorite
     )
 
-    data object Settings: CustomNavBarItem(
-        title = "Settings",
-        route = MainNavKey.Settings,
-        icon = Icons.Default.Settings
+    data object Releases: CustomNavBarItem(
+        title = "Releases",
+        route = MainNavKey.Releases,
+        icon = Icons.Default.NewReleases
     )
 }
 
@@ -54,7 +54,7 @@ private val navBarItems = listOf(
     CustomNavBarItem.Movies,
     CustomNavBarItem.TvShows,
     CustomNavBarItem.Favorites,
-    CustomNavBarItem.Settings
+    CustomNavBarItem.Releases
 )
 
 @Composable

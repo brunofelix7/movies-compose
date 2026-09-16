@@ -6,12 +6,14 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,7 +40,8 @@ fun MainTopBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     isSearching: Boolean = false,
     onSearch: () -> Unit = {},
-    onCancelSearch: () -> Unit = {}
+    onCancelSearch: () -> Unit = {},
+    onSettings: () -> Unit = {}
 ) {
     TopAppBar(
         scrollBehavior = scrollBehavior,
@@ -78,16 +81,28 @@ fun MainTopBar(
                             .clickable(onClick = onCancelSearch)
                     )
                 } else {
-                    IconButton(
-                        content = {
-                            Icon(
-                                imageVector = Icons.Filled.Search,
-                                tint = Colors.white,
-                                contentDescription = stringResource(R.string.top_bar_search_icon)
-                            )
-                        },
-                        onClick = onSearch
-                    )
+                    Row {
+                        IconButton(
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Filled.Search,
+                                    tint = Colors.white,
+                                    contentDescription = stringResource(R.string.top_bar_search_icon)
+                                )
+                            },
+                            onClick = onSearch
+                        )
+                        IconButton(
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Filled.Settings,
+                                    tint = Colors.white,
+                                    contentDescription = stringResource(R.string.top_bar_settings_icon)
+                                )
+                            },
+                            onClick = onSettings
+                        )
+                    }
                 }
             }
         },

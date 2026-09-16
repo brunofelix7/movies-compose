@@ -79,7 +79,8 @@ fun MainScreenContent(
                         scrollBehavior = scrollBehavior,
                         isSearching = isSearchVisible,
                         onSearch = { onSearchVisibilityChange(true) },
-                        onCancelSearch = closeSearch
+                        onCancelSearch = closeSearch,
+                        onSettings = { navigateAndCloseSearch(MainNavKey.Settings) }
                     )
                 }
             },
