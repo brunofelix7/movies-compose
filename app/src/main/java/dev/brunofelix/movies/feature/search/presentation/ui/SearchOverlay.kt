@@ -179,7 +179,10 @@ internal fun SearchOverlay(
                     uiState.query.isBlank() -> Unit
                     // While debouncing, keep whatever is on screen instead of flashing a spinner.
                     !uiState.isSearchTriggered -> Unit
-                    isSearching -> LoadingState()
+                    isSearching -> LoadingState(
+                        verticalArrangement = Arrangement.Top,
+                        modifier = Modifier.padding(top = 32.dp)
+                    )
                     searchResults.itemCount == 0 -> EmptyState(
                         verticalArrangement = Arrangement.Top,
                         modifier = Modifier.padding(top = 32.dp)
