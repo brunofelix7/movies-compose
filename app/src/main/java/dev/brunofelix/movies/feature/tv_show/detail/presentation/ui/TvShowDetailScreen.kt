@@ -3,13 +3,10 @@ package dev.brunofelix.movies.feature.tv_show.detail.presentation.ui
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -64,9 +61,6 @@ private fun TvShowDetailScreen(
     onSeasonToggle: (Int) -> Unit = {},
     onSeasonRetry: (Int) -> Unit = {}
 ) {
-    val scrollState = rememberScrollState()
-    val isScrolled by remember { derivedStateOf { scrollState.value > 0 } }
-
     when (uiState) {
         is UiState.Loading -> {
             Box(
@@ -98,7 +92,6 @@ private fun TvShowDetailScreen(
                             )
                         },
                         isFavorite = isFavorite,
-                        isScrolled = isScrolled,
                         onBackClick = onBack,
                         onFavoriteClick = onFavorite
                     )
@@ -109,7 +102,6 @@ private fun TvShowDetailScreen(
                             TvShowDetailContent(
                                 tvShow = uiState.data,
                                 seasonsState = seasonsState,
-                                scrollState = scrollState,
                                 onSeasonToggle = onSeasonToggle,
                                 onSeasonRetry = onSeasonRetry,
                                 modifier = Modifier.padding(innerPadding)
