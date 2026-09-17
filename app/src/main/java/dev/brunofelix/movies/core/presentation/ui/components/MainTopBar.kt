@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -80,14 +80,26 @@ fun MainTopBar(
                 label = "TopBarSearchActionTransition"
             ) { searching ->
                 if (searching) {
-                    Text(
-                        text = stringResource(R.string.cancel),
-                        color = Colors.white,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                            .clickable(onClick = onCancelSearch)
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = stringResource(R.string.cancel),
+                            color = Colors.white,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.clickable(onClick = onCancelSearch)
+                        )
+                        IconButton(
+                            content = {
+                                Icon(
+                                    imageVector = Icons.Filled.SearchOff,
+                                    tint = Colors.white,
+                                    contentDescription = stringResource(
+                                        R.string.top_bar_close_search_icon
+                                    )
+                                )
+                            },
+                            onClick = onCancelSearch
+                        )
+                    }
                 } else {
                     Row {
                         IconButton(
