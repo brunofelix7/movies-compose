@@ -1,6 +1,5 @@
 package dev.brunofelix.movies.core.domain.model
 
-import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -26,15 +25,6 @@ data class ReleaseMonth(
 
     val endDate: String
         get() = yearMonth.atEndOfMonth().format(DATE_FORMATTER)
-
-    /**
-     * True when [date], in the `yyyy-MM-dd` form TMDB returns, falls inside this month.
-     * An unparseable or missing date is treated as outside.
-     */
-    operator fun contains(date: String): Boolean {
-        val parsed = runCatching { LocalDate.parse(date, DATE_FORMATTER) }.getOrNull()
-        return parsed != null && YearMonth.from(parsed) == yearMonth
-    }
 
     /**
      * Short month name, with the year appended when it is not the current one.
