@@ -44,7 +44,7 @@ import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
  * parameters. Only the caret position is kept internally, so that regaining focus does not
  * drop it back to the start of the text.
  * It also handles focus management automatically, clearing the focus and hiding the keyboard
- * when a search is submitted or the query is cleared.
+ * when a search is submitted.
  *
  * @param modifier The [Modifier] to be applied to the search bar.
  * @param query The current text input to be displayed in the search bar.
@@ -111,10 +111,8 @@ fun CustomSearchBar(
         },
         trailingIcon = {
             if (query.isNotEmpty()) {
-                IconButton(onClick = {
-                    onQueryChange("")
-                    focusManager.clearFocus()
-                }) {
+                // Focus is deliberately kept, so the keyboard stays up to type a new query.
+                IconButton(onClick = { onQueryChange("") }) {
                     Icon(
                         imageVector = Icons.Default.Clear,
                         contentDescription = null
