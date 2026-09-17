@@ -1,9 +1,8 @@
 package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -13,20 +12,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
+/**
+ * Spinner shown while content is loading.
+ *
+ * [verticalArrangement] lets a caller pin it to the top instead of centring it, which the
+ * search overlay needs so the spinner stays right under the search bar.
+ */
 @Composable
 fun LoadingState(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center
 ) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
+    Column(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = verticalArrangement,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CircularProgressIndicator(
             color = Colors.redPrimary,
-            modifier = modifier.size(36.dp)
+            modifier = Modifier.size(36.dp)
         )
     }
 }
