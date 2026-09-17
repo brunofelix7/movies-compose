@@ -180,7 +180,10 @@ internal fun SearchOverlay(
                     // While debouncing, keep whatever is on screen instead of flashing a spinner.
                     !uiState.isSearchTriggered -> Unit
                     isSearching -> LoadingState()
-                    searchResults.itemCount == 0 -> EmptyState()
+                    searchResults.itemCount == 0 -> EmptyState(
+                        verticalArrangement = Arrangement.Top,
+                        modifier = Modifier.padding(top = 32.dp)
+                    )
                     else -> SearchResults(
                         searchResults = searchResults,
                         onMediaClick = { media ->
