@@ -22,16 +22,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.brunofelix.movies.R
 
+/**
+ * Placeholder for a list that came back with nothing.
+ *
+ * [verticalArrangement] lets a caller pin it to the top instead of centring it, which the
+ * search overlay needs so the keyboard does not sit on top of the message.
+ */
 @Composable
 fun EmptyState(
     modifier: Modifier = Modifier,
-    message: String = stringResource(R.string.no_results_found)
+    message: String = stringResource(R.string.no_results_found),
+    verticalArrangement: Arrangement.Vertical = Arrangement.Center
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
+            .padding(horizontal = 16.dp),
+        verticalArrangement = verticalArrangement,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
