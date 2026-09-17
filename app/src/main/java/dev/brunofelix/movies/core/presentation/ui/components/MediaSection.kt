@@ -54,8 +54,8 @@ fun MediaSection(
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = title,
-            color = Colors.white,
-            style = MaterialTheme.typography.titleLarge,
+            color = Colors.lightGray,
+            style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
         )
 
