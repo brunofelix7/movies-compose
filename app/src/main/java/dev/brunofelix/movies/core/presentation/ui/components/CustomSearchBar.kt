@@ -18,13 +18,19 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
@@ -34,8 +40,9 @@ import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
 /**
  * A highly customizable and reusable search bar component based on Material 3 guidelines.
  *
- * This component uses state hoisting, meaning it does not hold its own state. The input value
- * and its updates are managed externally via the [query] and [onQueryChange] parameters.
+ * The input value is hoisted: it is managed externally via the [query] and [onQueryChange]
+ * parameters. Only the caret position is kept internally, so that regaining focus does not
+ * drop it back to the start of the text.
  * It also handles focus management automatically, clearing the focus and hiding the keyboard
  * when a search is submitted or the query is cleared.
  *
@@ -76,9 +83,20 @@ fun CustomSearchBar(
 ) {
     val focusManager = LocalFocusManager.current
 
+    // Mirrors [query] so the caret survives losing focus, which a plain String value cannot
+    // express: it would send the caret back to index 0 and type into the start of the text.
+    var fieldValue by remember { mutableStateOf(TextFieldValue(query, TextRange(query.length))) }
+
+    if (fieldValue.text != query) {
+        fieldValue = TextFieldValue(query, TextRange(query.length))
+    }
+
     OutlinedTextField(
-        value = query,
-        onValueChange = onQueryChange,
+        value = fieldValue,
+        onValueChange = { newValue ->
+            fieldValue = newValue
+            if (newValue.text != query) onQueryChange(newValue.text)
+        },
         modifier = modifier.fillMaxWidth(),
         enabled = enabled,
         singleLine = true,
