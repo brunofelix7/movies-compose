@@ -17,6 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 
+private val ShimmerBase = Color(0xFF2A2B2B)
+private val ShimmerHighlight = Color(0xFF3E3F3F)
+
 fun Modifier.shimmerEffect(): Modifier = composed {
     var size by remember {
         mutableStateOf(IntSize.Zero)
@@ -34,9 +37,9 @@ fun Modifier.shimmerEffect(): Modifier = composed {
     background(
         brush = Brush.linearGradient(
             colors = listOf(
-                Color(0xFF1A1B1B),
-                Color(0xFF2B2B2B),
-                Color(0xFF1A1B1B),
+                ShimmerBase,
+                ShimmerHighlight,
+                ShimmerBase,
             ),
             start = Offset(startOffsetX, 0f),
             end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
