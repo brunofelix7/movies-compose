@@ -55,7 +55,7 @@ fun FavoriteItem(
         shape = shape,
         modifier = modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .height(100.dp)
             .clickable(
                 onClick = onClick
             )
