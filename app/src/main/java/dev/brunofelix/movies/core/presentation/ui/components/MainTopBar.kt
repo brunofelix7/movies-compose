@@ -33,6 +33,14 @@ import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
+/** Same translucency as the bottom navigation bar, so both edges of the screen match. */
+private const val ScrolledContainerAlpha = 0.85F
+
+/**
+ * Top bar of the main tabs. It is transparent over the background and fades into a
+ * translucent black bar once the content scrolls underneath it, which needs the caller to
+ * pass the [scrollBehavior] it installed on the scaffold.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainTopBar(
@@ -57,7 +65,7 @@ fun MainTopBar(
         windowInsets = TopAppBarDefaults.windowInsets.add(WindowInsets(top = 8.dp)),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.Transparent,
-            scrolledContainerColor = Color.Transparent,
+            scrolledContainerColor = Colors.blackPrimary.copy(alpha = ScrolledContainerAlpha),
             navigationIconContentColor = Color.Unspecified,
             titleContentColor = Color.Unspecified,
             actionIconContentColor = Color.Unspecified
