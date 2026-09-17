@@ -85,16 +85,16 @@ fun SearchOverlayRoute(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(isActive) {
-        if (isActive) {
+        if (!isActive) viewModel.onQueryChange("")
+    }
+
+    // Follows visibility rather than the session, so coming back from a detail screen puts
+    // the caret and the keyboard back on the search bar.
+    LaunchedEffect(isVisible) {
+        if (isVisible) {
             focusRequester.requestFocus()
             keyboardController?.show()
         } else {
-            viewModel.onQueryChange("")
-        }
-    }
-
-    LaunchedEffect(isVisible) {
-        if (!isVisible) {
             focusManager.clearFocus()
             keyboardController?.hide()
         }
