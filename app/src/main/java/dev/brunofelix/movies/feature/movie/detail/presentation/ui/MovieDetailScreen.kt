@@ -39,7 +39,8 @@ fun MovieDetailRoute(
         uiState = uiState,
         isFavorite = isFavorite,
         onBack = onBack,
-        onFavorite = { viewModel.onFavoriteToggle() }
+        onFavorite = { viewModel.onFavoriteToggle() },
+        onRetry = { viewModel.getDetails(movieId) }
     )
 }
 
@@ -49,7 +50,8 @@ private fun MovieDetailScreen(
     uiState: UiState<MovieUiModel>,
     isFavorite: Boolean,
     onBack: () -> Unit = {},
-    onFavorite: () -> Unit = {}
+    onFavorite: () -> Unit = {},
+    onRetry: () -> Unit = {}
 ) {
     when (uiState) {
         is UiState.Initial -> Unit
@@ -60,7 +62,7 @@ private fun MovieDetailScreen(
         }
         is UiState.Error -> {
             DetailStatusLayout(modifier = modifier, onBackClick = onBack) {
-                ErrorLayout(errorMessage = uiState.uiText)
+                ErrorLayout(errorMessage = uiState.uiText, onRetry = onRetry)
             }
         }
         is UiState.Empty -> {

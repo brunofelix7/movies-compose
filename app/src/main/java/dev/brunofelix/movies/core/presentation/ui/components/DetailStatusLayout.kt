@@ -34,7 +34,10 @@ fun DetailStatusLayout(
 @Composable
 private fun ErrorPreview() {
     DetailStatusLayout {
-        ErrorLayout(errorMessage = UiText.DynamicString("No internet connection"))
+        ErrorLayout(
+            errorMessage = UiText.DynamicString("No internet connection"),
+            onRetry = {}
+        )
     }
 }
 

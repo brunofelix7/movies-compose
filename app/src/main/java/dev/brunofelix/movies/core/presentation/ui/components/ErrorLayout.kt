@@ -27,10 +27,15 @@ import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.core.presentation.util.UiText
 
+/**
+ * @param onRetry action behind the retry button. Leave it null on screens that have nothing to
+ * retry, and the button is left out instead of sitting there doing nothing.
+ */
 @Composable
 fun ErrorLayout(
     modifier: Modifier = Modifier,
-    errorMessage: UiText? = null
+    errorMessage: UiText? = null,
+    onRetry: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
     Column(
@@ -68,13 +73,14 @@ fun ErrorLayout(
             textAlign = TextAlign.Center,
             color = Colors.lightGray,
         )
-        Spacer(Modifier.size(16.dp))
-        CustomButton(
-            text = stringResource(R.string.retry),
-            isOutlined = false,
-            modifier = Modifier.fillMaxWidth(0.35F)
-        ) {
-
+        onRetry?.let { retry ->
+            Spacer(Modifier.size(16.dp))
+            CustomButton(
+                text = stringResource(R.string.retry),
+                isOutlined = false,
+                modifier = Modifier.fillMaxWidth(0.35F),
+                onClick = retry
+            )
         }
     }
 }
@@ -82,5 +88,11 @@ fun ErrorLayout(
 @Preview
 @Composable
 private fun ErrorLayoutPreview() {
+    ErrorLayout(onRetry = {})
+}
+
+@Preview
+@Composable
+private fun NoRetryPreview() {
     ErrorLayout()
 }

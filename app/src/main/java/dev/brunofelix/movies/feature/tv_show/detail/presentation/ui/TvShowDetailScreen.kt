@@ -44,7 +44,8 @@ fun TvShowDetailRoute(
         onBack = onBack,
         onFavorite = { viewModel.onFavoriteToggle() },
         onSeasonToggle = viewModel::onSeasonToggle,
-        onSeasonRetry = viewModel::onSeasonRetry
+        onSeasonRetry = viewModel::onSeasonRetry,
+        onRetry = { viewModel.getDetails(tvShowId) }
     )
 }
 
@@ -57,7 +58,8 @@ private fun TvShowDetailScreen(
     onBack: () -> Unit = {},
     onFavorite: () -> Unit = {},
     onSeasonToggle: (Int) -> Unit = {},
-    onSeasonRetry: (Int) -> Unit = {}
+    onSeasonRetry: (Int) -> Unit = {},
+    onRetry: () -> Unit = {}
 ) {
     when (uiState) {
         is UiState.Initial -> Unit
@@ -68,7 +70,7 @@ private fun TvShowDetailScreen(
         }
         is UiState.Error -> {
             DetailStatusLayout(modifier = modifier, onBackClick = onBack) {
-                ErrorLayout(errorMessage = uiState.uiText)
+                ErrorLayout(errorMessage = uiState.uiText, onRetry = onRetry)
             }
         }
         is UiState.Empty -> {
