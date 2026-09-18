@@ -2,7 +2,9 @@ package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -45,11 +47,11 @@ fun EmptyState(
             // Not a magnifier: the top bar uses SearchOff as the close-search action.
             imageVector = Icons.Outlined.Inbox,
             contentDescription = null,
-            modifier = Modifier
-                .size(64.dp)
-                .padding(bottom = 16.dp),
+            // Size only: padding here would inset the glyph inside the box and squash it.
+            modifier = Modifier.size(72.dp),
             tint = Color.White.copy(alpha = 0.6f)
         )
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = message,
             style = MaterialTheme.typography.bodyLarge,
