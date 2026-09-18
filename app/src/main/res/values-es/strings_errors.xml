@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error">Algo salió mal</string>
+    <string name="empty_state">No se encontraron datos</string>
+    <string name="delete_media_error">No se pudo eliminar el elemento</string>
+    <string name="is_favorite_media_error">No se pudo verificar los favoritos</string>
+    <string name="mark_favorite_error">No se pudo marcar como favorito</string>
+
+    <string name="error_network_unauthorized">Acceso no autorizado</string>
+    <string name="error_network_not_found">Recurso no encontrado</string>
+    <string name="error_network_server">Error del servidor. Inténtalo más tarde</string>
+    <string name="error_network_no_internet">Sin conexión a internet</string>
+    <string name="error_unknown">Ocurrió un error desconocido</string>
+</resources>
