@@ -20,6 +20,8 @@ import dev.brunofelix.movies.core.domain.model.ReleaseMonth
 import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.domain.model.enums.MediaListCategory
 import dev.brunofelix.movies.core.presentation.ui.components.MediaSection
+import dev.brunofelix.movies.core.presentation.ui.components.SelectorContentSpacing
+import dev.brunofelix.movies.core.presentation.ui.components.SelectorTopSpacing
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
 import dev.brunofelix.movies.feature.release.presentation.state.ReleaseState
 import dev.brunofelix.movies.feature.release.presentation.ui.components.MonthSelector
@@ -57,12 +59,12 @@ private fun ReleaseContent(
     onRetry: () -> Unit = {}
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(24.dp),
+        verticalArrangement = Arrangement.spacedBy(SelectorContentSpacing),
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(
-                top = paddingValues.calculateTopPadding() + 16.dp,
+                top = paddingValues.calculateTopPadding() + SelectorTopSpacing,
                 bottom = paddingValues.calculateBottomPadding() + 24.dp
             )
     ) {

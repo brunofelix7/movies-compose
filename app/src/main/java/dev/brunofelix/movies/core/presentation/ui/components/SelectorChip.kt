@@ -20,6 +20,15 @@ import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 /** Taller than the 32.dp Material default, which reads too cramped for a filter row. */
 private val ChipHeight = 40.dp
 
+/** Gap between the top bar and a selector row. */
+val SelectorTopSpacing = 8.dp
+
+/**
+ * Gap between a selector row and the content it filters. The releases screen also uses it as
+ * the spacing between its sections, which is what keeps that first gap identical to this one.
+ */
+val SelectorContentSpacing = 24.dp
+
 /**
  * Capsule shaped filter chip shared by the favorites category selector and the release month
  * selector, so both filter rows stay identical.

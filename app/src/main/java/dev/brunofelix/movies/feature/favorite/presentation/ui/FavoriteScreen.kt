@@ -37,6 +37,8 @@ import dev.brunofelix.movies.core.presentation.ui.components.CategorySelector
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
+import dev.brunofelix.movies.core.presentation.ui.components.SelectorContentSpacing
+import dev.brunofelix.movies.core.presentation.ui.components.SelectorTopSpacing
 import dev.brunofelix.movies.core.presentation.ui.model.MediaUiModel
 import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.util.UiText
@@ -101,7 +103,7 @@ internal fun FavoriteScreen(
                         onCategorySelected(category)
                     }
                 },
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = SelectorTopSpacing)
             )
 
             if (uiState is UiState.Success) {
@@ -109,7 +111,7 @@ internal fun FavoriteScreen(
                     state = listState,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                        .padding(start = 16.dp, end = 16.dp, top = SelectorContentSpacing),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     contentPadding = PaddingValues(bottom = paddingValues.calculateBottomPadding() + 16.dp),
                     content = {
