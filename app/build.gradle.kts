@@ -13,6 +13,15 @@ val apiKeyFile: File = rootProject.file("apiKey.properties")
 val properties = Properties()
 properties.load(FileInputStream(apiKeyFile))
 
+// Signing credentials, kept out of version control. Absent on machines that only build debug,
+// in which case the release build stays unsigned instead of failing to configure.
+val keystoreFile: File = rootProject.file("keystore.properties")
+val keystoreProperties = Properties().apply {
+    if (keystoreFile.exists()) {
+        FileInputStream(keystoreFile).use { load(it) }
+    }
+}
+
 android {
     namespace = "dev.brunofelix.movies"
     compileSdk = 37
@@ -34,8 +43,22 @@ android {
         buildConfigField("String", "BASE_URL_IMAGE", properties["BASE_URL_IMAGE"].toString())
     }
 
+    signingConfigs {
+        create("release") {
+            if (keystoreFile.exists()) {
+                storeFile = file(keystoreProperties.getProperty("STORE_FILE"))
+                storePassword = keystoreProperties.getProperty("STORE_PASSWORD")
+                keyAlias = keystoreProperties.getProperty("KEY_ALIAS")
+                keyPassword = keystoreProperties.getProperty("KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (keystoreFile.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
