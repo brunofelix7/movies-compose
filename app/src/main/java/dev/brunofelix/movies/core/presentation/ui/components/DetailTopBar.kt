@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
+/** Scrim behind the icons, dark enough to keep them legible over a bright backdrop. */
+private const val IconScrimAlpha = 0.45F
+
 /**
  * Transparent top bar shared by the movie and TV show detail screens.
  */
@@ -42,7 +45,7 @@ fun DetailTopBar(
                 modifier = Modifier
                     .padding(start = 8.dp)
                     .background(
-                        color = Colors.blackPrimary.copy(alpha = 0.2F),
+                        color = Colors.blackPrimary.copy(alpha = IconScrimAlpha),
                         shape = CircleShape
                     )
             ) {
@@ -60,7 +63,7 @@ fun DetailTopBar(
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .background(
-                            color = Colors.blackPrimary.copy(alpha = 0.2F),
+                            color = Colors.blackPrimary.copy(alpha = IconScrimAlpha),
                             shape = CircleShape
                         )
                 ) {
