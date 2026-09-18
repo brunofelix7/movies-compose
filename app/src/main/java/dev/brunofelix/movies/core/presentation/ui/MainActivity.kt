@@ -2,10 +2,11 @@ package dev.brunofelix.movies.core.presentation.ui
 
 import android.app.Activity
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.tween
@@ -22,23 +23,36 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
+import androidx.core.os.LocaleListCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.splashscreen.SplashScreenViewProvider
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import dev.brunofelix.movies.core.domain.use_case.GetLanguageUseCase
 import dev.brunofelix.movies.core.presentation.ui.theme.PMovieTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val SystemSplashFadeMillis = 250L
 private const val SplashHoldMillis = 900L
 private const val SplashFadeMillis = 500
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var getLanguage: GetLanguageUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().setOnExitAnimationListener(::fadeOutSystemSplash)
+        applySavedAppLocale()
         enableEdgeToEdge(
             navigationBarStyle = SystemBarStyle.dark(Color.Transparent.hashCode()),
             statusBarStyle = SystemBarStyle.dark(Color.Transparent.hashCode())
@@ -58,6 +72,32 @@ class MainActivity : ComponentActivity() {
                 SplashHost {
                     MainScreen()
                 }
+            }
+        }
+    }
+
+    /**
+     * Mirrors the language picked in Settings onto the app locale, so the app's own strings and
+     * the dates follow the same choice that already drives the API.
+     *
+     * The comparison matters: AppCompat restores the locale on its own before this runs, and
+     * calling [AppCompatDelegate.setApplicationLocales] with the locale already in place would
+     * recreate the activity on every start.
+     */
+    private fun applySavedAppLocale() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                getLanguage()
+                    .map { it.code }
+                    .distinctUntilChanged()
+                    .collect { tag ->
+                        val current = AppCompatDelegate.getApplicationLocales()
+                        if (current.get(0)?.toLanguageTag() != tag) {
+                            AppCompatDelegate.setApplicationLocales(
+                                LocaleListCompat.forLanguageTags(tag)
+                            )
+                        }
+                    }
             }
         }
     }
