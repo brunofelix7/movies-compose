@@ -10,6 +10,12 @@
   <img src="screenshots/screenshot_01.png" width="30%" alt="screenshot" />
   <img src="screenshots/screenshot_02.png" width="30%" alt="screenshot" />
   <img src="screenshots/screenshot_03.png" width="30%" alt="screenshot" />
+  <img src="screenshots/screenshot_04.png" width="30%" alt="screenshot" />
+  <img src="screenshots/screenshot_05.png" width="30%" alt="screenshot" />
+  <img src="screenshots/screenshot_06.png" width="30%" alt="screenshot" />
+  <img src="screenshots/screenshot_07.png" width="30%" alt="screenshot" />
+  <img src="screenshots/screenshot_08.png" width="30%" alt="screenshot" />
+  <img src="screenshots/screenshot_09.png" width="30%" alt="screenshot" />
 </div>
 
 ---
