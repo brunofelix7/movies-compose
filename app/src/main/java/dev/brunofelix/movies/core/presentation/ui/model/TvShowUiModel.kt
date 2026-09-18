@@ -14,5 +14,6 @@ data class TvShowUiModel(
     val numberOfEpisodes: Int = 0,
     val numberOfSeasons: Int = 0,
     val seasons: List<SeasonUiModel> = emptyList(),
-    val trailerKey: String? = null
+    val trailerKey: String? = null,
+    val cast: List<CastUiModel> = emptyList()
 )

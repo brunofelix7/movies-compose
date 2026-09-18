@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.core.domain.repository
 
+import dev.brunofelix.movies.core.domain.model.Cast
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.model.ReleaseMonth
 import dev.brunofelix.movies.core.domain.model.Video
@@ -45,6 +46,13 @@ interface MovieRepository {
      * @return A [Resource] containing a list of [Video]s or an error.
      */
     suspend fun getVideos(id: Long): Resource<List<Video>>
+
+    /**
+     * Fetches the cast of a specific movie from the remote source.
+     * @param id The unique identifier of the movie.
+     * @return A [Resource] containing a list of [Cast] members or an error.
+     */
+    suspend fun getCast(id: Long): Resource<List<Cast>>
 
     /**
      * Fetches the movies released in [month] through the given [type].

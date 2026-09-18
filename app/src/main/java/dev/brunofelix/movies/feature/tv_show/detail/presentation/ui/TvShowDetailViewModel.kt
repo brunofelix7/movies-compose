@@ -15,6 +15,7 @@ import dev.brunofelix.movies.core.presentation.ui.model.EpisodeUiModel
 import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
 import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.feature.tv_show.detail.domain.use_case.GetSeasonEpisodesUseCase
+import dev.brunofelix.movies.feature.tv_show.detail.domain.use_case.GetTvShowCastUseCase
 import dev.brunofelix.movies.feature.tv_show.detail.domain.use_case.GetTvShowDetailUseCase
 import dev.brunofelix.movies.feature.tv_show.detail.domain.use_case.GetTvShowVideosUseCase
 import dev.brunofelix.movies.feature.tv_show.detail.presentation.state.SeasonsState
@@ -29,6 +30,7 @@ import javax.inject.Inject
 class TvShowDetailViewModel @Inject constructor(
     private val getTvShowDetailUseCase: GetTvShowDetailUseCase,
     private val getTvShowVideosUseCase: GetTvShowVideosUseCase,
+    private val getTvShowCastUseCase: GetTvShowCastUseCase,
     private val getSeasonEpisodesUseCase: GetSeasonEpisodesUseCase,
     private val saveMediaUseCase: SaveMediaUseCase,
     private val isFavoriteMediaUseCase: IsFavoriteMediaUseCase,
@@ -58,9 +60,11 @@ class TvShowDetailViewModel @Inject constructor(
 
             val detailsDeferred = async { getTvShowDetailUseCase(tvShowId) }
             val videosDeferred = async { getTvShowVideosUseCase(tvShowId) }
+            val castDeferred = async { getTvShowCastUseCase(tvShowId) }
 
             val detailsResult = detailsDeferred.await()
             val videosResult = videosDeferred.await()
+            val castResult = castDeferred.await()
 
             if (detailsResult is Resource.Success) {
                 tvShowDomain = detailsResult.data
@@ -72,9 +76,12 @@ class TvShowDetailViewModel @Inject constructor(
                         it.site.equals("YouTube", ignoreCase = true)
                     }?.key
                 } else null
+                val cast = if (castResult is Resource.Success) {
+                    castResult.data.map { it.toUiModel() }
+                } else emptyList()
 
                 _uiState.value = UiState.Success(
-                    detailsResult.data.toUiModel().copy(trailerKey = trailerKey)
+                    detailsResult.data.toUiModel().copy(trailerKey = trailerKey, cast = cast)
                 )
                 _isFavorite.value = isFavoriteMediaUseCase(detailsResult.data.id)
             } else if (detailsResult is Resource.Error) {

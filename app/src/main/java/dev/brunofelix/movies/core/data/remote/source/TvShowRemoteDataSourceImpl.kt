@@ -1,10 +1,12 @@
 package dev.brunofelix.movies.core.data.remote.source
 
 import dev.brunofelix.movies.core.data.remote.TvShowService
+import dev.brunofelix.movies.core.data.remote.mapper.toCastList
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.mapper.toDomainList
 import dev.brunofelix.movies.core.data.remote.mapper.toEpisodeList
 import dev.brunofelix.movies.core.data.util.BaseRemoteDataSource
+import dev.brunofelix.movies.core.domain.model.Cast
 import dev.brunofelix.movies.core.domain.model.Episode
 import dev.brunofelix.movies.core.domain.model.TvShow
 import dev.brunofelix.movies.core.domain.model.Video
@@ -50,6 +52,13 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
         return safeApiCall(
             call = { getVideos(id) },
             transform = { it.toDomainList() }
+        )
+    }
+
+    override suspend fun getCast(id: Long): Result<List<Cast>> {
+        return safeApiCall(
+            call = { getCredits(id) },
+            transform = { it.toCastList() }
         )
     }
 

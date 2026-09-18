@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.core.data.remote.source
 
+import dev.brunofelix.movies.core.domain.model.Cast
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.model.Video
 import dev.brunofelix.movies.core.domain.model.enums.ReleaseType
@@ -44,6 +45,13 @@ interface MovieRemoteDataSource {
      * @return A [Result] containing a list of [Video] domain models.
      */
     suspend fun getVideos(id: Long): Result<List<Video>>
+
+    /**
+     * Fetches the movie cast by ID.
+     * @param id The unique movie identifier.
+     * @return A [Result] containing a list of [Cast] domain models.
+     */
+    suspend fun getCast(id: Long): Result<List<Cast>>
 
     /**
      * Fetches movies released between [startDate] and [endDate] through the given [type].

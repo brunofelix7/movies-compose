@@ -23,6 +23,7 @@
     <string name="seasons">%1$d temporadas</string>
     <string name="episodes">%1$d episódios</string>
     <string name="seasons_title">Temporadas</string>
+    <string name="cast_title">Elenco</string>
     <string name="season_summary">%1$d episódios • %2$s</string>
     <string name="episode_summary">%1$s • %2$s</string>
     <string name="no_results_found">Nenhum resultado encontrado.</string>

@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.asLiveData
 import com.google.common.truth.Truth.assertThat
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
+import dev.brunofelix.movies.core.domain.model.Cast
 import dev.brunofelix.movies.core.domain.model.Video
 import dev.brunofelix.movies.core.domain.use_case.DeleteMediaUseCase
 import dev.brunofelix.movies.core.domain.use_case.IsFavoriteMediaUseCase
@@ -12,6 +13,7 @@ import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiModel
 import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.util.extension.toUiText
+import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieCastUseCase
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieVideosUseCase
 import dev.brunofelix.movies.test_util.MainDispatcherRule
@@ -37,6 +39,7 @@ class MovieDetailViewModelTest {
 
     private val getMovieDetailUseCase = mockk<GetMovieDetailUseCase>()
     private val getMovieVideosUseCase = mockk<GetMovieVideosUseCase>()
+    private val getMovieCastUseCase = mockk<GetMovieCastUseCase>()
     private val saveMediaUseCase = mockk<SaveMediaUseCase>()
     private val isFavoriteMediaUseCase = mockk<IsFavoriteMediaUseCase>()
     private val deleteMediaUseCase = mockk<DeleteMediaUseCase>()
@@ -48,6 +51,7 @@ class MovieDetailViewModelTest {
         viewModel = MovieDetailViewModel(
             getMovieDetailUseCase,
             getMovieVideosUseCase,
+            getMovieCastUseCase,
             saveMediaUseCase,
             isFavoriteMediaUseCase,
             deleteMediaUseCase
@@ -58,7 +62,11 @@ class MovieDetailViewModelTest {
     fun `when GetMovieDetailsUseCase get success, then returns 'Success' in uiState`() = runTest {
         // Arrange
         val movie = MovieDtoFactory().create(FakeMovie.JohnWick).toDomain()
-        val movieUiState = movie.toUiModel().copy(trailerKey = "abc")
+        val cast = Cast(id = 1L, name = "Keanu Reeves", character = "John Wick")
+        val movieUiState = movie.toUiModel().copy(
+            trailerKey = "abc",
+            cast = listOf(cast.toUiModel())
+        )
         val expectedState = UiState.Success(movieUiState)
 
         coEvery { getMovieDetailUseCase(1) } returns Resource.Success(movie)
@@ -69,6 +77,7 @@ class MovieDetailViewModelTest {
                 key = "abc"
             )
         ))
+        coEvery { getMovieCastUseCase(1) } returns Resource.Success(listOf(cast))
         coEvery { isFavoriteMediaUseCase(movie.id) } returns false
 
         // Act
@@ -86,6 +95,7 @@ class MovieDetailViewModelTest {
         val expectedState = UiState.Error(exception.toUiText())
         coEvery { getMovieDetailUseCase(1) } returns Resource.Error(exception)
         coEvery { getMovieVideosUseCase(1) } returns Resource.Success(emptyList())
+        coEvery { getMovieCastUseCase(1) } returns Resource.Success(emptyList())
 
         // Act
         viewModel.getDetails(1)

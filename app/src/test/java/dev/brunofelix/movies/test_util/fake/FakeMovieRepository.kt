@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.test_util.fake
 
+import dev.brunofelix.movies.core.domain.model.Cast
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.model.ReleaseMonth
 import dev.brunofelix.movies.core.domain.model.Video
@@ -30,6 +31,10 @@ class FakeMovieRepository(
 
     override suspend fun getVideos(id: Long): Resource<List<Video>> {
         return remoteDataSource.getVideos(id).toResource()
+    }
+
+    override suspend fun getCast(id: Long): Resource<List<Cast>> {
+        return remoteDataSource.getCast(id).toResource()
     }
 
     override suspend fun getReleases(

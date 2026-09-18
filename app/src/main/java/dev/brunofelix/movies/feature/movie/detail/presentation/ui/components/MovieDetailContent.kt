@@ -28,11 +28,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.MovieGenre
+import dev.brunofelix.movies.core.presentation.ui.components.CastSection
 import dev.brunofelix.movies.core.presentation.ui.components.MovieGenderContainer
 import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
 import dev.brunofelix.movies.core.presentation.ui.components.SectionCard
 import dev.brunofelix.movies.core.presentation.ui.components.YouTubePlayer
+import dev.brunofelix.movies.core.presentation.ui.model.CastUiModel
 import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
@@ -108,7 +110,12 @@ fun MovieDetailContent(
                     }
                 }
 
-                MovieOverview(overview = movie.overview)
+                MovieOverview(
+                    overview = movie.overview,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                CastSection(cast = movie.cast)
 
                 Spacer(modifier = Modifier.height(100.dp))
             }
@@ -132,6 +139,11 @@ private fun SuccessPreview() {
                 MovieGenre(name = "Comedy"),
                 MovieGenre(name = "Drama"),
                 MovieGenre(name = "Terror")
+            ),
+            cast = listOf(
+                CastUiModel(id = 1L, name = "Chris Pratt", character = "Mario"),
+                CastUiModel(id = 2L, name = "Anya Taylor-Joy", character = "Princess Peach"),
+                CastUiModel(id = 3L, name = "Jack Black", character = "Bowser")
             )
         )
     )

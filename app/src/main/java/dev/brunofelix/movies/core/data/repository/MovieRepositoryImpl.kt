@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.core.data.repository
 
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.domain.model.Cast
 import dev.brunofelix.movies.core.domain.model.ReleaseMonth
 import dev.brunofelix.movies.core.domain.model.Video
 import dev.brunofelix.movies.core.domain.model.enums.ReleaseType
@@ -37,6 +38,10 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getVideos(
         id: Long
     ): Resource<List<Video>> = remoteDataSource.getVideos(id).toResource()
+
+    override suspend fun getCast(
+        id: Long
+    ): Resource<List<Cast>> = remoteDataSource.getCast(id).toResource()
 
     override suspend fun getReleases(
         month: ReleaseMonth,

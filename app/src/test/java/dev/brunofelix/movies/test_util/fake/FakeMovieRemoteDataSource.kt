@@ -2,6 +2,7 @@ package dev.brunofelix.movies.test_util.fake
 
 import dev.brunofelix.movies.core.data.remote.mapper.toDomain
 import dev.brunofelix.movies.core.data.remote.source.MovieRemoteDataSource
+import dev.brunofelix.movies.core.domain.model.Cast
 import dev.brunofelix.movies.core.domain.model.Movie
 import dev.brunofelix.movies.core.domain.model.Video
 import dev.brunofelix.movies.core.domain.model.enums.ReleaseType
@@ -55,6 +56,15 @@ class FakeMovieRemoteDataSource : MovieRemoteDataSource {
         }
         return Result.success(
             listOf(Video(key = "abc", site = "YouTube", type = "Trailer"))
+        )
+    }
+
+    override suspend fun getCast(id: Long): Result<List<Cast>> {
+        if (shouldReturnError) {
+            return Result.failure(RemoteException.Unknown())
+        }
+        return Result.success(
+            listOf(Cast(id = 1L, name = "Keanu Reeves", character = "John Wick"))
         )
     }
 

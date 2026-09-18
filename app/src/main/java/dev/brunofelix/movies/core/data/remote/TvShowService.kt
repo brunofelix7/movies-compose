@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.core.data.remote
 
+import dev.brunofelix.movies.core.data.remote.dto.CreditsRootDto
 import dev.brunofelix.movies.core.data.remote.dto.VideoRootDto
 import dev.brunofelix.movies.core.data.remote.dto.tv_show.SeasonDto
 import dev.brunofelix.movies.core.data.remote.dto.tv_show.TvShowDto
@@ -77,6 +78,16 @@ interface TvShowService {
     suspend fun getVideos(
         @Path("id") id: Long
     ): Response<VideoRootDto>
+
+    /**
+     * Fetches the cast and crew credited in a specific TV show.
+     * @param id The unique identifier of the TV show.
+     * @return A [Response] containing a [CreditsRootDto].
+     */
+    @GET("tv/{id}/credits")
+    suspend fun getCredits(
+        @Path("id") id: Long
+    ): Response<CreditsRootDto>
 
     /**
      * Fetches TV shows whose first air date falls within a date range.

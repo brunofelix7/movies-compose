@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.core.data.remote
 
+import dev.brunofelix.movies.core.data.remote.dto.CreditsRootDto
 import dev.brunofelix.movies.core.data.remote.dto.VideoRootDto
 import dev.brunofelix.movies.core.data.remote.dto.movie.MovieDto
 import dev.brunofelix.movies.core.data.remote.dto.movie.MovieRootDto
@@ -74,6 +75,16 @@ interface MovieService {
     suspend fun getVideos(
         @Path("id") id: Long
     ): Response<VideoRootDto>
+
+    /**
+     * Fetches the cast and crew credited in a specific movie.
+     * @param id The unique identifier of the movie.
+     * @return A [Response] containing a [CreditsRootDto].
+     */
+    @GET("movie/{id}/credits")
+    suspend fun getCredits(
+        @Path("id") id: Long
+    ): Response<CreditsRootDto>
 
     /**
      * Fetches movies released within a date range.

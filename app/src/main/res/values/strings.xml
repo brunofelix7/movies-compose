@@ -25,6 +25,7 @@
     <string name="seasons">%1$d Seasons</string>
     <string name="episodes">%1$d Episodes</string>
     <string name="seasons_title">Seasons</string>
+    <string name="cast_title">Cast</string>
     <string name="season_summary">%1$d episodes • %2$s</string>
     <string name="episode_summary">%1$s • %2$s</string>
     <string name="no_results_found">No results found.</string>

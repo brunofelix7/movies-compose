@@ -12,5 +12,6 @@ data class MovieUiModel(
     val voteAverage: String = "",
     val duration: String = "",
     val trailerKey: String? = null,
-    val genres: List<MovieGenre> = emptyList()
+    val genres: List<MovieGenre> = emptyList(),
+    val cast: List<CastUiModel> = emptyList()
 )

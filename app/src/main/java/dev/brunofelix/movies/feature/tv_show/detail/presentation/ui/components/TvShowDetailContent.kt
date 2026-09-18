@@ -29,11 +29,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.R
 import dev.brunofelix.movies.core.domain.model.MovieGenre
+import dev.brunofelix.movies.core.presentation.ui.components.CastSection
 import dev.brunofelix.movies.core.presentation.ui.components.MovieGenderContainer
 import dev.brunofelix.movies.core.presentation.ui.components.MovieInfoChip
 import dev.brunofelix.movies.core.presentation.ui.components.MovieOverview
 import dev.brunofelix.movies.core.presentation.ui.components.SectionCard
 import dev.brunofelix.movies.core.presentation.ui.components.YouTubePlayer
+import dev.brunofelix.movies.core.presentation.ui.model.CastUiModel
 import dev.brunofelix.movies.core.presentation.ui.model.SeasonUiModel
 import dev.brunofelix.movies.core.presentation.ui.model.TvShowUiModel
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
@@ -130,6 +132,11 @@ fun TvShowDetailContent(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
+                CastSection(
+                    cast = tvShow.cast,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
                 SeasonsSection(
                     seasons = tvShow.seasons,
                     state = seasonsState,
@@ -167,6 +174,11 @@ private fun SuccessPreview() {
                     episodeCount = 9,
                     airYear = "2023"
                 )
+            ),
+            cast = listOf(
+                CastUiModel(id = 1L, name = "Pedro Pascal", character = "Joel Miller"),
+                CastUiModel(id = 2L, name = "Bella Ramsey", character = "Ellie Williams"),
+                CastUiModel(id = 3L, name = "Gabriel Luna", character = "Tommy Miller")
             )
         ),
         seasonsState = SeasonsState()

@@ -13,6 +13,7 @@ import dev.brunofelix.movies.core.domain.util.Resource
 import dev.brunofelix.movies.core.presentation.mapper.toUiModel
 import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
 import dev.brunofelix.movies.core.presentation.util.UiState
+import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieCastUseCase
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieDetailUseCase
 import dev.brunofelix.movies.feature.movie.detail.domain.use_case.GetMovieVideosUseCase
 import kotlinx.coroutines.async
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class MovieDetailViewModel @Inject constructor(
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
     private val getMovieVideosUseCase: GetMovieVideosUseCase,
+    private val getMovieCastUseCase: GetMovieCastUseCase,
     private val saveMediaUseCase: SaveMediaUseCase,
     private val isFavoriteMediaUseCase: IsFavoriteMediaUseCase,
     private val deleteMediaUseCase: DeleteMediaUseCase
@@ -49,9 +51,11 @@ class MovieDetailViewModel @Inject constructor(
 
             val detailsDeferred = async { getMovieDetailUseCase(movieId) }
             val videosDeferred = async { getMovieVideosUseCase(movieId) }
+            val castDeferred = async { getMovieCastUseCase(movieId) }
 
             val detailsResult = detailsDeferred.await()
             val videosResult = videosDeferred.await()
+            val castResult = castDeferred.await()
 
             if (detailsResult is Resource.Success) {
                 movieDomain = detailsResult.data
@@ -63,9 +67,12 @@ class MovieDetailViewModel @Inject constructor(
                         it.site.equals("YouTube", ignoreCase = true)
                     }?.key
                 } else null
+                val cast = if (castResult is Resource.Success) {
+                    castResult.data.map { it.toUiModel() }
+                } else emptyList()
 
                 _uiState.value = UiState.Success(
-                    detailsResult.data.toUiModel().copy(trailerKey = trailerKey)
+                    detailsResult.data.toUiModel().copy(trailerKey = trailerKey, cast = cast)
                 )
                 _isFavorite.value = isFavoriteMediaUseCase(detailsResult.data.id)
             } else if (detailsResult is Resource.Error) {
