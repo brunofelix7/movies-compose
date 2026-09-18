@@ -1,7 +1,5 @@
 package dev.brunofelix.movies.feature.movie.detail.presentation.ui
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -15,7 +13,7 @@ import dev.brunofelix.movies.core.domain.model.Media
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.ui.components.DetailHeader
 import dev.brunofelix.movies.core.presentation.ui.components.DetailSkeleton
-import dev.brunofelix.movies.core.presentation.ui.components.DetailTopBar
+import dev.brunofelix.movies.core.presentation.ui.components.DetailStatusLayout
 import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.model.MovieUiModel
@@ -54,54 +52,47 @@ private fun MovieDetailScreen(
     onFavorite: () -> Unit = {}
 ) {
     when (uiState) {
+        is UiState.Initial -> Unit
         is UiState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
+            DetailStatusLayout(modifier = modifier, onBackClick = onBack) {
                 DetailSkeleton()
-                DetailTopBar(
-                    isFavorite = false,
-                    shouldShowFavorite = false,
-                    onBackClick = onBack
-                )
             }
         }
-        else -> {
-            val movie = (uiState as? UiState.Success)?.data
+        is UiState.Error -> {
+            DetailStatusLayout(modifier = modifier, onBackClick = onBack) {
+                ErrorLayout(errorMessage = uiState.uiText)
+            }
+        }
+        is UiState.Empty -> {
+            DetailStatusLayout(modifier = modifier, onBackClick = onBack) {
+                EmptyState()
+            }
+        }
+        is UiState.Success -> {
+            val movie = uiState.data
 
             Scaffold(
                 modifier = modifier,
                 containerColor = Colors.blackPrimary,
                 topBar = {
                     DetailHeader(
-                        backdropPath = movie?.backdropPath,
-                        media = movie?.let {
-                            Media(
-                                id = it.id,
-                                title = it.title,
-                                posterPath = it.posterPath,
-                                releaseDate = it.releaseDate
-                            )
-                        },
+                        backdropPath = movie.backdropPath,
+                        media = Media(
+                            id = movie.id,
+                            title = movie.title,
+                            posterPath = movie.posterPath,
+                            releaseDate = movie.releaseDate
+                        ),
                         isFavorite = isFavorite,
                         onBackClick = onBack,
                         onFavoriteClick = onFavorite
                     )
                 },
                 content = { innerPadding ->
-                    when (uiState) {
-                        is UiState.Success -> {
-                            MovieDetailContent(
-                                movie = uiState.data,
-                                modifier = Modifier.padding(innerPadding)
-                            )
-                        }
-                        is UiState.Error -> {
-                            ErrorLayout(errorMessage = uiState.uiText)
-                        }
-                        is UiState.Empty -> EmptyState()
-                        is UiState.Initial -> Unit
-                    }
+                    MovieDetailContent(
+                        movie = movie,
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             )
         }
