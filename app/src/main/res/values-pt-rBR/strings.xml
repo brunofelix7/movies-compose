@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- app_name and app_title are the product name and stay untranslated. -->
+<resources>
+    <!-- General -->
+    <string name="movies">Filmes</string>
+    <string name="release_date">Data de lançamento</string>
+    <string name="vote_average">Média</string>
+    <string name="duration">Duração</string>
+    <string name="duration_minutes">%1$s min</string>
+    <string name="description">Descrição</string>
+    <string name="populars">Populares</string>
+    <string name="popular">Populares</string>
+    <string name="top_rated">Mais bem avaliados</string>
+    <string name="tv_shows">Séries</string>
+    <string name="upcoming">Em breve</string>
+    <string name="favorites">Favoritos</string>
+    <string name="details">Detalhes</string>
+    <string name="search">Buscar</string>
+    <string name="search_bar_hint">Buscar filme ou série…</string>
+    <string name="retry">Tentar novamente</string>
+    <string name="overview">Sinopse</string>
+    <string name="trailer">Trailer</string>
+    <string name="seasons">%1$d temporadas</string>
+    <string name="episodes">%1$d episódios</string>
+    <string name="seasons_title">Temporadas</string>
+    <string name="season_summary">%1$d episódios • %2$s</string>
+    <string name="episode_summary">%1$s • %2$s</string>
+    <string name="no_results_found">Nenhum resultado encontrado.</string>
+    <string name="cancel">Cancelar</string>
+    <string name="view_more">Ver mais</string>
+
+    <!-- Releases -->
+    <string name="releases">Lançamentos</string>
+    <string name="releases_theaters">Nos cinemas</string>
+    <string name="releases_streaming">No streaming</string>
+    <string name="releases_series">Estreias de séries</string>
+
+    <!-- Settings -->
+    <string name="settings">Configurações</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_about">Sobre</string>
+    <string name="settings_version">Versão</string>
+    <string name="settings_data_source">Dados fornecidos pelo TMDB</string>
+
+    <!-- Error messages -->
+    <string name="error_title">Ops!</string>
+    <string name="error_message">Não foi possível carregar os dados. Tente novamente.</string>
+
+    <!-- Content descriptions -->
+    <string name="navbar_icon">Ícone da barra de navegação</string>
+    <string name="top_bar_search_icon">Ícone de busca</string>
+    <string name="top_bar_close_search_icon">Ícone de fechar busca</string>
+    <string name="top_bar_settings_icon">Ícone de configurações</string>
+    <string name="top_bar_language_icon">Ícone de idioma</string>
+    <string name="top_bar_favorite_icon">Ícone de favorito</string>
+    <string name="top_bar_back_icon">Ícone de voltar</string>
+    <string name="overview_expand">Expandir sinopse</string>
+    <string name="overview_collapse">Recolher sinopse</string>
+    <string name="season_expand">Expandir temporada</string>
+    <string name="season_collapse">Recolher temporada</string>
+    <string name="settings_selected_language_icon">Ícone de idioma selecionado</string>
+    <string name="empty_icon">Ícone de lista vazia</string>
+    <string name="error_icon">Ícone de erro</string>
+</resources>

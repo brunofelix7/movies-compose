@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error">Algo deu errado</string>
+    <string name="empty_state">Nenhum dado encontrado</string>
+    <string name="delete_media_error">Não foi possível excluir o item</string>
+    <string name="is_favorite_media_error">Não foi possível verificar os favoritos</string>
+    <string name="mark_favorite_error">Não foi possível marcar como favorito</string>
+
+    <string name="error_network_unauthorized">Acesso não autorizado</string>
+    <string name="error_network_not_found">Recurso não encontrado</string>
+    <string name="error_network_server">Erro no servidor. Tente novamente mais tarde</string>
+    <string name="error_network_no_internet">Sem conexão com a internet</string>
+    <string name="error_unknown">Ocorreu um erro desconhecido</string>
+</resources>

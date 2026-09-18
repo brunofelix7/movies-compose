@@ -1,7 +1,7 @@
 <resources>
-    <!-- App name -->
-    <string name="app_name">Movies Explorer</string>
-    <string name="app_title">Movies Explorer</string>
+    <!-- App name. The product name, so it reads the same in every language. -->
+    <string name="app_name" translatable="false">Movies Explorer</string>
+    <string name="app_title" translatable="false">Movies Explorer</string>
     <string name="movies">Movies</string>
 
     <!-- General -->
