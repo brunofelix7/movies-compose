@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
@@ -39,7 +38,6 @@ import dev.brunofelix.movies.core.presentation.ui.components.EmptyState
 import dev.brunofelix.movies.core.presentation.ui.components.ErrorLayout
 import dev.brunofelix.movies.core.presentation.ui.components.LoadingState
 import dev.brunofelix.movies.core.presentation.ui.model.MediaUiModel
-import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 import dev.brunofelix.movies.core.presentation.util.UiState
 import dev.brunofelix.movies.core.presentation.util.UiText
 import dev.brunofelix.movies.feature.favorite.presentation.ui.components.FavoriteItem
@@ -86,31 +84,27 @@ internal fun FavoriteScreen(
     }
     val listState = listStates[selectedCategory.ordinal]
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(top = paddingValues.calculateTopPadding())
-    ) {
-        CategorySelector(
-            categories = FavoriteCategory.entries,
-            selectedCategory = selectedCategory,
-            onCategorySelected = { category ->
-                if (category is FavoriteCategory) {
-                    onCategorySelected(category)
-                }
-            },
-            modifier = Modifier.padding(top = 8.dp)
-        )
+    val topInset = paddingValues.calculateTopPadding()
+    val bottomInset = paddingValues.calculateBottomPadding()
 
-        HorizontalDivider(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            thickness = 1.dp,
-            color = Colors.lightGray.copy(alpha = 0.2f)
-        )
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = topInset)
+        ) {
+            CategorySelector(
+                categories = FavoriteCategory.entries,
+                selectedCategory = selectedCategory,
+                onCategorySelected = { category ->
+                    if (category is FavoriteCategory) {
+                        onCategorySelected(category)
+                    }
+                },
+                modifier = Modifier.padding(top = 8.dp)
+            )
 
-        when (uiState) {
-            is UiState.Loading -> LoadingState()
-            is UiState.Success -> {
+            if (uiState is UiState.Success) {
                 LazyColumn(
                     state = listState,
                     modifier = Modifier
@@ -167,8 +161,17 @@ internal fun FavoriteScreen(
                     }
                 )
             }
-            is UiState.Error -> ErrorLayout()
+        }
+
+        // Centred against the whole content area rather than the space left below the selector,
+        // which is what used to push these states under the middle of the screen.
+        val stateModifier = Modifier.padding(top = topInset, bottom = bottomInset)
+
+        when (uiState) {
+            is UiState.Loading -> LoadingState(modifier = stateModifier)
+            is UiState.Error -> ErrorLayout(modifier = stateModifier)
             is UiState.Empty -> EmptyState(
+                modifier = stateModifier,
                 message = stringResource(R.string.favorites_empty)
             )
             else -> Unit
