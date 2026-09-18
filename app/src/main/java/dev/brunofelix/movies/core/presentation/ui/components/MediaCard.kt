@@ -75,7 +75,16 @@ fun MediaCard(
             )
             when (cardState) {
                 is MediaCardState.Loading -> LoadingState()
-                is MediaCardState.Error -> EmptyImage()
+                // Fills the card so a missing poster reads as a grey placeholder surface
+                // instead of a lone glyph floating on the black background.
+                is MediaCardState.Error -> Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Colors.darkGray),
+                    contentAlignment = Alignment.Center
+                ) {
+                    EmptyImage()
+                }
                 else -> Unit
             }
         }
