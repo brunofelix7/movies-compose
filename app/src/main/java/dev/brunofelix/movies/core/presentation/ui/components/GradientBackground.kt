@@ -10,14 +10,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
-/**
- * App background. Flat black for now: swap the default [colors] back to
- * `blackPrimary to darkRed` to bring the red gradient back.
- */
+/** Flat black, used by every screen in the app. */
+val AppGradient = listOf(Colors.blackPrimary, Colors.blackPrimary)
+
+/** Black bleeding into dark red, reserved for the splash. */
+val SplashGradient = listOf(Colors.blackPrimary, Colors.darkRed)
+
 @Composable
 fun GradientBackground(
     modifier: Modifier = Modifier,
-    colors: List<Color> = listOf(Colors.blackPrimary, Colors.blackPrimary),
+    colors: List<Color> = AppGradient,
     content: @Composable () -> Unit
 ) {
     Box(
