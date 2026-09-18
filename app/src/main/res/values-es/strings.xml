@@ -26,6 +26,7 @@
     <string name="season_summary">%1$d episodios • %2$s</string>
     <string name="episode_summary">%1$s • %2$s</string>
     <string name="no_results_found">No se encontraron resultados.</string>
+    <string name="favorites_empty">No hay favoritos en esta categoría</string>
     <string name="cancel">Cancelar</string>
     <string name="view_more">Ver más</string>
 
