@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -20,6 +21,7 @@ import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -75,6 +77,13 @@ internal fun FavoriteScreen(
     paddingValues: PaddingValues = PaddingValues(),
     onCardClick: (media: MediaUiModel) -> Unit = {}
 ) {
+    // One state per category, otherwise every category lands on the scroll position of the
+    // last one that was scrolled.
+    val listStates = FavoriteCategory.entries.map { category ->
+        key(category) { rememberLazyListState() }
+    }
+    val listState = listStates[selectedCategory.ordinal]
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -101,6 +110,7 @@ internal fun FavoriteScreen(
             is UiState.Loading -> LoadingState()
             is UiState.Success -> {
                 LazyColumn(
+                    state = listState,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp),
