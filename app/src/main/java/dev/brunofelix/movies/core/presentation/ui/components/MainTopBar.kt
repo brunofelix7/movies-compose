@@ -6,10 +6,12 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SearchOff
@@ -82,24 +84,24 @@ fun MainTopBar(
                 label = "TopBarSearchActionTransition"
             ) { searching ->
                 if (searching) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier
+                            .clickable(onClick = onCancelSearch)
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    ) {
                         Text(
                             text = stringResource(R.string.cancel),
                             color = Colors.white,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.clickable(onClick = onCancelSearch)
+                            style = MaterialTheme.typography.bodyLarge
                         )
-                        IconButton(
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Filled.SearchOff,
-                                    tint = Colors.white,
-                                    contentDescription = stringResource(
-                                        R.string.top_bar_close_search_icon
-                                    )
-                                )
-                            },
-                            onClick = onCancelSearch
+                        Icon(
+                            imageVector = Icons.Filled.SearchOff,
+                            tint = Colors.white,
+                            contentDescription = stringResource(
+                                R.string.top_bar_close_search_icon
+                            )
                         )
                     }
                 } else {
