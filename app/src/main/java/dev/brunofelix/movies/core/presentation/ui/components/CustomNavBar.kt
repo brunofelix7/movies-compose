@@ -1,5 +1,6 @@
 package dev.brunofelix.movies.core.presentation.ui.components
 
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Favorite
@@ -21,30 +22,30 @@ import dev.brunofelix.movies.core.presentation.navigation.MainNavKey
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
 sealed class CustomNavBarItem(
-    val title: String,
+    @StringRes val titleResId: Int,
     val route: MainNavKey,
     val icon: ImageVector
 ) {
     data object Movies: CustomNavBarItem(
-        title = "Movies",
+        titleResId = R.string.movies,
         route = MainNavKey.Movies,
         icon = Icons.Default.LocalMovies,
     )
 
     data object TvShows: CustomNavBarItem(
-        title = "TV Shows",
+        titleResId = R.string.tv_shows,
         route = MainNavKey.TvShows,
         icon = Icons.Default.LiveTv
     )
 
     data object Favorites: CustomNavBarItem(
-        title = "Favorites",
+        titleResId = R.string.favorites,
         route = MainNavKey.Favorites,
         icon = Icons.Default.Favorite
     )
 
     data object Releases: CustomNavBarItem(
-        title = "Releases",
+        titleResId = R.string.releases,
         route = MainNavKey.Releases,
         icon = Icons.Default.CalendarMonth
     )
@@ -90,7 +91,7 @@ fun CustomNavBar(
                 },
                 label = {
                     Text(
-                        text = currentItem.title,
+                        text = stringResource(currentItem.titleResId),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 },
