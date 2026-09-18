@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error">Algo deu errado</string>
-    <string name="empty_state">Nenhum dado encontrado</string>
     <string name="delete_media_error">Não foi possível excluir o item</string>
     <string name="is_favorite_media_error">Não foi possível verificar os favoritos</string>
     <string name="mark_favorite_error">Não foi possível marcar como favorito</string>

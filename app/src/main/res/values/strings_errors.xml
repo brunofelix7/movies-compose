@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error">Something went wrong</string>
-    <string name="empty_state">No data found</string>
     <string name="delete_media_error">Failed to delete the media</string>
     <string name="is_favorite_media_error">Failed to validate favorite media</string>
     <string name="mark_favorite_error">Failed to mark media as favorite</string>

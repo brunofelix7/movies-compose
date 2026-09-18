@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error">Algo salió mal</string>
-    <string name="empty_state">No se encontraron datos</string>
     <string name="delete_media_error">No se pudo eliminar el elemento</string>
     <string name="is_favorite_media_error">No se pudo verificar los favoritos</string>
     <string name="mark_favorite_error">No se pudo marcar como favorito</string>
