@@ -1,6 +1,9 @@
 package dev.brunofelix.movies.feature.tv_show.detail.presentation.ui
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Alignment
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -80,32 +83,32 @@ private fun TvShowDetailScreen(
         }
         is UiState.Success -> {
             val tvShow = uiState.data
+            val scrollState = androidx.compose.foundation.rememberScrollState()
 
             Scaffold(
                 modifier = modifier,
                 containerColor = Colors.blackPrimary,
-                topBar = {
-                    DetailHeader(
-                        backdropPath = tvShow.backdropPath,
-                        media = Media(
-                            id = tvShow.id,
-                            title = tvShow.name,
-                            posterPath = tvShow.posterPath,
-                            releaseDate = tvShow.firstAirDate
-                        ),
-                        isFavorite = isFavorite,
-                        onBackClick = onBack,
-                        onFavoriteClick = onFavorite
-                    )
-                },
                 content = { innerPadding ->
-                    TvShowDetailContent(
-                        tvShow = tvShow,
-                        seasonsState = seasonsState,
-                        onSeasonToggle = onSeasonToggle,
-                        onSeasonRetry = onSeasonRetry,
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        TvShowDetailContent(
+                            tvShow = tvShow,
+                            seasonsState = seasonsState,
+                            onSeasonToggle = onSeasonToggle,
+                            onSeasonRetry = onSeasonRetry,
+                            scrollState = scrollState,
+                            modifier = Modifier
+                        )
+                        
+                        dev.brunofelix.movies.core.presentation.ui.components.DetailTopBar(
+                            isFavorite = isFavorite,
+                            shouldShowFavorite = true,
+                            onBackClick = onBack,
+                            onFavoriteClick = onFavorite,
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .padding(top = innerPadding.calculateTopPadding())
+                        )
+                    }
                 }
             )
         }
@@ -147,3 +150,5 @@ private fun ErrorPreview() {
         isFavorite = false
     )
 }
+
+
