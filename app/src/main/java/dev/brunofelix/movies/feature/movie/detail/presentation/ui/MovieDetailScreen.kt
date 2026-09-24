@@ -4,6 +4,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
+
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -76,6 +80,11 @@ private fun MovieDetailScreen(
         is UiState.Success -> {
             val movie = uiState.data
             val scrollState = androidx.compose.foundation.rememberScrollState()
+            val configuration = LocalConfiguration.current
+            val screenHeight = configuration.screenHeightDp.dp
+            val imageHeight = screenHeight * 0.75f
+            val collapseRange = with(LocalDensity.current) { imageHeight.toPx() }
+            val collapseFraction = if (collapseRange > 0f) (scrollState.value / collapseRange).coerceIn(0f, 1f) else 0f
 
             Scaffold(
                 modifier = modifier,
@@ -89,6 +98,8 @@ private fun MovieDetailScreen(
                         )
                         
                         dev.brunofelix.movies.core.presentation.ui.components.DetailTopBar(
+                            title = movie.title,
+                            scrollFraction = collapseFraction,
                             isFavorite = isFavorite,
                             shouldShowFavorite = true,
                             onBackClick = onBack,

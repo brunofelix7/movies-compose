@@ -1,9 +1,10 @@
-package dev.brunofelix.movies.core.presentation.ui.components
+﻿package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -51,7 +52,10 @@ fun CastSection(
         title = stringResource(R.string.cast_title),
         modifier = modifier
     ) {
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(bottom = 8.dp)
+        ) {
             // No item key: TMDB can credit the same person twice for different characters.
             items(items = cast) { member ->
                 CastCard(cast = member)
@@ -106,6 +110,7 @@ private fun CastCard(
             color = Colors.white,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
+            minLines = 2,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
@@ -114,6 +119,7 @@ private fun CastCard(
             color = Colors.lightGray,
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Center,
+            minLines = 2,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
