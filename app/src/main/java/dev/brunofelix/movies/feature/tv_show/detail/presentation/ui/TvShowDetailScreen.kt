@@ -91,7 +91,7 @@ private fun TvShowDetailScreen(
             val configuration = LocalConfiguration.current
             val screenHeight = configuration.screenHeightDp.dp
             val imageHeight = screenHeight * 0.75f
-            val collapseRange = with(LocalDensity.current) { imageHeight.toPx() }
+            val collapseRange = with(LocalDensity.current) { (imageHeight * 0.5f).toPx() }
             val collapseFraction = if (collapseRange > 0f) (scrollState.value / collapseRange).coerceIn(0f, 1f) else 0f
 
             Scaffold(
@@ -105,7 +105,7 @@ private fun TvShowDetailScreen(
                             onSeasonToggle = onSeasonToggle,
                             onSeasonRetry = onSeasonRetry,
                             scrollState = scrollState,
-                            modifier = Modifier
+                            modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
                         )
                         
                         dev.brunofelix.movies.core.presentation.ui.components.DetailTopBar(
@@ -117,7 +117,7 @@ private fun TvShowDetailScreen(
                             onFavoriteClick = onFavorite,
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
-                                .padding(top = innerPadding.calculateTopPadding())
+                                
                         )
                     }
                 }

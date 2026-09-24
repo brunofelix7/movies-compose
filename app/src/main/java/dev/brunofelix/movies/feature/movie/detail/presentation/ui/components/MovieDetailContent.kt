@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -103,44 +104,35 @@ fun MovieDetailContent(
                     .background(Colors.blackPrimary)
                     .padding(horizontal = 16.dp)
             ) {
-                Row {
-                    Column(
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Column {
-                            Text(
-                                text = movie.title,
-                                color = Colors.white,
-                                style = MaterialTheme.typography.titleLarge,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.padding(bottom = 8.dp)
-                            )
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                MovieInfoChip(
-                                    icon = Icons.Default.Star,
-                                    iconTint = Color.Yellow,
-                                    text = movie.voteAverage
-                                )
-                                MovieInfoChip(
-                                    icon = Icons.Outlined.CalendarMonth,
-                                    text = movie.releaseDate
-                                )
-                                MovieInfoChip(
-                                    icon = Icons.Outlined.Timer,
-                                    text = movie.duration
-                                )
-                            }
-                            Column(
-                                modifier = Modifier.padding(vertical = 12.dp)
-                            ) {
-                                MovieGenderContainer(
-                                    gendersList = movie.genres
-                                )
-                            }
-                        }
+                        MovieInfoChip(
+                            icon = Icons.Default.Star,
+                            iconTint = Color.Yellow,
+                            text = movie.voteAverage
+                        )
+                        MovieInfoChip(
+                            icon = Icons.Outlined.CalendarMonth,
+                            text = movie.releaseDate
+                        )
+                        MovieInfoChip(
+                            icon = Icons.Outlined.Timer,
+                            text = movie.duration
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        MovieGenderContainer(
+                            gendersList = movie.genres
+                        )
                     }
                 }
                 Spacer(modifier = Modifier.height(8.dp))

@@ -83,7 +83,7 @@ private fun MovieDetailScreen(
             val configuration = LocalConfiguration.current
             val screenHeight = configuration.screenHeightDp.dp
             val imageHeight = screenHeight * 0.75f
-            val collapseRange = with(LocalDensity.current) { imageHeight.toPx() }
+            val collapseRange = with(LocalDensity.current) { (imageHeight * 0.5f).toPx() }
             val collapseFraction = if (collapseRange > 0f) (scrollState.value / collapseRange).coerceIn(0f, 1f) else 0f
 
             Scaffold(
@@ -106,7 +106,7 @@ private fun MovieDetailScreen(
                             onFavoriteClick = onFavorite,
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
-                                .padding(top = innerPadding.calculateTopPadding())
+                                
                         )
                     }
                 }

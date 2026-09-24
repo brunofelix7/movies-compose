@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -108,53 +109,44 @@ fun TvShowDetailContent(
                     .background(Colors.blackPrimary)
                     .padding(horizontal = 16.dp)
             ) {
-                Row {
-                    Column(
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Column {
-                            Text(
-                                text = tvShow.name,
-                                color = Colors.white,
-                                style = MaterialTheme.typography.titleLarge,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.padding(bottom = 8.dp)
-                            )
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                MovieInfoChip(
-                                    icon = Icons.Default.Star,
-                                    iconTint = Color.Yellow,
-                                    text = tvShow.voteAverage
-                                )
-                                MovieInfoChip(
-                                    icon = Icons.Outlined.CalendarMonth,
-                                    text = tvShow.firstAirDate
-                                )
-                            }
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                modifier = Modifier.padding(top = 8.dp)
-                            ) {
-                                MovieInfoChip(
-                                    icon = Icons.Default.Layers,
-                                    text = stringResource(R.string.seasons, tvShow.numberOfSeasons)
-                                )
-                                MovieInfoChip(
-                                    icon = Icons.AutoMirrored.Filled.List,
-                                    text = stringResource(R.string.episodes, tvShow.numberOfEpisodes)
-                                )
-                            }
-                            Column(
-                                modifier = Modifier.padding(vertical = 12.dp)
-                            ) {
-                                MovieGenderContainer(
-                                    gendersList = tvShow.genres
-                                )
-                            }
-                        }
+                        MovieInfoChip(
+                            icon = Icons.Default.Star,
+                            iconTint = Color.Yellow,
+                            text = tvShow.voteAverage
+                        )
+                        MovieInfoChip(
+                            icon = Icons.Outlined.CalendarMonth,
+                            text = tvShow.firstAirDate
+                        )
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                    ) {
+                        MovieInfoChip(
+                            icon = Icons.Default.Layers,
+                            text = stringResource(R.string.seasons, tvShow.numberOfSeasons)
+                        )
+                        MovieInfoChip(
+                            icon = Icons.AutoMirrored.Filled.List,
+                            text = stringResource(R.string.episodes, tvShow.numberOfEpisodes)
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        MovieGenderContainer(
+                            gendersList = tvShow.genres
+                        )
                     }
                 }
                 Spacer(modifier = Modifier.height(8.dp))

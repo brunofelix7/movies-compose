@@ -1,10 +1,11 @@
-package dev.brunofelix.movies.core.presentation.ui.components
+﻿package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,13 +23,15 @@ import androidx.compose.ui.unit.dp
 import dev.brunofelix.movies.core.domain.model.MovieGenre
 import dev.brunofelix.movies.core.presentation.ui.theme.Colors
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MovieGenderContainer(
     gendersList: List<MovieGenre>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
 ) {
     FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = horizontalArrangement,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.fillMaxWidth()
     ) {
