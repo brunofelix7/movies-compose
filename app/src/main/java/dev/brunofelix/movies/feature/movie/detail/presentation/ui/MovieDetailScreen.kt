@@ -1,6 +1,9 @@
 package dev.brunofelix.movies.feature.movie.detail.presentation.ui
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Alignment
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -72,29 +75,29 @@ private fun MovieDetailScreen(
         }
         is UiState.Success -> {
             val movie = uiState.data
+            val scrollState = androidx.compose.foundation.rememberScrollState()
 
             Scaffold(
                 modifier = modifier,
                 containerColor = Colors.blackPrimary,
-                topBar = {
-                    DetailHeader(
-                        backdropPath = movie.backdropPath,
-                        media = Media(
-                            id = movie.id,
-                            title = movie.title,
-                            posterPath = movie.posterPath,
-                            releaseDate = movie.releaseDate
-                        ),
-                        isFavorite = isFavorite,
-                        onBackClick = onBack,
-                        onFavoriteClick = onFavorite
-                    )
-                },
                 content = { innerPadding ->
-                    MovieDetailContent(
-                        movie = movie,
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        MovieDetailContent(
+                            movie = movie,
+                            scrollState = scrollState,
+                            modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
+                        )
+                        
+                        dev.brunofelix.movies.core.presentation.ui.components.DetailTopBar(
+                            isFavorite = isFavorite,
+                            shouldShowFavorite = true,
+                            onBackClick = onBack,
+                            onFavoriteClick = onFavorite,
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .padding(top = innerPadding.calculateTopPadding())
+                        )
+                    }
                 }
             )
         }
@@ -136,3 +139,5 @@ private fun ErrorPreview() {
         isFavorite = false
     )
 }
+
+

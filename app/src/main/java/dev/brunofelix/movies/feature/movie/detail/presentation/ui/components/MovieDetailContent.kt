@@ -1,5 +1,12 @@
 package dev.brunofelix.movies.feature.movie.detail.presentation.ui.components
 
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.Brush
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -44,18 +52,57 @@ fun MovieDetailContent(
     modifier: Modifier = Modifier,
     scrollState: ScrollState = rememberScrollState()
 ) {
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
+    val imageHeight = screenHeight * 0.75f
+
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Colors.blackPrimary)
     ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(movie.posterPath)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(imageHeight)
+                .graphicsLayer {
+                    val collapseRange = imageHeight.toPx()
+                    val collapseFraction = (scrollState.value / collapseRange).coerceIn(0f, 1f)
+                    alpha = 1f - collapseFraction
+                    translationY = scrollState.value * 0.5f
+                }
+        )
+
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
                 .verticalScroll(scrollState)
         ) {
-            Column {
+            Spacer(modifier = Modifier.height(imageHeight * 0.6f))
+            
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(imageHeight * 0.4f)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent, Colors.blackPrimary)
+                        )
+                    )
+            )
+            
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Colors.blackPrimary)
+                    .padding(horizontal = 16.dp)
+            ) {
                 Row {
                     Column(
                         modifier = Modifier.fillMaxWidth()
@@ -148,3 +195,4 @@ private fun SuccessPreview() {
         )
     )
 }
+
