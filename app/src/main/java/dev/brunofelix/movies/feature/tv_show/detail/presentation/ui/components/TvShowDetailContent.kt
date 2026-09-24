@@ -81,7 +81,7 @@ fun TvShowDetailContent(
                     val collapseRange = imageHeight.toPx()
                     val collapseFraction = (scrollState.value / collapseRange).coerceIn(0f, 1f)
                     alpha = 1f - collapseFraction
-                    translationY = scrollState.value * 0.5f
+                    translationY = -scrollState.value * 0.5f
                 }
         )
 
