@@ -156,6 +156,14 @@ fun TvShowDetailContent(
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
+                SeasonsSection(
+                    seasons = tvShow.seasons,
+                    state = seasonsState,
+                    modifier = Modifier.padding(bottom = 16.dp),
+                    onSeasonToggle = onSeasonToggle,
+                    onSeasonRetry = onSeasonRetry
+                )
+
                 tvShow.trailerKey?.let { key ->
                     SectionCard(
                         title = stringResource(R.string.trailer),
@@ -173,13 +181,6 @@ fun TvShowDetailContent(
                 CastSection(
                     cast = tvShow.cast,
                     modifier = Modifier.padding(bottom = 16.dp)
-                )
-
-                SeasonsSection(
-                    seasons = tvShow.seasons,
-                    state = seasonsState,
-                    onSeasonToggle = onSeasonToggle,
-                    onSeasonRetry = onSeasonRetry
                 )
 
                 Spacer(modifier = Modifier.height(100.dp))
