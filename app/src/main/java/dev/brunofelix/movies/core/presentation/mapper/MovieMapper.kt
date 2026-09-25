@@ -26,7 +26,15 @@ fun Movie.toUiModel(): MovieUiModel {
             toPattern = DateTimeConverter.DD_MM_YYYY
         ).value,
         voteAverage = if (voteAverage <= 0) "--" else voteAverage.formatDecimal(),
-        duration = "${if (duration <= 0) "--" else duration}min",
+        duration = if (duration <= 0) "--" else {
+            val hours = duration / 60
+            val minutes = duration % 60
+            if (hours > 0) {
+                if (minutes > 0) "${hours}h ${minutes}m" else "${hours}h"
+            } else {
+                "${minutes}m"
+            }
+        },
         genres = genres
     )
 }
