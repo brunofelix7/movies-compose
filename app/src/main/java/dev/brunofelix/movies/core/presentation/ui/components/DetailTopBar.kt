@@ -1,4 +1,4 @@
-﻿package dev.brunofelix.movies.core.presentation.ui.components
+package dev.brunofelix.movies.core.presentation.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -49,7 +49,8 @@ fun DetailTopBar(
                     text = title,
                     color = Colors.white.copy(alpha = safeFraction),
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    style = androidx.compose.material3.MaterialTheme.typography.titleMedium
                 )
             }
         },

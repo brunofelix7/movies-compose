@@ -137,6 +137,11 @@ fun MovieDetailContent(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
+                MovieOverview(
+                    overview = movie.overview,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
                 movie.trailerKey?.let { key ->
                     SectionCard(
                         title = stringResource(R.string.trailer),
@@ -148,11 +153,6 @@ fun MovieDetailContent(
                         )
                     }
                 }
-
-                MovieOverview(
-                    overview = movie.overview,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
 
                 CastSection(cast = movie.cast)
 

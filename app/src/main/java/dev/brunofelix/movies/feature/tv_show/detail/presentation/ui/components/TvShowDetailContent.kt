@@ -151,6 +151,11 @@ fun TvShowDetailContent(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
+                MovieOverview(
+                    overview = tvShow.overview,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
                 tvShow.trailerKey?.let { key ->
                     SectionCard(
                         title = stringResource(R.string.trailer),
@@ -164,11 +169,6 @@ fun TvShowDetailContent(
                         )
                     }
                 }
-
-                MovieOverview(
-                    overview = tvShow.overview,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
 
                 CastSection(
                     cast = tvShow.cast,
