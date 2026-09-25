@@ -60,7 +60,7 @@ fun TvShowDetailContent(
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
-    val imageHeight = screenHeight * 0.75f
+    val imageHeight = screenHeight * 0.65f
 
     Box(
         modifier = modifier
@@ -151,17 +151,17 @@ fun TvShowDetailContent(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
-                MovieOverview(
-                    overview = tvShow.overview,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
                 SeasonsSection(
                     seasons = tvShow.seasons,
                     state = seasonsState,
                     modifier = Modifier.padding(bottom = 16.dp),
                     onSeasonToggle = onSeasonToggle,
                     onSeasonRetry = onSeasonRetry
+                )
+
+                MovieOverview(
+                    overview = tvShow.overview,
+                    modifier = Modifier.padding(bottom = 16.dp)
                 )
 
                 tvShow.trailerKey?.let { key ->

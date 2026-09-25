@@ -21,8 +21,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
@@ -147,12 +159,13 @@ private fun SeasonRow(
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
-                is UiState.Success -> Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.padding(top = 4.dp, bottom = 12.dp)
+                is UiState.Success -> LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(bottom = 12.dp),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    episodes.data.forEach { episode ->
-                        EpisodeRow(episode = episode)
+                    items(episodes.data, key = { it.id }) { episode ->
+                        EpisodeCard(episode = episode)
                     }
                 }
             }
@@ -165,33 +178,68 @@ private fun SeasonRow(
 }
 
 @Composable
-private fun EpisodeRow(
+private fun EpisodeCard(
     episode: EpisodeUiModel,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier.fillMaxWidth()
+    var imageError by androidx.compose.runtime.remember { mutableStateOf(false) }
+
+    Box(
+        modifier = modifier
+            .size(160.dp)
+            .clip(RoundedCornerShape(12.dp))
     ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(episode.stillPath)
+                .crossfade(true)
+                .build(),
+            onState = { state ->
+                imageError = state is coil.compose.AsyncImagePainter.State.Error || state is coil.compose.AsyncImagePainter.State.Empty
+            },
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+        
+        if (imageError || episode.stillPath.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Colors.darkGray),
+                contentAlignment = Alignment.Center
+            ) {
+                dev.brunofelix.movies.core.presentation.ui.components.EmptyImage()
+            }
+        }
+        
         Box(
-            contentAlignment = Alignment.Center,
             modifier = Modifier
-                .size(EpisodeNumberSize)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Colors.white.copy(alpha = 0.08F))
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        0.4f to Color.Transparent,
+                        1.0f to Colors.blackPrimary.copy(alpha = 0.9f)
+                    )
+                )
+        )
+        
+        Column(
+            verticalArrangement = Arrangement.Bottom,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
         ) {
             Text(
-                text = episode.episodeNumber.toString(),
+                text = stringResource(R.string.episode) + " ${episode.episodeNumber}",
                 color = Colors.white,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.labelSmall
             )
-        }
-        Column(modifier = Modifier.weight(1F)) {
             Text(
                 text = episode.name,
                 color = Colors.white,
-                style = MaterialTheme.typography.bodyLarge,
-                maxLines = 2,
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
@@ -201,7 +249,9 @@ private fun EpisodeRow(
                     episode.airDate
                 ),
                 color = Colors.lightGray,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.labelSmall,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }

@@ -80,10 +80,16 @@ class TvShowDetailViewModel @Inject constructor(
                     castResult.data.map { it.toUiModel() }
                 } else emptyList()
 
-                _uiState.value = UiState.Success(
-                    detailsResult.data.toUiModel().copy(trailerKey = trailerKey, cast = cast)
-                )
+                val uiModel = detailsResult.data.toUiModel().copy(trailerKey = trailerKey, cast = cast)
+                _uiState.value = UiState.Success(uiModel)
                 _isFavorite.value = isFavoriteMediaUseCase(detailsResult.data.id)
+                
+                // Expand first valid season by default
+                uiModel.seasons.firstOrNull()?.seasonNumber?.let { firstSeasonNum ->
+                    if (_seasonsState.value.expandedSeasonNumber == null) {
+                        onSeasonToggle(firstSeasonNum)
+                    }
+                }
             } else if (detailsResult is Resource.Error) {
                 _uiState.value = UiState.Error(detailsResult.throwable.toUiText())
             }

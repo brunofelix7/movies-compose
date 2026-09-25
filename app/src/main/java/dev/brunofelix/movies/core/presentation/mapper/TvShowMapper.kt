@@ -29,6 +29,6 @@ fun TvShow.toUiModel(): TvShowUiModel {
         genres = genres,
         numberOfEpisodes = numberOfEpisodes,
         numberOfSeasons = numberOfSeasons,
-        seasons = seasons.filter { it.episodeCount > 0 }.map { it.toUiModel() }
+        seasons = seasons.filter { it.episodeCount > 0 && it.seasonNumber > 0 }.map { it.toUiModel() }
     )
 }

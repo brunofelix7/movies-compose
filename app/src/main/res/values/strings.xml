@@ -24,6 +24,7 @@
     <string name="trailer">Trailer</string>
     <string name="seasons">%1$d Seasons</string>
     <string name="episodes">%1$d Episodes</string>
+    <string name="episode">Episode</string>
     <string name="seasons_title">Seasons</string>
     <string name="cast_title">Cast</string>
     <string name="season_summary">%1$d episodes • %2$s</string>
