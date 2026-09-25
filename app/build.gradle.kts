@@ -30,8 +30,8 @@ android {
         applicationId = "dev.brunofelix.movies"
         minSdk = 26
         targetSdk = 36
-        versionCode = 6
-        versionName = "1.0.0"
+        versionCode = 7
+        versionName = "1.0.1"
         testInstrumentationRunner = "dev.brunofelix.movies.test_util.HiltTestRunner"
 
         vectorDrawables {
