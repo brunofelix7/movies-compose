@@ -55,7 +55,7 @@ fun MovieDetailContent(
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
-    val imageHeight = screenHeight * 0.75f
+    val imageHeight = screenHeight * 0.65f
 
     Box(
         modifier = modifier

@@ -50,7 +50,12 @@ fun DetailTopBar(
                     color = Colors.white.copy(alpha = safeFraction),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = androidx.compose.material3.MaterialTheme.typography.titleMedium
+                    style = androidx.compose.material3.MaterialTheme.typography.titleMedium.copy(
+                        fontSize = androidx.compose.ui.unit.TextUnit(
+                            value = androidx.compose.material3.MaterialTheme.typography.titleMedium.fontSize.value + 2f,
+                            type = androidx.compose.ui.unit.TextUnitType.Sp
+                        )
+                    )
                 )
             }
         },
