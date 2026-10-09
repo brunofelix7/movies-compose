@@ -26,107 +26,81 @@ The architecture standards in `.cursor/rules/` are project-agnostic and always a
 
 # Part A: Project-specific (rewrite per project)
 
-This part records decisions the user already made for this project: the single-module layout (A2), how to treat legacy code (A3), navigation (A4), and the UI reference (A5). Where they adapt a rule, follow them; that is not a disagreement to stop for. Anything they don't cover follows the rules, and any other conflict still goes to the user.
+This part records the project's values and the decisions the user already made: module list (A2), navigation (A3), UI reference (A4), visual language (A5) and build and domain notes (A6). Anything they don't cover follows the rules, and any conflict goes to the user.
 
 ## A1. Project Profile
 
 | Key | Value |
 |---|---|
 | App | Movies Explorer: browse movies and TV shows from the [TMDB API](https://developer.themoviedb.org/docs) |
-| `<basePackage>` | `dev.brunofelix.movies` (single `:app` module with that namespace; layers are packages, see A2) |
-| Application ID / launch activity | `dev.brunofelix.movies` (`prod` flavor; `beta` adds the `.beta` suffix) / `dev.brunofelix.movies/.core.presentation.ui.MainActivity` |
-| Build variant | Flavors `prod` and `beta`. Use `prodDebug` unless told otherwise; Gradle task names are in A7 |
+| `<basePackage>` | `dev.brunofelix.movies`. Source packages: `dev.brunofelix.movies.<domain\|data\|presentation\|designsystem>`, and every feature uses `dev.brunofelix.movies.presentation` (see Package Structure in `android-architecture.mdc`). Gradle namespaces, which only name `R` and `BuildConfig`: `dev.brunofelix.movies.<core\|feature>.<name>`. `:app` uses `dev.brunofelix.movies` for both |
+| Application ID / launch activity | `dev.brunofelix.movies` (`prod`; `beta` adds `.beta`) / `dev.brunofelix.movies/.MainActivity` |
+| Build variant | Flavors `prod` and `beta` in `:app` (libraries have no flavors). Use `prodDebug` unless told otherwise; task names are in A6 |
 | Theme composable (`AppTheme`) | `PMovieTheme` |
-| Theme mode | Light and dark (`LightColorPalette` / `DarkColorPalette` in `Theme.kt`, chosen by `isSystemInDarkTheme()`). Both hold the same values and screens read `Colors` directly, so the app is dark in both modes. Add new color roles to both palettes |
-| Font family token (`AppFontFamily`) | `urbanist` (Urbanist regular, medium, bold; private in `Typography.kt`) |
-| Theme files (`:core:designsystem` tokens) | `core/presentation/ui/theme/`: `Colors.kt` (the rules' `Color.kt`), `Typography.kt` (the rules' `Type.kt`, exposes `appTypography`), `Shapes.kt`, `Theme.kt` |
-| Color tokens | `object Colors` in `Colors.kt`: `blackPrimary`, `blackSecondary`, `white`, `redPrimary`, `lightGray`, `darkGray`, `darkRed`. Only `blackPrimary` is mapped into the color schemes (`primary`, `secondary`) |
-| Spacing and shape tokens | `SmallSpacing` (4dp), `MediumSpacing` (8dp), `LargeSpacing` (16dp) and `appShapes` (`small` / `medium` / `large`: 4, 8, 16dp corners) in `Shapes.kt`. Naming of new spacings: see A3 |
-| Design source / tokens doc | None: no Stitch, Figma, or `DESIGN.md` (see A5) |
-| Foundational components (`:core:designsystem/components`) | In `core/presentation/ui/components/`: `CustomButton` (filled or outlined), `CustomSearchBar`, `SelectorChip`, `SectionCard`, `GradientBackground` (`AppGradient`, `SplashGradient`), `MainTopBar`, `SecondaryTopBar`, `DetailTopBar`, `DetailStatusLayout`, `DetailSkeleton`, `LoadingState`, `EmptyState`, `EmptyImage`, `PagingRetry`, `MovieInfoChip`, `MovieOverview`, `YouTubePlayer`; plus `Modifier.shimmerEffect` in `core/presentation/util/ShimmerEffect.kt` |
-| Shared presentation components (`:core:presentation/components`) | Same folder, for components that take domain or UI models, `UiState`, `UiText`, or `MainNavKey`: `MediaCard`, `MediaSection`, `CastSection`, `DetailHeader`, `MovieGenderContainer`, `CategorySelector`, `ErrorLayout`, `CustomNavBar` |
-| Project-specific stack | TMDB REST API through Retrofit + **Gson** (`converter-gson`, `@SerializedName` DTOs); DataStore Preferences (language); Paging 3; android-youtube-player (trailers); Timber; Splash Screen API. Kotlinx Serialization only serializes navigation keys: `MainNavKey` and the `MediaListCategory` enum it carries, a known exception to the no-annotations rule in `core/domain` |
-| Secrets | `apiKey.properties` at the root (`API_KEY`, `BASE_URL`, `BASE_URL_IMAGE`, exposed through `BuildConfig`) is required to build and must never be committed. `keystore.properties` is optional (release signing) |
-| Localization | English (`values/`, default), Portuguese (`values-pt-rBR/`), Spanish (`values-es/`). Every new string goes into all three. Error strings live in `strings_errors.xml`, which is where the template's `error_*` strings get merged |
+| Theme mode | Dark only (`DarkColorScheme` in `Theme.kt`; `MyApplication` forces night mode) |
+| Font family token (`AppFontFamily`) | `UrbanistFontFamily` (Urbanist regular, medium, bold) |
+| Design source / tokens doc | None (see A4) |
+| Spacing, size, elevation and shape tokens | `spacing{X}`, `size{X}`, `elevation{X}`, `shapeCircle`, `shapeRounded{X}` and `AppShapes`, all in `Shapes.kt` |
+| Foundational components | `CustomButton`, `CustomSearchBar`, `SelectorChip` (`SelectorTopSpacing`, `SelectorContentSpacing`), `SectionCard`, `GradientBackground` (`AppGradient`, `SplashGradient`), `MainTopBar`, `SecondaryTopBar`, `DetailTopBar`, `DetailStatusLayout`, `DetailSkeleton`, `LoadingState`, `EmptyState`, `EmptyImage`, `PagingRetry`, `MovieInfoChip`, `Modifier.shimmerEffect` |
+| Shared presentation components | In `:core:presentation/components`: `MediaCard`, `MediaSection`, `MainContent` (paged grid), `CastSection`, `MovieOverview`, `MovieGenderContainer`, `CategorySelector`, `ErrorLayout`, `CustomNavBar`, `YouTubePlayer` |
+| Brand tokens without a Material role | `DarkRed`, `RatingStar`, `IconSilver`, `ShimmerBase`, `ShimmerHighlight`, `SurfaceGlass*`, `OutlineSubtle`, `OutlineMedium`, `Scrim*` (in `Color.kt`) |
+| Project-specific stack | TMDB REST API (Retrofit + Kotlinx Serialization, client in `:core:data`); DataStore Preferences (language); Paging 3; android-youtube-player (trailers, in `:core:presentation`); Timber (`:app`); Splash Screen API |
+| Secrets | `apiKey.properties` at the root (`API_KEY`, `BASE_URL`, `BASE_URL_IMAGE`) is read by `:core:data` into its `BuildConfig`; never commit it. `keystore.properties` is optional (release signing in `:app`) |
+| Localization | English (`values/`, default), Portuguese (`values-pt-rBR/`), Spanish (`values-es/`). Each module owns its strings, and every new string goes into all three |
 
-## A2. Single-Module Layout
+## A2. Modules
 
-The rules describe Gradle modules; this project has only `:app`. Read each module in the rules as the package below (paths relative to `app/src/main/java/dev/brunofelix/movies/`; tests mirror them under `app/src/test/` and `app/src/androidTest/`):
-
-| Module in the rules | Package here |
+| Module | Contents |
 |---|---|
-| `:app` | Root package (`MyApplication`) and `core/presentation/ui/` (`MainActivity`, `MainScreen`, `SplashScreen`) |
-| `:core:domain` | `core/domain/` (`model`, `repository`, `use_case`, `util`, `mapper`) |
-| `:core:data` | `core/data/` (`local`, `remote`, `repository`, `util`). New use case implementations go in `core/data/use_case/` |
-| `:core:data/di/` | `core/di/` |
-| `:core:presentation` | `core/presentation/` (`util`, `mapper`, `ui/model`, `navigation`, shared components in `ui/components/`) |
-| `:core:designsystem` | `core/presentation/ui/theme/` plus the foundational components listed in A1 |
-| `:feature:<name>` | `feature/<name>/presentation/`; grouped features nest, e.g. `feature/movie/detail/` |
+| `:app` | `MyApplication`, `MainActivity`, `ui/MainScreen` (tabs top bar, bottom bar and search overlay), `navigation/NavigationGraph`, launcher resources |
+| `:core:domain` | Models, repository interfaces, use case `fun interface`s, `Resource` and its extensions, exceptions, `DateTimeConverter` |
+| `:core:data` | DTOs, `MovieApi` / `TvShowApi`, Room (`AppDatabase`, `MediaDao`), DataStore, data sources, repositories, use case implementations, Hilt modules (`RemoteModule`, `LocalModule`, `DataSourceModule`, `RepositoryModule`, `UseCaseModule`) |
+| `:core:presentation` | Base components (`UiState`, `UiText`, `ObserveAsEvents`, `BasePagingSource`, paging and error extensions), `Route`, `NavigationViewModel`, UI models and mappers, shared components |
+| `:core:designsystem` | Theme tokens and foundational components |
+| `:feature:splash` | Splash destination (no ViewModel) |
+| `:feature:movie`, `:feature:tv_show` | Home tab and details of each media type |
+| `:feature:favorite`, `:feature:release` | Favorites and release calendar tabs |
+| `:feature:media_list` | Full, paginated version of a home row |
+| `:feature:settings` | Language and app information |
+| `:feature:search` | Search overlay. It is not a destination: `MainScreen` hosts `SearchOverlayRoute` over the tabs |
 
-What changes because of this:
-- **Module dependencies become import rules**: `core.domain` never imports Android, data, or presentation classes, and a `feature` package never imports another feature, DTOs, entities, or Retrofit/Room types.
-- **Gradle**: every dependency goes in `app/build.gradle.kts`, still through `libs.*`, under the comment groups that file already uses (`// AndroidX & Core`, `// Jetpack Compose`, `// DI (Hilt)`, ...). Skip the "create a module" and namespace steps in the rules' checklists; create packages instead.
-- **Resources**: there is a single `R` (`dev.brunofelix.movies.R`); templates that import `<basePackage>.core.presentation.R` use it instead.
-- **Data packages**: Room lives in `core/data/local/db/` (`dao`, `entity`, `mapper`, `converter`, `AppDatabase`) and DataStore in `core/data/local/preferences/`. Retrofit interfaces are named `*Service.kt` (`MovieService`, `TvShowService`) instead of `*Api.kt`, and B1's API tests apply to them.
-- **Base components**: the template classes already exist in their catalog packages, some with small compatible extras such as `Resource.map`. The only one missing is `ObserveAsEvents`: copy its template the first time a screen needs it. `Route` and `NavigationViewModel` are replaced by the project's own navigation (A4).
+## A3. Navigation
 
-## A3. Legacy Code
+- `Route` and `NavigationViewModel` are the templates. The back stack starts at `Route.Splash`, which replaces itself with `Route.Movies`.
+- The four tabs (`TopLevelRoutes`: Movies, TV Shows, Favorites, Releases) are routes. The bottom bar only shows over a tab root, so switching tabs uses `replaceCurrent`; everything else is `navigateTo`.
+- Each feature exposes one `<feature>NavEntry` with navigation lambdas (`onNavigateToDetails: (Media) -> Unit`, `onBack`, ...). `NavigationGraph` maps them to routes (`Media.toDetailRoute()`) and passes the scaffold insets to the tabs.
+- `NavDisplay` uses the saveable state holder and ViewModel store decorators, so each entry has its own ViewModel; pops use the crossfade in `NavigationGraph`.
 
-Code written before these rules diverges from them in the ways listed below. New code follows the rules, using the package mapping from A2. Legacy code is migrated only when a task substantially rewrites it or when the user asks:
-- Small changes (bug fixes, tweaks) to a legacy class follow that class's current pattern. Don't refactor beyond the request.
-- When a task rewrites or substantially extends a legacy class, bring that class and its tests up to the rules within the task, and say so in the summary.
-- Broad migrations (every ViewModel to MVI, renaming tokens, moving every feature use case to `core`) happen only on request.
-
-| Area | Legacy pattern | New code |
-|---|---|---|
-| Feature domain, data, and DI | Use case interface and `Impl` in the same file under `feature/<name>/domain/use_case/`; Hilt modules in `feature/<name>/di/`; `feature/search/` also has its own `domain/repository` and `data/repository` | Interfaces in `core/domain/use_case/`, implementations in `core/data/use_case/`, bindings in `core/di/` (`UseCaseModule`, `RepositoryModule`) |
-| Presentation | MVVM: public ViewModel functions and several `StateFlow`s; some screens receive the ViewModel directly; an app-wide `UiEvent` bus in `core/presentation/util/UiEvent.kt` | MVI from `android-presentation-layer.mdc`: `UiAction`, a per-screen `UiEvent` channel, Route + stateless Screen |
-| Unit tests | JUnit 4 + Truth with `MainDispatcherRule`, `InstantTaskExecutorRule` / `LiveDataTestUtil`, and hand-written fakes in `test_util/fake/` | Kotest `DescribeSpec` + MockK. The JUnit Platform and `junit-vintage-engine` are already configured, so both styles run. Reuse the factories in `test_util/factory/` |
-| Design tokens | `dp` / `sp` literals in screens and components; `Colors.*` read directly even for colors that have a Material role | Tokens only. New spacings use the `spacing{X}` name; for 4, 8, and 16dp keep `SmallSpacing` / `MediumSpacing` / `LargeSpacing` until they are renamed, instead of adding duplicate `spacing4` / `spacing8` / `spacing16` |
-| JSON | Gson DTOs (`@SerializedName`) | Also Gson: both Retrofit services use `GsonConverterFactory`, which ignores Kotlinx `@Serializable` / `@SerialName`. Moving DTOs to Kotlinx Serialization is a broad migration |
-
-## A4. Navigation
-
-The project keeps its own Navigation3 setup instead of the `Route` / `NavigationViewModel` templates. Treat these as the rules' equivalents:
-
-| In the rules | Here |
-|---|---|
-| `Route` | `MainNavKey` (`core/presentation/navigation/MainNavKey.kt`); `MainNavKeyExt.kt` maps media to detail keys (`toDetailNavKey()`) |
-| `NavigationViewModel` | `MainNavViewModel`: one back stack per top-level tab (`topLevelTabs`: Movies, TV Shows, Favorites, Releases), `navigateTo` (switches tab when given a tab, pushes otherwise), `popBackStack`, and the search overlay visibility. There is no `replaceCurrent` / `onReplace` |
-| `NavigationGraph` in `:app` | `MainNavDisplay` (`core/presentation/navigation/`), hosted by `MainScreen` |
-| `<feature>NavEntry` | `EntryProviderScope<NavKey>.<feature>Entry(...)` in `feature/<name>/presentation/navigation/<Feature>NavEntry.kt`, taking `onNavigate: (MainNavKey) -> Unit` and/or `onBack` (tab roots also take `paddingValues`) |
-
-To add a screen: add its key to `MainNavKey`, create the entry, and call it inside `MainNavDisplay`'s `entryProvider`. Navigation UI tests (B1) target `MainNavDisplay`.
-
-## A5. UI Reference
+## A4. UI Reference
 
 There is no design source. Don't use Stitch (the "Movies (Compose)" project there is outdated), Figma, or a `DESIGN.md` for this app. The reference is the current Compose code and the screenshots in `screenshots/` (shown in `README.md`).
 - Changing an existing screen: keep its layout and visual language unless the request says otherwise.
 - New screen, or a layout the request doesn't describe: ask the user for a description or reference image before implementing. Never guess a layout.
 - Translate every value into a token from A1, never a literal. If none matches, add one following `android-design-system.mdc` and use it.
 
-## A6. Visual Language
+## A5. Visual Language
 
-- Flat black canvas: screens sit on `GradientBackground` with `AppGradient` (`Colors.blackPrimary`). `SplashGradient` (black into `Colors.darkRed`) is reserved for the splash.
-- `Colors.redPrimary` is the single accent: selected tab, primary buttons, loaders, favorite icon, info chip icons. Text is `Colors.white`; secondary text and outlines use `Colors.lightGray`; placeholders and image fallbacks use `Colors.darkGray`.
-- All text uses Urbanist through `MaterialTheme.typography` (`appTypography`).
+- Flat black canvas: screens sit on `GradientBackground` with `AppGradient`. `SplashGradient` (black into `DarkRed`) is reserved for the splash.
+- `MaterialTheme.colorScheme.primary` (red) is the single accent: selected tab, primary buttons, loaders, favorite icon, info chip icons. Text uses `onBackground`; secondary text and outlines `onSurfaceVariant`; image placeholders `surfaceVariant`.
+- All text uses Urbanist through `MaterialTheme.typography`.
 - Home tabs show horizontal rows of rounded poster cards (`MediaSection` / `MediaCard`) under `MainTopBar` (search and settings), with `CustomNavBar` at the bottom.
 - Movie and TV show details follow an Apple TV+ style: a full-bleed backdrop with parallax, content grouped in `SectionCard`s, and a transparent `DetailTopBar` whose title fades in as the user scrolls (`scrollFraction`).
 
-## A7. Domain and Build Notes
+## A6. Domain and Build Notes
 
-- **TMDB requests**: `RemoteInterceptor` adds `api_key` and `language` (from `LanguageRepository`) to every request; never add them per endpoint.
-- **Pagination**: TMDB lists paginate by page number (`@Query("page")`, 20 items per page), so `BasePagingSource` applies. Keep `PAGE_SIZE` in sync as `android-presentation-layer.mdc` requires.
-- **Favorites** are stored locally in Room (`MediaEntity`, `MediaDao`) through `MediaRepository`.
-- **Languages**: `LanguageEnum` (`en`, `pt-BR`, `es`) drives both the TMDB `language` parameter and the app locale. Adding one means a new `values-*` folder and an entry in `res/xml/locales_config.xml`.
-- **Gradle tasks**: because of the flavors, the Part B commands (B2 step 5 and B5) map to these:
+- **TMDB requests**: `RemoteInterceptor` adds `api_key` and `language` (from `LanguageRepository`) to every request; never add them per endpoint. Image paths become absolute URLs in the DTO mappers.
+- **Pagination**: TMDB lists paginate by page number with 20 items per page, so `BasePagingSource` applies. Search pages hold the movies and the TV shows of the same TMDB page, so its page size is 40.
+- **Favorites** are stored in Room through `MediaRepository`; one-shot local operations return `Resource` and the screens report failures with a toast.
+- **Languages**: `LanguageEnum` (`en`, `pt-BR`, `es`) drives both the TMDB `language` parameter and the app locale. Adding one means new `values-*` folders and an entry in `res/xml/locales_config.xml`.
+- **Room tests**: `MediaDao` and `AppDatabase` are tested as instrumented tests in `:core:data/src/androidTest` (JUnit 4 + Kotest matchers), since the Kotest Robolectric extension is archived.
+- **Gradle tasks**: because of the flavors, the Part B commands map to the ones below.
 
 | Part B | Here |
 |---|---|
-| `./gradlew assembleDebug` | Same (builds both flavors); `./gradlew assembleProdDebug` builds only `prod` |
-| `./gradlew testDebugUnitTest` | `./gradlew testProdDebugUnitTest` |
-| `./gradlew connectedDebugAndroidTest` | `./gradlew connectedProdDebugAndroidTest` |
-| `./gradlew installDebug` | `./gradlew installProdDebug` |
+| `./gradlew assembleDebug` | Same (builds both flavors); `./gradlew :app:assembleProdDebug` builds only `prod` |
+| `./gradlew testDebugUnitTest` | Same for the library modules; add `:core:domain:test` (pure Kotlin) and `:app:testProdDebugUnitTest` |
+| `./gradlew connectedDebugAndroidTest` | Same for the library modules; `:app:connectedProdDebugAndroidTest` for the app |
+| `./gradlew installDebug` | `./gradlew :app:installProdDebug` |
 
 ---
 
