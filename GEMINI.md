@@ -1,36 +1,30 @@
-# Moises Android Challenge - AI Agent Rules
+# Project Instructions - Gemini (Antigravity)
 
-This file defines the strict rules and workflows that any AI agent must follow when contributing to this project. 
-These rules work in conjunction with the project's global skills (`android-architecture`, `android-data-layer`, `android-domain-layer`, `android-presentation-layer`, `android-unit-tests`, `android-ui-tests`).
+This file is the entry point for Gemini in Antigravity. It holds no project-specific values: `CLAUDE.md` is the single source of truth for this project, and every section of it is mandatory for you as well.
 
-## 1. Mandatory Test-Driven Generation (TDD)
+> **Reusing in another project**: copy this file unchanged, together with `.agents/` and `.cursor/templates/`. Only `CLAUDE.md` Part A changes per project.
 
-Based on the project's existing high test coverage, you **MUST NEVER** create a new feature, component, or logic class without immediately creating its corresponding test file.
+## Before Any Task
 
-When you generate or modify any of the following file types, you are **OBLIGATED** to automatically generate the appropriate Unit Test (`src/test`) or UI Test (`src/androidTest`):
+1. Read `CLAUDE.md` in full.
+   - **Part A** holds the Project Profile, which resolves the placeholders used by the skills (`<basePackage>`, `AppTheme`, `AppFontFamily`, "the design source"), plus the decisions made for this project (layout, legacy code, navigation, UI reference, build tasks).
+   - **Part B** is the mandatory workflow: tests in the same task, execution order, previews, git, and build commands.
+2. Where `CLAUDE.md` or a skill mentions Cursor paths, use the Antigravity equivalents below.
+3. If `CLAUDE.md` and a skill disagree in a way Part A doesn't settle, stop and ask the user instead of picking one.
 
-### Data & Domain Layers (Unit Tests)
-*   **Repositories** (`*RepositoryImpl.kt`)
-*   **Data Sources** (`*LocalDataSourceImpl.kt`, `*RemoteDataSourceImpl.kt`)
-*   **API Services / DAOs** (`*Api.kt`, `*Dao.kt`)
-*   **Mappers** (`*DtoMapper.kt`, `*EntityMapper.kt`, `*Mapper.kt`)
-*   **Use Cases** (`*UseCase.kt` / `*UseCaseImpl.kt`)
-*   **Utils & Extensions** (e.g., `*Ext.kt`, Utility classes)
-*   **Databases** (`*Database.kt`)
-*   *Rule:* Use the `android-unit-tests` skill (Kotest `DescribeSpec` + MockK).
+## Cursor → Antigravity
 
-### Presentation Layer (Unit Tests & UI Tests)
-*   **ViewModels** (`*ViewModel.kt`) -> Requires Unit Test testing `UiState` and `UiEvent`.
-*   **Screens** (`*Screen.kt`) -> Requires UI Test (JUnit4 + ComposeTestRule) testing the stateless component passing dummy `UiState`.
-*   **Reusable Components** (e.g., `*Item.kt`, `*Bar.kt`, `*Card.kt` in `presentation/components`) -> Requires UI Test to ensure rendering and click listeners work.
-*   **Navigation / Graph** (`*Graph.kt`) -> Requires UI Test to ensure routes render the correct screens.
-*   **Controllers** (e.g., `*ControllerImpl.kt`) -> Requires UI or Unit tests depending on framework dependencies (like ExoPlayer).
-*   *Rule:* Use the `android-ui-tests` skill for Compose UI elements, and `android-unit-tests` for ViewModels.
+| In `CLAUDE.md` (Cursor) | In Antigravity |
+|---|---|
+| `.cursor/rules/<name>.mdc` (always applied) | `.agents/rules/<name>.md` (`trigger: always_on`), which loads `.agents/skills/<name>/SKILL.md` |
+| `.cursor/rules/git-commit.mdc`, `.cursor/rules/generate-release-notes.mdc` (on request) | `.agents/skills/git-commit/SKILL.md`, `.agents/skills/generate-release-notes/SKILL.md`: read them when the user asks to commit or for release notes |
+| `.cursor/templates/` | The same folder, shared by both tools: templates of the base components cataloged in the `android-base-components` skill |
 
-## 2. Execution Workflow
+Each skill has the same content as the Cursor rule with the same name, so the "Rule | Covers" table at the top of `CLAUDE.md` also describes the skills.
 
-When a user asks you to "Create a new X feature":
-1. Generate the Domain models and Use Cases. -> **Generate Use Case Unit Tests.**
-2. Generate the Data layer (DTOs, Entities, Mappers, Data Sources, Repositories). -> **Generate Mapper, DataSource, and Repository Unit Tests.**
-3. Generate the Presentation layer (ViewModels, Screens, Components). -> **Generate ViewModel Unit Tests and Screen/Component UI Tests.**
-4. Never consider a task "Done" unless the corresponding tests have been successfully written.
+## Non-Negotiables
+
+A reminder of `CLAUDE.md` Part B, not a replacement for it:
+- Never create or change a class listed in B1 without its test in the same task.
+- Work in the B2 order (domain, data, presentation, navigation, verify). Verify with the B5 commands, or with the overrides in Part A when the project defines them.
+- Never commit or push unless the user asks; then follow the `git-commit` skill.
