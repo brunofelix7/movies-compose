@@ -3,8 +3,11 @@ package dev.brunofelix.movies.data.local.source
 import app.cash.turbine.test
 import dev.brunofelix.movies.data.local.dao.MediaDao
 import dev.brunofelix.movies.data.local.entity.MediaEntity
+import dev.brunofelix.movies.data.local.entity.MediaWatchProvidersUpdate
+import dev.brunofelix.movies.data.local.entity.WatchProviderEntity
 import dev.brunofelix.movies.data.local.mapper.toEntity
 import dev.brunofelix.movies.domain.model.Media
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.model.enums.MediaType
 import dev.brunofelix.movies.domain.util.exception.LocalException
 import io.kotest.core.spec.style.DescribeSpec
@@ -61,6 +64,42 @@ class MediaLocalDataSourceImplTest : DescribeSpec({
                 coEvery { dao.delete(any()) } throws IllegalStateException()
 
                 dataSource.delete(media).exceptionOrNull().shouldBeInstanceOf<LocalException.DatabaseError>()
+            }
+        }
+    }
+
+    describe("updateWatchProviders") {
+        it("should update only the providers of the stored media") {
+            runTest {
+                val providers = listOf(WatchProvider(id = 8L, name = "Netflix", logoPath = "logo"))
+                coEvery { dao.updateWatchProviders(any()) } returns 1
+
+                dataSource.updateWatchProviders(1L, providers) shouldBe Result.success(Unit)
+                coVerify {
+                    dao.updateWatchProviders(
+                        MediaWatchProvidersUpdate(
+                            id = 1L,
+                            watchProviders = listOf(WatchProviderEntity(id = 8L, name = "Netflix", logoPath = "logo"))
+                        )
+                    )
+                }
+            }
+        }
+
+        it("should succeed without changes when the media is not stored") {
+            runTest {
+                coEvery { dao.updateWatchProviders(any()) } returns 0
+
+                dataSource.updateWatchProviders(2L, emptyList()) shouldBe Result.success(Unit)
+            }
+        }
+
+        it("should fail with a DatabaseError when the DAO throws") {
+            runTest {
+                coEvery { dao.updateWatchProviders(any()) } throws IllegalStateException()
+
+                dataSource.updateWatchProviders(1L, emptyList())
+                    .exceptionOrNull().shouldBeInstanceOf<LocalException.DatabaseError>()
             }
         }
     }

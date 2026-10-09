@@ -12,6 +12,8 @@ import dev.brunofelix.movies.domain.use_case.IsFavoriteMediaUseCase
 import dev.brunofelix.movies.domain.use_case.IsFavoriteMediaUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.SaveMediaUseCase
 import dev.brunofelix.movies.domain.use_case.SaveMediaUseCaseImpl
+import dev.brunofelix.movies.domain.use_case.UpdateFavoriteWatchProvidersUseCase
+import dev.brunofelix.movies.domain.use_case.UpdateFavoriteWatchProvidersUseCaseImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,4 +38,9 @@ abstract class UseCaseModule {
     abstract fun bindSaveMediaUseCase(
         impl: SaveMediaUseCaseImpl
     ): SaveMediaUseCase
+
+    @Binds
+    abstract fun bindUpdateFavoriteWatchProvidersUseCase(
+        impl: UpdateFavoriteWatchProvidersUseCaseImpl
+    ): UpdateFavoriteWatchProvidersUseCase
 }

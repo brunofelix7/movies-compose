@@ -2,6 +2,7 @@ package dev.brunofelix.movies.data.repository
 
 import dev.brunofelix.movies.data.local.source.MediaLocalDataSource
 import dev.brunofelix.movies.domain.model.Media
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.repository.MediaRepository
 import dev.brunofelix.movies.domain.util.Resource
 import dev.brunofelix.movies.domain.util.toResource
@@ -26,6 +27,10 @@ class MediaRepositoryImpl @Inject constructor(
 
     override suspend fun isFavorite(id: Long): Resource<Boolean> {
         return localDataSource.getById(id).map { it != null }.toResource()
+    }
+
+    override suspend fun updateWatchProviders(id: Long, providers: List<WatchProvider>): Resource<Unit> {
+        return localDataSource.updateWatchProviders(id, providers).toResource()
     }
 
     override fun getFavoriteMedias(): Flow<List<Media>> = localDataSource.getAll()

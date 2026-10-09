@@ -6,6 +6,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import dev.brunofelix.movies.data.local.AppDatabase
 import dev.brunofelix.movies.data.local.entity.MediaEntity
+import dev.brunofelix.movies.data.local.entity.MediaWatchProvidersUpdate
+import dev.brunofelix.movies.data.local.entity.WatchProviderEntity
 import dev.brunofelix.movies.domain.model.enums.MediaType
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull
@@ -96,6 +98,23 @@ class MediaDaoTest {
     @Test
     fun shouldNotDeleteWhenMediaIsNotStored() = runTest {
         dao.delete(entity(1)) shouldBe 0
+    }
+
+    @Test
+    fun shouldUpdateOnlyTheWatchProvidersOfAStoredMedia() = runTest {
+        val providers = listOf(WatchProviderEntity(id = 8L, name = "Netflix", logoPath = "logo"))
+        dao.insert(entity(1))
+
+        dao.updateWatchProviders(MediaWatchProvidersUpdate(id = 1, watchProviders = providers)) shouldBe 1
+
+        dao.getById(1) shouldBe entity(1).copy(watchProviders = providers)
+    }
+
+    @Test
+    fun shouldNotInsertWhenUpdatingTheWatchProvidersOfAMissingMedia() = runTest {
+        dao.updateWatchProviders(MediaWatchProvidersUpdate(id = 1, watchProviders = emptyList())) shouldBe 0
+
+        dao.getById(1).shouldBeNull()
     }
 
     @Test

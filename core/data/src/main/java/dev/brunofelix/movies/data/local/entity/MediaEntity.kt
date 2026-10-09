@@ -26,5 +26,9 @@ data class MediaEntity(
     val releaseDate: String,
 
     @ColumnInfo(name = "type")
-    val type: MediaType
+    val type: MediaType,
+
+    /** `null` until the streaming services are fetched for the first time. */
+    @ColumnInfo(name = "watchProviders")
+    val watchProviders: List<WatchProviderEntity>? = null
 )

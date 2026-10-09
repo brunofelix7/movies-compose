@@ -3,6 +3,7 @@ package dev.brunofelix.movies.data.repository
 import app.cash.turbine.test
 import dev.brunofelix.movies.data.local.source.MediaLocalDataSource
 import dev.brunofelix.movies.domain.model.Media
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.util.Resource
 import dev.brunofelix.movies.domain.util.exception.LocalException
 import io.kotest.core.spec.style.DescribeSpec
@@ -81,6 +82,26 @@ class MediaRepositoryImplTest : DescribeSpec({
                 coEvery { localDataSource.getById(1L) } returns Result.failure(error)
 
                 repository.isFavorite(1L) shouldBe Resource.Error(error)
+            }
+        }
+    }
+
+    describe("updateWatchProviders") {
+        val providers = listOf(WatchProvider(id = 8L))
+
+        it("should return Success when the providers are stored") {
+            runTest {
+                coEvery { localDataSource.updateWatchProviders(1L, providers) } returns Result.success(Unit)
+
+                repository.updateWatchProviders(1L, providers) shouldBe Resource.Success(Unit)
+            }
+        }
+
+        it("should return Error when the providers cannot be stored") {
+            runTest {
+                coEvery { localDataSource.updateWatchProviders(1L, providers) } returns Result.failure(error)
+
+                repository.updateWatchProviders(1L, providers) shouldBe Resource.Error(error)
             }
         }
     }
