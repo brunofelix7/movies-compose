@@ -5,7 +5,7 @@ description: Architecture rules for the Data Layer (Repositories, Data Sources, 
 
 # Android Data Layer Architecture
 
-This project strictly organizes the Data layer within the `:core:data` module. The Data layer is responsible for fetching, caching, mapping, and providing data to the Domain layer.
+The shared Data layer lives in the `:core:data` module. The Data layer is responsible for fetching, caching, mapping, and providing data to the Domain layer. Data code that a single feature uses (the implementations of its use cases, and repositories, data sources, or DTOs that no other module needs) lives in that feature's `data` package instead (see **Feature Modules** in `android-architecture`). Room (`AppDatabase`, entities, DAOs), the Retrofit/OkHttp client, and DataStore always stay in `:core:data`.
 
 ## Core Principles
 
@@ -18,7 +18,7 @@ This project strictly organizes the Data layer within the `:core:data` module. T
 
 ## 1. Package Structure
 
-When adding new data components, follow this exact package structure inside `:core:data`, under the package `<basePackage>.data` (never `<basePackage>.core.data`; see **Package Structure** in `android-architecture`):
+When adding new data components, follow this exact package structure inside `:core:data` or a feature's `data` package, both under the package `<basePackage>.data` (never `<basePackage>.core.data`; see **Package Structure** in `android-architecture`). A feature creates only the sub-packages it needs, and never `local/dao` or `local/entity`:
 
 ```text
 /local
@@ -94,8 +94,10 @@ class SongRepositoryImpl @Inject constructor(
 
 ## Execution Steps for Adding New Data
 
-1. **Create DTO/Entity**: Add your `ModelDto` (in `remote/dto`) or `ModelEntity` (in `local/entity`).
-2. **Create Mappers**: Write `ModelDto.toDomain()` or `ModelEntity.toDomain()` in the `mapper` package.
-3. **Update API/DAO**: Add the endpoints to Retrofit Api interface or Room Dao.
-4. **Update Data Sources**: Add methods to `RemoteDataSource` / `LocalDataSource` interfaces and implement them, returning Domain Models. For remote, use `safeApiCall`.
-5. **Update Repository**: Orchestrate the data sources in `RepositoryImpl`.
+1. **Choose the location**: the feature's `data` package for code only that feature uses; `:core:data` for shared code and for anything Room-related.
+2. **Create DTO/Entity**: Add your `ModelDto` (in `remote/dto`) or `ModelEntity` (in `local/entity`).
+3. **Create Mappers**: Write `ModelDto.toDomain()` or `ModelEntity.toDomain()` in the `mapper` package.
+4. **Update API/DAO**: Add the endpoints to Retrofit Api interface or Room Dao.
+5. **Update Data Sources**: Add methods to `RemoteDataSource` / `LocalDataSource` interfaces and implement them, returning Domain Models. For remote, use `safeApiCall`.
+6. **Update Repository**: Orchestrate the data sources in `RepositoryImpl`.
+7. **Implement Use Cases**: Write each `*UseCaseImpl` in `/use_case`: in the feature's `data` package when its interface is in the feature's `domain` package, in `:core:data` when its interface is in `:core:domain`.
