@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.brunofelix.movies.data.use_case.SearchMediaUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.SearchMediaUseCase
+import dev.brunofelix.movies.domain.use_case.SearchMediaUseCaseImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

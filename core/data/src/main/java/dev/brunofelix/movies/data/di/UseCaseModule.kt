@@ -4,14 +4,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.brunofelix.movies.data.use_case.DeleteMediaUseCaseImpl
-import dev.brunofelix.movies.data.use_case.GetLanguageUseCaseImpl
-import dev.brunofelix.movies.data.use_case.IsFavoriteMediaUseCaseImpl
-import dev.brunofelix.movies.data.use_case.SaveMediaUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.DeleteMediaUseCase
+import dev.brunofelix.movies.domain.use_case.DeleteMediaUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetLanguageUseCase
+import dev.brunofelix.movies.domain.use_case.GetLanguageUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.IsFavoriteMediaUseCase
+import dev.brunofelix.movies.domain.use_case.IsFavoriteMediaUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.SaveMediaUseCase
+import dev.brunofelix.movies.domain.use_case.SaveMediaUseCaseImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

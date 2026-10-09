@@ -4,18 +4,18 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.brunofelix.movies.data.use_case.GetMovieCastUseCaseImpl
-import dev.brunofelix.movies.data.use_case.GetMovieDetailUseCaseImpl
-import dev.brunofelix.movies.data.use_case.GetMovieVideosUseCaseImpl
-import dev.brunofelix.movies.data.use_case.GetPopularMoviesUseCaseImpl
-import dev.brunofelix.movies.data.use_case.GetTopRatedMoviesUseCaseImpl
-import dev.brunofelix.movies.data.use_case.GetUpcomingMoviesUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetMovieCastUseCase
+import dev.brunofelix.movies.domain.use_case.GetMovieCastUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetMovieDetailUseCase
+import dev.brunofelix.movies.domain.use_case.GetMovieDetailUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetMovieVideosUseCase
+import dev.brunofelix.movies.domain.use_case.GetMovieVideosUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetPopularMoviesUseCase
+import dev.brunofelix.movies.domain.use_case.GetPopularMoviesUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetTopRatedMoviesUseCase
+import dev.brunofelix.movies.domain.use_case.GetTopRatedMoviesUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetUpcomingMoviesUseCase
+import dev.brunofelix.movies.domain.use_case.GetUpcomingMoviesUseCaseImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
