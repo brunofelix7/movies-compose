@@ -9,7 +9,7 @@ description: Module layout, dependency rules, and architectural guidelines for A
 
 - **Shared Core + Self-Contained Features**: `core` modules hold what more than one module uses (shared domain and data, base presentation classes, the design system). Each `feature` module holds its presentation code plus the domain, data, and DI code that only it uses.
 - **Clean Architecture layers**: `presentation` → `domain` ← `data`, both across modules and inside a feature. `core:domain` is the innermost module and depends on nothing.
-- **Use Cases as Interfaces**: a use case is a `fun interface` in a `domain` package, implemented in a `data` package and bound with Hilt. A use case used by a single feature lives in that feature; one used by two or more modules lives in `:core:domain` / `:core:data`.
+- **Use Cases in the Domain**: a use case is a `fun interface` plus its `*UseCaseImpl`, both in a `domain` package (use cases hold business rules, so they never go in `data`), bound with Hilt. A use case used by a single feature lives in that feature; one used by two or more modules lives in `:core:domain` and is bound in `:core:data`.
 
 ---
 
@@ -17,8 +17,8 @@ description: Module layout, dependency rules, and architectural guidelines for A
 
 ```text
 :app                            ← Application entry point, wires everything together
-:core:domain                    ← Pure Kotlin. Shared domain models, repository interfaces, shared use case interfaces, custom exceptions.
-:core:data                      ← Repository implementations, shared use case implementations, Hilt modules for shared bindings, Room DB (entities, DAOs), Retrofit (DTOs, APIs), external SDK clients (see `CLAUDE.md`).
+:core:domain                    ← Pure Kotlin. Shared domain models, repository interfaces, shared use cases (interfaces and implementations), custom exceptions.
+:core:data                      ← Repository implementations, Hilt modules for shared bindings, Room DB (entities, DAOs), Retrofit (DTOs, APIs), external SDK clients (see `CLAUDE.md`).
 :core:presentation              ← Shared UI utilities, shared components that render domain models (e.g., UserItem), base ViewModels, shared state/events, navigation.
 :core:designsystem              ← Design tokens (Colors, Theme, Typography, Dimensions) + feature-agnostic UI primitives (e.g., AppButton). No domain models, no ViewModels.
 :feature:<name>                 ← One feature: its presentation layer (ViewModel, Screen Composables, NavEntry, UiState, UiAction) plus optional domain, data, and DI packages for code only it uses.
@@ -30,8 +30,8 @@ A feature module (e.g., `:feature:album`) is a single Gradle module. **Do not** 
 ```text
 :feature:album
   presentation/   ← Always. ViewModels, Route + Screen, NavEntry, UiState / UiAction / UiEvent, components
-  domain/         ← Optional. Use case interfaces (and models or repository interfaces) that only this feature uses
-  data/           ← Optional. Implementations of the feature's domain contracts (use_case/*UseCaseImpl, repository/, ...)
+  domain/         ← Optional. Use cases (fun interface + *UseCaseImpl), models, or repository interfaces that only this feature uses
+  data/           ← Optional. Repository implementations, data sources, or DTOs that only this feature uses
   di/             ← Optional. Hilt modules binding the feature's contracts (e.g., AlbumUseCaseModule)
 ```
 
@@ -49,7 +49,7 @@ The Gradle module path already says which module a file belongs to, so packages 
 | `:core:data` | `<basePackage>.data` | `<basePackage>.data.repository.AlbumRepositoryImpl` |
 | `:core:presentation` | `<basePackage>.presentation` | `<basePackage>.presentation.util.UiState` |
 | `:core:designsystem` | `<basePackage>.designsystem` | `<basePackage>.designsystem.theme.Shapes` |
-| `:feature:<name>` | `<basePackage>.presentation`, plus `<basePackage>.domain`, `<basePackage>.data`, and `<basePackage>.di` when needed | `<basePackage>.presentation.AlbumScreen`, `<basePackage>.domain.use_case.GetAlbumByIdUseCase`, `<basePackage>.data.use_case.GetAlbumByIdUseCaseImpl`, `<basePackage>.di.AlbumUseCaseModule` |
+| `:feature:<name>` | `<basePackage>.presentation`, plus `<basePackage>.domain`, `<basePackage>.data`, and `<basePackage>.di` when needed | `<basePackage>.presentation.AlbumScreen`, `<basePackage>.domain.use_case.GetAlbumByIdUseCase`, `<basePackage>.domain.use_case.GetAlbumByIdUseCaseImpl`, `<basePackage>.di.AlbumUseCaseModule` |
 
 - **No module segments**: never add `core.<name>` or `feature.<name>` to a package. `feature/album/src/main/java/<basePackage path>/presentation/AlbumScreen.kt` is correct; `<basePackage>.feature.album.presentation` and `<basePackage>.core.data.repository` are wrong. `test` and `androidTest` use the same packages as `main`.
 - **Subpackages by screen**: a feature with several screens may group them (`presentation.home`, `presentation.detail`); shared pieces stay in `presentation.components` / `presentation.model`.
@@ -65,7 +65,7 @@ Dependencies and build scripts must be meticulously organized to prevent bloat.
 1. **Strict Dependency Scoping**: Modules should ONLY declare dependencies they actually use.
    - `:feature:<name>` gets Compose, Navigation, ViewModel, and Hilt. Add a data library only when its `data` package uses it directly (e.g., Retrofit and Kotlinx Serialization for an endpoint only it calls); never Room, whose entities and DAOs live in `:core:data`.
    - `:core:data` gets Room, Retrofit, Kotlinx Serialization, and any external SDK clients.
-   - `:core:domain` is pure Kotlin and gets standard Kotlin libraries (e.g., Coroutines), no Android framework dependencies.
+   - `:core:domain` is pure Kotlin and gets standard Kotlin libraries (e.g., Coroutines) plus `javax.inject` for `@Inject` constructors; no Android framework, Dagger, or Hilt dependencies.
 2. **Version Catalogs**: ALWAYS use Version Catalogs (`libs.*`). Never hardcode dependency strings or versions in `build.gradle.kts`.
 3. **Organized Blocks**: Group dependencies using comment headers in the `dependencies { ... }` block to keep things tidy. Standard groups include:
    - `// Modules` (for `project(...)` dependencies)
@@ -114,8 +114,8 @@ Dependencies and build scripts must be meticulously organized to prevent bloat.
 - [ ] Create a new Android Library module at `:feature:<name>`
 - [ ] Setup the `build.gradle.kts` with organized dependency blocks and use Version Catalogs (`libs.*`).
 - [ ] Add module dependencies to `:core:domain`, `:core:data`, `:core:presentation`, and `:core:designsystem` under `// Modules`.
-- [ ] Create the feature's use case interfaces in its `domain` package (in `:core:domain` only if another module also uses them). Shared models and repository interfaces go in `:core:domain`.
-- [ ] Implement the use cases in the matching `data` package (the feature's or `:core:data`), and update the repositories in `:core:data`.
+- [ ] Create the feature's use cases (interface + `*UseCaseImpl`) in its `domain` package (in `:core:domain` only if another module also uses them). Shared models and repository interfaces go in `:core:domain`.
+- [ ] Update the repositories in `:core:data` (or in the feature's `data` package for a repository only it uses).
 - [ ] Bind them in the feature's `di` package (`<Feature>UseCaseModule`), or in `:core:data/di/` for shared ones.
 - [ ] Create the ViewModel, Screen Composable, and NavEntry inside `:feature:<name>`, in the package `<basePackage>.presentation`, with names prefixed by the feature.
 - [ ] Wire the new feature's NavEntry into the main navigation graph in `:app`.

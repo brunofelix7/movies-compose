@@ -1,11 +1,11 @@
 ---
 name: android-data-layer
-description: Architecture rules for the Data Layer (Repositories, Data Sources, Mappers, DTOs, Entities). Use this skill whenever implementing networking, local databases, data mapping, or creating Repositories and UseCases.
+description: Architecture rules for the Data Layer (Repositories, Data Sources, Mappers, DTOs, Entities). Use this skill whenever implementing networking, local databases, data mapping, or creating Repositories.
 ---
 
 # Android Data Layer Architecture
 
-The shared Data layer lives in the `:core:data` module. The Data layer is responsible for fetching, caching, mapping, and providing data to the Domain layer. Data code that a single feature uses (the implementations of its use cases, and repositories, data sources, or DTOs that no other module needs) lives in that feature's `data` package instead (see **Feature Modules** in `android-architecture`). Room (`AppDatabase`, entities, DAOs), the Retrofit/OkHttp client, and DataStore always stay in `:core:data`.
+The shared Data layer lives in the `:core:data` module. The Data layer is responsible for fetching, caching, mapping, and providing data to the Domain layer. Data code that a single feature uses (repositories, data sources, or DTOs that no other module needs) lives in that feature's `data` package instead (see **Feature Modules** in `android-architecture`). Room (`AppDatabase`, entities, DAOs), the Retrofit/OkHttp client, and DataStore always stay in `:core:data`. Use case implementations are not data code: they live next to their interface in a `domain` package (see `android-domain-layer`).
 
 ## Core Principles
 
@@ -32,7 +32,6 @@ When adding new data components, follow this exact package structure inside `:co
   /source         ← RemoteDataSource interface and implementation
   MyApi.kt        ← Retrofit interface
 /repository       ← Repository implementations
-/use_case         ← Use Case implementations
 ```
 
 ## 2. Remote Data Sources & API Calls
@@ -100,4 +99,3 @@ class SongRepositoryImpl @Inject constructor(
 4. **Update API/DAO**: Add the endpoints to Retrofit Api interface or Room Dao.
 5. **Update Data Sources**: Add methods to `RemoteDataSource` / `LocalDataSource` interfaces and implement them, returning Domain Models. For remote, use `safeApiCall`.
 6. **Update Repository**: Orchestrate the data sources in `RepositoryImpl`.
-7. **Implement Use Cases**: Write each `*UseCaseImpl` in `/use_case`: in the feature's `data` package when its interface is in the feature's `domain` package, in `:core:data` when its interface is in `:core:domain`.

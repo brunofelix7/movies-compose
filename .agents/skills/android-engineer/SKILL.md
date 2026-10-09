@@ -50,8 +50,8 @@ You must discard legacy Android paradigms. This project is fully modern.
 
 ### Clean Architecture & Modules
 - Respect strict module boundaries:
-  - **`:core:domain`**: Pure Kotlin. No Android imports. Contains shared Models, Repository Interfaces, and Use Cases (`fun interface`).
-  - **`:core:data`**: Implements repositories and shared use cases, handles Room DB, Retrofit APIs, and DTO/Entity mappers.
+  - **`:core:domain`**: Pure Kotlin. No Android imports. Contains shared Models, Repository Interfaces, and Use Cases (`fun interface` + `*UseCaseImpl`).
+  - **`:core:data`**: Implements repositories, handles Room DB, Retrofit APIs, and DTO/Entity mappers.
   - **`:feature:<name>`**: Presentation logic (ViewModels, Compose Screens), plus `domain`, `data`, and `di` packages for the use cases and other code only this feature uses.
 
 ### Presentation Layer (MVI)

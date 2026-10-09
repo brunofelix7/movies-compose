@@ -11,7 +11,7 @@ This project uses a standardized Dagger Hilt setup for Dependency Injection. Sha
 
 1. **Where Modules Live**: Shared `@Module`s (third-party instances, repositories, shared use cases) live in `:core:data/di/`. A feature binds the contracts of its own `domain` package in its `di` package (`<basePackage>.di`), in modules named with the feature prefix (`AlbumUseCaseModule`, never `UseCaseModule`). A feature never provides third-party instances that other modules use.
 2. **Component Scoping**: By default, use `@InstallIn(SingletonComponent::class)` for all modules.
-3. **Interfaces vs Implementations**: a `domain` package defines interfaces (Repositories, Use Cases), and the matching `data` package defines their implementations: `:core:domain` / `:core:data` for shared ones, the feature's `domain` / `data` packages for the feature's. The module next to the implementation binds them via Hilt.
+3. **Interfaces vs Implementations**: repository interfaces live in a `domain` package and their implementations in the matching `data` package; a use case keeps both its interface and its `*UseCaseImpl` in the `domain` package. Shared ones are bound in `:core:data/di/`, a feature's in its own `di` package.
 4. **Binds vs Provides**: 
    - Use `@Binds` (in `abstract class`) for mapping an Interface to its Implementation.
    - Use `@Provides` (in `object`) for creating instances of third-party classes (Retrofit, Room, SharedPreferences, etc.).
@@ -98,5 +98,5 @@ class AlbumViewModel @Inject constructor(
 ## Execution Steps for Adding a New Dependency
 
 1. **Third-party Library**: If you added a library (e.g. Room, Retrofit), create or update an `object` Module in `:core:data/di/` and write a `@Provides` function.
-2. **New Interface/Implementation pair**: If you created a new Repository or Use Case, add a `@Binds` abstract function to the abstract Module next to the implementation: `:core:data/di/` (like `RepositoryModule` or `UseCaseModule`) for shared ones, the feature's `di/<Feature>UseCaseModule` for the feature's. When a use case moves from a feature to core, move its binding too.
+2. **New Interface/Implementation pair**: If you created a new Repository or Use Case, add a `@Binds` abstract function to `:core:data/di/` (`RepositoryModule` or `UseCaseModule`) for shared ones, or to the feature's `di` package (e.g., `<Feature>UseCaseModule`) for the feature's. When a use case moves from a feature to core, move its binding too.
 3. **Inject**: Inject the interface directly into your `@HiltViewModel` or other components.
