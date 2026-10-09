@@ -12,7 +12,7 @@ The architecture standards in `.cursor/rules/` are project-agnostic and always a
 | `android-architecture.mdc` | Module layout, dependency rules, Gradle conventions |
 | `android-domain-layer.mdc` | Models, repository interfaces, `fun interface` use cases, `Resource<T>` |
 | `android-data-layer.mdc` | DTOs, entities, mappers, data sources, repositories |
-| `android-di.mdc` | Hilt modules in `:core:data/di/` |
+| `android-di.mdc` | Hilt modules: shared ones in `:core:data/di/`, a feature's own in its `di` package |
 | `android-presentation-layer.mdc` | MVI (`UiState` / `UiAction` / `UiEvent`), Route vs Screen, previews, Paging3 |
 | `android-navigation.mdc` | Navigation3 routes, NavEntries, graph wiring |
 | `android-design-system.mdc` | Design tokens, no hardcoded values, foundational components |
@@ -53,8 +53,8 @@ This part records the project's values and the decisions the user already made: 
 | Module | Contents |
 |---|---|
 | `:app` | `MyApplication`, `MainActivity`, `ui/MainScreen` (tabs top bar, bottom bar and search overlay), `navigation/NavigationGraph`, launcher resources |
-| `:core:domain` | Models, repository interfaces, use case `fun interface`s, `Resource` and its extensions, exceptions, `DateTimeConverter` |
-| `:core:data` | DTOs, `MovieApi` / `TvShowApi`, Room (`AppDatabase`, `MediaDao`), DataStore, data sources, repositories, use case implementations, Hilt modules (`RemoteModule`, `LocalModule`, `DataSourceModule`, `RepositoryModule`, `UseCaseModule`) |
+| `:core:domain` | Models, repository interfaces, the shared use cases (`DeleteMediaUseCase`, `GetLanguageUseCase`, `IsFavoriteMediaUseCase`, `SaveMediaUseCase`), `Resource` and its extensions, exceptions, `DateTimeConverter` |
+| `:core:data` | DTOs, `MovieApi` / `TvShowApi`, Room (`AppDatabase`, `MediaDao`), DataStore, data sources, repositories, the shared use case implementations, Hilt modules (`RemoteModule`, `LocalModule`, `DataSourceModule`, `RepositoryModule`, `UseCaseModule`) |
 | `:core:presentation` | Base components (`UiState`, `UiText`, `ObserveAsEvents`, `BasePagingSource`, paging and error extensions), `Route`, `NavigationViewModel`, UI models and mappers, shared components |
 | `:core:designsystem` | Theme tokens and foundational components |
 | `:feature:splash` | Splash destination (no ViewModel) |
@@ -63,6 +63,8 @@ This part records the project's values and the decisions the user already made: 
 | `:feature:media_list` | Full, paginated version of a home row |
 | `:feature:settings` | Language and app information |
 | `:feature:search` | Search overlay. It is not a destination: `MainScreen` hosts `SearchOverlayRoute` over the tabs |
+
+Every feature except `:feature:splash` owns the use cases that only it calls: interfaces in `domain/use_case`, implementations in `data/use_case`, bindings in `di/<Feature>UseCaseModule` (e.g., `MovieUseCaseModule`). The repositories they call stay in `:core:domain` / `:core:data`.
 
 ## A3. Navigation
 
@@ -127,9 +129,9 @@ You **MUST NEVER** create a new feature, component, or logic class without creat
 
 ## B2. Execution Workflow
 When asked to create a new feature, work in this order:
-1. **Domain** (`:core:domain`): models, repository interfaces, use case `fun interface`s. Test any logic that lives here (e.g. extensions in `/util`).
-2. **Data** (`:core:data`): DTOs/entities, mappers, data sources, repository and use case implementations, Hilt bindings in `:core:data/di/`. → Mapper, data source, repository, and use case tests.
-3. **Presentation** (`:feature:<name>`): `UiState` / `UiAction` / `UiEvent`, ViewModel, Route + stateless Screen, components, previews. → ViewModel unit tests and Screen/component UI tests.
+1. **Domain**: models, repository interfaces, use case `fun interface`s. Code only the new feature uses goes in its `domain` package; shared code goes in `:core:domain`. Test any logic that lives here (e.g. extensions in `/util`).
+2. **Data**: DTOs/entities, mappers, data sources, repository and use case implementations, Hilt bindings. Implementations of the feature's own contracts go in its `data` package and are bound in its `di` package; shared ones (and anything Room-related) go in `:core:data`, bound in `:core:data/di/`. → Mapper, data source, repository, and use case tests.
+3. **Presentation** (`:feature:<name>`, package `presentation`): `UiState` / `UiAction` / `UiEvent`, ViewModel, Route + stateless Screen, components, previews. → ViewModel unit tests and Screen/component UI tests.
 4. **Navigation**: add the `Route`, create `<feature>NavEntry`, wire it into `NavigationGraph` in `:app`. → Navigation UI test.
 5. **Verify**: run `./gradlew assembleDebug` and `./gradlew testDebugUnitTest`. A task is never "done" until its tests exist and pass. If something can't be run (e.g. no device for `connectedDebugAndroidTest`), say so explicitly.
 
