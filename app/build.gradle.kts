@@ -3,15 +3,10 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.hilt.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp)
-    kotlin("plugin.serialization") version(libs.versions.kotlin)
 }
-
-val apiKeyFile: File = rootProject.file("apiKey.properties")
-val properties = Properties()
-properties.load(FileInputStream(apiKeyFile))
 
 // Signing credentials, kept out of version control. Absent on machines that only build debug,
 // in which case the release build stays unsigned instead of failing to configure.
@@ -37,10 +32,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        buildConfigField("String", "API_KEY", properties["API_KEY"].toString())
-        buildConfigField("String", "BASE_URL", properties["BASE_URL"].toString())
-        buildConfigField("String", "BASE_URL_IMAGE", properties["BASE_URL_IMAGE"].toString())
     }
 
     signingConfigs {
@@ -100,12 +91,21 @@ kotlin {
     jvmToolchain(21)
 }
 
-// Configuration to share dependencies between Unit and Instrumentation tests
-val testCommon by configurations.creating
-configurations.testImplementation.get().extendsFrom(testCommon)
-configurations.androidTestImplementation.get().extendsFrom(testCommon)
-
 dependencies {
+    // Modules
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
+    implementation(project(":core:presentation"))
+    implementation(project(":core:designsystem"))
+    implementation(project(":feature:splash"))
+    implementation(project(":feature:movie"))
+    implementation(project(":feature:tv_show"))
+    implementation(project(":feature:favorite"))
+    implementation(project(":feature:release"))
+    implementation(project(":feature:search"))
+    implementation(project(":feature:settings"))
+    implementation(project(":feature:media_list"))
+
     // AndroidX & Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -114,56 +114,38 @@ dependencies {
     // Jetpack Compose
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
+    implementation(libs.androidx.activity.compose)
+    debugImplementation(libs.ui.tooling)
 
     // Lifecycle
     implementation(libs.bundles.lifecycle)
 
-    // DI (Hilt)
+    // Navigation
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+
+    // Hilt
     implementation(libs.hilt.android)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     ksp(libs.hilt.compiler)
     ksp(libs.androidx.hilt.compiler)
     ksp(libs.jetbrains.kotlin.metadata.jvm)
 
-    // Networking & Serialization
-    implementation(libs.bundles.networking)
-
     // Coroutines
     implementation(libs.bundles.coroutines)
 
-    // Storage & Data
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.paging.runtime.ktx)
-    implementation(libs.androidx.paging.compose)
-    implementation(libs.androidx.datastore.preferences)
-
-    // Third Party Utilities
-    implementation(libs.coil.compose)
+    // Logging
     implementation(libs.timber)
-    implementation(libs.youtube.player)
 
-    // --- Testing ---
+    // Unit tests
+    testImplementation(libs.bundles.unit.test)
 
-    // Shared Test Dependencies
-    testCommon(libs.bundles.test.common)
-    
-    // Unit Tests Only
-    testImplementation(libs.junit)
-    testImplementation(libs.junit.vintage.engine)
-    testImplementation(libs.robolectric)
-    testImplementation(libs.kotest)
-    testImplementation(libs.kotest.runner)
-    testImplementation(libs.mockk)
-
-    // Instrumentation Tests Only (Android)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    // Instrumentation tests
     androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
-
-    // Debug Tools
-    debugImplementation(libs.ui.tooling)
+    androidTestImplementation(libs.bundles.android.test)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.compiler)
+    kspAndroidTest(libs.jetbrains.kotlin.metadata.jvm)
     debugImplementation(libs.ui.test.manifest)
 }

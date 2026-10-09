@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tabs -->
+    <string name="movies">Movies</string>
+    <string name="tv_shows">TV Shows</string>
+    <string name="favorites">Favorites</string>
+    <string name="releases">Releases</string>
+
+    <!-- Lists -->
+    <string name="popular">Popular</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="releases_theaters">In Theaters</string>
+    <string name="releases_streaming">On Streaming</string>
+    <string name="releases_series">Series Premieres</string>
+    <string name="view_more">View more</string>
+
+    <!-- Details -->
+    <string name="overview">Overview</string>
+    <string name="trailer">Trailer</string>
+    <string name="cast_title">Cast</string>
+
+    <!-- Favorites -->
+    <string name="delete_media_error">Failed to delete the media</string>
+    <string name="is_favorite_media_error">Failed to validate favorite media</string>
+    <string name="mark_favorite_error">Failed to mark media as favorite</string>
+
+    <!-- Errors -->
+    <string name="error_title">Oops!</string>
+    <string name="error_message">Unable to load the data. Please try again.</string>
+    <string name="error_icon">Error icon</string>
+    <string name="error_local_database">Your data could not be loaded</string>
+    <string name="error_local_permission_denied">Permission denied</string>
+    <string name="error_local_disk_full">Not enough storage space</string>
+    <string name="error_network_unauthorized">Unauthorized access</string>
+    <string name="error_network_not_found">Resource not found</string>
+    <string name="error_network_server">Server error. Please try again later</string>
+    <string name="error_network_no_internet">No internet connection</string>
+    <string name="error_unknown">An unknown error occurred</string>
+</resources>

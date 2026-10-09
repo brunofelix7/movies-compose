@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cancel">Cancelar</string>
+    <string name="retry">Reintentar</string>
+    <string name="error">Algo salió mal</string>
+    <string name="no_results_found">No se encontraron resultados.</string>
+    <string name="search_bar_hint">Buscar película o serie…</string>
+
+    <!-- Content descriptions -->
+    <string name="empty_icon">Icono de lista vacía</string>
+    <string name="search_bar_clear">Borrar búsqueda</string>
+    <string name="top_bar_back_icon">Icono de volver</string>
+    <string name="top_bar_close_search_icon">Icono de cerrar búsqueda</string>
+    <string name="top_bar_favorite_icon">Icono de favorito</string>
+    <string name="top_bar_search_icon">Icono de búsqueda</string>
+    <string name="top_bar_settings_icon">Icono de ajustes</string>
+</resources>

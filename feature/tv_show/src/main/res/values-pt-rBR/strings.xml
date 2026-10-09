@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="seasons">%1$d temporadas</string>
+    <string name="episodes">%1$d episódios</string>
+    <string name="seasons_title">Temporadas</string>
+    <string name="season_summary">%1$d episódios • %2$s</string>
+    <string name="episode_number">Episódio %1$d</string>
+    <string name="episode_summary">%1$s • %2$s</string>
+
+    <!-- Content descriptions -->
+    <string name="season_expand">Expandir temporada</string>
+    <string name="season_collapse">Recolher temporada</string>
+</resources>

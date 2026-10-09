@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tabs -->
+    <string name="movies">Películas</string>
+    <string name="tv_shows">Series</string>
+    <string name="favorites">Favoritos</string>
+    <string name="releases">Estrenos</string>
+
+    <!-- Lists -->
+    <string name="popular">Populares</string>
+    <string name="upcoming">Próximamente</string>
+    <string name="top_rated">Mejor valoradas</string>
+    <string name="releases_theaters">En cines</string>
+    <string name="releases_streaming">En streaming</string>
+    <string name="releases_series">Estrenos de series</string>
+    <string name="view_more">Ver más</string>
+
+    <!-- Details -->
+    <string name="overview">Sinopsis</string>
+    <string name="trailer">Tráiler</string>
+    <string name="cast_title">Reparto</string>
+
+    <!-- Favorites -->
+    <string name="delete_media_error">No se pudo eliminar el elemento</string>
+    <string name="is_favorite_media_error">No se pudo verificar los favoritos</string>
+    <string name="mark_favorite_error">No se pudo marcar como favorito</string>
+
+    <!-- Errors -->
+    <string name="error_title">¡Ups!</string>
+    <string name="error_message">No se pudieron cargar los datos. Inténtalo de nuevo.</string>
+    <string name="error_icon">Icono de error</string>
+    <string name="error_local_database">No se pudieron cargar tus datos</string>
+    <string name="error_local_permission_denied">Permiso denegado</string>
+    <string name="error_local_disk_full">Espacio de almacenamiento insuficiente</string>
+    <string name="error_network_unauthorized">Acceso no autorizado</string>
+    <string name="error_network_not_found">Recurso no encontrado</string>
+    <string name="error_network_server">Error del servidor. Inténtalo más tarde</string>
+    <string name="error_network_no_internet">Sin conexión a internet</string>
+    <string name="error_unknown">Ocurrió un error desconocido</string>
+</resources>

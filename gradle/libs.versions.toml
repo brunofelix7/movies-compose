@@ -27,7 +27,6 @@ hiltAndroidx = "1.4.0"
 # Networking & DI
 okhttp = "5.5.0"
 retrofit = "3.0.0"
-gson = "2.14.0"
 coroutines = "1.11.0"
 serialization = "1.11.0"
 youtubePlayer = "13.0.0"
@@ -39,14 +38,11 @@ kotlinMetadataJvm = "2.4.0"
 # Testing
 junit = "4.13.2"
 junitVersion = "1.3.0"
-junitVintage = "5.11.0"
+testRunner = "1.7.0"
 espressoCore = "3.7.0"
-truth = "1.4.5"
-mockitoCore = "5.23.0"
-archCoreTesting = "2.2.0"
-robolectric = "4.16.1"
 kotest = "6.2.4"
 mockk = "1.14.11"
+turbine = "1.2.1"
 
 [libraries]
 # AndroidX & Core
@@ -56,6 +52,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 
 # Lifecycle
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 
 # Compose
@@ -74,15 +71,14 @@ androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecy
 # Dependency Injection
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltAndroidx" }
+androidx-hilt-lifecycle-viewmodel-compose = { module = "androidx.hilt:hilt-lifecycle-viewmodel-compose", version.ref = "hiltAndroidx" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltAndroidx" }
 
 # Networking
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 
 # Storage & Data
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
@@ -90,6 +86,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
+androidx-paging-testing = { module = "androidx.paging:paging-testing", version.ref = "paging" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 # Coroutines & Serialization
@@ -105,20 +102,18 @@ youtube-player = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:cor
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junitVintage" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "testRunner" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
-mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }
-truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
-robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 kotest = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver3", version.ref = "okhttp" }
 
 [bundles]
 compose = [
@@ -126,39 +121,43 @@ compose = [
     "ui-graphics",
     "ui-tooling-preview",
     "material3",
-    "androidx-activity-compose",
-    "androidx-navigation3-ui",
-    "androidx-navigation3-runtime",
-    "androidx-lifecycle-viewmodel-navigation3",
     "androidx-material-icons-extended"
 ]
 lifecycle = [
     "androidx-lifecycle-runtime-ktx",
+    "androidx-lifecycle-runtime-compose",
     "lifecycle-viewmodel-compose"
 ]
 networking = [
     "retrofit",
-    "converter-gson",
+    "converter-kotlinx-serialization",
     "okhttp",
     "logging-interceptor",
-    "gson",
     "kotlinx-serialization-json"
 ]
 coroutines = [
     "jetbrains-kotlinx-coroutines-core",
     "kotlinx-coroutines-android"
 ]
-test-common = [
-    "truth",
-    "mockito-core",
-    "hilt-android-testing",
+unit-test = [
+    "kotest",
+    "kotest-runner",
+    "mockk",
     "kotlinx-coroutines-test",
-    "arch-core-testing"
+    "turbine"
+]
+android-test = [
+    "androidx-junit",
+    "androidx-test-runner",
+    "ui-test-junit4",
+    "kotest"
 ]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}

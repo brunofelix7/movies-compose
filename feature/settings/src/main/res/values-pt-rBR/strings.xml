@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Configurações</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_about">Sobre</string>
+    <string name="settings_version">Versão</string>
+    <string name="settings_data_source">Dados fornecidos pelo TMDB</string>
+    <string name="settings_language_error">Não foi possível alterar o idioma</string>
+
+    <!-- Content descriptions -->
+    <string name="settings_selected_language_icon">Ícone de idioma selecionado</string>
+</resources>

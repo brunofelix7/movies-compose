@@ -1,0 +1,107 @@
+package dev.brunofelix.movies.data.remote
+
+import dev.brunofelix.movies.data.remote.dto.CreditsRootDto
+import dev.brunofelix.movies.data.remote.dto.VideoRootDto
+import dev.brunofelix.movies.data.remote.dto.tv_show.SeasonDto
+import dev.brunofelix.movies.data.remote.dto.tv_show.TvShowDto
+import dev.brunofelix.movies.data.remote.dto.tv_show.TvShowRootDto
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
+
+/**
+ * Retrofit service interface for TMDB TV Show API endpoints.
+ */
+interface TvShowApi {
+
+    /**
+     * Fetches a paginated list of popular TV shows.
+     * @param page The page number to fetch.
+     * @return A [Response] containing a [TvShowRootDto].
+     */
+    @GET("tv/popular")
+    suspend fun getPopulars(
+        @Query("page") page: Int
+    ): Response<TvShowRootDto>
+
+    /**
+     * Fetches a paginated list of top-rated TV shows.
+     * @param page The page number to fetch.
+     * @return A [Response] containing a [TvShowRootDto].
+     */
+    @GET("tv/top_rated")
+    suspend fun getTopRated(
+        @Query("page") page: Int
+    ): Response<TvShowRootDto>
+
+    /**
+     * Fetches detailed information for a specific TV show.
+     * @param id The unique identifier of the TV show.
+     * @return A [Response] containing a [TvShowDto].
+     */
+    @GET("tv/{id}")
+    suspend fun getDetails(
+        @Path("id") id: Long
+    ): Response<TvShowDto>
+
+    /**
+     * Fetches a single season with its episodes.
+     * @param id The unique identifier of the TV show.
+     * @param seasonNumber The position of the season, `0` for specials.
+     * @return A [Response] containing a [SeasonDto].
+     */
+    @GET("tv/{id}/season/{season_number}")
+    suspend fun getSeason(
+        @Path("id") id: Long,
+        @Path("season_number") seasonNumber: Int
+    ): Response<SeasonDto>
+
+    /**
+     * Searches for TV shows by a query string.
+     * @param query The search query.
+     * @param page The page number to fetch.
+     * @return A [Response] containing a [TvShowRootDto].
+     */
+    @GET("search/tv")
+    suspend fun search(
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): Response<TvShowRootDto>
+
+    /**
+     * Fetches videos (trailers, teasers, etc.) for a specific TV show.
+     * @param id The unique identifier of the TV show.
+     * @return A [Response] containing a [VideoRootDto].
+     */
+    @GET("tv/{id}/videos")
+    suspend fun getVideos(
+        @Path("id") id: Long
+    ): Response<VideoRootDto>
+
+    /**
+     * Fetches the cast and crew credited in a specific TV show.
+     * @param id The unique identifier of the TV show.
+     * @return A [Response] containing a [CreditsRootDto].
+     */
+    @GET("tv/{id}/credits")
+    suspend fun getCredits(
+        @Path("id") id: Long
+    ): Response<CreditsRootDto>
+
+    /**
+     * Fetches TV shows whose first air date falls within a date range.
+     * @param startDate Inclusive lower bound, as `yyyy-MM-dd`.
+     * @param endDate Inclusive upper bound, as `yyyy-MM-dd`.
+     * @param sortBy TMDB sort expression.
+     * @param page The page number to fetch.
+     * @return A [Response] containing a [TvShowRootDto].
+     */
+    @GET("discover/tv")
+    suspend fun discover(
+        @Query("first_air_date.gte") startDate: String,
+        @Query("first_air_date.lte") endDate: String,
+        @Query("sort_by") sortBy: String,
+        @Query("page") page: Int
+    ): Response<TvShowRootDto>
+}
