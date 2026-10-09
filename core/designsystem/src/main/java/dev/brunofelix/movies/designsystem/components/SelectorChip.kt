@@ -4,8 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.LiveTv
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,6 +41,7 @@ val SelectorContentSpacing = spacing24
  * @param stretchLabel centres the label across the whole chip. Needed when the caller sizes the
  * chip with a weight; a chip that wraps its content must not stretch, or it would try to grow
  * into the unbounded width of a scrolling row.
+ * @param leadingIcon optional content drawn before the label, such as a logo.
  */
 @Composable
 fun SelectorChip(
@@ -45,13 +49,15 @@ fun SelectorChip(
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    stretchLabel: Boolean = false
+    stretchLabel: Boolean = false,
+    leadingIcon: (@Composable () -> Unit)? = null
 ) {
     FilterChip(
         selected = isSelected,
         onClick = onClick,
         shape = shapeCircle,
         modifier = modifier.height(size40),
+        leadingIcon = leadingIcon,
         label = {
             Text(
                 text = label,
@@ -84,5 +90,18 @@ private fun Preview() {
             SelectorChip(label = "Movies", isSelected = true, onClick = {})
             SelectorChip(label = "TV Shows", isSelected = false, onClick = {})
         }
+    }
+}
+
+@Preview
+@Composable
+private fun LeadingIconPreview() {
+    PMovieTheme {
+        SelectorChip(
+            label = "Netflix",
+            isSelected = false,
+            onClick = {},
+            leadingIcon = { Icon(imageVector = Icons.Outlined.LiveTv, contentDescription = null) }
+        )
     }
 }

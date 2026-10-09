@@ -1,14 +1,20 @@
 package dev.brunofelix.movies.designsystem.components
 
 import android.content.Context
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.brunofelix.movies.core.designsystem.R
 import dev.brunofelix.movies.designsystem.theme.PMovieTheme
+import dev.brunofelix.movies.designsystem.theme.size20
 import io.kotest.matchers.shouldBe
 import org.junit.Rule
 import org.junit.Test
@@ -61,6 +67,23 @@ class SelectorChipTest {
         composeTestRule.onNodeWithText("Movies").assertIsDisplayed().performClick()
 
         clicks shouldBe 1
+    }
+
+    @Test
+    fun shouldRenderTheLeadingIcon() {
+        composeTestRule.setContent {
+            PMovieTheme {
+                SelectorChip(
+                    label = "Netflix",
+                    isSelected = true,
+                    onClick = {},
+                    leadingIcon = { Box(modifier = Modifier.size(size20).testTag("leading")) }
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithTag("leading", useUnmergedTree = true).assertIsDisplayed()
+        composeTestRule.onNodeWithText("Netflix").assertIsDisplayed()
     }
 }
 
