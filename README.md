@@ -22,13 +22,13 @@
 
 ## 🏗️ Architecture
 
-The project follows **Clean Architecture** with an **MVI (Model-View-Intent)** presentation layer, split into Gradle modules: domain and data logic live in `core` modules, and each `feature` module holds only presentation code.
+The project follows **Clean Architecture** with an **MVI (Model-View-Intent)** presentation layer, split into Gradle modules: shared domain and data logic live in `core` modules, and each `feature` module holds its presentation code plus the use cases only it needs.
 
-- **`:core:domain`**: Pure Kotlin. Domain models, repository interfaces, and Use Cases.
-- **`:core:data`**: Repositories, Use Case implementations, data sources (TMDB API with Retrofit, Room, DataStore), DTO and entity mappers, and the Hilt modules.
+- **`:core:domain`**: Pure Kotlin. Domain models, repository interfaces, and the Use Cases shared by several features.
+- **`:core:data`**: Repositories, shared Use Case implementations, data sources (TMDB API with Retrofit, Room, DataStore), DTO and entity mappers, and the shared Hilt modules.
 - **`:core:presentation`**: Base presentation classes (`UiState`, `UiText`, paging helpers), navigation routes, UI models, and shared components.
 - **`:core:designsystem`**: Theme tokens (colors, typography, spacing, shapes) and foundational components.
-- **`:feature:*`**: One module per feature (splash, movie, tv_show, favorite, release, search, settings, media_list), each with its ViewModels (`UiState` / `UiAction` / `UiEvent`), screens, and navigation entries.
+- **`:feature:*`**: One module per feature (splash, movie, tv_show, favorite, release, search, settings, media_list), each with its ViewModels (`UiState` / `UiAction` / `UiEvent`), screens, and navigation entries, plus its own Use Cases (`domain`), their implementations (`data`), and their Hilt bindings (`di`).
 - **`:app`**: Entry point that wires the navigation graph and the app shell.
 
 ---
