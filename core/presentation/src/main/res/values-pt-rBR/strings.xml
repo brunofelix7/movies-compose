@@ -19,6 +19,10 @@
     <string name="overview">Sinopse</string>
     <string name="trailer">Trailer</string>
     <string name="cast_title">Elenco</string>
+    <string name="watch_available_on">Disponível em</string>
+    <string name="watch_providers_source">Dados de streaming: JustWatch</string>
+    <string name="watch_in_theaters">Em cartaz nos cinemas</string>
+    <string name="watch_unavailable">Indisponível no streaming</string>
 
     <!-- Favorites -->
     <string name="delete_media_error">Não foi possível excluir o item</string>

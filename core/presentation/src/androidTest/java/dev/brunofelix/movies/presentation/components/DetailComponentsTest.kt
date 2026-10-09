@@ -10,6 +10,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.brunofelix.movies.designsystem.theme.PMovieTheme
 import dev.brunofelix.movies.domain.model.MovieGenre
+import dev.brunofelix.movies.domain.model.WatchAvailability
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.core.presentation.R
 import dev.brunofelix.movies.presentation.model.CastUiModel
 import dev.brunofelix.movies.presentation.util.UiText
@@ -85,6 +87,53 @@ class MovieGenderContainerTest {
 
         composeTestRule.onNodeWithText("Action").assertIsDisplayed()
         composeTestRule.onNodeWithText("Drama").assertIsDisplayed()
+    }
+}
+
+@RunWith(AndroidJUnit4::class)
+class WatchAvailabilityLabelTest {
+
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
+    private val context: Context = ApplicationProvider.getApplicationContext()
+
+    @Test
+    fun shouldRenderEveryProviderWithTheJustWatchCredit() {
+        composeTestRule.setContent {
+            PMovieTheme {
+                WatchAvailabilityLabel(
+                    availability = WatchAvailability.Streaming(
+                        listOf(WatchProvider(id = 8L, name = "Netflix"), WatchProvider(id = 119L, name = "Prime Video"))
+                    )
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText(context.getString(R.string.watch_available_on)).assertIsDisplayed()
+        composeTestRule.onNodeWithText("Netflix").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Prime Video").assertIsDisplayed()
+        composeTestRule.onNodeWithText(context.getString(R.string.watch_providers_source)).assertIsDisplayed()
+    }
+
+    @Test
+    fun shouldRenderTheInTheatersLabel() {
+        composeTestRule.setContent {
+            PMovieTheme { WatchAvailabilityLabel(availability = WatchAvailability.InTheaters) }
+        }
+
+        composeTestRule.onNodeWithText(context.getString(R.string.watch_in_theaters)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(context.getString(R.string.watch_available_on)).assertDoesNotExist()
+    }
+
+    @Test
+    fun shouldRenderTheUnavailableLabel() {
+        composeTestRule.setContent {
+            PMovieTheme { WatchAvailabilityLabel(availability = WatchAvailability.Unavailable) }
+        }
+
+        composeTestRule.onNodeWithText(context.getString(R.string.watch_unavailable)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(context.getString(R.string.watch_providers_source)).assertDoesNotExist()
     }
 }
 

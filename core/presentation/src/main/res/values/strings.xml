@@ -19,6 +19,10 @@
     <string name="overview">Overview</string>
     <string name="trailer">Trailer</string>
     <string name="cast_title">Cast</string>
+    <string name="watch_available_on">Available on</string>
+    <string name="watch_providers_source">Streaming data by JustWatch</string>
+    <string name="watch_in_theaters">In theaters now</string>
+    <string name="watch_unavailable">Not available on streaming</string>
 
     <!-- Favorites -->
     <string name="delete_media_error">Failed to delete the media</string>
