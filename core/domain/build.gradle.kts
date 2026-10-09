@@ -14,6 +14,9 @@ dependencies {
     // Coroutines
     implementation(libs.jetbrains.kotlinx.coroutines.core)
 
+    // Dependency injection (JSR-330 annotations only)
+    implementation(libs.javax.inject)
+
     // Unit tests
     testImplementation(libs.bundles.unit.test)
 }
