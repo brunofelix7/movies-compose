@@ -22,12 +22,14 @@
 
 ## 🏗️ Architecture
 
-The project uses the **MVVM (Model-View-ViewModel)** architecture combined with **Clean Architecture** principles, ensuring a clear separation of concerns, ease of maintenance, and testability.
+The project follows **Clean Architecture** with an **MVI (Model-View-Intent)** presentation layer, split into Gradle modules: domain and data logic live in `core` modules, and each `feature` module holds only presentation code.
 
-- **Data**: Implementation of repositories, data sources (Remote and Local), and mapping of data models (DTOs).
-- **Domain**: Business rules, domain models, and Use Cases.
-- **Presentation**: Declarative UI with Jetpack Compose, ViewModels for state management, and UI State.
-- **Core**: Shared components, utilities, and base classes for other layers.
+- **`:core:domain`**: Pure Kotlin. Domain models, repository interfaces, and Use Cases.
+- **`:core:data`**: Repositories, Use Case implementations, data sources (TMDB API with Retrofit, Room, DataStore), DTO and entity mappers, and the Hilt modules.
+- **`:core:presentation`**: Base presentation classes (`UiState`, `UiText`, paging helpers), navigation routes, UI models, and shared components.
+- **`:core:designsystem`**: Theme tokens (colors, typography, spacing, shapes) and foundational components.
+- **`:feature:*`**: One module per feature (splash, movie, tv_show, favorite, release, search, settings, media_list), each with its ViewModels (`UiState` / `UiAction` / `UiEvent`), screens, and navigation entries.
+- **`:app`**: Entry point that wires the navigation graph and the app shell.
 
 ---
 
@@ -50,7 +52,7 @@ The project uses the **MVVM (Model-View-ViewModel)** architecture combined with 
 - **Room**: Local database (SQLite) with robust abstraction.
 - **Paging 3**: Efficient data pagination from both API and local database.
 - **DataStore**: Secure and reactive preference storage.
-- **Kotlinx Serialization & Gson**: JSON data serialization.
+- **Kotlinx Serialization**: JSON data serialization.
 
 ### Utilities
 - **Timber**: Extensible logging for Android.
@@ -59,9 +61,8 @@ The project uses the **MVVM (Model-View-ViewModel)** architecture combined with 
 
 ## 🧪 Testing
 The project has a solid testing foundation to ensure code quality:
-- **Unit Tests**: JUnit 4, Kotest, MockK, Mockito, and Truth.
-- **Integration Tests**: Robolectric for testing Android framework on the JVM.
-- **UI Tests**: Espresso and Compose UI Test.
+- **Unit Tests**: Kotest (`DescribeSpec`), MockK, Turbine, Paging Testing, and MockWebServer for the API contracts.
+- **Instrumentation Tests**: Room DAO tests, Compose UI tests for every screen and component (JUnit 4 + Compose Test Rule with Kotest matchers), and a Hilt navigation test for the whole graph.
 
 ---
 
