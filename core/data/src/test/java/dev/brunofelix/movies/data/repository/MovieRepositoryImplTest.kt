@@ -1,10 +1,12 @@
 package dev.brunofelix.movies.data.repository
 
+import dev.brunofelix.movies.data.local.source.RegionLocalDataSource
 import dev.brunofelix.movies.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.domain.model.Cast
 import dev.brunofelix.movies.domain.model.Movie
 import dev.brunofelix.movies.domain.model.ReleaseMonth
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.model.enums.ReleaseType
 import dev.brunofelix.movies.domain.util.Resource
 import dev.brunofelix.movies.domain.util.exception.RemoteException
@@ -12,17 +14,22 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 
 class MovieRepositoryImplTest : DescribeSpec({
 
     val remoteDataSource = mockk<MovieRemoteDataSource>()
-    val repository = MovieRepositoryImpl(remoteDataSource)
+    val regionDataSource = mockk<RegionLocalDataSource>()
+    val repository = MovieRepositoryImpl(remoteDataSource, regionDataSource)
     val movies = listOf(Movie(id = 1L), Movie(id = 2L))
     val error = RemoteException.NoInternet()
 
-    beforeTest { clearAllMocks() }
+    beforeTest {
+        clearAllMocks()
+        every { regionDataSource.getRegion() } returns "BR"
+    }
 
     describe("list operations") {
         it("should return the popular movies") {
@@ -82,6 +89,23 @@ class MovieRepositoryImplTest : DescribeSpec({
                 coEvery { remoteDataSource.getCast(1L) } returns Result.success(cast)
 
                 repository.getCast(1L) shouldBe Resource.Success(cast)
+            }
+        }
+
+        it("should return the watch providers of the user's region") {
+            runTest {
+                val providers = listOf(WatchProvider(id = 8L))
+                coEvery { remoteDataSource.getWatchProviders(1L, "BR") } returns Result.success(providers)
+
+                repository.getWatchProviders(1L) shouldBe Resource.Success(providers)
+            }
+        }
+
+        it("should convert a watch providers failure into an Error") {
+            runTest {
+                coEvery { remoteDataSource.getWatchProviders(1L, "BR") } returns Result.failure(error)
+
+                repository.getWatchProviders(1L) shouldBe Resource.Error(error)
             }
         }
     }

@@ -4,10 +4,12 @@ import dev.brunofelix.movies.data.remote.MovieApi
 import dev.brunofelix.movies.data.remote.mapper.toCastList
 import dev.brunofelix.movies.data.remote.mapper.toDomain
 import dev.brunofelix.movies.data.remote.mapper.toDomainList
+import dev.brunofelix.movies.data.remote.mapper.toWatchProviderList
 import dev.brunofelix.movies.data.util.BaseRemoteDataSource
 import dev.brunofelix.movies.domain.model.Cast
 import dev.brunofelix.movies.domain.model.Movie
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.model.enums.ReleaseType
 import javax.inject.Inject
 
@@ -65,6 +67,13 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         return safeApiCall(
             call = { getCredits(id) },
             transform = { it.toCastList() }
+        )
+    }
+
+    override suspend fun getWatchProviders(id: Long, region: String): Result<List<WatchProvider>> {
+        return safeApiCall(
+            call = { getWatchProviders(id) },
+            transform = { it.toWatchProviderList(region) }
         )
     }
 

@@ -4,6 +4,7 @@ import dev.brunofelix.movies.domain.model.Cast
 import dev.brunofelix.movies.domain.model.Episode
 import dev.brunofelix.movies.domain.model.TvShow
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 
 /**
  * Remote data source for TV Show-related operations.
@@ -47,6 +48,14 @@ interface TvShowRemoteDataSource {
      * @return A [Result] containing a list of [Cast] domain models.
      */
     suspend fun getCast(id: Long): Result<List<Cast>>
+
+    /**
+     * Fetches the streaming services that offer a TV show in [region].
+     * @param id The unique TV show identifier.
+     * @param region ISO 3166-1 code of the region, e.g. `BR`.
+     * @return A [Result] containing a list of [WatchProvider] domain models.
+     */
+    suspend fun getWatchProviders(id: Long, region: String): Result<List<WatchProvider>>
 
     /**
      * Fetches the episodes of a single season.

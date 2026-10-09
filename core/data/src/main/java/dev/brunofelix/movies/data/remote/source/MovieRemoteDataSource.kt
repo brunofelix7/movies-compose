@@ -3,6 +3,7 @@ package dev.brunofelix.movies.data.remote.source
 import dev.brunofelix.movies.domain.model.Cast
 import dev.brunofelix.movies.domain.model.Movie
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.model.enums.ReleaseType
 
 /**
@@ -52,6 +53,14 @@ interface MovieRemoteDataSource {
      * @return A [Result] containing a list of [Cast] domain models.
      */
     suspend fun getCast(id: Long): Result<List<Cast>>
+
+    /**
+     * Fetches the streaming services that offer a movie in [region].
+     * @param id The unique movie identifier.
+     * @param region ISO 3166-1 code of the region, e.g. `BR`.
+     * @return A [Result] containing a list of [WatchProvider] domain models.
+     */
+    suspend fun getWatchProviders(id: Long, region: String): Result<List<WatchProvider>>
 
     /**
      * Fetches movies released between [startDate] and [endDate] through the given [type].

@@ -1,10 +1,12 @@
 package dev.brunofelix.movies.data.repository
 
+import dev.brunofelix.movies.data.local.source.RegionLocalDataSource
 import dev.brunofelix.movies.data.remote.source.TvShowRemoteDataSource
 import dev.brunofelix.movies.domain.model.Cast
 import dev.brunofelix.movies.domain.model.Episode
 import dev.brunofelix.movies.domain.model.ReleaseMonth
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.repository.TvShowRepository
 import dev.brunofelix.movies.domain.util.Resource
 import dev.brunofelix.movies.domain.util.toResource
@@ -14,9 +16,11 @@ import javax.inject.Inject
  * Implementation of [TvShowRepository].
  *
  * @property remoteDataSource The source for remote TV show data.
+ * @property regionDataSource The source for the user's region, which picks the streaming offers.
  */
 class TvShowRepositoryImpl @Inject constructor(
-    private val remoteDataSource: TvShowRemoteDataSource
+    private val remoteDataSource: TvShowRemoteDataSource,
+    private val regionDataSource: RegionLocalDataSource
 ) : TvShowRepository {
 
     override suspend fun getPopularTvShows(
@@ -38,6 +42,13 @@ class TvShowRepositoryImpl @Inject constructor(
     override suspend fun getCast(
         id: Long
     ): Resource<List<Cast>> = remoteDataSource.getCast(id).toResource()
+
+    override suspend fun getWatchProviders(
+        id: Long
+    ): Resource<List<WatchProvider>> = remoteDataSource.getWatchProviders(
+        id = id,
+        region = regionDataSource.getRegion()
+    ).toResource()
 
     override suspend fun getSeasonEpisodes(
         id: Long,

@@ -3,6 +3,8 @@ package dev.brunofelix.movies.data.remote.source
 import dev.brunofelix.movies.data.remote.MovieApi
 import dev.brunofelix.movies.data.remote.dto.CreditsRootDto
 import dev.brunofelix.movies.data.remote.dto.VideoRootDto
+import dev.brunofelix.movies.data.remote.dto.WatchProviderRegionDto
+import dev.brunofelix.movies.data.remote.dto.WatchProvidersRootDto
 import dev.brunofelix.movies.data.remote.dto.movie.MovieRootDto
 import dev.brunofelix.movies.data.test_util.DtoFactory
 import dev.brunofelix.movies.domain.model.enums.ReleaseType
@@ -98,6 +100,31 @@ class MovieRemoteDataSourceImplTest : DescribeSpec({
                 )
 
                 dataSource.getCast(7L).getOrThrow().map { it.id } shouldBe listOf(2L, 1L)
+            }
+        }
+    }
+
+    describe("getWatchProviders") {
+        it("should map the providers of the requested region") {
+            runTest {
+                coEvery { api.getWatchProviders(7L) } returns Response.success(
+                    WatchProvidersRootDto(
+                        results = mapOf(
+                            "BR" to WatchProviderRegionDto(flatrate = listOf(DtoFactory.watchProviderDto(8L))),
+                            "US" to WatchProviderRegionDto(flatrate = listOf(DtoFactory.watchProviderDto(9L)))
+                        )
+                    )
+                )
+
+                dataSource.getWatchProviders(7L, "BR").getOrThrow().map { it.id } shouldBe listOf(8L)
+            }
+        }
+
+        it("should fail with a RemoteException when the API returns an error") {
+            runTest {
+                coEvery { api.getWatchProviders(7L) } returns Response.error(404, "".toResponseBody())
+
+                dataSource.getWatchProviders(7L, "BR").exceptionOrNull().shouldBeInstanceOf<RemoteException.NotFound>()
             }
         }
     }

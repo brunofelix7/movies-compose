@@ -3,6 +3,8 @@ package dev.brunofelix.movies.data.remote.source
 import dev.brunofelix.movies.data.remote.TvShowApi
 import dev.brunofelix.movies.data.remote.dto.CreditsRootDto
 import dev.brunofelix.movies.data.remote.dto.VideoRootDto
+import dev.brunofelix.movies.data.remote.dto.WatchProviderRegionDto
+import dev.brunofelix.movies.data.remote.dto.WatchProvidersRootDto
 import dev.brunofelix.movies.data.remote.dto.tv_show.TvShowRootDto
 import dev.brunofelix.movies.data.test_util.DtoFactory
 import dev.brunofelix.movies.domain.util.exception.RemoteException
@@ -98,6 +100,28 @@ class TvShowRemoteDataSourceImplTest : DescribeSpec({
                 )
 
                 dataSource.getCast(3L).getOrThrow().single().id shouldBe 9L
+            }
+        }
+    }
+
+    describe("getWatchProviders") {
+        it("should map the providers of the requested region") {
+            runTest {
+                coEvery { api.getWatchProviders(3L) } returns Response.success(
+                    WatchProvidersRootDto(
+                        results = mapOf("BR" to WatchProviderRegionDto(ads = listOf(DtoFactory.watchProviderDto(8L))))
+                    )
+                )
+
+                dataSource.getWatchProviders(3L, "BR").getOrThrow().map { it.id } shouldBe listOf(8L)
+            }
+        }
+
+        it("should return an empty list when the region has no offer") {
+            runTest {
+                coEvery { api.getWatchProviders(3L) } returns Response.success(WatchProvidersRootDto(results = emptyMap()))
+
+                dataSource.getWatchProviders(3L, "BR").getOrThrow() shouldBe emptyList()
             }
         }
     }

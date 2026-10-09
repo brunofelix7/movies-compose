@@ -12,3 +12,5 @@ fun String.toBackdropUrl(): String = "${BuildConfig.BASE_URL_IMAGE}$this"
 fun String.toStillUrl(): String = "${BuildConfig.BASE_URL_IMAGE}$this"
 
 fun String.toProfileUrl(): String = "${BuildConfig.BASE_URL_IMAGE}$this"
+
+fun String.toLogoUrl(): String = "${BuildConfig.BASE_URL_IMAGE}$this"

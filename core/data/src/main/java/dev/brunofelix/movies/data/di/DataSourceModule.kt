@@ -12,6 +12,8 @@ import dev.brunofelix.movies.data.local.source.LanguageLocalDataSource
 import dev.brunofelix.movies.data.local.source.LanguageLocalDataSourceImpl
 import dev.brunofelix.movies.data.local.source.MediaLocalDataSource
 import dev.brunofelix.movies.data.local.source.MediaLocalDataSourceImpl
+import dev.brunofelix.movies.data.local.source.RegionLocalDataSource
+import dev.brunofelix.movies.data.local.source.RegionLocalDataSourceImpl
 import dev.brunofelix.movies.data.remote.source.MovieRemoteDataSource
 import dev.brunofelix.movies.data.remote.source.MovieRemoteDataSourceImpl
 import dev.brunofelix.movies.data.remote.source.TvShowRemoteDataSource
@@ -57,4 +59,10 @@ abstract class DataSourceModule {
     abstract fun bindAppInfoLocalDataSource(
         impl: AppInfoLocalDataSourceImpl
     ): AppInfoLocalDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindRegionLocalDataSource(
+        impl: RegionLocalDataSourceImpl
+    ): RegionLocalDataSource
 }

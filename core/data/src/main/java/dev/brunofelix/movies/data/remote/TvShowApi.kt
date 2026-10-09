@@ -2,6 +2,7 @@ package dev.brunofelix.movies.data.remote
 
 import dev.brunofelix.movies.data.remote.dto.CreditsRootDto
 import dev.brunofelix.movies.data.remote.dto.VideoRootDto
+import dev.brunofelix.movies.data.remote.dto.WatchProvidersRootDto
 import dev.brunofelix.movies.data.remote.dto.tv_show.SeasonDto
 import dev.brunofelix.movies.data.remote.dto.tv_show.TvShowDto
 import dev.brunofelix.movies.data.remote.dto.tv_show.TvShowRootDto
@@ -88,6 +89,16 @@ interface TvShowApi {
     suspend fun getCredits(
         @Path("id") id: Long
     ): Response<CreditsRootDto>
+
+    /**
+     * Fetches the streaming offers of a specific TV show in every region (data from JustWatch).
+     * @param id The unique identifier of the TV show.
+     * @return A [Response] containing a [WatchProvidersRootDto].
+     */
+    @GET("tv/{id}/watch/providers")
+    suspend fun getWatchProviders(
+        @Path("id") id: Long
+    ): Response<WatchProvidersRootDto>
 
     /**
      * Fetches TV shows whose first air date falls within a date range.

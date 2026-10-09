@@ -74,6 +74,26 @@ private const val CREDITS_JSON = """
 }
 """
 
+private const val WATCH_PROVIDERS_JSON = """
+{
+  "id": 693134,
+  "results": {
+    "BR": {
+      "link": "https://www.themoviedb.org/movie/693134-dune-part-two/watch?locale=BR",
+      "flatrate": [
+        { "logo_path": "/max.jpg", "provider_id": 1899, "provider_name": "Max", "display_priority": 5 }
+      ],
+      "rent": [
+        { "logo_path": "/apple.jpg", "provider_id": 2, "provider_name": "Apple TV", "display_priority": 4 }
+      ]
+    },
+    "US": {
+      "ads": [{ "logo_path": "/tubi.jpg", "provider_id": 73, "provider_name": "Tubi TV", "display_priority": 9 }]
+    }
+  }
+}
+"""
+
 class MovieApiTest : DescribeSpec({
 
     val server = MockWebServer()
@@ -222,6 +242,36 @@ class MovieApiTest : DescribeSpec({
 
                 server.takeRequest()
                 credits.cast!!.shouldBeEmpty()
+            }
+        }
+    }
+
+    describe("getWatchProviders") {
+        it("should request the watch providers and parse every region") {
+            runTest {
+                server.enqueue(ApiTestFactory.json(WATCH_PROVIDERS_JSON))
+
+                val results = api.getWatchProviders(id = 693134L).body()!!.results!!
+
+                server.takeRequest().target shouldBe "/movie/693134/watch/providers"
+                results.keys shouldBe setOf("BR", "US")
+                val provider = results.getValue("BR").flatrate!!.single()
+                provider.providerId shouldBe 1899L
+                provider.providerName shouldBe "Max"
+                provider.logoPath shouldBe "/max.jpg"
+                provider.displayPriority shouldBe 5
+                results.getValue("US").ads!!.single().providerName shouldBe "Tubi TV"
+            }
+        }
+
+        it("should parse a title without any offer") {
+            runTest {
+                server.enqueue(ApiTestFactory.json("""{ "id": 1, "results": {} }"""))
+
+                val body = api.getWatchProviders(id = 1L).body()!!
+
+                server.takeRequest()
+                body.results!!.keys.shouldBeEmpty()
             }
         }
     }

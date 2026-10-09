@@ -1,27 +1,34 @@
 package dev.brunofelix.movies.data.repository
 
+import dev.brunofelix.movies.data.local.source.RegionLocalDataSource
 import dev.brunofelix.movies.data.remote.source.TvShowRemoteDataSource
 import dev.brunofelix.movies.domain.model.Cast
 import dev.brunofelix.movies.domain.model.Episode
 import dev.brunofelix.movies.domain.model.ReleaseMonth
 import dev.brunofelix.movies.domain.model.TvShow
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.util.Resource
 import dev.brunofelix.movies.domain.util.exception.RemoteException
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 
 class TvShowRepositoryImplTest : DescribeSpec({
 
     val remoteDataSource = mockk<TvShowRemoteDataSource>()
-    val repository = TvShowRepositoryImpl(remoteDataSource)
+    val regionDataSource = mockk<RegionLocalDataSource>()
+    val repository = TvShowRepositoryImpl(remoteDataSource, regionDataSource)
     val tvShows = listOf(TvShow(id = 1L))
 
-    beforeTest { clearAllMocks() }
+    beforeTest {
+        clearAllMocks()
+        every { regionDataSource.getRegion() } returns "PT"
+    }
 
     describe("list operations") {
         it("should return the popular TV shows") {
@@ -74,6 +81,15 @@ class TvShowRepositoryImplTest : DescribeSpec({
                 coEvery { remoteDataSource.getCast(1L) } returns Result.success(cast)
 
                 repository.getCast(1L) shouldBe Resource.Success(cast)
+            }
+        }
+
+        it("should return the watch providers of the user's region") {
+            runTest {
+                val providers = listOf(WatchProvider(id = 8L))
+                coEvery { remoteDataSource.getWatchProviders(1L, "PT") } returns Result.success(providers)
+
+                repository.getWatchProviders(1L) shouldBe Resource.Success(providers)
             }
         }
 

@@ -25,5 +25,9 @@ class ImageUrlExtTest : DescribeSpec({
         it("should prefix a profile path with the image base URL") {
             path.toProfileUrl() shouldBe expected
         }
+
+        it("should prefix a logo path with the image base URL") {
+            path.toLogoUrl() shouldBe expected
+        }
     }
 })

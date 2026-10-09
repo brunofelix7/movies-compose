@@ -5,11 +5,13 @@ import dev.brunofelix.movies.data.remote.mapper.toCastList
 import dev.brunofelix.movies.data.remote.mapper.toDomain
 import dev.brunofelix.movies.data.remote.mapper.toDomainList
 import dev.brunofelix.movies.data.remote.mapper.toEpisodeList
+import dev.brunofelix.movies.data.remote.mapper.toWatchProviderList
 import dev.brunofelix.movies.data.util.BaseRemoteDataSource
 import dev.brunofelix.movies.domain.model.Cast
 import dev.brunofelix.movies.domain.model.Episode
 import dev.brunofelix.movies.domain.model.TvShow
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 import javax.inject.Inject
 
 /**
@@ -59,6 +61,13 @@ class TvShowRemoteDataSourceImpl @Inject constructor(
         return safeApiCall(
             call = { getCredits(id) },
             transform = { it.toCastList() }
+        )
+    }
+
+    override suspend fun getWatchProviders(id: Long, region: String): Result<List<WatchProvider>> {
+        return safeApiCall(
+            call = { getWatchProviders(id) },
+            transform = { it.toWatchProviderList(region) }
         )
     }
 

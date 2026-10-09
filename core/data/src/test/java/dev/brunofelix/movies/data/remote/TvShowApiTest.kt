@@ -176,4 +176,22 @@ class TvShowApiTest : DescribeSpec({
             }
         }
     }
+
+    describe("getWatchProviders") {
+        it("should request the watch providers of the TV show") {
+            runTest {
+                server.enqueue(
+                    ApiTestFactory.json(
+                        """{ "id": 1, "results": { "BR": { "flatrate": [{ "provider_id": 8, "provider_name": "Netflix" }] } } }"""
+                    )
+                )
+
+                val provider = api.getWatchProviders(id = 1L).body()!!.results!!.getValue("BR").flatrate!!.single()
+
+                server.takeRequest().target shouldBe "/tv/1/watch/providers"
+                provider.providerId shouldBe 8L
+                provider.providerName shouldBe "Netflix"
+            }
+        }
+    }
 })

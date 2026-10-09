@@ -2,6 +2,7 @@ package dev.brunofelix.movies.data.test_util
 
 import dev.brunofelix.movies.data.remote.dto.CastDto
 import dev.brunofelix.movies.data.remote.dto.VideoDto
+import dev.brunofelix.movies.data.remote.dto.WatchProviderDto
 import dev.brunofelix.movies.data.remote.dto.movie.MovieDto
 import dev.brunofelix.movies.data.remote.dto.movie.MovieGenreDto
 import dev.brunofelix.movies.data.remote.dto.tv_show.EpisodeDto
@@ -86,5 +87,12 @@ object DtoFactory {
         site = "YouTube",
         type = "Trailer",
         official = true
+    )
+
+    fun watchProviderDto(id: Long = 8L, priority: Int? = 1) = WatchProviderDto(
+        providerId = id,
+        providerName = "Provider $id",
+        logoPath = "/logo$id.jpg",
+        displayPriority = priority
     )
 }

@@ -2,6 +2,7 @@ package dev.brunofelix.movies.data.remote
 
 import dev.brunofelix.movies.data.remote.dto.CreditsRootDto
 import dev.brunofelix.movies.data.remote.dto.VideoRootDto
+import dev.brunofelix.movies.data.remote.dto.WatchProvidersRootDto
 import dev.brunofelix.movies.data.remote.dto.movie.MovieDto
 import dev.brunofelix.movies.data.remote.dto.movie.MovieRootDto
 import retrofit2.Response
@@ -85,6 +86,16 @@ interface MovieApi {
     suspend fun getCredits(
         @Path("id") id: Long
     ): Response<CreditsRootDto>
+
+    /**
+     * Fetches the streaming offers of a specific movie in every region (data from JustWatch).
+     * @param id The unique identifier of the movie.
+     * @return A [Response] containing a [WatchProvidersRootDto].
+     */
+    @GET("movie/{id}/watch/providers")
+    suspend fun getWatchProviders(
+        @Path("id") id: Long
+    ): Response<WatchProvidersRootDto>
 
     /**
      * Fetches movies released within a date range.
