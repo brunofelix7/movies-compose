@@ -12,6 +12,7 @@ import dev.brunofelix.movies.domain.model.Movie
 import dev.brunofelix.movies.domain.model.ReleaseMonth
 import dev.brunofelix.movies.domain.model.TvShow
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.model.enums.LanguageEnum
 import dev.brunofelix.movies.domain.model.enums.ReleaseType
 import dev.brunofelix.movies.domain.repository.AppInfoRepository
@@ -48,6 +49,7 @@ object FakeRepositoryModule {
         override suspend fun getTopRatedMovies(page: Int): Resource<List<Movie>> = Resource.Success(listOf(FakeData.movie))
         override suspend fun getVideos(id: Long): Resource<List<Video>> = Resource.Success(emptyList())
         override suspend fun getCast(id: Long): Resource<List<Cast>> = Resource.Success(emptyList())
+        override suspend fun getWatchProviders(id: Long): Resource<List<WatchProvider>> = Resource.Success(emptyList())
         override suspend fun getReleases(month: ReleaseMonth, type: ReleaseType, page: Int): Resource<List<Movie>> =
             Resource.Success(listOf(FakeData.movie))
     }
@@ -60,6 +62,7 @@ object FakeRepositoryModule {
         override suspend fun getDetails(id: Long): Resource<TvShow> = Resource.Success(FakeData.tvShow)
         override suspend fun getVideos(id: Long): Resource<List<Video>> = Resource.Success(emptyList())
         override suspend fun getCast(id: Long): Resource<List<Cast>> = Resource.Success(emptyList())
+        override suspend fun getWatchProviders(id: Long): Resource<List<WatchProvider>> = Resource.Success(emptyList())
         override suspend fun getSeasonEpisodes(id: Long, seasonNumber: Int): Resource<List<Episode>> =
             Resource.Success(emptyList())
         override suspend fun getReleases(month: ReleaseMonth, page: Int): Resource<List<TvShow>> =
@@ -83,6 +86,13 @@ object FakeRepositoryModule {
 
         override suspend fun isFavorite(id: Long): Resource<Boolean> =
             Resource.Success(favorites.value.any { it.id == id })
+
+        override suspend fun updateWatchProviders(id: Long, providers: List<WatchProvider>): Resource<Unit> {
+            favorites.update { list ->
+                list.map { if (it.id == id) it.copy(watchProviders = providers) else it }
+            }
+            return Resource.Success(Unit)
+        }
 
         override fun getFavoriteMedias(): Flow<List<Media>> = favorites
     }
