@@ -25,6 +25,8 @@ import dev.brunofelix.movies.designsystem.components.DetailTopBar
 import dev.brunofelix.movies.designsystem.components.EmptyState
 import dev.brunofelix.movies.designsystem.theme.PMovieTheme
 import dev.brunofelix.movies.domain.model.MovieGenre
+import dev.brunofelix.movies.domain.model.WatchAvailability
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.presentation.components.ErrorLayout
 import dev.brunofelix.movies.presentation.model.MovieUiModel
 import dev.brunofelix.movies.presentation.util.ObserveAsEvents
@@ -138,6 +140,9 @@ private fun SuccessPreview() {
                             MovieGenre(name = "Action"),
                             MovieGenre(name = "Adventure"),
                             MovieGenre(name = "Comedy")
+                        ),
+                        watchAvailability = WatchAvailability.Streaming(
+                            listOf(WatchProvider(id = 8L, name = "Netflix"))
                         )
                     )
                 ),

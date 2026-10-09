@@ -41,10 +41,12 @@ import dev.brunofelix.movies.designsystem.theme.spacing12
 import dev.brunofelix.movies.designsystem.theme.spacing16
 import dev.brunofelix.movies.designsystem.theme.spacing8
 import dev.brunofelix.movies.domain.model.MovieGenre
+import dev.brunofelix.movies.domain.model.WatchAvailability
 import dev.brunofelix.movies.core.presentation.R
 import dev.brunofelix.movies.presentation.components.CastSection
 import dev.brunofelix.movies.presentation.components.MovieGenderContainer
 import dev.brunofelix.movies.presentation.components.MovieOverview
+import dev.brunofelix.movies.presentation.components.WatchAvailabilityLabel
 import dev.brunofelix.movies.presentation.components.YouTubePlayer
 import dev.brunofelix.movies.presentation.model.CastUiModel
 import dev.brunofelix.movies.presentation.model.MovieUiModel
@@ -138,6 +140,12 @@ internal fun MovieDetailContent(
                     ) {
                         MovieGenderContainer(gendersList = movie.genres)
                     }
+                    movie.watchAvailability?.let { availability ->
+                        WatchAvailabilityLabel(
+                            availability = availability,
+                            modifier = Modifier.padding(bottom = spacing8)
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(spacing8))
 
@@ -186,7 +194,8 @@ private fun Preview() {
                 cast = listOf(
                     CastUiModel(id = 1L, name = "Chris Pratt", character = "Mario"),
                     CastUiModel(id = 2L, name = "Anya Taylor-Joy", character = "Princess Peach")
-                )
+                ),
+                watchAvailability = WatchAvailability.InTheaters
             )
         )
     }

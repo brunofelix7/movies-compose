@@ -10,6 +10,8 @@ import dev.brunofelix.movies.domain.use_case.GetMovieDetailUseCase
 import dev.brunofelix.movies.domain.use_case.GetMovieDetailUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetMovieVideosUseCase
 import dev.brunofelix.movies.domain.use_case.GetMovieVideosUseCaseImpl
+import dev.brunofelix.movies.domain.use_case.GetMovieWatchProvidersUseCase
+import dev.brunofelix.movies.domain.use_case.GetMovieWatchProvidersUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetPopularMoviesUseCase
 import dev.brunofelix.movies.domain.use_case.GetPopularMoviesUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetTopRatedMoviesUseCase
@@ -35,6 +37,11 @@ abstract class MovieUseCaseModule {
     abstract fun bindGetMovieVideosUseCase(
         impl: GetMovieVideosUseCaseImpl
     ): GetMovieVideosUseCase
+
+    @Binds
+    abstract fun bindGetMovieWatchProvidersUseCase(
+        impl: GetMovieWatchProvidersUseCaseImpl
+    ): GetMovieWatchProvidersUseCase
 
     @Binds
     abstract fun bindGetPopularMoviesUseCase(

@@ -13,6 +13,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.brunofelix.movies.designsystem.components.DETAIL_SKELETON_TEST_TAG
 import dev.brunofelix.movies.designsystem.theme.PMovieTheme
 import dev.brunofelix.movies.domain.model.MovieGenre
+import dev.brunofelix.movies.domain.model.WatchAvailability
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.presentation.model.CastUiModel
 import dev.brunofelix.movies.presentation.model.MovieUiModel
 import dev.brunofelix.movies.presentation.util.UiState
@@ -125,5 +127,35 @@ class MovieDetailContentTest {
         composeTestRule.onNodeWithText("2h 35m").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText(context.getString(PresentationR.string.overview)).performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText(context.getString(PresentationR.string.trailer)).assertDoesNotExist()
+    }
+
+    @Test
+    fun shouldRenderTheStreamingServices() {
+        val streaming = WatchAvailability.Streaming(listOf(WatchProvider(id = 8L, name = "Netflix")))
+        composeTestRule.setContent {
+            PMovieTheme { MovieDetailContent(movie = movie.copy(watchAvailability = streaming)) }
+        }
+
+        composeTestRule.onNodeWithText("Netflix").performScrollTo().assertIsDisplayed()
+    }
+
+    @Test
+    fun shouldRenderTheInTheatersLabel() {
+        composeTestRule.setContent {
+            PMovieTheme { MovieDetailContent(movie = movie.copy(watchAvailability = WatchAvailability.InTheaters)) }
+        }
+
+        composeTestRule.onNodeWithText(context.getString(PresentationR.string.watch_in_theaters))
+            .performScrollTo().assertIsDisplayed()
+    }
+
+    @Test
+    fun shouldHideTheAvailabilityWhenItIsUnknown() {
+        composeTestRule.setContent {
+            PMovieTheme { MovieDetailContent(movie = movie) }
+        }
+
+        composeTestRule.onNodeWithText(context.getString(PresentationR.string.watch_unavailable)).assertDoesNotExist()
+        composeTestRule.onNodeWithText(context.getString(PresentationR.string.watch_in_theaters)).assertDoesNotExist()
     }
 }
