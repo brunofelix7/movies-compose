@@ -42,7 +42,7 @@ This part records the project's values and the decisions the user already made: 
 | Design source / tokens doc | None (see A4) |
 | Spacing, size, elevation and shape tokens | `spacing{X}`, `size{X}`, `elevation{X}`, `shapeCircle`, `shapeRounded{X}` and `AppShapes`, all in `Shapes.kt` |
 | Foundational components | `CustomButton`, `CustomSearchBar`, `SelectorChip` (`SelectorTopSpacing`, `SelectorContentSpacing`), `SectionCard`, `GradientBackground` (`AppGradient`, `SplashGradient`), `MainTopBar`, `SecondaryTopBar`, `DetailTopBar`, `DetailStatusLayout`, `DetailSkeleton`, `LoadingState`, `EmptyState`, `EmptyImage`, `PagingRetry`, `MovieInfoChip`, `Modifier.shimmerEffect` |
-| Shared presentation components | In `:core:presentation/components`: `MediaCard`, `MediaSection`, `MainContent` (paged grid), `CastSection`, `MovieOverview`, `MovieGenderContainer`, `CategorySelector`, `ErrorLayout`, `CustomNavBar`, `YouTubePlayer` |
+| Shared presentation components | In `:core:presentation/components`: `MediaCard`, `MediaSection`, `MainContent` (paged grid), `CastSection`, `MovieOverview`, `MovieGenderContainer`, `CategorySelector`, `ErrorLayout`, `CustomNavBar`, `YouTubePlayer`, `WatchAvailabilityLabel`, `WatchProviderLogo` |
 | Brand tokens without a Material role | `DarkRed`, `RatingStar`, `IconSilver`, `ShimmerBase`, `ShimmerHighlight`, `SurfaceGlass*`, `OutlineSubtle`, `OutlineMedium`, `Scrim*` (in `Color.kt`) |
 | Project-specific stack | TMDB REST API (Retrofit + Kotlinx Serialization, client in `:core:data`); DataStore Preferences (language); Paging 3; android-youtube-player (trailers, in `:core:presentation`); Timber (`:app`); Splash Screen API |
 | Secrets | `apiKey.properties` at the root (`API_KEY`, `BASE_URL`, `BASE_URL_IMAGE`) is read by `:core:data` into its `BuildConfig`; never commit it. `keystore.properties` is optional (release signing in `:app`) |
@@ -53,7 +53,7 @@ This part records the project's values and the decisions the user already made: 
 | Module | Contents |
 |---|---|
 | `:app` | `MyApplication`, `MainActivity`, `ui/MainScreen` (tabs top bar, bottom bar and search overlay), `navigation/NavigationGraph`, launcher resources |
-| `:core:domain` | Models, repository interfaces, the shared use cases and their implementations (`DeleteMediaUseCase`, `GetLanguageUseCase`, `IsFavoriteMediaUseCase`, `SaveMediaUseCase`), `Resource` and its extensions, exceptions, `DateTimeConverter` |
+| `:core:domain` | Models, repository interfaces, the shared use cases and their implementations (`DeleteMediaUseCase`, `GetLanguageUseCase`, `IsFavoriteMediaUseCase`, `SaveMediaUseCase`, `UpdateFavoriteWatchProvidersUseCase`), `Resource` and its extensions, exceptions, `DateTimeConverter` |
 | `:core:data` | DTOs, `MovieApi` / `TvShowApi`, Room (`AppDatabase`, `MediaDao`), DataStore, data sources, repositories, Hilt modules (`RemoteModule`, `LocalModule`, `DataSourceModule`, `RepositoryModule`, and `UseCaseModule` for the shared use cases) |
 | `:core:presentation` | Base components (`UiState`, `UiText`, `ObserveAsEvents`, `BasePagingSource`, paging and error extensions), `Route`, `NavigationViewModel`, UI models and mappers, shared components |
 | `:core:designsystem` | Theme tokens and foundational components |
@@ -93,6 +93,8 @@ There is no design source. Don't use Stitch (the "Movies (Compose)" project ther
 - **TMDB requests**: `RemoteInterceptor` adds `api_key` and `language` (from `LanguageRepository`) to every request; never add them per endpoint. Image paths become absolute URLs in the DTO mappers.
 - **Pagination**: TMDB lists paginate by page number with 20 items per page, so `BasePagingSource` applies. Search pages hold the movies and the TV shows of the same TMDB page, so its page size is 40.
 - **Favorites** are stored in Room through `MediaRepository`; one-shot local operations return `Resource` and the screens report failures with a toast.
+- **Streaming services** come from TMDB's `watch/providers` (JustWatch data; every screen that lists them must credit JustWatch). Only subscription, free and ads offers count. The region comes from `RegionLocalDataSource` (SIM, network, then system locale, `US` by default), not from the app language. Favorites store them in the `watchProviders` column (`null` = never fetched): details screens refresh them, and the favorites screen fetches the missing ones (`SyncFavoriteWatchProvidersUseCase`).
+- **Room schema**: `AppDatabase` is at version 2 with `exportSchema = false`, so every schema change needs a hand-written `Migration` registered in `LocalModule` and covered in `AppDatabaseTest`.
 - **Languages**: `LanguageEnum` (`en`, `pt-BR`, `es`) drives both the TMDB `language` parameter and the app locale. Adding one means new `values-*` folders and an entry in `res/xml/locales_config.xml`.
 - **Room tests**: `MediaDao` and `AppDatabase` are tested as instrumented tests in `:core:data/src/androidTest` (JUnit 4 + Kotest matchers), since the Kotest Robolectric extension is archived.
 - **Gradle tasks**: because of the flavors, the Part B commands map to the ones below.
