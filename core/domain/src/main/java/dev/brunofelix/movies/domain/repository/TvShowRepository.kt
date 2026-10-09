@@ -5,6 +5,7 @@ import dev.brunofelix.movies.domain.model.Episode
 import dev.brunofelix.movies.domain.model.ReleaseMonth
 import dev.brunofelix.movies.domain.model.TvShow
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.util.Resource
 
 /**
@@ -45,6 +46,13 @@ interface TvShowRepository {
      * @return A [Resource] containing a list of [Cast] members or an error.
      */
     suspend fun getCast(id: Long): Resource<List<Cast>>
+
+    /**
+     * Fetches the streaming services that offer a specific TV show in the user's region.
+     * @param id The unique identifier of the TV show.
+     * @return A [Resource] containing the [WatchProvider]s, empty when no service offers it.
+     */
+    suspend fun getWatchProviders(id: Long): Resource<List<WatchProvider>>
 
     /**
      * Fetches the episodes of a single season.

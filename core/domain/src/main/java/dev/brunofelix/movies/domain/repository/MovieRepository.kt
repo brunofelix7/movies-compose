@@ -4,6 +4,7 @@ import dev.brunofelix.movies.domain.model.Cast
 import dev.brunofelix.movies.domain.model.Movie
 import dev.brunofelix.movies.domain.model.ReleaseMonth
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.model.enums.ReleaseType
 import dev.brunofelix.movies.domain.util.Resource
 
@@ -53,6 +54,13 @@ interface MovieRepository {
      * @return A [Resource] containing a list of [Cast] members or an error.
      */
     suspend fun getCast(id: Long): Resource<List<Cast>>
+
+    /**
+     * Fetches the streaming services that offer a specific movie in the user's region.
+     * @param id The unique identifier of the movie.
+     * @return A [Resource] containing the [WatchProvider]s, empty when no service offers it.
+     */
+    suspend fun getWatchProviders(id: Long): Resource<List<WatchProvider>>
 
     /**
      * Fetches the movies released in [month] through the given [type].

@@ -1,6 +1,7 @@
 package dev.brunofelix.movies.domain.repository
 
 import dev.brunofelix.movies.domain.model.Media
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -35,6 +36,16 @@ interface MediaRepository {
      * @return A [Resource] holding `true` if the media is marked as a favorite.
      */
     suspend fun isFavorite(id: Long): Resource<Boolean>
+
+    /**
+     * Replaces the streaming services stored with a favorite media. Does nothing when the
+     * media is not a favorite, so it never brings back one the user removed.
+     *
+     * @param id The ID of the favorite media.
+     * @param providers The streaming services that currently offer it.
+     * @return A [Resource] that fails when the favorite could not be updated.
+     */
+    suspend fun updateWatchProviders(id: Long, providers: List<WatchProvider>): Resource<Unit>
 
     /**
      * Retrieves a flow of all favorite medias.
