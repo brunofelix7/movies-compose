@@ -16,6 +16,8 @@ import dev.brunofelix.movies.domain.use_case.GetTvShowDetailUseCase
 import dev.brunofelix.movies.domain.use_case.GetTvShowDetailUseCaseImpl
 import dev.brunofelix.movies.domain.use_case.GetTvShowVideosUseCase
 import dev.brunofelix.movies.domain.use_case.GetTvShowVideosUseCaseImpl
+import dev.brunofelix.movies.domain.use_case.GetTvShowWatchProvidersUseCase
+import dev.brunofelix.movies.domain.use_case.GetTvShowWatchProvidersUseCaseImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -50,4 +52,9 @@ abstract class TvShowUseCaseModule {
     abstract fun bindGetTvShowVideosUseCase(
         impl: GetTvShowVideosUseCaseImpl
     ): GetTvShowVideosUseCase
+
+    @Binds
+    abstract fun bindGetTvShowWatchProvidersUseCase(
+        impl: GetTvShowWatchProvidersUseCaseImpl
+    ): GetTvShowWatchProvidersUseCase
 }

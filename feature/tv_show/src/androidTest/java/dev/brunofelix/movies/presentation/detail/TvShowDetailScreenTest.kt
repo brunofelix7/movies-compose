@@ -12,6 +12,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dev.brunofelix.movies.designsystem.components.DETAIL_SKELETON_TEST_TAG
 import dev.brunofelix.movies.designsystem.theme.PMovieTheme
+import dev.brunofelix.movies.domain.model.WatchAvailability
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.presentation.model.EpisodeUiModel
 import dev.brunofelix.movies.presentation.model.SeasonUiModel
 import dev.brunofelix.movies.presentation.model.TvShowUiModel
@@ -25,6 +27,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import dev.brunofelix.movies.core.designsystem.R as DesignSystemR
+import dev.brunofelix.movies.core.presentation.R as PresentationR
 
 private val seasons = listOf(
     SeasonUiModel(id = 1L, name = "Season 1", seasonNumber = 1, episodeCount = 10, airYear = "2017"),
@@ -195,5 +198,32 @@ class TvShowDetailContentTest {
         composeTestRule.onNodeWithText("01/12/2017").performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText(context.getString(R.string.episodes, 18)).performScrollTo().assertIsDisplayed()
         composeTestRule.onNodeWithText("Season 1").performScrollTo().assertIsDisplayed()
+    }
+
+    @Test
+    fun shouldRenderTheStreamingServices() {
+        val streaming = WatchAvailability.Streaming(listOf(WatchProvider(id = 8L, name = "Netflix")))
+        composeTestRule.setContent {
+            PMovieTheme {
+                TvShowDetailContent(tvShow = tvShow.copy(watchAvailability = streaming), seasonsState = SeasonsState())
+            }
+        }
+
+        composeTestRule.onNodeWithText("Netflix").performScrollTo().assertIsDisplayed()
+    }
+
+    @Test
+    fun shouldRenderTheUnavailableLabel() {
+        composeTestRule.setContent {
+            PMovieTheme {
+                TvShowDetailContent(
+                    tvShow = tvShow.copy(watchAvailability = WatchAvailability.Unavailable),
+                    seasonsState = SeasonsState()
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithText(context.getString(PresentationR.string.watch_unavailable))
+            .performScrollTo().assertIsDisplayed()
     }
 }

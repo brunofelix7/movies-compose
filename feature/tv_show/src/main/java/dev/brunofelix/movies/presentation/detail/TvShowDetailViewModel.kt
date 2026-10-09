@@ -5,15 +5,19 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.brunofelix.movies.domain.model.TvShow
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.use_case.DeleteMediaUseCase
 import dev.brunofelix.movies.domain.use_case.GetSeasonEpisodesUseCase
 import dev.brunofelix.movies.domain.use_case.GetTvShowCastUseCase
 import dev.brunofelix.movies.domain.use_case.GetTvShowDetailUseCase
 import dev.brunofelix.movies.domain.use_case.GetTvShowVideosUseCase
+import dev.brunofelix.movies.domain.use_case.GetTvShowWatchProvidersUseCase
 import dev.brunofelix.movies.domain.use_case.IsFavoriteMediaUseCase
 import dev.brunofelix.movies.domain.use_case.SaveMediaUseCase
+import dev.brunofelix.movies.domain.use_case.UpdateFavoriteWatchProvidersUseCase
 import dev.brunofelix.movies.domain.util.Resource
 import dev.brunofelix.movies.domain.util.extension.toMedia
+import dev.brunofelix.movies.domain.util.extension.toWatchAvailability
 import dev.brunofelix.movies.core.presentation.R
 import dev.brunofelix.movies.presentation.mapper.toTrailerKey
 import dev.brunofelix.movies.presentation.mapper.toUiModel
@@ -37,10 +41,12 @@ class TvShowDetailViewModel @Inject constructor(
     private val getTvShowDetailUseCase: GetTvShowDetailUseCase,
     private val getTvShowVideosUseCase: GetTvShowVideosUseCase,
     private val getTvShowCastUseCase: GetTvShowCastUseCase,
+    private val getTvShowWatchProvidersUseCase: GetTvShowWatchProvidersUseCase,
     private val getSeasonEpisodesUseCase: GetSeasonEpisodesUseCase,
     private val saveMediaUseCase: SaveMediaUseCase,
     private val isFavoriteMediaUseCase: IsFavoriteMediaUseCase,
-    private val deleteMediaUseCase: DeleteMediaUseCase
+    private val deleteMediaUseCase: DeleteMediaUseCase,
+    private val updateFavoriteWatchProvidersUseCase: UpdateFavoriteWatchProvidersUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TvShowDetailUiState())
@@ -51,6 +57,9 @@ class TvShowDetailViewModel @Inject constructor(
 
     private var tvShowId: Long? = null
     private var tvShow: TvShow? = null
+
+    /** `null` when they could not be loaded, so a favorite saved now gets them on the next sync. */
+    private var watchProviders: List<WatchProvider>? = null
 
     fun onAction(action: TvShowDetailUiAction) {
         when (action) {
@@ -73,15 +82,22 @@ class TvShowDetailViewModel @Inject constructor(
             val details = async { getTvShowDetailUseCase(id) }
             val videos = async { getTvShowVideosUseCase(id) }
             val cast = async { getTvShowCastUseCase(id) }
+            val providers = async { getTvShowWatchProvidersUseCase(id) }
 
             when (val result = details.await()) {
                 is Resource.Success -> {
                     tvShow = result.data
+                    watchProviders = (providers.await() as? Resource.Success)?.data
                     val trailerKey = (videos.await() as? Resource.Success<List<Video>>)?.data?.toTrailerKey()
                     val castList = (cast.await() as? Resource.Success)?.data.orEmpty().map { it.toUiModel() }
-                    val uiModel = result.data.toUiModel().copy(trailerKey = trailerKey, cast = castList)
+                    val uiModel = result.data.toUiModel().copy(
+                        trailerKey = trailerKey,
+                        cast = castList,
+                        watchAvailability = watchProviders?.toWatchAvailability()
+                    )
                     _uiState.update { it.copy(tvShow = UiState.Success(uiModel)) }
                     refreshFavorite(result.data.id)
+                    refreshStoredWatchProviders(result.data.id)
 
                     // The first season starts expanded.
                     uiModel.seasons.firstOrNull()?.let { toggleSeason(it.seasonNumber) }
@@ -137,7 +153,7 @@ class TvShowDetailViewModel @Inject constructor(
     }
 
     private fun toggleFavorite() {
-        val media = tvShow?.toMedia() ?: return
+        val media = tvShow?.toMedia()?.copy(watchProviders = watchProviders) ?: return
         viewModelScope.launch {
             val result = if (_uiState.value.isFavorite) deleteMediaUseCase(media) else saveMediaUseCase(media)
             if (result is Resource.Error) {
@@ -155,5 +171,14 @@ class TvShowDetailViewModel @Inject constructor(
                 TvShowDetailUiEvent.ShowToast(UiText.StringResource(R.string.is_favorite_media_error))
             )
         }
+    }
+
+    /**
+     * Keeps the streaming services of a favorite current, which is what the favorites filter
+     * reads. A failure is silent: the stored ones stay until the next visit.
+     */
+    private suspend fun refreshStoredWatchProviders(id: Long) {
+        val providers = watchProviders ?: return
+        if (_uiState.value.isFavorite) updateFavoriteWatchProvidersUseCase(id, providers)
     }
 }

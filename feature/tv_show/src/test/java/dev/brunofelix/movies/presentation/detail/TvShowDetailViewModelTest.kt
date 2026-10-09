@@ -4,19 +4,24 @@ import dev.brunofelix.movies.domain.model.Episode
 import dev.brunofelix.movies.domain.model.Season
 import dev.brunofelix.movies.domain.model.TvShow
 import dev.brunofelix.movies.domain.model.Video
+import dev.brunofelix.movies.domain.model.WatchAvailability
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.use_case.DeleteMediaUseCase
 import dev.brunofelix.movies.domain.use_case.GetSeasonEpisodesUseCase
 import dev.brunofelix.movies.domain.use_case.GetTvShowCastUseCase
 import dev.brunofelix.movies.domain.use_case.GetTvShowDetailUseCase
 import dev.brunofelix.movies.domain.use_case.GetTvShowVideosUseCase
+import dev.brunofelix.movies.domain.use_case.GetTvShowWatchProvidersUseCase
 import dev.brunofelix.movies.domain.use_case.IsFavoriteMediaUseCase
 import dev.brunofelix.movies.domain.use_case.SaveMediaUseCase
+import dev.brunofelix.movies.domain.use_case.UpdateFavoriteWatchProvidersUseCase
 import dev.brunofelix.movies.domain.util.Resource
 import dev.brunofelix.movies.domain.util.exception.LocalException
 import dev.brunofelix.movies.domain.util.exception.RemoteException
 import dev.brunofelix.movies.domain.util.extension.toMedia
 import dev.brunofelix.movies.core.presentation.R
 import dev.brunofelix.movies.presentation.mapper.toUiModel
+import dev.brunofelix.movies.presentation.model.TvShowUiModel
 import dev.brunofelix.movies.presentation.util.UiState
 import dev.brunofelix.movies.presentation.util.UiText
 import io.kotest.core.spec.style.DescribeSpec
@@ -41,10 +46,13 @@ class TvShowDetailViewModelTest : DescribeSpec({
     val getTvShowDetailUseCase = mockk<GetTvShowDetailUseCase>()
     val getTvShowVideosUseCase = mockk<GetTvShowVideosUseCase>()
     val getTvShowCastUseCase = mockk<GetTvShowCastUseCase>()
+    val getTvShowWatchProvidersUseCase = mockk<GetTvShowWatchProvidersUseCase>()
     val getSeasonEpisodesUseCase = mockk<GetSeasonEpisodesUseCase>()
     val saveMediaUseCase = mockk<SaveMediaUseCase>()
     val isFavoriteMediaUseCase = mockk<IsFavoriteMediaUseCase>()
     val deleteMediaUseCase = mockk<DeleteMediaUseCase>()
+    val updateFavoriteWatchProvidersUseCase = mockk<UpdateFavoriteWatchProvidersUseCase>()
+    val providers = listOf(WatchProvider(id = 8L, name = "Netflix"))
 
     val tvShow = TvShow(
         id = 3L,
@@ -60,11 +68,15 @@ class TvShowDetailViewModelTest : DescribeSpec({
         getTvShowDetailUseCase,
         getTvShowVideosUseCase,
         getTvShowCastUseCase,
+        getTvShowWatchProvidersUseCase,
         getSeasonEpisodesUseCase,
         saveMediaUseCase,
         isFavoriteMediaUseCase,
-        deleteMediaUseCase
+        deleteMediaUseCase,
+        updateFavoriteWatchProvidersUseCase
     )
+
+    fun TvShowDetailViewModel.loadedTvShow(): TvShowUiModel = (uiState.value.tvShow as UiState.Success).data
 
     beforeSpec { Dispatchers.setMain(testDispatcher) }
     afterSpec { Dispatchers.resetMain() }
@@ -75,7 +87,9 @@ class TvShowDetailViewModelTest : DescribeSpec({
         coEvery { getTvShowVideosUseCase(3L) } returns Resource.Success(listOf(Video(key = "k", site = "YouTube")))
         coEvery { getTvShowCastUseCase(3L) } returns Resource.Success(emptyList())
         coEvery { getSeasonEpisodesUseCase(3L, any()) } returns Resource.Success(episodes)
+        coEvery { getTvShowWatchProvidersUseCase(3L) } returns Resource.Success(providers)
         coEvery { isFavoriteMediaUseCase(3L) } returns Resource.Success(false)
+        coEvery { updateFavoriteWatchProvidersUseCase(any(), any()) } returns Resource.Success(Unit)
     }
 
     describe("OnLoad") {
@@ -86,9 +100,51 @@ class TvShowDetailViewModelTest : DescribeSpec({
                 viewModel.onAction(TvShowDetailUiAction.OnLoad(3L))
 
                 val state = viewModel.uiState.value
-                state.tvShow shouldBe UiState.Success(tvShow.toUiModel().copy(trailerKey = "k"))
+                state.tvShow shouldBe UiState.Success(
+                    tvShow.toUiModel().copy(trailerKey = "k", watchAvailability = WatchAvailability.Streaming(providers))
+                )
                 state.seasons.expandedSeasonNumber shouldBe 1
                 state.seasons.episodesOf(1) shouldBe UiState.Success(episodes.map { it.toUiModel() })
+            }
+        }
+
+        it("should show the TV show as unavailable when no service offers it") {
+            runTest(testDispatcher) {
+                coEvery { getTvShowWatchProvidersUseCase(3L) } returns Resource.Success(emptyList())
+                val viewModel = viewModel()
+
+                viewModel.onAction(TvShowDetailUiAction.OnLoad(3L))
+
+                viewModel.loadedTvShow().watchAvailability shouldBe WatchAvailability.Unavailable
+            }
+        }
+
+        it("should hide the availability when the streaming services fail") {
+            runTest(testDispatcher) {
+                coEvery { getTvShowWatchProvidersUseCase(3L) } returns Resource.Error(RemoteException.Unknown())
+                val viewModel = viewModel()
+
+                viewModel.onAction(TvShowDetailUiAction.OnLoad(3L))
+
+                viewModel.loadedTvShow().watchAvailability shouldBe null
+            }
+        }
+
+        it("should refresh the stored streaming services of a favorite") {
+            runTest(testDispatcher) {
+                coEvery { isFavoriteMediaUseCase(3L) } returns Resource.Success(true)
+
+                viewModel().onAction(TvShowDetailUiAction.OnLoad(3L))
+
+                coVerify(exactly = 1) { updateFavoriteWatchProvidersUseCase(3L, providers) }
+            }
+        }
+
+        it("should not store streaming services for a TV show that is not a favorite") {
+            runTest(testDispatcher) {
+                viewModel().onAction(TvShowDetailUiAction.OnLoad(3L))
+
+                coVerify(exactly = 0) { updateFavoriteWatchProvidersUseCase(any(), any()) }
             }
         }
 
@@ -150,7 +206,7 @@ class TvShowDetailViewModelTest : DescribeSpec({
     }
 
     describe("OnFavoriteToggle") {
-        it("should save the TV show and refresh the favorite flag") {
+        it("should save the TV show with its streaming services and refresh the favorite flag") {
             runTest(testDispatcher) {
                 coEvery { saveMediaUseCase(any()) } returns Resource.Success(Unit)
                 val viewModel = viewModel()
@@ -159,7 +215,7 @@ class TvShowDetailViewModelTest : DescribeSpec({
 
                 viewModel.onAction(TvShowDetailUiAction.OnFavoriteToggle)
 
-                coVerify { saveMediaUseCase(tvShow.toMedia()) }
+                coVerify { saveMediaUseCase(tvShow.toMedia().copy(watchProviders = providers)) }
                 viewModel.uiState.value.isFavorite shouldBe true
             }
         }

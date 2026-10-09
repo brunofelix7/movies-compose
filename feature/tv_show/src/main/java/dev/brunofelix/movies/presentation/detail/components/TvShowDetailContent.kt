@@ -43,9 +43,12 @@ import dev.brunofelix.movies.designsystem.theme.spacing12
 import dev.brunofelix.movies.designsystem.theme.spacing16
 import dev.brunofelix.movies.designsystem.theme.spacing8
 import dev.brunofelix.movies.domain.model.MovieGenre
+import dev.brunofelix.movies.domain.model.WatchAvailability
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.presentation.components.CastSection
 import dev.brunofelix.movies.presentation.components.MovieGenderContainer
 import dev.brunofelix.movies.presentation.components.MovieOverview
+import dev.brunofelix.movies.presentation.components.WatchAvailabilityLabel
 import dev.brunofelix.movies.presentation.components.YouTubePlayer
 import dev.brunofelix.movies.presentation.model.CastUiModel
 import dev.brunofelix.movies.presentation.model.SeasonUiModel
@@ -157,6 +160,12 @@ internal fun TvShowDetailContent(
                     ) {
                         MovieGenderContainer(gendersList = tvShow.genres)
                     }
+                    tvShow.watchAvailability?.let { availability ->
+                        WatchAvailabilityLabel(
+                            availability = availability,
+                            modifier = Modifier.padding(bottom = spacing8)
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(spacing8))
 
@@ -222,7 +231,8 @@ private fun Preview() {
                 cast = listOf(
                     CastUiModel(id = 1L, name = "Pedro Pascal", character = "Joel Miller"),
                     CastUiModel(id = 2L, name = "Bella Ramsey", character = "Ellie Williams")
-                )
+                ),
+                watchAvailability = WatchAvailability.Streaming(listOf(WatchProvider(id = 1899L, name = "Max")))
             ),
             seasonsState = SeasonsState()
         )
