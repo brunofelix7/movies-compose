@@ -1,9 +1,11 @@
 package dev.brunofelix.movies.presentation
 
 import dev.brunofelix.movies.domain.model.Media
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.model.enums.MediaType
 import dev.brunofelix.movies.domain.use_case.DeleteMediaUseCase
 import dev.brunofelix.movies.domain.use_case.GetFavoriteMediasUseCase
+import dev.brunofelix.movies.domain.use_case.SyncFavoriteWatchProvidersUseCase
 import dev.brunofelix.movies.domain.util.Resource
 import dev.brunofelix.movies.domain.util.exception.LocalException
 import dev.brunofelix.movies.core.presentation.R
@@ -18,7 +20,9 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,11 +39,17 @@ class FavoriteViewModelTest : DescribeSpec({
     val testDispatcher = UnconfinedTestDispatcher()
     val getFavoriteMediasUseCase = mockk<GetFavoriteMediasUseCase>()
     val deleteMediaUseCase = mockk<DeleteMediaUseCase>()
+    val syncFavoriteWatchProvidersUseCase = mockk<SyncFavoriteWatchProvidersUseCase>()
+
+    val netflix = WatchProvider(id = 8L, name = "Netflix")
+    val prime = WatchProvider(id = 119L, name = "Prime Video")
+    val max = WatchProvider(id = 1899L, name = "Max")
+
     val movie = Media(id = 1L, title = "Dune", type = MediaType.MOVIE)
     val tvShow = Media(id = 2L, title = "Dark", type = MediaType.TV_SHOW)
     var favorites = MutableStateFlow(listOf(movie, tvShow))
 
-    fun viewModel() = FavoriteViewModel(getFavoriteMediasUseCase, deleteMediaUseCase)
+    fun viewModel() = FavoriteViewModel(getFavoriteMediasUseCase, deleteMediaUseCase, syncFavoriteWatchProvidersUseCase)
 
     beforeSpec { Dispatchers.setMain(testDispatcher) }
     afterSpec { Dispatchers.resetMain() }
@@ -48,6 +58,17 @@ class FavoriteViewModelTest : DescribeSpec({
         clearAllMocks()
         favorites = MutableStateFlow(listOf(movie, tvShow))
         every { getFavoriteMediasUseCase() } returns favorites
+        coEvery { syncFavoriteWatchProvidersUseCase() } just runs
+    }
+
+    describe("init") {
+        it("should sync the streaming services of the favorites") {
+            runTest(testDispatcher) {
+                viewModel()
+
+                coVerify(exactly = 1) { syncFavoriteWatchProvidersUseCase() }
+            }
+        }
     }
 
     describe("uiState") {
@@ -107,6 +128,93 @@ class FavoriteViewModelTest : DescribeSpec({
                 val error = viewModel.uiState.value.medias
                 error.shouldBeInstanceOf<UiState.Error>()
                 error.uiText shouldBe UiText.StringResource(R.string.error_local_database)
+            }
+        }
+    }
+
+    describe("streaming filter") {
+        val dune = movie.copy(watchProviders = listOf(netflix, max))
+        val alien = Media(id = 3L, title = "Alien", type = MediaType.MOVIE, watchProviders = listOf(prime, netflix))
+        val heat = Media(id = 4L, title = "Heat", type = MediaType.MOVIE, watchProviders = emptyList())
+        val dark = tvShow.copy(watchProviders = listOf(netflix))
+        val streamingFavorites = listOf(dune, alien, heat, dark)
+
+        it("should list the services of the category, the most common first and then by name") {
+            runTest(testDispatcher) {
+                favorites.value = streamingFavorites
+                val viewModel = viewModel()
+                backgroundScope.launch { viewModel.uiState.collect {} }
+
+                viewModel.uiState.value.providers shouldBe listOf(netflix, max, prime)
+                viewModel.uiState.value.selectedProviderId shouldBe null
+            }
+        }
+
+        it("should show only the favorites offered by the selected service") {
+            runTest(testDispatcher) {
+                favorites.value = streamingFavorites
+                val viewModel = viewModel()
+                backgroundScope.launch { viewModel.uiState.collect {} }
+
+                viewModel.onAction(FavoriteUiAction.OnProviderSelected(prime.id))
+
+                viewModel.uiState.value.selectedProviderId shouldBe prime.id
+                viewModel.uiState.value.medias shouldBe UiState.Success(listOf(alien.toUiModel()))
+            }
+        }
+
+        it("should show every favorite again when the filter is cleared") {
+            runTest(testDispatcher) {
+                favorites.value = streamingFavorites
+                val viewModel = viewModel()
+                backgroundScope.launch { viewModel.uiState.collect {} }
+                viewModel.onAction(FavoriteUiAction.OnProviderSelected(prime.id))
+
+                viewModel.onAction(FavoriteUiAction.OnProviderSelected(null))
+
+                viewModel.uiState.value.medias shouldBe
+                    UiState.Success(listOf(dune, alien, heat).map { it.toUiModel() })
+            }
+        }
+
+        it("should drop a selected service that offers nothing in the new category") {
+            runTest(testDispatcher) {
+                favorites.value = streamingFavorites
+                val viewModel = viewModel()
+                backgroundScope.launch { viewModel.uiState.collect {} }
+                viewModel.onAction(FavoriteUiAction.OnProviderSelected(prime.id))
+
+                viewModel.onAction(FavoriteUiAction.OnCategorySelected(FavoriteCategory.TV_SHOWS))
+
+                viewModel.uiState.value shouldBe FavoriteUiState(
+                    selectedCategory = FavoriteCategory.TV_SHOWS,
+                    providers = listOf(netflix),
+                    selectedProviderId = null,
+                    medias = UiState.Success(listOf(dark.toUiModel()))
+                )
+            }
+        }
+
+        it("should keep a selected service that also offers favorites of the new category") {
+            runTest(testDispatcher) {
+                favorites.value = streamingFavorites
+                val viewModel = viewModel()
+                backgroundScope.launch { viewModel.uiState.collect {} }
+                viewModel.onAction(FavoriteUiAction.OnProviderSelected(netflix.id))
+
+                viewModel.onAction(FavoriteUiAction.OnCategorySelected(FavoriteCategory.TV_SHOWS))
+
+                viewModel.uiState.value.selectedProviderId shouldBe netflix.id
+            }
+        }
+
+        it("should hide the filter when no favorite of the category is on streaming") {
+            runTest(testDispatcher) {
+                favorites.value = listOf(heat, movie)
+                val viewModel = viewModel()
+                backgroundScope.launch { viewModel.uiState.collect {} }
+
+                viewModel.uiState.value.providers shouldBe emptyList()
             }
         }
     }

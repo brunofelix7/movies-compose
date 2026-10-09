@@ -41,6 +41,7 @@ import dev.brunofelix.movies.designsystem.theme.spacing12
 import dev.brunofelix.movies.designsystem.theme.spacing16
 import dev.brunofelix.movies.designsystem.theme.spacing20
 import dev.brunofelix.movies.domain.model.Media
+import dev.brunofelix.movies.domain.model.WatchProvider
 import dev.brunofelix.movies.domain.model.enums.MediaType
 import dev.brunofelix.movies.presentation.components.CategorySelector
 import dev.brunofelix.movies.presentation.components.ErrorLayout
@@ -50,6 +51,7 @@ import dev.brunofelix.movies.presentation.util.UiState
 import dev.brunofelix.movies.presentation.util.UiText
 import dev.brunofelix.movies.feature.favorite.R
 import dev.brunofelix.movies.presentation.components.FavoriteItem
+import dev.brunofelix.movies.presentation.components.WatchProviderSelector
 import dev.brunofelix.movies.presentation.model.FavoriteCategory
 
 private const val DELETE_BACKGROUND_ALPHA = 0.8f
@@ -113,6 +115,15 @@ internal fun FavoriteScreen(
                 },
                 modifier = Modifier.padding(top = SelectorTopSpacing)
             )
+
+            if (uiState.providers.isNotEmpty()) {
+                WatchProviderSelector(
+                    providers = uiState.providers,
+                    selectedProviderId = uiState.selectedProviderId,
+                    onProviderSelected = { onAction(FavoriteUiAction.OnProviderSelected(it)) },
+                    modifier = Modifier.padding(top = spacing12)
+                )
+            }
 
             if (medias is UiState.Success) {
                 LazyColumn(
@@ -220,6 +231,8 @@ private fun LoadingPreview() {
 private fun SuccessPreview() {
     PreviewContainer(
         FavoriteUiState(
+            providers = listOf(WatchProvider(id = 8L, name = "Netflix"), WatchProvider(id = 119L, name = "Prime Video")),
+            selectedProviderId = 8L,
             medias = UiState.Success(
                 listOf(
                     MediaUiModel(id = 1, title = "Movie 1", type = MediaType.MOVIE),
